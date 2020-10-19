@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 
 public class CpfOuCnpjTests {
 
+            //1
     private CpfOuCnpjValidator cpfOuCnpjValidator;
 
     @Before
