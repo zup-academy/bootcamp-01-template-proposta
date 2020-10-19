@@ -26,7 +26,15 @@ public class PropostaDTO {
     @NotNull
     private BigDecimal salario;
 
-                //1
+    public PropostaDTO(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome, @NotBlank String endereco, @NotNull BigDecimal salario) {
+        this.documento = documento;
+        this.email = email;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.salario = salario;
+    }
+
+    //1
     public Proposta toProposta(){
         return new Proposta(documento, email, nome, endereco, salario);
     }

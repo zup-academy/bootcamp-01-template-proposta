@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,8 +24,7 @@ public class ControllerExceptionAdvice {
     private Logger logger;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public StandardError handlerMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseEntity handlerMethodArgumentNotValidException(MethodArgumentNotValidException e){
         List<String> errors = e.getBindingResult().getFieldErrors()
                 .stream()
                 .map(error -> messageSource.getMessage(error, Locale.getDefault()))
@@ -34,7 +34,7 @@ public class ControllerExceptionAdvice {
 
         logger.warn("Tratando erro(s) de MethodArgumentNotValidException: " + standardError);
 
-        return new StandardError(errors);
+        return ResponseEntity.badRequest().body(standardError);
     }
 
 }
