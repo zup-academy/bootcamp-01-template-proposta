@@ -1,5 +1,6 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
+import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraService;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -9,41 +10,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/proposta")
 public class PropostaController {
 
-    private EntityManager entityManager;
+                //1
+    private PropostaRepository propostaRepository;
+                //2
+    private AnaliseFinanceiraService analiseFinanceiraService;
     private Logger logger;
 
-    public PropostaController(EntityManager entityManager, Logger logger) {
-        this.entityManager = entityManager;
+    public PropostaController(PropostaRepository propostaRepository, AnaliseFinanceiraService analiseFinanceiraService, Logger logger) {
+        this.propostaRepository = propostaRepository;
+        this.analiseFinanceiraService = analiseFinanceiraService;
         this.logger = logger;
     }
 
-    @PostMapping
-    @Transactional                                                  //1
+    @PostMapping                                                  //3
     public ResponseEntity cadastrarProposta(@RequestBody @Valid PropostaDTO dto, UriComponentsBuilder uri){
 
-        TypedQuery response = entityManager.createNamedQuery("findPropostaByDocumento", Proposta.class);
-        response.setParameter("documento", dto.getDocumento());
+        Optional<Proposta> response = propostaRepository.findByDocumento(dto.getDocumento());
 
-        //2
-        if(!response.getResultList().isEmpty()){                    //3
-            return ResponseEntity.unprocessableEntity().body(new StandardError(Arrays.asList("Já existe uma proposta com este documento")));
+        //4
+        if(response.isPresent()) {
+            logger.warn("Tentativa de criação de proposta com o mesmo documento: " + dto.getDocumento());
+                                                                    //5
+            return ResponseEntity.unprocessableEntity().body(new StandardError(Arrays.asList("Já existe uma proposta cadastrada com este documento")));
         }
 
-            //4
+            //6
         Proposta proposta = dto.toProposta();
-        entityManager.persist(proposta);
+        propostaRepository.save(proposta);
 
         logger.info("Proposta criada com sucesso: " + proposta.toString());
+
+        analiseFinanceiraService.processarAnaliseFinanceiraDaProposta(proposta);
+        propostaRepository.save(proposta);
+
+        logger.info("Análise financeira da proposta realizada: " + proposta.toString());
 
         return ResponseEntity
                 .created(uri.path("/proposta/{id}")

@@ -1,11 +1,11 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.marcoscoutozup.proposta.proposta.enums.StatusDaProposta;
 import com.github.marcoscoutozup.proposta.validator.cpfoucnpj.CpfOuCnpj;
+import org.springframework.util.Assert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,6 +37,9 @@ public class Proposta {
     @NotNull
     private BigDecimal salario;
 
+    @Enumerated(EnumType.STRING)
+    private StatusDaProposta statusDaProposta;
+
     @Deprecated
     public Proposta() {
     }
@@ -53,6 +56,19 @@ public class Proposta {
         return id;
     }
 
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void modificarStatusDaProposta(StatusDaProposta statusDaProposta) {
+        Assert.notNull(statusDaProposta, "O status da proposta não pode ser nulo para modificação");
+        this.statusDaProposta = statusDaProposta;
+    }
+
     @Override
     public String toString() {
         return "Proposta{" +
@@ -62,6 +78,7 @@ public class Proposta {
                 ", nome='" + nome + '\'' +
                 ", endereco='" + endereco + '\'' +
                 ", salario=" + salario +
+                ", statusDaProposta=" + statusDaProposta +
                 '}';
     }
 }

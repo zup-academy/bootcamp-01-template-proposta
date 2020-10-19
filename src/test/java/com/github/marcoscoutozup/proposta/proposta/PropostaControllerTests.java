@@ -1,6 +1,8 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
+import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraService;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
+import com.github.marcoscoutozup.proposta.proposta.enums.StatusDaProposta;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,23 +14,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class PropostaControllerTests {
 
     @Mock
-    private EntityManager entityManager;
+    private PropostaRepository propostaRepository;
+
+    @Mock
+    private AnaliseFinanceiraService analiseFinanceiraService;
 
     @Mock
     private Logger logger;
-
-    @Mock
-    private TypedQuery typedQuery;
 
     private UriComponentsBuilder builder;
     private PropostaController propostaController;
@@ -42,22 +43,21 @@ public class PropostaControllerTests {
     @Test
     @DisplayName("Não deve cadastrar proposta - Status code 422")
     public void naoDeveCadastrarProposta(){
-        propostaController = new PropostaController(entityManager, logger);
-        when(entityManager.createNamedQuery("findPropostaByDocumento", Proposta.class)).thenReturn(typedQuery);
-        when(typedQuery.getResultList()).thenReturn(Arrays.asList(""));
+        propostaController = new PropostaController(propostaRepository, null, logger);
+        when(propostaRepository.findByDocumento(any(String.class))).thenReturn(Optional.of(new Proposta()));
         ResponseEntity responseEntity = propostaController.cadastrarProposta(propostaDtoMock(), builder);
-        Assert.assertTrue(responseEntity.getStatusCode().equals(HttpStatus.UNPROCESSABLE_ENTITY));
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.UNPROCESSABLE_ENTITY);
         Assert.assertTrue(responseEntity.getBody() instanceof StandardError);
     }
 
     @Test
     @DisplayName("Deve cadastrar proposta - Status code 201")
     public void deveCadastrarProposta(){
-        propostaController = new PropostaController(entityManager, logger);
-        when(entityManager.createNamedQuery("findPropostaByDocumento", Proposta.class)).thenReturn(typedQuery);
-        when(typedQuery.getResultList()).thenReturn(Arrays.asList());
+        propostaController = new PropostaController(propostaRepository, analiseFinanceiraService, logger);
+        when(propostaRepository.findByDocumento(any(String.class))).thenReturn(Optional.empty());
+        when(analiseFinanceiraService.processarAnaliseFinanceiraDaProposta(any(Proposta.class))).thenReturn(new Proposta());
         ResponseEntity responseEntity = propostaController.cadastrarProposta(propostaDtoMock(), builder);
-        Assert.assertTrue(responseEntity.getStatusCode().equals(HttpStatus.CREATED));
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
         Assert.assertTrue(responseEntity.getHeaders().containsKey("Location"));
     }
 
