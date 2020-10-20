@@ -2,7 +2,6 @@ package com.github.marcoscoutozup.proposta.proposta;
 
 import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraService;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
-import com.github.marcoscoutozup.proposta.proposta.enums.StatusDaProposta;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
