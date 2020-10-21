@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -36,10 +35,13 @@ public class CadastroCartaoService {
         List<Proposta> propostas = propostaRepository.findByStatusDaProposta(StatusDaProposta.ELEGIVEL);
                             //5
         propostas.forEach(proposta -> {
-            Cartao cartao = cartaoClient.pesquisarCartaoPorIdDaProposta(proposta.getId().toString());
             //6
+            CartaoResponse cartaoResponse = cartaoClient.pesquisarCartaoPorIdDaProposta(proposta.getId().toString());
+
+            //7
             if(proposta.verificarSeNaoExisteCartao()){
-                Assert.notNull(cartao, "O cartão não pode ser nulo");
+                Assert.notNull(cartaoResponse, "O cartão não pode ser nulo");
+                Cartao cartao = cartaoResponse.toCartao();
                 cartaoRepository.save(cartao);
                 proposta.incluirCartaoNaProposta(cartao);
                 propostaRepository.save(proposta);

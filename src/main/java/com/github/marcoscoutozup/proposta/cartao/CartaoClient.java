@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CartaoClient {
 
     @GetMapping("/api/cartoes")
-    Cartao pesquisarCartaoPorIdDaProposta(@RequestParam String idProposta);
+    CartaoResponse pesquisarCartaoPorIdDaProposta(@RequestParam String idProposta);
 
 }

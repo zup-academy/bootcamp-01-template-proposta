@@ -2,6 +2,7 @@ package com.github.marcoscoutozup.proposta.cartao;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -11,21 +12,15 @@ public class Cartao {
     @Id
     private UUID id;
 
+    @NotNull
     private LocalDateTime emitidoEm;
 
-    public UUID getId() {
-        return id;
+    @Deprecated
+    public Cartao() {
     }
 
-    public void setId(UUID id) {
+    public Cartao(UUID id, LocalDateTime emitidoEm) {
         this.id = id;
-    }
-
-    public LocalDateTime getEmitidoEm() {
-        return emitidoEm;
-    }
-
-    public void setEmitidoEm(LocalDateTime emitidoEm) {
         this.emitidoEm = emitidoEm;
     }
 
