@@ -1,16 +1,20 @@
 package com.github.marcoscoutozup.proposta.analisefinanceira;
 
+import com.github.marcoscoutozup.proposta.cartao.CadastroCartaoService;
 import com.github.marcoscoutozup.proposta.proposta.Proposta;
 import com.github.marcoscoutozup.proposta.proposta.enums.StatusDaProposta;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.time.LocalDateTime;
 
 @Service
 public class AnaliseFinanceiraService {
 
                 //1
-    private AnaliseFinanceira analiseFinanceira;
+    private AnaliseFinanceiraClient analiseFinanceiraClient;
                 //2
     private AnaliseFinanceiraRequest analiseFinanceiraRequest;
                 //3
@@ -18,16 +22,16 @@ public class AnaliseFinanceiraService {
 
     private Logger logger;
 
-    public AnaliseFinanceiraService(AnaliseFinanceira analiseFinanceira, Logger logger) {
-        this.analiseFinanceira = analiseFinanceira;
-        this.logger = logger;
+    public AnaliseFinanceiraService(AnaliseFinanceiraClient analiseFinanceiraClient) {
+        this.analiseFinanceiraClient = analiseFinanceiraClient;
+        this.logger = LoggerFactory.getLogger(AnaliseFinanceiraService.class);;
     }
             //4
     public Proposta processarAnaliseFinanceiraDaProposta(Proposta proposta) {
         Assert.notNull(proposta, "A proposta avaliada não pode ser nula");
-        logger.info("Processando a análise financeira de proposta: " + proposta.getId());
+        logger.info("[ANALISE FINANCEIRA] Processando a análise financeira de proposta: " + proposta.getId() + " [" + LocalDateTime.now() +"]");
         analiseFinanceiraRequest = new AnaliseFinanceiraRequest(proposta);
-        analiseFinanceiraResponse = analiseFinanceira.processaAnaliseFinanceira(analiseFinanceiraRequest);
+        analiseFinanceiraResponse = analiseFinanceiraClient.processaAnaliseFinanceira(analiseFinanceiraRequest);
 
         //5
         StatusDaProposta status = analiseFinanceiraResponse.getResultadoSolicitacao();

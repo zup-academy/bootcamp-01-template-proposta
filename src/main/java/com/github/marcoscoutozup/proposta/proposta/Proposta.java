@@ -1,6 +1,6 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.marcoscoutozup.proposta.cartao.Cartao;
 import com.github.marcoscoutozup.proposta.proposta.enums.StatusDaProposta;
 import com.github.marcoscoutozup.proposta.validator.cpfoucnpj.CpfOuCnpj;
 import org.springframework.util.Assert;
@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -40,6 +41,9 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private StatusDaProposta statusDaProposta;
 
+    @OneToOne
+    private Cartao cartao;
+
     @Deprecated
     public Proposta() {
     }
@@ -69,6 +73,14 @@ public class Proposta {
         this.statusDaProposta = statusDaProposta;
     }
 
+    public void incluirCartaoNaProposta(Cartao cartao){
+        this.cartao = cartao;
+    }
+
+    public boolean verificarSeNaoExisteCartao(){
+       return Objects.isNull(cartao);
+    }
+
     @Override
     public String toString() {
         return "Proposta{" +
@@ -79,6 +91,7 @@ public class Proposta {
                 ", endereco='" + endereco + '\'' +
                 ", salario=" + salario +
                 ", statusDaProposta=" + statusDaProposta +
+                ", cartao=" + cartao +
                 '}';
     }
 }
