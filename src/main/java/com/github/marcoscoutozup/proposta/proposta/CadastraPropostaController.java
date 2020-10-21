@@ -1,7 +1,6 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
 import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraService;
-import com.github.marcoscoutozup.proposta.cartao.CadastroCartaoService;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/proposta")
-public class PropostaController {
+public class CadastraPropostaController {
 
                 //1
     private PropostaRepository propostaRepository;
@@ -26,10 +25,10 @@ public class PropostaController {
     private AnaliseFinanceiraService analiseFinanceiraService;
     private Logger logger;
 
-    public PropostaController(PropostaRepository propostaRepository, AnaliseFinanceiraService analiseFinanceiraService) {
+    public CadastraPropostaController(PropostaRepository propostaRepository, AnaliseFinanceiraService analiseFinanceiraService) {
         this.propostaRepository = propostaRepository;
         this.analiseFinanceiraService = analiseFinanceiraService;
-        this.logger = LoggerFactory.getLogger(PropostaController.class);;
+        this.logger = LoggerFactory.getLogger(CadastraPropostaController.class);;
     }
 
     @PostMapping                                                  //3

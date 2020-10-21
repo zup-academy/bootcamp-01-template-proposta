@@ -28,7 +28,7 @@ public class CadastroCartaoService {
         this.logger = LoggerFactory.getLogger(CadastroCartaoService.class);
     }
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelayString = "${tempo.verificadordecartao}")
     public void verificarSeExisteCartaoCadastradoNaProposta(){
         logger.info("[SCHEDULED] Verificar se existe cartão cadastrado na proposta ["+ LocalDateTime.now() +"]");
 
