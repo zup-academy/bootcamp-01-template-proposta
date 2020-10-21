@@ -34,10 +34,10 @@ public class CadastroCartaoService {
 
                 //4
         List<Proposta> propostas = propostaRepository.findByStatusDaProposta(StatusDaProposta.ELEGIVEL);
-
-        for (Proposta proposta : propostas) {
+                            //5
+        propostas.forEach(proposta -> {
             Cartao cartao = cartaoClient.pesquisarCartaoPorIdDaProposta(proposta.getId().toString());
-            //5
+            //6
             if(proposta.verificarSeNaoExisteCartao()){
                 Assert.notNull(cartao, "O cartão não pode ser nulo");
                 cartaoRepository.save(cartao);
@@ -45,7 +45,7 @@ public class CadastroCartaoService {
                 propostaRepository.save(proposta);
                 logger.info("[INCLUSÃO DE CARTÃO NA PROPOSTA] Cartão incluso na proposta " + proposta.toString());
             }
-        }
+        });
     }
 
 }
