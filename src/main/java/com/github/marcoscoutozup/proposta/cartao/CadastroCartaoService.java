@@ -30,7 +30,7 @@ public class CadastroCartaoService {
 
     @Scheduled(fixedDelayString = "${tempo.verificadordecartao}")
     public void verificarSeExisteCartaoCadastradoNaProposta(){
-        logger.info("[SCHEDULED] Verificar se existe cartão cadastrado na proposta ["+ LocalDateTime.now() +"]");
+        logger.info("[SCHEDULED] Verificar se existe cartão cadastrado na proposta");
 
                 //4
         List<Proposta> propostas = propostaRepository.findByStatusDaProposta(StatusDaProposta.ELEGIVEL);

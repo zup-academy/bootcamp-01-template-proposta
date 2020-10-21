@@ -1,6 +1,5 @@
 package com.github.marcoscoutozup.proposta.exception;
 
-import com.github.marcoscoutozup.proposta.cartao.CadastroCartaoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -32,7 +30,7 @@ public class ControllerExceptionAdvice {
 
         StandardError standardError = new StandardError(errors);
 
-        logger.warn("[TRATAMENTO DE ERRO] Tratando erro(s) de MethodArgumentNotValidException: " + standardError + "["+ LocalDateTime.now() +"]");
+        logger.warn("[TRATAMENTO DE ERRO] Tratando erro(s) de MethodArgumentNotValidException: " + standardError);
 
         return ResponseEntity.badRequest().body(standardError);
     }
