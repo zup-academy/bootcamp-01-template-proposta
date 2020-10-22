@@ -16,14 +16,14 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/proposta")
-public class ConsultaPropostaController {
+public class ConsultarPropostaController {
 
                 //1
     private PropostaRepository propostaRepository;
 
-    private Logger logger = LoggerFactory.getLogger(ConsultaPropostaController.class);
+    private Logger logger = LoggerFactory.getLogger(ConsultarPropostaController.class);
 
-    public ConsultaPropostaController(PropostaRepository propostaRepository) {
+    public ConsultarPropostaController(PropostaRepository propostaRepository) {
         this.propostaRepository = propostaRepository;
     }
 
@@ -33,12 +33,12 @@ public class ConsultaPropostaController {
 
         //2
         if(proposta.isEmpty()){
-            logger.warn("[CONSULTA DE PROPOSTA] Proposta não encontrada, id consultado: " + id);
+            logger.warn("[CONSULTA DE PROPOSTA] Proposta não encontrada, id consultado: {}", id);
             //3
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StandardError(Arrays.asList("Não existe proposta cadastrada")));
         }
 
-        logger.warn("[CONSULTA DE PROPOSTA] Proposta encontrada, id consultado: " + id);
+        logger.warn("[CONSULTA DE PROPOSTA] Proposta encontrada, id consultado: {}", id);
         //4
         PropostaResponse response = new PropostaResponse(proposta.get());
         return ResponseEntity.ok(response);

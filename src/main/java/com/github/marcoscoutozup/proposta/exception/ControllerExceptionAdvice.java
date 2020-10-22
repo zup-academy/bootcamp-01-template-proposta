@@ -30,7 +30,7 @@ public class ControllerExceptionAdvice {
 
         StandardError standardError = new StandardError(errors);
 
-        logger.warn("[TRATAMENTO DE ERRO] Tratando erro(s) de MethodArgumentNotValidException: " + standardError);
+        logger.warn("[TRATAMENTO DE ERRO] Tratando erro(s) de MethodArgumentNotValidException: {}", standardError);
 
         return ResponseEntity.badRequest().body(standardError);
     }

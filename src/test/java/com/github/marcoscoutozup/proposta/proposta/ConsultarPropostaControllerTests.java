@@ -16,9 +16,9 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class ConsultaPropostaControllerTests {
+public class ConsultarPropostaControllerTests {
 
-    private ConsultaPropostaController controller;
+    private ConsultarPropostaController controller;
 
     @Mock
     private PropostaRepository repository;
@@ -26,7 +26,7 @@ public class ConsultaPropostaControllerTests {
     @Before
     public void setup(){
         MockitoAnnotations.initMocks(this);
-        controller = new ConsultaPropostaController(repository);
+        controller = new ConsultarPropostaController(repository);
     }
 
     @Test

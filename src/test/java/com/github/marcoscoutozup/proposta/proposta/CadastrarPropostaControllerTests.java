@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class CadastraPropostaControllerTests {
+public class CadastrarPropostaControllerTests {
 
     @Mock       //1
     private PropostaRepository propostaRepository;
@@ -33,7 +33,7 @@ public class CadastraPropostaControllerTests {
     private UriComponentsBuilder builder;
 
             //3
-    private CadastraPropostaController cadastraPropostaController;
+    private CadastrarPropostaController cadastrarPropostaController;
 
     @Before
     public void setup(){
@@ -44,10 +44,10 @@ public class CadastraPropostaControllerTests {
     @Test
     @DisplayName("Não deve cadastrar proposta - Status code 422")
     public void naoDeveCadastrarProposta(){
-        cadastraPropostaController = new CadastraPropostaController(propostaRepository, null);
+        cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, null);
                                                                                                 //4
         when(propostaRepository.findByDocumento(any(String.class))).thenReturn(Optional.of(new Proposta()));
-        ResponseEntity responseEntity = cadastraPropostaController.cadastrarProposta(propostaDtoMock(), builder);
+        ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(propostaDtoMock(), builder);
         Assert.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
         Assert.assertTrue(responseEntity.getBody() instanceof StandardError);
     }
@@ -55,10 +55,9 @@ public class CadastraPropostaControllerTests {
     @Test
     @DisplayName("Deve cadastrar proposta - Status code 201")
     public void deveCadastrarProposta(){
-        cadastraPropostaController = new CadastraPropostaController(propostaRepository, analiseFinanceiraService);
+        cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, analiseFinanceiraService);
         when(propostaRepository.findByDocumento(any(String.class))).thenReturn(Optional.empty());
-        when(analiseFinanceiraService.processarAnaliseFinanceiraDaProposta(any(Proposta.class))).thenReturn(new Proposta());
-        ResponseEntity responseEntity = cadastraPropostaController.cadastrarProposta(propostaDtoMock(), builder);
+        ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(propostaDtoMock(), builder);
         Assert.assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         Assert.assertTrue(responseEntity.getHeaders().containsKey("Location"));
     }

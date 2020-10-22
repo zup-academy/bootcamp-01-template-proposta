@@ -45,7 +45,7 @@ public class CadastroCartaoService {
                 cartaoRepository.save(cartao);
                 proposta.incluirCartaoNaProposta(cartao);
                 propostaRepository.save(proposta);
-                logger.info("[INCLUSÃO DE CARTÃO NA PROPOSTA] Cartão incluso na proposta " + proposta.toString());
+                logger.info("[INCLUSÃO DE CARTÃO NA PROPOSTA] Cartão incluso na proposta {}", proposta.toString());
             }
         });
     }
