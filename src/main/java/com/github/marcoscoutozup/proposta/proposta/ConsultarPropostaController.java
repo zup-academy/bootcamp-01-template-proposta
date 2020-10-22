@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/proposta")
+@RequestMapping("/propostas")
 public class ConsultarPropostaController {
 
                 //1

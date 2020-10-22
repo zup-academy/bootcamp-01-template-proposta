@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/proposta")
+@RequestMapping("/propostas")
 public class CadastrarPropostaController {
 
                 //1
@@ -55,7 +55,7 @@ public class CadastrarPropostaController {
         logger.info("[ANÁLISE FINANCEIRA] Análise financeira da proposta realizada: {}", proposta.toString());
 
         return ResponseEntity
-                .created(uri.path("/proposta/{id}")
+                .created(uri.path("/propostas/{id}")
                 .buildAndExpand(proposta.getId()).toUri())
                 .build();
     }
