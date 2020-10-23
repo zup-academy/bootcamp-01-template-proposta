@@ -1,5 +1,6 @@
 package com.github.marcoscoutozup.proposta.cartao;
 
+import com.github.marcoscoutozup.proposta.avisos.Aviso;
 import com.github.marcoscoutozup.proposta.biometria.Biometria;
 import com.github.marcoscoutozup.proposta.bloqueio.Bloqueio;
 import com.github.marcoscoutozup.proposta.bloqueio.enums.EstadoCartao;
@@ -26,6 +27,9 @@ public class Cartao {
     @OneToMany
     private Set<Bloqueio> bloqueios;
 
+    @OneToMany
+    private Set<Aviso> avisos;
+
     @Enumerated(EnumType.STRING)
     private EstadoCartao estadoCartao;
 
@@ -47,6 +51,11 @@ public class Cartao {
     public void incluirBloqueioDoCartao(Bloqueio bloqueio){
         Assert.notNull(bloqueio, "O bloqueio do cartão não pode ser nulo");
         bloqueios.add(bloqueio);
+    }
+
+    public void incluirAvisoDeViagem(Aviso aviso){
+        Assert.notNull(aviso, "O aviso não pode ser nulo para associação com o cartão");
+        avisos.add(aviso);
     }
 
     public void bloquearCartao(){

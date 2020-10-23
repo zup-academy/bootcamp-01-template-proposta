@@ -57,7 +57,7 @@ public class CadastrarBiometriaController {
 
         return ResponseEntity
                 .created(uri.path("/biometrias/{id}")
-                        .buildAndExpand(biometria.getId())
+                        .buildAndExpand(idCartao)
                         .toUri())
                 .build();
     }

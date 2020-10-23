@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = RequestBloqueioCartaoValidator.class)
 public @interface RequestBloqueioCartao  {
 
-    String message() default "A request de bloqueio de cartão é inválida";
+    String message() default "A requisição não contém as informações obrigatórias";
 
     Class<?>[] groups() default {};
 
