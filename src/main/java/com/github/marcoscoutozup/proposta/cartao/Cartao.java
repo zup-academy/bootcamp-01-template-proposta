@@ -1,6 +1,7 @@
 package com.github.marcoscoutozup.proposta.cartao;
 
 import com.github.marcoscoutozup.proposta.biometria.Biometria;
+import com.github.marcoscoutozup.proposta.bloqueio.Bloqueio;
 import org.springframework.util.Assert;
 
 import javax.persistence.Entity;
@@ -23,6 +24,9 @@ public class Cartao {
     @OneToMany
     private Set<Biometria> biometrias;
 
+    @OneToMany
+    private Set<Bloqueio> bloqueios;
+
     @Deprecated
     public Cartao() {
     }
@@ -35,6 +39,11 @@ public class Cartao {
     public void incluirBiometriaNoCartao(Biometria biometria) {
         Assert.notNull(biometria, "A biometria não pode ser nula para associação do cartão");
         biometrias.add(biometria);
+    }
+
+    public void incluirBloqueioDoCartao(Bloqueio bloqueio){
+        Assert.notNull(bloqueio, "O bloqueio do cartão não pode ser nulo");
+        bloqueios.add(bloqueio);
     }
 
     @Override

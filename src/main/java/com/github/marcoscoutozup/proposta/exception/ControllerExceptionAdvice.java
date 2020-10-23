@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -32,6 +34,13 @@ public class ControllerExceptionAdvice {
 
         logger.warn("[TRATAMENTO DE ERRO] Tratando erro(s) de MethodArgumentNotValidException: {}", standardError);
 
+        return ResponseEntity.badRequest().body(standardError);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity handlerConstraintViolationException(ConstraintViolationException e){
+        StandardError standardError = new StandardError(Arrays.asList(e.getLocalizedMessage().split(":")[1].trim()));
+        logger.warn("[TRATAMENTO DE ERRO] Tratando erro(s) de ConstraintViolationException: {}", standardError);
         return ResponseEntity.badRequest().body(standardError);
     }
 

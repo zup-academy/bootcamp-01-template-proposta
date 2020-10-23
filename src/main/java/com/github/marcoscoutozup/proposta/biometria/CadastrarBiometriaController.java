@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/biometrias")
+@RequestMapping("/cartoes")
 public class CadastrarBiometriaController {
 
     private EntityManager entityManager;
@@ -29,10 +29,11 @@ public class CadastrarBiometriaController {
         this.entityManager = entityManager;
     }
 
-    @PostMapping("/cadastrar/{idCartao}")
-    @Transactional                                                                              //2
+    @PostMapping("/{idCartao}/biometria")
+    @Transactional                                                                              //1
     public ResponseEntity cadastrarBiometria(@PathVariable UUID idCartao, @RequestBody @Valid BiometriaDTO dto, UriComponentsBuilder uri){
 
+                //2
         Optional<Cartao> cartaoProcurado = Optional.ofNullable(entityManager.find(Cartao.class, idCartao));
 
         //3
@@ -47,11 +48,12 @@ public class CadastrarBiometriaController {
         entityManager.persist(biometria);
         logger.warn("[CADASTRO DE BIOMETRIA] Biometria cadastrada: {}", biometria.toString());
 
-        //6
+
         Cartao cartao = cartaoProcurado.get();
         cartao.incluirBiometriaNoCartao(biometria);
         entityManager.merge(cartao);
         logger.warn("[CADASTRO DE BIOMETRIA] Biometria associada ao cartão: {}", cartao.toString());
+
 
         return ResponseEntity
                 .created(uri.path("/biometrias/{id}")
