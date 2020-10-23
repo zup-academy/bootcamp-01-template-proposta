@@ -20,7 +20,7 @@ public class SegurancaConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(GET, "/actuator/health").permitAll()
+                .antMatchers(GET, "/actuator/**").permitAll()
                 .antMatchers(GET, "/propostas/**").hasAuthority("SCOPE_propostas")
                 .antMatchers(POST, "/propostas").hasAuthority("SCOPE_propostas")
                 .antMatchers(POST, "/cartoes/**").hasAuthority("SCOPE_cartoes")
