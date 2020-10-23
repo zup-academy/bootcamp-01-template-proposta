@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public class PropostaDTO {
+public class PropostaRequest {
 
     @NotBlank
     @CpfOuCnpj
@@ -26,7 +26,7 @@ public class PropostaDTO {
     @NotNull
     private BigDecimal salario;
 
-    public PropostaDTO(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome, @NotBlank String endereco, @NotNull BigDecimal salario) {
+    public PropostaRequest(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome, @NotBlank String endereco, @NotNull BigDecimal salario) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;

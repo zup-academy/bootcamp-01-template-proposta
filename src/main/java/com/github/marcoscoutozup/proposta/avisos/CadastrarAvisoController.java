@@ -1,8 +1,8 @@
 package com.github.marcoscoutozup.proposta.avisos;
 
 import com.github.marcoscoutozup.proposta.biometria.Biometria;
-import com.github.marcoscoutozup.proposta.biometria.BiometriaDTO;
 import com.github.marcoscoutozup.proposta.cartao.Cartao;
+import com.github.marcoscoutozup.proposta.cartao.CartaoClient;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
 import com.github.marcoscoutozup.proposta.validator.requestbloqueiocartao.RequestBloqueioCartao;
 import org.slf4j.Logger;
@@ -28,42 +28,45 @@ public class CadastrarAvisoController {
 
     private EntityManager entityManager;
     private Logger logger = LoggerFactory.getLogger(Biometria.class);
+    private CartaoClient cartaoClient; //1
 
-    public CadastrarAvisoController(EntityManager entityManager) {
+    public CadastrarAvisoController(EntityManager entityManager, CartaoClient cartaoClient) {
         this.entityManager = entityManager;
+        this.cartaoClient = cartaoClient;
     }
 
     @PostMapping("/{idCartao}/aviso")
     @Transactional
     public ResponseEntity cadastrarBiometria(@PathVariable UUID idCartao,
-                                             @RequestBody @Valid AvisoDTO dto,   //1
+                                             @RequestBody @Valid AvisoRequest avisoRequest,   //2
                                              @RequestBloqueioCartao HttpServletRequest request,
                                              UriComponentsBuilder uri){
 
-        //2
+                    //3
         Optional<Cartao> cartaoProcurado = Optional.ofNullable(entityManager.find(Cartao.class, idCartao));
 
-        //3
+        //4
         if(cartaoProcurado.isEmpty()){
             logger.warn("[CADASTRO DE AVISO] O número do cartão não foi encontrado. Id: {}", idCartao);
-            //4
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StandardError(Arrays.asList("Cartão não encontrado")));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new StandardError(Arrays.asList("Cartão não encontrado"))); //5
         }
 
-        //5
-        Aviso aviso = dto.toAviso(request);
-        entityManager.persist(aviso);
-        logger.warn("[CADASTRO DE AVISO] Aviso cadastrado: {}", aviso.toString());
+       logger.warn("[CADASTRO DE AVISO] Enviando aviso de viagem para o sistema de cartões. Cartão: {}", idCartao);
+       cartaoClient.enviarAvisoDeViagem(idCartao, avisoRequest);
 
-        Cartao cartao = cartaoProcurado.get();
-        cartao.incluirAvisoDeViagem(aviso);
-        entityManager.merge(cartao);
-        logger.warn("[CADASTRO DE AVISO] Aviso associado ao cartão: {}", cartao.toString());
+       Aviso aviso = avisoRequest.toAviso(request); //6
+       entityManager.persist(aviso);
+       logger.warn("[CADASTRO DE AVISO] Aviso cadastrado: {}", aviso.toString());
 
-        return ResponseEntity
-                .created(uri.path("/avisos/{id}")
+       Cartao cartao = cartaoProcurado.get();
+       cartao.incluirAvisoDeViagem(aviso);
+       entityManager.merge(cartao);
+       logger.warn("[CADASTRO DE AVISO] Aviso associado ao cartão: {}", cartao.toString());
+
+       return ResponseEntity
+               .created(uri.path("/avisos/{id}")
                         .buildAndExpand(idCartao)
-                        .toUri())
-                .build();
+                        .toUri()).build();
     }
 }

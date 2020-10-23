@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-public class AvisoDTO {
+public class AvisoRequest {
 
     @NotBlank
     private String destino;

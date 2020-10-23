@@ -32,19 +32,19 @@ public class CadastrarPropostaController {
     }
 
     @PostMapping                                                  //3
-    public ResponseEntity cadastrarProposta(@RequestBody @Valid PropostaDTO dto, UriComponentsBuilder uri){
+    public ResponseEntity cadastrarProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uri){
 
-        Optional<Proposta> response = propostaRepository.findByDocumento(dto.getDocumento());
+        Optional<Proposta> response = propostaRepository.findByDocumento(propostaRequest.getDocumento());
 
         //4
         if(response.isPresent()) {
-            logger.warn("[CRIAÇÃO DA PROPOSTA] Tentativa de criação de proposta com o mesmo documento: {}", dto.getDocumento());
+            logger.warn("[CRIAÇÃO DA PROPOSTA] Tentativa de criação de proposta com o mesmo documento: {}", propostaRequest.getDocumento());
                                                                     //5
             return ResponseEntity.unprocessableEntity().body(new StandardError(Arrays.asList("Já existe uma proposta cadastrada com este documento")));
         }
 
             //6
-        Proposta proposta = dto.toProposta();
+        Proposta proposta = propostaRequest.toProposta();
         propostaRepository.save(proposta);
 
         logger.info("[CRIAÇÃO DA PROPOSTA] Proposta criada com sucesso: {}", proposta.toString());

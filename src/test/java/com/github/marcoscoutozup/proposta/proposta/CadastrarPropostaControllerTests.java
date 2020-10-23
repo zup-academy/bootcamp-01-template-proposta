@@ -62,8 +62,8 @@ public class CadastrarPropostaControllerTests {
         Assert.assertTrue(responseEntity.getHeaders().containsKey("Location"));
     }
             //5
-    public PropostaDTO propostaDtoMock(){
-        return new PropostaDTO("49258122038", "pessoa@email.com", "Pesssoa 1", "Rua um, 123", new BigDecimal(2000));
+    public PropostaRequest propostaDtoMock(){
+        return new PropostaRequest("49258122038", "pessoa@email.com", "Pesssoa 1", "Rua um, 123", new BigDecimal(2000));
     }
 
 }
