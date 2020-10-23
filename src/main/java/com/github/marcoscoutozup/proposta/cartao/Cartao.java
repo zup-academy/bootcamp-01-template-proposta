@@ -2,11 +2,10 @@ package com.github.marcoscoutozup.proposta.cartao;
 
 import com.github.marcoscoutozup.proposta.biometria.Biometria;
 import com.github.marcoscoutozup.proposta.bloqueio.Bloqueio;
+import com.github.marcoscoutozup.proposta.bloqueio.enums.EstadoCartao;
 import org.springframework.util.Assert;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -27,6 +26,9 @@ public class Cartao {
     @OneToMany
     private Set<Bloqueio> bloqueios;
 
+    @Enumerated(EnumType.STRING)
+    private EstadoCartao estadoCartao;
+
     @Deprecated
     public Cartao() {
     }
@@ -34,6 +36,7 @@ public class Cartao {
     public Cartao(UUID id, LocalDateTime emitidoEm) {
         this.id = id;
         this.emitidoEm = emitidoEm;
+        this.estadoCartao = EstadoCartao.DESBLOQUEADO;
     }
 
     public void incluirBiometriaNoCartao(Biometria biometria) {
@@ -44,6 +47,18 @@ public class Cartao {
     public void incluirBloqueioDoCartao(Bloqueio bloqueio){
         Assert.notNull(bloqueio, "O bloqueio do cartão não pode ser nulo");
         bloqueios.add(bloqueio);
+    }
+
+    public void bloquearCartao(){
+        this.estadoCartao = EstadoCartao.BLOQUEADO;
+    }
+
+    public boolean verificarSeOCartaoEstaoBloqueado(){
+        return estadoCartao.equals(EstadoCartao.BLOQUEADO);
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     @Override

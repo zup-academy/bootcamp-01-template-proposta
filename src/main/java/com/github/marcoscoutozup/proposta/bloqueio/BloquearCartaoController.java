@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Arrays;
@@ -27,8 +26,14 @@ import java.util.UUID;
 @Validated
 public class BloquearCartaoController {
 
-    @PersistenceContext
     private EntityManager entityManager;
+            //1
+    private BloqueioService bloqueioService;
+
+    public BloquearCartaoController(EntityManager entityManager, BloqueioService bloqueioService) {
+        this.entityManager = entityManager;
+        this.bloqueioService = bloqueioService;
+    }
 
     private Logger logger = LoggerFactory.getLogger(BloquearCartaoController.class);
 
@@ -36,22 +41,24 @@ public class BloquearCartaoController {
     @Transactional
     public ResponseEntity bloquearCartao(@PathVariable UUID idCartao, @RequestBloqueioCartao HttpServletRequest request, UriComponentsBuilder uri){
 
-                    //1
+                    //2
         Optional<Cartao> cartaoProcurado = Optional.ofNullable(entityManager.find(Cartao.class, idCartao));
 
-        //2
+        //3
         if(cartaoProcurado.isEmpty()){
             logger.info("[BLOQUEIO DE CARTÃO] Cartão não encontrado. Id: {}", idCartao);
-                                                                            //3
+                                                                            //4
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StandardError(Arrays.asList("O Cartão não foi encontrado")));
         }
 
-        //4
+        //5
         Bloqueio bloqueio = new Bloqueio(request.getRemoteAddr(), request.getHeader("User-Agent"));
         entityManager.persist(bloqueio);
-        logger.info("[BLOQUEIO DE CARTÃO] Cartão não encontrado. Bloqueio: {}", bloqueio.toString());
 
         Cartao cartao = cartaoProcurado.get();
+
+        bloqueioService.processarBloqueioDoCartao(cartao);
+
         cartao.incluirBloqueioDoCartao(bloqueio);
         entityManager.merge(cartao);
 
