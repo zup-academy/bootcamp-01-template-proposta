@@ -62,7 +62,7 @@ public class Cartao {
         this.estadoCartao = EstadoCartao.BLOQUEADO;
     }
 
-    public boolean verificarSeOCartaoEstaoBloqueado(){
+    public boolean verificarSeOCartaoEstaBloqueado(){
         return estadoCartao.equals(EstadoCartao.BLOQUEADO);
     }
 
