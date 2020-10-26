@@ -1,7 +1,7 @@
 package br.com.proposta.models;
 
-import br.com.proposta.validacoes.interfaces.CpfCnpj;
-
+import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
+import br.com.proposta.repositories.PropostaRepository;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,23 +31,44 @@ public class Proposta {
     private BigDecimal salario;
 
     @NotBlank
-    @CpfCnpj(message = "O CPF ou CNPJ devem ser válidos")
-    private String numeroIdentificacao;
+    private String identificacao;
+
+    private StatusAvaliacaoProposta status;
 
     @Deprecated
     public Proposta(){}
 
     public Proposta(@NotBlank String nome, @NotBlank @Email String email, @NotBlank String endereco,
-                    @NotNull @Positive BigDecimal salario, @NotBlank @CpfCnpj String numeroIdentificacao) {
+                    @NotNull @Positive BigDecimal salario, @NotBlank String identificacao) {
         this.nome = nome;
         this.email = email;
         this.endereco = endereco;
         this.salario = salario;
-        this.numeroIdentificacao = numeroIdentificacao;
+        this.identificacao = identificacao;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getIdentificacao() {
+        return identificacao;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public boolean ehUnica(PropostaRepository propostaRepository){
+
+        return propostaRepository.findByIdentificacao(this.identificacao).isEmpty();
+
+    }
+
+    public void atualizaStatusElegibilidade(StatusAvaliacaoProposta status){
+
+        this.status = status;
+
     }
 
 }

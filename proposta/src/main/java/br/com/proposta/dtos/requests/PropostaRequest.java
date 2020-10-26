@@ -24,22 +24,21 @@ public class PropostaRequest {
     private BigDecimal salario;
 
     @NotBlank
-    @CpfCnpj(message = "O CPF ou CNPJ devem ser válidos")
-    private String numeroIdentificacao;
+    private String identificacao;
 
 
     public PropostaRequest(@NotBlank String nome, @NotBlank @Email String email,
-                           @NotBlank String endereco, @NotNull @Positive BigDecimal salario, @NotBlank String numeroIdentificacao) {
+                           @NotBlank String endereco, @NotNull @Positive BigDecimal salario, @NotBlank String identificacao) {
         this.nome = nome;
         this.email = email;
         this.endereco = endereco;
         this.salario = salario;
-        this.numeroIdentificacao = numeroIdentificacao;
+        this.identificacao = identificacao;
     }
 
     public Proposta toModel(){
 
-        return new Proposta(nome, email, endereco, salario, numeroIdentificacao);
+        return new Proposta(nome, email, endereco, salario, identificacao);
 
     }
 
@@ -77,10 +76,10 @@ public class PropostaRequest {
     }
 
     public String getNumeroIdentificacao() {
-        return numeroIdentificacao;
+        return identificacao;
     }
 
     public void setNumeroIdentificacao(String numeroIdentificacao) {
-        this.numeroIdentificacao = numeroIdentificacao;
+        this.identificacao = numeroIdentificacao;
     }
 }
