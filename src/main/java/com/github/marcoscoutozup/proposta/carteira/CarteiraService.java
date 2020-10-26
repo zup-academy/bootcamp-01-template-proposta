@@ -31,22 +31,26 @@ public class CarteiraService {
         Map carteiraRequest = new HashMap();
         carteiraRequest.put("email", email);
         carteiraRequest.put("carteira", tipoCarteira);
-        logger.info("Enviando a carteira para o sistema de cartões");
+        logger.info("[ASSOCIAÇÃO DE CARTEIRA] Enviando a carteira para o sistema de cartões");
         ResponseEntity responseEntity = cartaoClient.associarCarteira(carteiraRequest, cartao.getId());
 
         //4
         if(responseEntity.getStatusCode() == HttpStatus.OK){
-            logger.info("Salvando carteira e associando com cartão {}", cartao.toString());
+            logger.info("[ASSOCIAÇÃO DE CARTEIRA] Salvando carteira e associando com cartão {}", cartao.toString());
             //5
             Carteira carteira = new Carteira(email, tipoCarteira);
             entityManager.persist(carteira);
 
             cartao.incluirCarteira(carteira);
             entityManager.merge(cartao);
-            return ResponseEntity.created(uri.path("/carteiras/{id}").buildAndExpand(carteira.getId()).toUri()).build();
+            return ResponseEntity
+                    .created(uri.path("/carteiras/{id}")
+                            .buildAndExpand(carteira.getId())
+                            .toUri())
+                    .build();
         }
 
-        logger.info("Erro {} no retorno do sistema de cartões", responseEntity.getStatusCode());
+        logger.info("[ASSOCIAÇÃO DE CARTEIRA] Erro {} no retorno do sistema de cartões", responseEntity.getStatusCode());
         return ResponseEntity.badRequest().build();
     }
 }

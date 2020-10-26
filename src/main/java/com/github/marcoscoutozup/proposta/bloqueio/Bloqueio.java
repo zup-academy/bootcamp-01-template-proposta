@@ -34,6 +34,10 @@ public class Bloqueio {
         this.userAgent = userAgent;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "Bloqueio{" +

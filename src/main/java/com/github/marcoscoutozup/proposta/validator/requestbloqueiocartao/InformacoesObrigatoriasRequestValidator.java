@@ -4,10 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class RequestBloqueioCartaoValidator implements ConstraintValidator<RequestBloqueioCartao, HttpServletRequest> {
+public class InformacoesObrigatoriasRequestValidator implements ConstraintValidator<InformacoesObrigatoriasRequest, HttpServletRequest> {
 
     @Override
-    public void initialize(RequestBloqueioCartao constraintAnnotation) {
+    public void initialize(InformacoesObrigatoriasRequest constraintAnnotation) {
 
     }
 

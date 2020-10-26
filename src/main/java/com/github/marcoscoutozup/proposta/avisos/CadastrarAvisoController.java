@@ -4,7 +4,7 @@ import com.github.marcoscoutozup.proposta.biometria.Biometria;
 import com.github.marcoscoutozup.proposta.cartao.Cartao;
 import com.github.marcoscoutozup.proposta.cartao.CartaoClient;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
-import com.github.marcoscoutozup.proposta.validator.requestbloqueiocartao.RequestBloqueioCartao;
+import com.github.marcoscoutozup.proposta.validator.requestbloqueiocartao.InformacoesObrigatoriasRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -39,7 +39,7 @@ public class CadastrarAvisoController {
     @Transactional
     public ResponseEntity cadastrarBiometria(@PathVariable UUID idCartao,
                                              @RequestBody @Valid AvisoRequest avisoRequest,   //2
-                                             @RequestBloqueioCartao HttpServletRequest request,
+                                             @InformacoesObrigatoriasRequest HttpServletRequest request,
                                              UriComponentsBuilder uri){
 
                     //3
@@ -66,7 +66,7 @@ public class CadastrarAvisoController {
 
        return ResponseEntity
                .created(uri.path("/avisos/{id}")
-                        .buildAndExpand(idCartao)
+                        .buildAndExpand(aviso.getId())
                         .toUri()).build();
     }
 }

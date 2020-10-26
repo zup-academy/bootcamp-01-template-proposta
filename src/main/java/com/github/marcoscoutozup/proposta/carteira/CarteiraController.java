@@ -53,6 +53,7 @@ public class CarteiraController {
 
         //4
         if(cartaoProcurado.isEmpty()){
+            logger.info("[ASSOCIAÇÃO DE CARTEIRA] Cartão não encontrado. Id: {}", idCartao);
                                                                             //4
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StandardError(Arrays.asList("Cartão não encontrado")));
         }
@@ -61,6 +62,7 @@ public class CarteiraController {
 
         //5
         if(cartao.verificarSeJaExisteAssociacaoDaCarteiraComOCartao(tipoCarteira)){
+            logger.info("[ASSOCIAÇÃO DE CARTEIRA] Carteira já cadastrada para o cartão. Cartão: {}", cartao.toString());
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new StandardError(Arrays.asList("O cartão já está associado a carteira")));
         }
 

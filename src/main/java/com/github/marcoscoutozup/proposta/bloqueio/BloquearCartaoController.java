@@ -2,7 +2,7 @@ package com.github.marcoscoutozup.proposta.bloqueio;
 
 import com.github.marcoscoutozup.proposta.cartao.Cartao;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
-import com.github.marcoscoutozup.proposta.validator.requestbloqueiocartao.RequestBloqueioCartao;
+import com.github.marcoscoutozup.proposta.validator.requestbloqueiocartao.InformacoesObrigatoriasRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -39,7 +39,7 @@ public class BloquearCartaoController {
 
     @PostMapping("/{idCartao}/bloquear")
     @Transactional
-    public ResponseEntity bloquearCartao(@PathVariable UUID idCartao, @RequestBloqueioCartao HttpServletRequest request, UriComponentsBuilder uri){
+    public ResponseEntity bloquearCartao(@PathVariable UUID idCartao, @InformacoesObrigatoriasRequest HttpServletRequest request, UriComponentsBuilder uri){
 
                     //2
         Optional<Cartao> cartaoProcurado = Optional.ofNullable(entityManager.find(Cartao.class, idCartao));
@@ -62,9 +62,11 @@ public class BloquearCartaoController {
         cartao.incluirBloqueioDoCartao(bloqueio);
         entityManager.merge(cartao);
 
+        logger.info("[BLOQUEIO DE CARTÃO] Bloqueio cadastrado. Cartão: {}", cartao.toString());
+
         return ResponseEntity
-                .created(uri.path("/cartoes/{id}/bloqueios")
-                        .buildAndExpand(idCartao)
+                .created(uri.path("/bloqueios/{id}")
+                        .buildAndExpand(bloqueio.getId())
                         .toUri())
                 .build();
     }

@@ -10,8 +10,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target(PARAMETER)
 @Retention(RUNTIME)
-@Constraint(validatedBy = RequestBloqueioCartaoValidator.class)
-public @interface RequestBloqueioCartao  {
+@Constraint(validatedBy = InformacoesObrigatoriasRequestValidator.class)
+public @interface InformacoesObrigatoriasRequest {
 
     String message() default "A requisição não contém as informações obrigatórias";
 
