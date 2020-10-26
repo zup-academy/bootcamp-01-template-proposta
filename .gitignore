@@ -1,0 +1,17 @@
+.DS_Store
+*target*
+*.versionsBackup
+.project
+.classpath
+bin
+.settings
+*.log
+
+**/.DS_Store
+**/*.versionsBackup
+**/.project
+**/.classpath
+**/bin
+**/.settings
+**/*.log
+*.iml
