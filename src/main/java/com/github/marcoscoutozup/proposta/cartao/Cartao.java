@@ -4,6 +4,8 @@ import com.github.marcoscoutozup.proposta.avisos.Aviso;
 import com.github.marcoscoutozup.proposta.biometria.Biometria;
 import com.github.marcoscoutozup.proposta.bloqueio.Bloqueio;
 import com.github.marcoscoutozup.proposta.bloqueio.enums.EstadoCartao;
+import com.github.marcoscoutozup.proposta.carteira.Carteira;
+import com.github.marcoscoutozup.proposta.carteira.enums.TipoCarteira;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -29,6 +31,9 @@ public class Cartao {
 
     @OneToMany
     private Set<Aviso> avisos;
+
+    @OneToMany
+    private Set<Carteira> carteiras;
 
     @Enumerated(EnumType.STRING)
     private EstadoCartao estadoCartao;
@@ -56,6 +61,16 @@ public class Cartao {
     public void incluirAvisoDeViagem(Aviso aviso){
         Assert.notNull(aviso, "O aviso não pode ser nulo para associação com o cartão");
         avisos.add(aviso);
+    }
+
+    public void incluirCarteira(Carteira carteira){
+        Assert.notNull(carteira, "A carteira não pode ser nula para associação com o cartão");
+        carteiras.add(carteira);
+    }
+
+    public boolean verificarSeJaExisteAssociacaoDaCarteiraComOCartao(TipoCarteira tipoCarteira){
+        Assert.notNull(tipoCarteira, "A carteira não pode ser nula");
+        return carteiras.stream().anyMatch(carteira1 -> carteira1.verificarParidadeDeCarteira(tipoCarteira));
     }
 
     public void bloquearCartao(){

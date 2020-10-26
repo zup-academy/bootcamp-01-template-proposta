@@ -20,4 +20,7 @@ public interface CartaoClient {
     @PostMapping("/api/cartoes/{idCartao}/avisos")
     ResponseEntity enviarAvisoDeViagem(@PathVariable UUID idCartao, @RequestBody AvisoRequest avisoRequest);
 
+    @PostMapping("/api/cartoes/{idCartao}/carteiras")
+    ResponseEntity associarCarteira(@RequestBody Map carteiraRequest, @PathVariable UUID idCartao);
+
 }
