@@ -3,6 +3,7 @@ package br.com.zup.bootcamp.proposta.api.controller;
 
 import br.com.zup.bootcamp.proposta.api.dto.RequestPropostaDto;
 import br.com.zup.bootcamp.proposta.api.handler.VerificaDocumentoCpfCnpjValidator;
+import br.com.zup.bootcamp.proposta.domain.repository.PropostaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,11 @@ import javax.validation.Valid;
 @RestController
 public class CadastraPropostaController {
 
-    @PersistenceContext
-    private EntityManager manager;
-    @Autowired
+    @Autowired              //1
     private VerificaDocumentoCpfCnpjValidator documentoValidator;
+
+    @Autowired          //1
+    private PropostaRepository repository;
 
     @InitBinder
     public void init(WebDataBinder binder) {
@@ -29,10 +31,14 @@ public class CadastraPropostaController {
     }
 
     @PostMapping(value = "/propostas")
-    @Transactional
     public ResponseEntity<?> adiciona(@RequestBody @Valid RequestPropostaDto request, UriComponentsBuilder uriComponentsBuilder) {
-        var proposta = request.toEntity();
-        manager.persist(proposta);
-        return ResponseEntity.created(uriComponentsBuilder.path("/proposta/{id}").buildAndExpand(proposta.getId()).toUri()).build();
+        //1
+       if (repository.findByDocumento(request.getDocumento()).isPresent()){
+           return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+       }
+            //1
+       var proposta = request.toEntity();
+       repository.save(proposta);
+       return ResponseEntity.created(uriComponentsBuilder.path("/proposta/{id}").buildAndExpand(proposta.getId()).toUri()).build();
     }
 }

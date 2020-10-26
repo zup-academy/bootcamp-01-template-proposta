@@ -1,12 +1,9 @@
 package br.com.zup.bootcamp.proposta.api.dto;
 
-import br.com.zup.bootcamp.proposta.api.handler.Unique;
 import br.com.zup.bootcamp.proposta.domain.entity.Proposta;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,13 +12,13 @@ import java.math.BigDecimal;
 
 public class RequestPropostaDto {
 
-    @NotBlank @Unique(domainClass = Proposta.class, fieldName = "documento")
+    @NotBlank
     private final String documento;
     @Email
     private final String email;
     @NotBlank
     private final String nome;
-    @NotBlank(message = "obrigatorio")
+    @NotBlank
     private final String endereco;
     @Positive
     private final BigDecimal salario;
