@@ -44,7 +44,7 @@ public class CadastrarPropostaControllerTests {
     @Test
     @DisplayName("Não deve cadastrar proposta - Status code 422")
     public void naoDeveCadastrarProposta(){
-        cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, null);
+        cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, null, null);
                                                                                                 //4
         when(propostaRepository.findByDocumento(any(String.class))).thenReturn(Optional.of(new Proposta()));
         ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(propostaDtoMock(), builder);
@@ -55,7 +55,7 @@ public class CadastrarPropostaControllerTests {
     @Test
     @DisplayName("Deve cadastrar proposta - Status code 201")
     public void deveCadastrarProposta(){
-        cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, analiseFinanceiraService);
+        cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, analiseFinanceiraService, null);
         when(propostaRepository.findByDocumento(any(String.class))).thenReturn(Optional.empty());
         ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(propostaDtoMock(), builder);
         Assert.assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());

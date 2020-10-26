@@ -2,6 +2,7 @@ package com.github.marcoscoutozup.proposta.proposta;
 
 import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraService;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
+import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +24,20 @@ public class CadastrarPropostaController {
     private PropostaRepository propostaRepository;
                 //2
     private AnaliseFinanceiraService analiseFinanceiraService;
-    private Logger logger;
+    private Tracer tracer;
+    private Logger logger = LoggerFactory.getLogger(CadastrarPropostaController.class);
 
-    public CadastrarPropostaController(PropostaRepository propostaRepository, AnaliseFinanceiraService analiseFinanceiraService) {
+    public CadastrarPropostaController(PropostaRepository propostaRepository, AnaliseFinanceiraService analiseFinanceiraService, Tracer tracer) {
         this.propostaRepository = propostaRepository;
         this.analiseFinanceiraService = analiseFinanceiraService;
-        this.logger = LoggerFactory.getLogger(CadastrarPropostaController.class);;
+        this.tracer = tracer;
     }
 
     @PostMapping                                                  //3
     public ResponseEntity cadastrarProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uri){
+        tracer.activeSpan().setTag("usuario.email", propostaRequest.getEmail());
+        tracer.activeSpan().setBaggageItem("usuario.email", propostaRequest.getEmail());
+        tracer.activeSpan().log("Cadastrando a proposta do usuário");
 
         Optional<Proposta> response = propostaRepository.findByDocumento(propostaRequest.getDocumento());
 
