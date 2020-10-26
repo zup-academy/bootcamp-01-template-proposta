@@ -1,11 +1,9 @@
 package br.com.proposta.dtos.requests;
 
 import br.com.proposta.models.Proposta;
+import br.com.proposta.validacoes.interfaces.CpfCnpj;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class PropostaRequest {
@@ -25,12 +23,13 @@ public class PropostaRequest {
     @Positive
     private BigDecimal salario;
 
-    /* pode ser CPF ou CNPJ */
+    @NotBlank
+    @CpfCnpj(message = "O CPF ou CNPJ devem ser válidos")
     private String numeroIdentificacao;
 
 
-    public PropostaRequest(@NotBlank String nome, @NotBlank @Email String email, @NotBlank String endereco,
-                           @NotNull @Positive BigDecimal salario, String numeroIdentificacao) {
+    public PropostaRequest(@NotBlank String nome, @NotBlank @Email String email,
+                           @NotBlank String endereco, @NotNull @Positive BigDecimal salario, @NotBlank String numeroIdentificacao) {
         this.nome = nome;
         this.email = email;
         this.endereco = endereco;

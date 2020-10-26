@@ -1,5 +1,7 @@
 package br.com.proposta.models;
 
+import br.com.proposta.validacoes.interfaces.CpfCnpj;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,14 +30,15 @@ public class Proposta {
     @Positive
     private BigDecimal salario;
 
-    /* pode ser CPF ou CNPJ */
+    @NotBlank
+    @CpfCnpj(message = "O CPF ou CNPJ devem ser válidos")
     private String numeroIdentificacao;
 
     @Deprecated
     public Proposta(){}
 
     public Proposta(@NotBlank String nome, @NotBlank @Email String email, @NotBlank String endereco,
-                    @NotNull @Positive BigDecimal salario, String numeroIdentificacao) {
+                    @NotNull @Positive BigDecimal salario, @NotBlank @CpfCnpj String numeroIdentificacao) {
         this.nome = nome;
         this.email = email;
         this.endereco = endereco;
@@ -46,6 +49,5 @@ public class Proposta {
     public Long getId() {
         return id;
     }
-
 
 }
