@@ -1,4 +1,4 @@
-package io.github.evertocnsouza.rest.dto;
+package io.github.evertocnsouza.validation;
 
 import java.util.List;
 

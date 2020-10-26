@@ -2,8 +2,6 @@ package io.github.evertocnsouza.rest.dto;
 
 import io.github.evertocnsouza.domain.entity.Proposta;
 import io.github.evertocnsouza.validation.CpfCnpj;
-import org.hibernate.validator.constraints.br.CPF;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

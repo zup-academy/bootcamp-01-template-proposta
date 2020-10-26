@@ -10,7 +10,6 @@ import javax.validation.ConstraintValidatorContext;
 
 public class CpfCnpjValidator implements ConstraintValidator<CpfCnpj, CharSequence> {
 
-
     @Override
 
     public boolean isValid(CharSequence value, ConstraintValidatorContext constraintValidatorContext) {

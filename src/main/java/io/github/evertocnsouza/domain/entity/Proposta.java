@@ -1,7 +1,6 @@
 package io.github.evertocnsouza.domain.entity;
 
 import io.github.evertocnsouza.validation.CpfCnpj;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +27,7 @@ public class Proposta {
     @Email
     private String email;
 
-    @NotBlank(message = "nome.obrigatorio")
+    @NotBlank
     private String nome;
 
     @NotBlank
@@ -68,6 +67,7 @@ public class Proposta {
                 ", endereco='" + endereco + '\'' +
                 ", salario=" + salario +
                 '}';
+
     }
 }
 

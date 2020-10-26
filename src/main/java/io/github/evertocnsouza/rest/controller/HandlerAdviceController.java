@@ -1,5 +1,6 @@
-package io.github.evertocnsouza.rest.dto;
+package io.github.evertocnsouza.rest.controller;
 
+import io.github.evertocnsouza.validation.ApiErrors;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
     @RestControllerAdvice
-    public class HandlerAdvice {
+    public class HandlerAdviceController {
         @ExceptionHandler(MethodArgumentNotValidException.class)
         @ResponseStatus(HttpStatus.BAD_REQUEST)
         public ApiErrors handleMethodNotValidException(MethodArgumentNotValidException ex){
