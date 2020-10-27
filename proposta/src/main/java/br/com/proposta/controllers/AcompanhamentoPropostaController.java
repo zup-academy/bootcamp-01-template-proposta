@@ -28,4 +28,5 @@ public class AcompanhamentoPropostaController {
         return ResponseEntity.ok(new PropostaResponse(propostaAcompanhamento));
 
     }
+
 }
