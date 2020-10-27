@@ -19,18 +19,20 @@ import javax.validation.Valid;
 @RestController
 public class CadastraPropostaController {
 
-    @Autowired              //1
     private VerificaDocumentoCpfCnpjValidator documentoValidator;
-
-    @Autowired          //1
     private PropostaRepository repository;
+
+    public CadastraPropostaController(VerificaDocumentoCpfCnpjValidator documentoValidator, PropostaRepository repository) {
+        this.documentoValidator = documentoValidator;
+        this.repository = repository;
+    }
 
     @InitBinder
     public void init(WebDataBinder binder) {
         binder.addValidators(documentoValidator);
     }
 
-    @PostMapping(value = "/propostas")
+    @PostMapping(value = "/propostas")                          //1
     public ResponseEntity<?> adiciona(@RequestBody @Valid RequestPropostaDto request, UriComponentsBuilder uriComponentsBuilder) {
         //1
        if (repository.findByDocumento(request.getDocumento()).isPresent()){
