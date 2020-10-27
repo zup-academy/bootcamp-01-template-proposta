@@ -11,6 +11,7 @@ public class CarteiraRequest {
     @Email
     private String email;
 
+            //1
     public Carteira toCarteira(TipoCarteira carteira){
         return new Carteira(email, carteira);
     }

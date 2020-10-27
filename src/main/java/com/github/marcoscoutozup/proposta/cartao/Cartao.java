@@ -23,19 +23,19 @@ public class Cartao {
     @NotNull
     private LocalDateTime emitidoEm;
 
-    @OneToMany
+    @OneToMany  //1
     private Set<Biometria> biometrias;
 
-    @OneToMany
+    @OneToMany  //2
     private Set<Bloqueio> bloqueios;
 
-    @OneToMany
+    @OneToMany  //3
     private Set<Aviso> avisos;
 
-    @OneToMany
+    @OneToMany //4
     private Set<Carteira> carteiras;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //5
     private EstadoCartao estadoCartao;
 
     @Deprecated
@@ -70,7 +70,8 @@ public class Cartao {
 
     public boolean verificarSeJaExisteAssociacaoDaCarteiraComOCartao(TipoCarteira tipoCarteira){
         Assert.notNull(tipoCarteira, "A carteira não pode ser nula");
-        return carteiras.stream().anyMatch(carteira1 -> carteira1.verificarParidadeDeCarteira(tipoCarteira));
+                                                    //6
+        return carteiras.stream().anyMatch(carteira -> carteira.verificarParidadeDeCarteira(tipoCarteira));
     }
 
     public void bloquearCartao(){

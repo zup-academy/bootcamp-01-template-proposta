@@ -28,7 +28,8 @@ public class CadastrarAvisoController {
 
     private EntityManager entityManager;
     private Logger logger = LoggerFactory.getLogger(Biometria.class);
-    private CartaoClient cartaoClient; //1
+                //1
+    private CartaoClient cartaoClient;
 
     public CadastrarAvisoController(EntityManager entityManager, CartaoClient cartaoClient) {
         this.entityManager = entityManager;
@@ -49,13 +50,15 @@ public class CadastrarAvisoController {
         if(cartaoProcurado.isEmpty()){
             logger.warn("[CADASTRO DE AVISO] O número do cartão não foi encontrado. Id: {}", idCartao);
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new StandardError(Arrays.asList("Cartão não encontrado"))); //5
+                                    //5
+                    .body(new StandardError(Arrays.asList("Cartão não encontrado")));
         }
 
        logger.warn("[CADASTRO DE AVISO] Enviando aviso de viagem para o sistema de cartões. Cartão: {}", idCartao);
        cartaoClient.enviarAvisoDeViagem(idCartao, avisoRequest);
 
-       Aviso aviso = avisoRequest.toAviso(request); //6
+       //6
+       Aviso aviso = avisoRequest.toAviso(request);
        entityManager.persist(aviso);
        logger.warn("[CADASTRO DE AVISO] Aviso cadastrado: {}", aviso.toString());
 

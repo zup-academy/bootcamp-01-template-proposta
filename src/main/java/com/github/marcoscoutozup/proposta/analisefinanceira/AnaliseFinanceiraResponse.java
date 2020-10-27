@@ -8,6 +8,7 @@ public class AnaliseFinanceiraResponse {
 
     private String documento;
     private String nome;
+                //1
     private StatusDaProposta resultadoSolicitacao;
     private UUID idProposta;
 

@@ -1,9 +1,7 @@
 package com.github.marcoscoutozup.proposta.biometria;
 
 import com.github.marcoscoutozup.proposta.cartao.Cartao;
-import com.github.marcoscoutozup.proposta.cartao.CartaoRepository;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
