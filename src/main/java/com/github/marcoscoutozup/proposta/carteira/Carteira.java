@@ -1,6 +1,7 @@
 package com.github.marcoscoutozup.proposta.carteira;
 
 import com.github.marcoscoutozup.proposta.carteira.enums.TipoCarteira;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -33,6 +34,7 @@ public class Carteira {
     }
 
     public boolean verificarParidadeDeCarteira(TipoCarteira tipoCarteira){
+        Assert.notNull(tipoCarteira, "O tipo de carteira não pode ser nula");
         return this.tipoCarteira.equals(tipoCarteira);
     }
 

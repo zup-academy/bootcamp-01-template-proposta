@@ -5,7 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.*;
 
 public class AnaliseFinanceiraServiceTests {
 
@@ -22,6 +25,13 @@ public class AnaliseFinanceiraServiceTests {
     @Test
     @DisplayName("Não deve realizar análise financeira com proposta nula")
     public void naoDeveRealizarAnaliseFinanceiraComPropostaNula(){
+        Assert.assertThrows(IllegalArgumentException.class, () -> analiseFinanceiraService.processarAnaliseFinanceiraDaProposta(null));
+    }
+
+    @Test
+    @DisplayName("Não deve realizar análise financeira com resposta nula")
+    public void naoDeveRealizarAnaliseFinanceiraComRespostaNula(){
+        when(analiseFinanceiraClient.processaAnaliseFinanceira(any())).thenReturn(null);
         Assert.assertThrows(IllegalArgumentException.class, () -> analiseFinanceiraService.processarAnaliseFinanceiraDaProposta(null));
     }
 }
