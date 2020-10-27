@@ -1,6 +1,8 @@
 package io.github.evertocnsouza.domain.entity;
 
+import io.github.evertocnsouza.domain.enums.StatusAvaliacaoProposta;
 import io.github.evertocnsouza.validation.CpfCnpj;
+import org.springframework.util.Assert;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 public class Proposta {
@@ -37,6 +40,9 @@ public class Proposta {
     @Positive
     private BigDecimal salario;
 
+    @NotNull
+    private StatusAvaliacaoProposta statusAvaliacao;
+
     @Deprecated
     public Proposta() {
     }
@@ -51,10 +57,34 @@ public class Proposta {
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.statusAvaliacao = StatusAvaliacaoProposta.nao_elegivel;
+    }
+
+    public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
+        Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.nao_elegivel),
+                "uma vez que a proposta é elegível, não é possível trocar");
+        this.statusAvaliacao = statusAvaliacao;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Proposta)) return false;
+        Proposta proposta = (Proposta) o;
+        return Objects.equals(documento, proposta.documento);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(documento);
     }
 
     @Override

@@ -2,6 +2,8 @@ package io.github.evertocnsouza.rest.dto;
 
 import io.github.evertocnsouza.domain.entity.Proposta;
 import io.github.evertocnsouza.validation.CpfCnpj;
+import io.github.evertocnsouza.validation.UniqueValue;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,6 +39,10 @@ public class PropostaRequest {
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+    }
+
+    public String getDocumento() {
+        return documento;
     }
 
     public Proposta ToModel() {
