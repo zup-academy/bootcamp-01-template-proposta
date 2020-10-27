@@ -47,7 +47,7 @@ public class CarteiraController {
         return processarSolicitacao(TipoCarteira.PAYPAL, idCartao, carteiraRequest, uri);
     }
 
-    private ResponseEntity processarSolicitacao(TipoCarteira tipoCarteira, UUID idCartao, CarteiraRequest carteiraRequest, UriComponentsBuilder uri){
+    protected ResponseEntity processarSolicitacao(TipoCarteira tipoCarteira, UUID idCartao, CarteiraRequest carteiraRequest, UriComponentsBuilder uri){
                     //3
         Optional<Cartao> cartaoProcurado = Optional.ofNullable(entityManager.find(Cartao.class, idCartao));
 
