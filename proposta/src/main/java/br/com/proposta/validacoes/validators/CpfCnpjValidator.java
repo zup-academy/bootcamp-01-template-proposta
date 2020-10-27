@@ -10,7 +10,6 @@ public class CpfCnpjValidator implements ConstraintValidator<CpfCnpj, String> {
     @Override
     public boolean isValid(String identificacao, ConstraintValidatorContext constraintValidatorContext) {
 
-
         char[] caracteres = new char[identificacao.length()];
 
         for (int i = 0; i < identificacao.length(); i++) {

@@ -2,6 +2,8 @@ package br.com.proposta.models;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +19,9 @@ public class Cartao {
 
     private String idProposta;
 
+    @ElementCollection
+    private Set<Biometria> biometria = new HashSet();
+
     @OneToOne
     private Proposta proposta;
 
@@ -27,6 +32,14 @@ public class Cartao {
         this.emitidoEm = OffsetDateTime.now();
         this.titular = titular;
         this.idProposta = idProposta;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void adicionaBiometria(Biometria biometria){
+        this.biometria.add(biometria);
     }
 
     public String getTitular() {
