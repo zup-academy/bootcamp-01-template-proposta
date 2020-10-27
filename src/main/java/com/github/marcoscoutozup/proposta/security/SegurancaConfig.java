@@ -1,7 +1,5 @@
 package com.github.marcoscoutozup.proposta.security;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -13,8 +11,6 @@ import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 public class SegurancaConfig extends WebSecurityConfigurerAdapter {
-
-    private Logger logger = LoggerFactory.getLogger(SegurancaConfig.class);
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
