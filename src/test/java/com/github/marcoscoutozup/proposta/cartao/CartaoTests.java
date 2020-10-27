@@ -33,7 +33,7 @@ public class CartaoTests {
     }
 
     @Test
-    @DisplayName("Não deve incluir aviso viagem no cartão se for nulo")
+    @DisplayName("Não deve incluir carteira no cartão se for nula")
     public void naoDeveIncluirCarteiraNoCartaoSeForNula() {
         Assert.assertThrows(IllegalArgumentException.class, () -> cartao.incluirCarteira(null));
     }
