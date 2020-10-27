@@ -1,0 +1,31 @@
+package br.com.zup.proposta.controllers;
+
+import java.net.URI;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import br.com.zup.proposta.controllers.dto.PropostaDto;
+import br.com.zup.proposta.controllers.form.SolicitacaoForm;
+import br.com.zup.proposta.service.PropostaService;
+
+@RestController
+public class SolicitacaoController {
+    
+    @Autowired
+    private PropostaService service;
+
+    @PostMapping("/propostas")
+    public ResponseEntity<PropostaDto> criarSolicitacao(@RequestBody @Valid SolicitacaoForm form, UriComponentsBuilder builder) {
+        final PropostaDto propostaCriada = service.criar(form.toProposta());
+
+        final URI uri = builder.path("/propostas/{id}").buildAndExpand(propostaCriada.getId()).toUri();
+        return ResponseEntity.created(uri).body(propostaCriada);
+    }
+}
