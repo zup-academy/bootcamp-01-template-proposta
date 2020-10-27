@@ -3,6 +3,7 @@ package br.com.zup.bootcamp.proposta.controller;
 import br.com.zup.bootcamp.proposta.api.controller.CadastraPropostaController;
 import br.com.zup.bootcamp.proposta.api.dto.RequestPropostaDto;
 import br.com.zup.bootcamp.proposta.api.handler.VerificaDocumentoCpfCnpjValidator;
+import br.com.zup.bootcamp.proposta.domain.entity.Proposta;
 import br.com.zup.bootcamp.proposta.domain.repository.PropostaRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -28,19 +29,18 @@ public class CadastrarPropostaControllerTest {
     private static final String ENDERECO = "bh";
     private static final BigDecimal SALARAIO = BigDecimal.valueOf(500);
 
-
+    protected static Proposta proposta;
     protected static PropostaRepository repository = mock(PropostaRepository.class);
-    protected  static RequestPropostaDto  request;
-    protected  static CadastraPropostaController controller;
-    protected  static VerificaDocumentoCpfCnpjValidator documentoValidator;
+    protected static RequestPropostaDto  request;
+    protected static CadastraPropostaController controller;
+    protected static VerificaDocumentoCpfCnpjValidator documentoValidator;
 
     @BeforeAll
     public static void setUp() {
+        proposta = new Proposta(DOCUMENTO, EMAIL, NOME, ENDERECO,SALARAIO);
         request = new RequestPropostaDto(DOCUMENTO, EMAIL, NOME, ENDERECO,SALARAIO);
         controller = new CadastraPropostaController(documentoValidator, repository);
         when(repository.findByDocumento(DOCUMENTO)).thenReturn(Optional.empty());
-
-//        when(request.documentoValido()).thenReturn(true);
     }
 
 
@@ -49,6 +49,14 @@ public class CadastrarPropostaControllerTest {
     public void teste1(){
         ResponseEntity<?> response = controller.adiciona(request, UriComponentsBuilder.newInstance());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Nao Deve salvar um proposta com documentos iguais e deve retornar 422")
+    public void teste2(){
+        when(repository.findByDocumento(DOCUMENTO)).thenReturn(Optional.of(proposta));
+        ResponseEntity<?> response = controller.adiciona(request, UriComponentsBuilder.newInstance());
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
     }
 
 }
