@@ -5,10 +5,10 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
-@FeignClient(url = "http://localhost:9999", name = "integracoes")
-public interface Integracoes {
+@FeignClient(url = "${avaliacao.host}", name = "integracoes")
+public interface IntegracaoProposta {
 
-    @PostMapping("/api/solicitacao")
+    @PostMapping
     String avaliaproposta(SolicitacaoAnalise solicitacaoAnalise);
 
 }

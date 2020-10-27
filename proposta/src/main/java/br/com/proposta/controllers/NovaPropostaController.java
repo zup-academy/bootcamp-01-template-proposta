@@ -6,6 +6,8 @@ import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.models.Proposta;
 import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.outrossistema.AvaliaProposta;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,9 @@ public class NovaPropostaController {
     private PropostaRepository propostaRepository;
 
 
+    private final Logger logger = LoggerFactory.getLogger(Proposta.class);
+
+
     @PostMapping
     public ResponseEntity<?> novaProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uriComponentsBuilder){
 
@@ -43,10 +48,17 @@ public class NovaPropostaController {
             //1
             if(novaProposta.ehUnica(propostaRepository)){
 
+
                 //1
                 novaProposta.atualizaStatusElegibilidade(avaliaProposta.retornarAvaliacao(novaProposta));
 
+
                 propostaRepository.save(novaProposta);
+
+
+                logger.info("Proposta documento={} salário={} criada com sucesso!",
+                        novaProposta.getIdentificacao(), novaProposta.getSalario());
+
 
                 return ResponseEntity
                         .created(uriComponentsBuilder.path("/propostas/{id}").buildAndExpand(novaProposta.getId()).toUri()).body(novaProposta);

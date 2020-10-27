@@ -2,10 +2,9 @@ package br.com.proposta.models;
 
 import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.repositories.PropostaRepository;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.util.Assert;
+
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
@@ -35,6 +34,9 @@ public class Proposta {
 
     private StatusAvaliacaoProposta status;
 
+    @OneToOne(mappedBy = "proposta",cascade = CascadeType.MERGE)
+    private Cartao cartao;
+
     @Deprecated
     public Proposta(){}
 
@@ -49,6 +51,55 @@ public class Proposta {
 
     public Long getId() {
         return id;
+    }
+
+    public BigDecimal getSalario() {
+        return salario;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public void setSalario(BigDecimal salario) {
+        this.salario = salario;
+    }
+
+    public void setIdentificacao(String identificacao) {
+        this.identificacao = identificacao;
+    }
+
+    public StatusAvaliacaoProposta getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusAvaliacaoProposta status) {
+        this.status = status;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
+    }
+
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 
     public String getIdentificacao() {
@@ -70,5 +121,4 @@ public class Proposta {
         this.status = status;
 
     }
-
 }
