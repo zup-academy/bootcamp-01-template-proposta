@@ -8,6 +8,7 @@ public enum TipoCarteira {
     SAMSUNG_PAY;
 
     public static boolean validarCarteira(String carteira){
+                                                                            //1
         return Stream.of(TipoCarteira.class.getFields()).anyMatch(field -> field.getName().equals(carteira));
     }
 }

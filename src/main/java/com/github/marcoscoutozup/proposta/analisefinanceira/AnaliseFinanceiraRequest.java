@@ -10,6 +10,7 @@ public class AnaliseFinanceiraRequest {
     private String nome;
     private UUID idProposta;
 
+                                    //1
     public AnaliseFinanceiraRequest(Proposta proposta) {
         this.documento = proposta.getDocumento();
         this.nome = proposta.getNome();

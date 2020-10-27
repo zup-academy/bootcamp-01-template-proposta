@@ -12,6 +12,7 @@ public class CartaoResponse {
     @NotNull
     private LocalDateTime emitidoEm;
 
+            //1
     public Cartao toCartao(){
         return new Cartao(id, emitidoEm);
     }

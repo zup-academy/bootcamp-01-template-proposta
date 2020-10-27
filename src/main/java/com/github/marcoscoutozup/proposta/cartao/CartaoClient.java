@@ -11,13 +11,14 @@ import java.util.UUID;
 @FeignClient(name = "cartao", url = "${host.cartao}")
 public interface CartaoClient {
 
+    //1
     @GetMapping("/api/cartoes")
     CartaoResponse pesquisarCartaoPorIdDaProposta(@RequestParam String idProposta);
 
     @PostMapping("/api/cartoes/{idCartao}/bloqueios")
     ResponseEntity bloquearCartao(@PathVariable UUID idCartao, @RequestBody Map bloqueioRequest);
 
-    @PostMapping("/api/cartoes/{idCartao}/avisos")
+    @PostMapping("/api/cartoes/{idCartao}/avisos")                                  //2
     ResponseEntity enviarAvisoDeViagem(@PathVariable UUID idCartao, @RequestBody AvisoRequest avisoRequest);
 
     @PostMapping("/api/cartoes/{idCartao}/carteiras")

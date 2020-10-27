@@ -20,7 +20,7 @@ public class Carteira {
     private String email;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //1
     private TipoCarteira tipoCarteira;
 
     @Deprecated

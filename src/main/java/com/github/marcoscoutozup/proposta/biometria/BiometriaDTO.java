@@ -10,6 +10,7 @@ public class BiometriaDTO {
     @Base64
     private String fingerprint;
 
+            //1
     public Biometria toBiometria(){
         return new Biometria(fingerprint);
     }

@@ -18,6 +18,7 @@ import java.util.UUID;
 
 @Entity
 @NamedQuery(name = "findPropostaByDocumento", query = "select p from Proposta p where p.documento = :documento")
+@NamedQuery(name = "findPropostaByStatus", query = "select p from Proposta p where p.statusDaProposta = :statusDaProposta")
 public class Proposta {
 
     @Id
