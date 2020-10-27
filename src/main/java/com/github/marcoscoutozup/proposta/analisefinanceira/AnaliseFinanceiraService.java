@@ -30,6 +30,8 @@ public class AnaliseFinanceiraService {
         analiseFinanceiraRequest = new AnaliseFinanceiraRequest(proposta);
         analiseFinanceiraResponse = analiseFinanceiraClient.processaAnaliseFinanceira(analiseFinanceiraRequest);
 
+        Assert.notNull(analiseFinanceiraResponse, "A resposta da análise financeira não pode ser nula");
+
         //5
         StatusDaProposta status = analiseFinanceiraResponse.getResultadoSolicitacao();
         proposta.modificarStatusDaProposta(status);
