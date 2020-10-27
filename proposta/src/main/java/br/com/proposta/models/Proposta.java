@@ -2,6 +2,7 @@ package br.com.proposta.models;
 
 import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.repositories.PropostaRepository;
+import br.com.proposta.validacoes.interfaces.CpfCnpj;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -30,6 +31,7 @@ public class Proposta {
     private BigDecimal salario;
 
     @NotBlank
+    @CpfCnpj
     private String identificacao;
 
     private StatusAvaliacaoProposta status;
