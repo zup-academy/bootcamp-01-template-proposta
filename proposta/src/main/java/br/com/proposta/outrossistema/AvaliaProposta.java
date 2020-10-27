@@ -15,10 +15,12 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class AvaliaProposta {
 
+
     @Autowired
     private IntegracaoProposta integracaoProposta;
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
+
 
     public StatusAvaliacaoProposta retornarAvaliacao(Proposta proposta){
 

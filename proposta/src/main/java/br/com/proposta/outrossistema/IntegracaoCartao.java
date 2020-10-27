@@ -16,7 +16,4 @@ public interface IntegracaoCartao {
     @PostMapping
     ResponseEntity<?> criarCartao(NovoCartaoRequest novoCartaoRequest);
 
-    @GetMapping("?idProposta={idProposta}")
-    ResponseEntity<?> buscarCartao(@PathVariable("idProposta") Long idProposta);
-
 }

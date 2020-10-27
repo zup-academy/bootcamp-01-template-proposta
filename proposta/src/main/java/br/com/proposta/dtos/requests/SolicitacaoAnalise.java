@@ -20,7 +20,7 @@ public class SolicitacaoAnalise {
     public SolicitacaoAnalise(Proposta proposta){
         this.documento = proposta.getIdentificacao();
         this.nome = proposta.getNome();
-        this.idProposta = String.valueOf(proposta.getId());
+        this.idProposta = proposta.getId();
     }
 
     public String getDocumento() {

@@ -12,7 +12,7 @@ import java.util.Collection;
 
 
 @RestController
-@RequestMapping("/cartoes")
+@RequestMapping("/api/cartoes")
 public class NovoCartaoController {
 
     @Autowired

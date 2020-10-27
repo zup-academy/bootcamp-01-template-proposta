@@ -1,5 +1,7 @@
 package br.com.proposta.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
@@ -7,17 +9,17 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
+@Table(name = "cartao")
 public class Cartao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
 
     private OffsetDateTime emitidoEm;
 
     private String titular;
-
-    private String idProposta;
 
     @ElementCollection
     private Set<Biometria> biometria = new HashSet();
@@ -31,11 +33,14 @@ public class Cartao {
     public Cartao(String titular, String idProposta) {
         this.emitidoEm = OffsetDateTime.now();
         this.titular = titular;
-        this.idProposta = idProposta;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
+    }
+
+    public Cartao(String id) {
+        this.id = id;
     }
 
     public void adicionaBiometria(Biometria biometria){
@@ -48,14 +53,6 @@ public class Cartao {
 
     public void setTitular(String titular) {
         this.titular = titular;
-    }
-
-    public String getIdProposta() {
-        return idProposta;
-    }
-
-    public void setIdProposta(String idProposta) {
-        this.idProposta = idProposta;
     }
 
     public Proposta getProposta() {

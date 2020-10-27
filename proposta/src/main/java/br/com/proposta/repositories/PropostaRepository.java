@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Repository
-public interface PropostaRepository extends JpaRepository<Proposta, Long> {
+public interface PropostaRepository extends JpaRepository<Proposta, String> {
 
     Optional<Proposta> findByIdentificacao(String identificacao);
 

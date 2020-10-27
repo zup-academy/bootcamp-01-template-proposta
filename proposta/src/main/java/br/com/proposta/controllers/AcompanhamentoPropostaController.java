@@ -20,7 +20,7 @@ public class AcompanhamentoPropostaController {
     private PropostaRepository propostaRepository;
 
     @GetMapping
-    public ResponseEntity<?> acompanharProposta(@PathVariable Long id){
+    public ResponseEntity<?> acompanharProposta(@PathVariable String id){
 
         Proposta propostaAcompanhamento =
                 propostaRepository.findById(id).get();

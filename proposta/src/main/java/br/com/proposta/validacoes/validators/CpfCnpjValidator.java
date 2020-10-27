@@ -20,7 +20,7 @@ public class CpfCnpjValidator implements ConstraintValidator<CpfCnpj, String> {
         boolean cnpjCondicao = caracteres[2] == '.' && caracteres[6] ==
                 '.' && caracteres[10] == '/' && caracteres[15] == '-';
 
-        if(cpfCondicao && caracteres.length == 13){
+        if(cpfCondicao && caracteres.length == 14){
 
             for(int i = 0; i < identificacao.length(); i++) {
                 if(!Character.isDigit(caracteres[i]) && i != 3 && i != 7 && i != 11){
@@ -30,7 +30,7 @@ public class CpfCnpjValidator implements ConstraintValidator<CpfCnpj, String> {
 
             return true;
 
-        }else if(cnpjCondicao && caracteres.length == 17){
+        }else if(cnpjCondicao && caracteres.length == 18){
 
             for(int i = 0; i < identificacao.length(); i++) {
                 if(!Character.isDigit(caracteres[i]) && i != 2 && i != 6 && i != 10 && i != 15){

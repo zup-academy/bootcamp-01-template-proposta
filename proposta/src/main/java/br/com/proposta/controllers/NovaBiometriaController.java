@@ -20,7 +20,7 @@ public class NovaBiometriaController {
     private CartaoRepository cartaoRepository;
 
     @PostMapping
-    public ResponseEntity<?> criaBiometria(@PathVariable Long cartaoId,
+    public ResponseEntity<?> criaBiometria(@PathVariable String cartaoId,
                                            @RequestBody @Valid BiometriaRequest biometriaRequest, UriComponentsBuilder uriComponentsBuilder){
 
         Optional<Cartao> cartao = cartaoRepository.findById(cartaoId);

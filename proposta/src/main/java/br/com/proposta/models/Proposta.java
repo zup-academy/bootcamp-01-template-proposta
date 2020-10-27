@@ -3,6 +3,7 @@ package br.com.proposta.models;
 import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.validacoes.interfaces.CpfCnpj;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -10,11 +11,13 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "proposta")
 public class Proposta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
 
     @NotBlank
     private String nome;
@@ -51,7 +54,7 @@ public class Proposta {
         this.identificacao = identificacao;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
