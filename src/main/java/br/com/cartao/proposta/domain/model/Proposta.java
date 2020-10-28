@@ -20,17 +20,21 @@ public class Proposta {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     @NotBlank @CpfOuCnpj
-    private final String documento;
+    private String documento;
     @NotBlank @Email
-    private final String email;
+    private String email;
     @NotBlank
-    private final String endereco;
+    private String endereco;
     @NotBlank
-    private final String nome;
+    private String nome;
     @Positive @NotNull
-    private final BigDecimal salario;
+    private BigDecimal salario;
 
-    public Proposta(@NotBlank String documento,@NotBlank String email,@NotBlank String endereco,@NotBlank String nome, @Positive @NotBlank BigDecimal salario) {
+    @Deprecated
+    public Proposta() {
+    }
+
+    public Proposta(@NotBlank String documento, @NotBlank String email, @NotBlank String endereco, @NotBlank String nome, @Positive @NotBlank BigDecimal salario) {
         this.documento = documento;
         this.email = email;
         this.endereco = endereco;

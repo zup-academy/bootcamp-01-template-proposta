@@ -35,4 +35,15 @@ public class ErroHandlerAdvice {
         return ResponseEntity.badRequest().body(erroPadraoApi);
     }
 
+    @ExceptionHandler(ErroNegocioException.class)
+    public ResponseEntity<ErroPadraoApi> handlerErroDeNegocio(ErroNegocioException exception){
+        List<String> todosErros = new ArrayList<>();
+
+        todosErros.add(exception.getMensagem());
+
+        ErroPadraoApi erroPadraoApi = new ErroPadraoApi(exception.getHttpStatus().toString(), todosErros, exception.getStackTrace().toString());
+
+        return ResponseEntity.status(exception.getHttpStatus()).body(erroPadraoApi);
+    }
+
 }
