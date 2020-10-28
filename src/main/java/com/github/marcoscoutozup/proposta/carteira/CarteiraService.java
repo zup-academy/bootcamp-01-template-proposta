@@ -32,7 +32,7 @@ public class CarteiraService {
         carteiraRequest.put("email", email);
         carteiraRequest.put("carteira", tipoCarteira);
         logger.info("[ASSOCIAÇÃO DE CARTEIRA] Enviando a carteira para o sistema de cartões");
-        ResponseEntity responseEntity = cartaoClient.associarCarteira(carteiraRequest, cartao.getId());
+        ResponseEntity responseEntity = cartaoClient.associarCarteira(carteiraRequest, cartao.getNumeroCartao());
 
         //4
         if(responseEntity.getStatusCode() == HttpStatus.OK){

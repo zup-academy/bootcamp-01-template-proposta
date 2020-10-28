@@ -18,7 +18,11 @@ import java.util.UUID;
 public class Cartao {
 
     @Id
+    @GeneratedValue(generator = "uuid4")
     private UUID id;
+
+    @NotNull
+    private UUID numeroCartao;
 
     @NotNull
     private LocalDateTime emitidoEm;
@@ -42,8 +46,8 @@ public class Cartao {
     public Cartao() {
     }
 
-    public Cartao(UUID id, LocalDateTime emitidoEm) {
-        this.id = id;
+    public Cartao(UUID numeroCartao, LocalDateTime emitidoEm) {
+        this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.estadoCartao = EstadoCartao.DESBLOQUEADO;
     }
@@ -82,8 +86,11 @@ public class Cartao {
         return estadoCartao.equals(EstadoCartao.BLOQUEADO);
     }
 
+    public UUID getNumeroCartao() {
+        return numeroCartao;
+    }
+
     public UUID getId() {
         return id;
     }
-
 }

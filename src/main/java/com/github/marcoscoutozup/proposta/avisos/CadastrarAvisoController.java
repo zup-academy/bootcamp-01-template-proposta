@@ -65,7 +65,7 @@ public class CadastrarAvisoController {
        Cartao cartao = cartaoProcurado.get();
        cartao.incluirAvisoDeViagem(aviso);
        entityManager.merge(cartao);
-       logger.warn("[CADASTRO DE AVISO] Aviso associado ao cartão: {}", cartao.getId());
+       logger.warn("[CADASTRO DE AVISO] Aviso associado ao cartão: {}", cartao.getNumeroCartao());
 
        return ResponseEntity
                .created(uri.path("/avisos/{id}")

@@ -50,7 +50,7 @@ public class CadastrarBiometriaController {
         Cartao cartao = cartaoProcurado.get();
         cartao.incluirBiometriaNoCartao(biometria);
         entityManager.merge(cartao);
-        logger.warn("[CADASTRO DE BIOMETRIA] Biometria associada ao cartão: {}", cartao.getId());
+        logger.warn("[CADASTRO DE BIOMETRIA] Biometria associada ao cartão: {}", cartao.getNumeroCartao());
 
 
         return ResponseEntity

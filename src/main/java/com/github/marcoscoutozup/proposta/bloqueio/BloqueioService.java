@@ -34,7 +34,7 @@ public class BloqueioService {
 
         Map bloqueioRequest = new HashMap();
         bloqueioRequest.put("sistemaResponsavel", nomeDoSistema);
-        ResponseEntity responseEntity = cartaoClient.bloquearCartao(cartao.getId(), bloqueioRequest);
+        ResponseEntity responseEntity = cartaoClient.bloquearCartao(cartao.getNumeroCartao(), bloqueioRequest);
 
         //3
         if(responseEntity.getStatusCode().is2xxSuccessful()){
