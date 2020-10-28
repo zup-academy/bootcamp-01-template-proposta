@@ -46,9 +46,9 @@ public class Cartao {
 
     }
 
-    public void bloqueiaCartao(String internetProtocol, String userAgent, StatusBloqueio resposta){
+    public void bloqueiaCartao(String internetProtocol, String userAgent){
 
-        this.bloqueios.add(new Bloqueio(internetProtocol, userAgent, resposta, this));
+        this.bloqueios.add(new Bloqueio(internetProtocol, userAgent, StatusBloqueio.BLOQUEADO , this));
 
     }
 

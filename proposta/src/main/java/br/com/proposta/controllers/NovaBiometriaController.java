@@ -19,10 +19,15 @@ import java.util.Optional;
 @RequestMapping("/biometrias/{cartaoId}")
 public class NovaBiometriaController {
 
-    @Autowired
     private CartaoRepository cartaoRepository;
 
     private final Logger logger = LoggerFactory.getLogger(Biometria.class);
+
+
+    public NovaBiometriaController(CartaoRepository cartaoRepository) {
+        this.cartaoRepository = cartaoRepository;
+    }
+
 
     @PostMapping
     public ResponseEntity<?> criaBiometria(@PathVariable String cartaoId,

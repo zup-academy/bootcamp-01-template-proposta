@@ -20,6 +20,7 @@ public interface IntegracaoCartaoService {
     String buscarCartao(@PathVariable String idProposta);
 
     @PostMapping("{id}/bloqueios")
-    String bloquearCartao(@PathVariable String id, @RequestBody BloqueioRequest bloqueioRequest);
+    String avisarLegadoBloqueioDoCartao(@PathVariable String id, @RequestBody BloqueioRequest bloqueioRequest);
+
 
 }

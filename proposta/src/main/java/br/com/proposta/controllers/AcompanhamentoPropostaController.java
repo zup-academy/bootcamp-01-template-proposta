@@ -18,10 +18,15 @@ import java.util.Optional;
 @RequestMapping("/propostas/{id}")
 public class AcompanhamentoPropostaController {
 
-    @Autowired
+
     private PropostaRepository propostaRepository;
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
+
+
+    public AcompanhamentoPropostaController(PropostaRepository propostaRepository) {
+        this.propostaRepository = propostaRepository;
+    }
 
 
     @GetMapping

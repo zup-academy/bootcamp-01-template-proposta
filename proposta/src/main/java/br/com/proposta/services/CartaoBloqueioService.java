@@ -29,7 +29,7 @@ public class CartaoBloqueioService {
         CartaoResponse cartaoResponse = new Gson().fromJson(resposta, CartaoResponse.class);
 
 
-        String bloqueio = integracaoCartaoService.bloquearCartao(cartaoResponse.getId(), new BloqueioRequest("api-cartoes"));
+        String bloqueio = integracaoCartaoService.avisarLegadoBloqueioDoCartao(cartaoResponse.getId(), new BloqueioRequest("api-cartoes"));
 
         BloqueioResponse bloqueioResponse = new Gson().fromJson(bloqueio, BloqueioResponse.class);
 

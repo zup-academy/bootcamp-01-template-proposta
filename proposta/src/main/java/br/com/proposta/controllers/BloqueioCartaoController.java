@@ -11,6 +11,7 @@ import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.services.CartaoBloqueioService;
 import br.com.proposta.services.IntegracaoCartaoService;
 import br.com.proposta.repositories.CartaoRepository;
+import br.com.proposta.services.UserAgentEInternetProtocolService;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 @RestController
@@ -29,17 +31,26 @@ import javax.servlet.http.HttpServletRequest;
 public class BloqueioCartaoController {
 
 
-    @Autowired
+    private final Logger logger = LoggerFactory.getLogger(Cartao.class);
+
     private CartaoBloqueioService cartaoBloqueioService;
 
-    @Autowired
+    private UserAgentEInternetProtocolService userAgentEInternetProtocolService;
+
     private CartaoRepository cartaoRepository;
 
-    @Autowired
     private EntityManager entityManager;
 
 
-    private final Logger logger = LoggerFactory.getLogger(Cartao.class);
+
+    public BloqueioCartaoController(CartaoBloqueioService cartaoBloqueioService, UserAgentEInternetProtocolService userAgentEInternetProtocolService,
+                                    CartaoRepository cartaoRepository, EntityManager entityManager) {
+        this.cartaoBloqueioService = cartaoBloqueioService;
+        this.userAgentEInternetProtocolService = userAgentEInternetProtocolService;
+        this.cartaoRepository = cartaoRepository;
+        this.entityManager = entityManager;
+    }
+
 
 
     @PostMapping
@@ -49,16 +60,13 @@ public class BloqueioCartaoController {
 
         Cartao cartao = cartaoRepository.findByProposta(entityManager.find(Proposta.class, Long.parseLong(propostaId)));
 
+        List<String> userAgentEInternetProtocol = userAgentEInternetProtocolService
+                .recuperarUserAgentEInternetProtocolNaRequisicao(headers, httpRequest);
 
-        BloqueioResponse bloqueioResponse = cartaoBloqueioService.bloquear(propostaId);
-
-
-        String internetProtocol = httpRequest.getRemoteAddr();
-
-        String userAgent = headers.get(HttpHeaders.USER_AGENT).get(0);
+        cartao.bloqueiaCartao(userAgentEInternetProtocol.get(0), userAgentEInternetProtocol.get(1));
 
 
-        cartao.bloqueiaCartao(internetProtocol, userAgent, StatusBloqueio.valueOf(bloqueioResponse.getResultado()));
+        cartaoBloqueioService.bloquear(propostaId);
 
 
         logger.info("Bloqueio realizado com sucesso no cartão de proposta número={}",

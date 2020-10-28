@@ -18,19 +18,22 @@ import java.util.Collection;
 @RequestMapping("/api/cartoes")
 public class NovoCartaoController {
 
-    @Autowired
+
     private GerarCartaoService gerarCartaoService;
 
-
-    @Autowired
     private CartaoRepository cartaoRepository;
 
-
-    @Autowired
     private PropostaRepository propostaRepository;
 
-
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
+
+
+    public NovoCartaoController(GerarCartaoService gerarCartaoService, CartaoRepository cartaoRepository,
+                                PropostaRepository propostaRepository) {
+        this.gerarCartaoService = gerarCartaoService;
+        this.cartaoRepository = cartaoRepository;
+        this.propostaRepository = propostaRepository;
+    }
 
 
     @PostMapping
