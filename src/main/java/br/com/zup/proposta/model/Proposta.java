@@ -22,7 +22,7 @@ public class Proposta {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     @NotBlank
-    @CpfCnpj
+    @CpfCnpj(message = "Documento inválido")
     private String documento;
     @NotBlank @Email
     private String email;

@@ -1,7 +1,6 @@
 package br.com.zup.proposta.dto;
 
 import br.com.zup.proposta.model.Proposta;
-import br.com.zup.proposta.validations.AtributoUnico;
 import br.com.zup.proposta.validations.CpfCnpj;
 
 import javax.validation.constraints.Email;
@@ -13,7 +12,7 @@ import java.math.BigDecimal;
 public class NovaPropostaDtoRequest {
 
     @NotBlank
-    @CpfCnpj
+    @CpfCnpj(message = "Documento inválido")
     private String documento;
     @NotBlank @Email
     private String email;
@@ -32,6 +31,10 @@ public class NovaPropostaDtoRequest {
         this.nome = nome;
         this.endereco = endereco;
         this.salarioBruto = salarioBruto;
+    }
+
+    public String getDocumento() {
+        return documento;
     }
 
     public Proposta toProposta() {
