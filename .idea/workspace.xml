@@ -24,8 +24,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ace79d41-eb6c-41a3-b958-25e1a9ff9f11" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/zup/cartaoproposta/entities/proposta/PropostaNovoRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/zup/cartaoproposta/entities/proposta/PropostaNovoRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/br/com/zup/cartaoproposta/CartaoPropostaApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/br/com/zup/cartaoproposta/CartaoPropostaApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,21 +66,8 @@
       <recent name="br.com.zup.cartaoproposta.validations.CpfCnpj" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CartaoPropostaApplicationTests.propostaNovoRequest">
-    <configuration name="CartaoPropostaApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="br.com.zup.cartaoproposta.CartaoPropostaApplication" />
-      <module name="cartao-proposta" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="br.com.zup.cartaoproposta.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CartaoPropostaApplicationTests.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.CartaoPropostaApplicationTests">
+    <configuration name="CartaoPropostaApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="cartao-proposta" />
       <extension name="coverage">
         <pattern>
@@ -92,7 +77,22 @@
       </extension>
       <option name="PACKAGE_NAME" value="br.com.zup.cartaoproposta" />
       <option name="MAIN_CLASS_NAME" value="br.com.zup.cartaoproposta.CartaoPropostaApplicationTests" />
-      <option name="METHOD_NAME" value="contextLoads" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CartaoPropostaApplicationTests.documentoInvalido" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cartao-proposta" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="br.com.zup.cartaoproposta.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="br.com.zup.cartaoproposta" />
+      <option name="MAIN_CLASS_NAME" value="br.com.zup.cartaoproposta.CartaoPropostaApplicationTests" />
+      <option name="METHOD_NAME" value="documentoInvalido" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -148,11 +148,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CartaoPropostaApplicationTests" />
+        <item itemvalue="JUnit.CartaoPropostaApplicationTests.documentoInvalido" />
         <item itemvalue="JUnit.CartaoPropostaApplicationTests.propostaNovoRequest" />
         <item itemvalue="JUnit.CartaoPropostaApplicationTests.propostaNovoRequestDocumentoInvalido" />
         <item itemvalue="JUnit.CartaoPropostaApplicationTests.propostaNovoRequestChamadaREST" />
-        <item itemvalue="JUnit.CartaoPropostaApplicationTests.contextLoads" />
-        <item itemvalue="Application.CartaoPropostaApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -179,7 +179,21 @@
       <option name="project" value="LOCAL" />
       <updated>1603889356028</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Documento com apenas numeros">
+      <created>1603896888589</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1603896888589</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Teste PropostaNovoRequest::toModel">
+      <created>1603896938742</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1603896938742</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -196,7 +210,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Nova proposta" />
     <MESSAGE value="Persistir nova proposta" />
-    <option name="LAST_COMMIT_MESSAGE" value="Persistir nova proposta" />
+    <MESSAGE value="Documento com apenas numeros" />
+    <MESSAGE value="Teste PropostaNovoRequest::toModel" />
+    <option name="LAST_COMMIT_MESSAGE" value="Teste PropostaNovoRequest::toModel" />
   </component>
   <component name="WindowStateProjectService">
     <state x="446" y="55" key="#Auto_Import" timestamp="1603832974430">
@@ -211,22 +227,22 @@
       <screen x="65" y="24" width="1301" height="744" />
     </state>
     <state x="453" y="161" key="#com.intellij.ide.util.PackageChooserDialog/65.24.1301.744@65.24.1301.744" timestamp="1603825686776" />
-    <state width="1255" height="231" key="GridCell.Tab.0.bottom" timestamp="1603896448810">
+    <state width="1255" height="186" key="GridCell.Tab.0.bottom" timestamp="1603897243398">
       <screen x="65" y="24" width="1301" height="744" />
     </state>
-    <state width="1255" height="231" key="GridCell.Tab.0.bottom/65.24.1301.744@65.24.1301.744" timestamp="1603896448810" />
-    <state width="1255" height="231" key="GridCell.Tab.0.center" timestamp="1603896448809">
+    <state width="1255" height="186" key="GridCell.Tab.0.bottom/65.24.1301.744@65.24.1301.744" timestamp="1603897243398" />
+    <state width="1255" height="186" key="GridCell.Tab.0.center" timestamp="1603897243396">
       <screen x="65" y="24" width="1301" height="744" />
     </state>
-    <state width="1255" height="231" key="GridCell.Tab.0.center/65.24.1301.744@65.24.1301.744" timestamp="1603896448809" />
-    <state width="1255" height="231" key="GridCell.Tab.0.left" timestamp="1603896448809">
+    <state width="1255" height="186" key="GridCell.Tab.0.center/65.24.1301.744@65.24.1301.744" timestamp="1603897243396" />
+    <state width="1255" height="186" key="GridCell.Tab.0.left" timestamp="1603897243394">
       <screen x="65" y="24" width="1301" height="744" />
     </state>
-    <state width="1255" height="231" key="GridCell.Tab.0.left/65.24.1301.744@65.24.1301.744" timestamp="1603896448809" />
-    <state width="1255" height="231" key="GridCell.Tab.0.right" timestamp="1603896448810">
+    <state width="1255" height="186" key="GridCell.Tab.0.left/65.24.1301.744@65.24.1301.744" timestamp="1603897243394" />
+    <state width="1255" height="186" key="GridCell.Tab.0.right" timestamp="1603897243397">
       <screen x="65" y="24" width="1301" height="744" />
     </state>
-    <state width="1255" height="231" key="GridCell.Tab.0.right/65.24.1301.744@65.24.1301.744" timestamp="1603896448810" />
+    <state width="1255" height="186" key="GridCell.Tab.0.right/65.24.1301.744@65.24.1301.744" timestamp="1603897243397" />
     <state width="1255" height="231" key="GridCell.Tab.1.bottom" timestamp="1603896448812">
       <screen x="65" y="24" width="1301" height="744" />
     </state>
