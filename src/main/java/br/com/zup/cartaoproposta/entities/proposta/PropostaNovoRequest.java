@@ -57,10 +57,16 @@ public class PropostaNovoRequest {
         return salario;
     }
 
+    public String getDocumentoApenasDigitos() {
+        return documento.replaceAll("[^0-9]","");
+    }
+
     //1
     public Proposta toModel(){
-        String documentoProposta = documento.replaceAll("[^0-9]","");
+        String documentoProposta = this.getDocumentoApenasDigitos();
         return new Proposta(documentoProposta, email, nome, endereco, salario);
     }
+
+
 }
 
