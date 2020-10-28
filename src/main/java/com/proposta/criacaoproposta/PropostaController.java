@@ -27,7 +27,7 @@ public class PropostaController {
     private ValidarDocumentoIgual validarDocumentoIgual;
 
     @Autowired
-    private AnalisePropostaCliente analisePropostaCliente;
+    private PropostaService propostaService;
 
     @PostMapping
     @Transactional
@@ -39,27 +39,14 @@ public class PropostaController {
         if ((proposta.getDocumento().length()) != 11 && (proposta.getDocumento().length()) != 14) {
             return ResponseEntity.badRequest().body("Documento inválido.");
         }
-        //4
+        //4 //5 ValidarDocumento
         else if (!validarDocumentoIgual.validarDocumento(request)) {
             return ResponseEntity.unprocessableEntity().body("Proposta inadequada.");
         }
 
-        //propostaService.criar(proposta);
-        manager.persist(proposta);
-
-
-        //Validar proposta
-        //6 SolicitacaoAnalise
-        ResultadoAnaliseResponse response = analisePropostaCliente.solicitarAnalise(proposta.toAnalise());
-        if (response.getResultadoSolicitacao() == ResultadoAnaliseResponse.ResultadoSolicitacao.COM_RESTRICAO ) {
-            proposta.setStatus(StatusProposta.NAO_ELEGIVEL);
-        }
-        else if (response.getResultadoSolicitacao() == ResultadoAnaliseResponse.ResultadoSolicitacao.SEM_RESTRICAO) {
-            proposta.setStatus(StatusProposta.ELEGIVEL);
-        }
-        manager.merge(proposta);
-
-        URI uriCreated = builder.path("/propostas/{id}").build(proposta.getId());
+        //6 PropostaResponse
+        PropostaResponse propostaResponse = propostaService.cria(proposta);
+        URI uriCreated = builder.path("/propostas/{id}").build(propostaResponse.getId());
         return ResponseEntity.created(uriCreated).build();
     }
 }
