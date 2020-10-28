@@ -59,7 +59,8 @@ public class PropostaNovoRequest {
 
     //1
     public Proposta toModel(){
-        return new Proposta(documento, email, nome, endereco, salario);
+        String documentoProposta = documento.replaceAll("[^0-9]","");
+        return new Proposta(documentoProposta, email, nome, endereco, salario);
     }
 }
 
