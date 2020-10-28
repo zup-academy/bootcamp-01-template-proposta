@@ -2,6 +2,7 @@ package br.com.proposta.models;
 
 import javax.persistence.Embeddable;
 import java.time.OffsetDateTime;
+import java.util.Base64;
 
 @Embeddable
 public class Biometria {
@@ -13,9 +14,12 @@ public class Biometria {
     @Deprecated
     public Biometria(){}
 
-    public Biometria(byte[] biometria) {
-        this.biometria = biometria;
+    public Biometria(String biometria) {
+
+        this.biometria = Base64.getEncoder().encode(biometria.getBytes());
+
         this.criadaEm = OffsetDateTime.now();
+
     }
 
     public byte[] getBiometria() {

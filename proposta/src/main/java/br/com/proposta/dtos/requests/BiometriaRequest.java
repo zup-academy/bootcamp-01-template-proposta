@@ -4,21 +4,23 @@ import br.com.proposta.models.Biometria;
 
 public class BiometriaRequest {
 
-    private byte[] imagemBiometriaBase64;
+    private String imagemBiometria;
 
-    public BiometriaRequest(byte[] imagemBiometriaBase64) {
-        this.imagemBiometriaBase64 = imagemBiometriaBase64;
+    public BiometriaRequest(String imagemBiometria) {
+        this.imagemBiometria = imagemBiometria;
     }
 
     public Biometria toModel(){
-        return new Biometria(imagemBiometriaBase64);
+
+        return new Biometria(imagemBiometria);
+
     }
 
-    public byte[] getImagemBiometriaBase64() {
-        return imagemBiometriaBase64;
+    public String getImagemBiometria() {
+        return imagemBiometria;
     }
 
-    public void setImagemBiometriaBase64(byte[] imagemBiometriaBase64) {
-        this.imagemBiometriaBase64 = imagemBiometriaBase64;
+    public void setImagemBiometria(String imagemBiometria) {
+        this.imagemBiometria = imagemBiometria;
     }
 }

@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/propostas")
+@RequestMapping("/api/propostas")
 public class NovaPropostaController {
 
 

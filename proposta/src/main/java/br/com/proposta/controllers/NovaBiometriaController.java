@@ -25,12 +25,18 @@ public class NovaBiometriaController {
 
         Optional<Cartao> cartao = cartaoRepository.findById(cartaoId);
 
+        if(!cartao.isPresent()){
+
+            return ResponseEntity.notFound().build();
+
+        }
+
         Biometria biometria = biometriaRequest.toModel();
 
         cartao.get().adicionaBiometria(biometria);
 
         return ResponseEntity
-                .created(uriComponentsBuilder.path("/biometrias/{cartaoId}").buildAndExpand(cartao.get().getId()).toUri()).body(cartao);
+                .created(uriComponentsBuilder.path("/biometrias/{cartaoId}").buildAndExpand(cartao.get().getId()).toUri()).build();
 
     }
 }
