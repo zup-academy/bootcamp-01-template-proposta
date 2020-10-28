@@ -30,6 +30,10 @@ public class SolicitacaoForm {
         this.salario = salario;
     }
 
+    public String getDocumento() {
+        return this.documento;
+    }
+
     public Proposta toProposta() {
         return new Proposta(this.documento, this.email, this.nome, this.endereco, this.salario);
     }
