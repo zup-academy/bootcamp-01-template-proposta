@@ -57,4 +57,5 @@ public class Proposta {
     public AnaliseRequestForm toAnaliseForm() {
         return new AnaliseRequestForm(this.documento, this.nome, this.id);
     }
+    
 }
