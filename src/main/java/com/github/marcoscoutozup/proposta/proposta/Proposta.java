@@ -104,17 +104,4 @@ public class Proposta {
        return Objects.isNull(cartao);
     }
 
-    @Override
-    public String toString() {
-        return "Proposta{" +
-                "id=" + id +
-                ", documento='" + documento + '\'' +
-                ", email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", salario=" + salario +
-                ", statusDaProposta=" + statusDaProposta +
-                ", cartao=" + cartao +
-                '}';
-    }
 }

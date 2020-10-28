@@ -86,11 +86,4 @@ public class Cartao {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "Cartao{" +
-                "id=" + id +
-                ", emitidoEm=" + emitidoEm +
-                '}';
-    }
 }

@@ -34,10 +34,4 @@ public class Biometria {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "Biometria{" +
-                "id=" + id +
-                '}';
-    }
 }

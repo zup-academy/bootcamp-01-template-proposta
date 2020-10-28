@@ -62,7 +62,7 @@ public class BloquearCartaoController {
         cartao.incluirBloqueioDoCartao(bloqueio);
         entityManager.merge(cartao);
 
-        logger.info("[BLOQUEIO DE CARTÃO] Bloqueio cadastrado. Cartão: {}", cartao.toString());
+        logger.info("[BLOQUEIO DE CARTÃO] Bloqueio cadastrado. Cartão: {}", cartao.getId());
 
         return ResponseEntity
                 .created(uri.path("/bloqueios/{id}")

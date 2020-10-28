@@ -44,13 +44,13 @@ public class CadastrarBiometriaController {
             //5
         Biometria biometria = dto.toBiometria();
         entityManager.persist(biometria);
-        logger.warn("[CADASTRO DE BIOMETRIA] Biometria cadastrada: {}", biometria.toString());
+        logger.warn("[CADASTRO DE BIOMETRIA] Biometria cadastrada: {}", biometria.getId());
 
 
         Cartao cartao = cartaoProcurado.get();
         cartao.incluirBiometriaNoCartao(biometria);
         entityManager.merge(cartao);
-        logger.warn("[CADASTRO DE BIOMETRIA] Biometria associada ao cartão: {}", cartao.toString());
+        logger.warn("[CADASTRO DE BIOMETRIA] Biometria associada ao cartão: {}", cartao.getId());
 
 
         return ResponseEntity

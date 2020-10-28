@@ -43,21 +43,21 @@ public class CadastrarPropostaController {
 
         //4
         if(response.isPresent()) {
-            logger.warn("[CRIAÇÃO DA PROPOSTA] Tentativa de criação de proposta com o mesmo documento: {}", propostaRequest.getDocumento());
+            logger.warn("[CRIAÇÃO DA PROPOSTA] Mais de uma tentativa de criação de proposta com o mesmo documento: {}", propostaRequest.getDocumento());
                                                                     //5
-            return ResponseEntity.unprocessableEntity().body(new StandardError(Arrays.asList("Já existe uma proposta cadastrada com este documento")));
+            return ResponseEntity.unprocessableEntity().body(new StandardError(Arrays.asList("Solicitação inválida, mais de uma tentativa de criação de proposta com os mesmos dados")));
         }
 
             //6
         Proposta proposta = propostaRequest.toProposta();
         propostaRepository.save(proposta);
 
-        logger.info("[CRIAÇÃO DA PROPOSTA] Proposta criada com sucesso: {}", proposta.toString());
+        logger.info("[CRIAÇÃO DA PROPOSTA] Proposta criada com sucesso: {}", proposta.getId());
 
         analiseFinanceiraService.processarAnaliseFinanceiraDaProposta(proposta);
         propostaRepository.save(proposta);
 
-        logger.info("[ANÁLISE FINANCEIRA] Análise financeira da proposta realizada: {}", proposta.toString());
+        logger.info("[ANÁLISE FINANCEIRA] Análise financeira da proposta realizada: {}", proposta.getId());
 
         return ResponseEntity
                 .created(uri.path("/propostas/{id}")

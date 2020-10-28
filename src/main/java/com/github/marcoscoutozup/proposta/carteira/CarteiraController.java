@@ -62,7 +62,7 @@ public class CarteiraController {
 
         //5
         if(cartao.verificarSeJaExisteAssociacaoDaCarteiraComOCartao(tipoCarteira)){
-            logger.info("[ASSOCIAÇÃO DE CARTEIRA] Carteira já cadastrada para o cartão. Cartão: {}", cartao.toString());
+            logger.info("[ASSOCIAÇÃO DE CARTEIRA] Carteira já cadastrada para o cartão. Cartão: {}", cartao.getId());
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new StandardError(Arrays.asList("O cartão já está associado a carteira")));
         }
 

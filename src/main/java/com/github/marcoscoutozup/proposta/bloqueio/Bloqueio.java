@@ -38,12 +38,4 @@ public class Bloqueio {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "Bloqueio{" +
-                "id=" + id +
-                ", ip='" + ip + '\'' +
-                ", userAgent='" + userAgent + '\'' +
-                '}';
-    }
 }

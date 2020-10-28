@@ -50,14 +50,4 @@ public class Aviso {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "Aviso{" +
-                "id=" + id +
-                ", destino='" + destino + '\'' +
-                ", validoAte=" + validoAte +
-                ", ip='" + ip + '\'' +
-                ", userAgent='" + userAgent + '\'' +
-                '}';
-    }
 }

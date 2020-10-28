@@ -47,7 +47,7 @@ public class CadastroCartaoService {
                 entityManager.persist(cartao);
                 proposta.incluirCartaoNaProposta(cartao);
                 entityManager.merge(proposta);
-                logger.info("[INCLUSÃO DE CARTÃO NA PROPOSTA] Cartão incluso na proposta {}", proposta.toString());
+                logger.info("[INCLUSÃO DE CARTÃO NA PROPOSTA] Cartão incluso na proposta {}", proposta.getId());
             }
         });
     }

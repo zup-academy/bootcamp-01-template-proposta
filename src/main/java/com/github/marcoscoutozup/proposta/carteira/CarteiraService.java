@@ -36,7 +36,7 @@ public class CarteiraService {
 
         //4
         if(responseEntity.getStatusCode() == HttpStatus.OK){
-            logger.info("[ASSOCIAÇÃO DE CARTEIRA] Salvando carteira e associando com cartão {}", cartao.toString());
+            logger.info("[ASSOCIAÇÃO DE CARTEIRA] Salvando carteira e associando com cartão {}", cartao.getId());
             //5
             Carteira carteira = new Carteira(email, tipoCarteira);
             entityManager.persist(carteira);
