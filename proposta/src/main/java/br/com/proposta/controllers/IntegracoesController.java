@@ -1,6 +1,6 @@
 package br.com.proposta.controllers;
 
-import br.com.proposta.dtos.requests.SolicitacaoAnalise;
+import br.com.proposta.dtos.requests.SolicitacaoAnaliseRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +13,7 @@ public class IntegracoesController {
     private AtomicInteger contDocumentos = new AtomicInteger();
 
     @PostMapping(value = "/api/solicitacao")
-    public String avaliaDocumento(@RequestBody SolicitacaoAnalise request) {
+    public String avaliaDocumento(@RequestBody SolicitacaoAnaliseRequest request) {
 
         int contAtual = contDocumentos.getAndIncrement();
 
@@ -24,5 +24,4 @@ public class IntegracoesController {
         return "SEM_RESTRICAO";
 
     }
-
 }

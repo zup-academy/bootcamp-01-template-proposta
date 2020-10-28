@@ -3,7 +3,7 @@ package br.com.proposta.dtos.responses;
 import br.com.proposta.models.Enums.RespostaStatusAvaliacao;
 import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 
-public class ResultadoAnalise {
+public class ResultadoAnaliseResponse {
 
     private String documento;
 
@@ -14,7 +14,7 @@ public class ResultadoAnalise {
     private String idProposta;
 
 
-    public ResultadoAnalise(String documento, String nome, RespostaStatusAvaliacao resultadoSolicitacao, String idProposta) {
+    public ResultadoAnaliseResponse(String documento, String nome, RespostaStatusAvaliacao resultadoSolicitacao, String idProposta) {
         this.documento = documento;
         this.nome = nome;
         this.resultadoSolicitacao = resultadoSolicitacao;

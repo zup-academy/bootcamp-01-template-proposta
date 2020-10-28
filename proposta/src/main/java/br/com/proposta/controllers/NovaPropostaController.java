@@ -2,10 +2,9 @@ package br.com.proposta.controllers;
 
 
 import br.com.proposta.dtos.requests.PropostaRequest;
-import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.models.Proposta;
 import br.com.proposta.repositories.PropostaRepository;
-import br.com.proposta.outrossistema.AvaliaProposta;
+import br.com.proposta.services.AvaliaPropostaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class NovaPropostaController {
 
     //1
     @Autowired
-    private AvaliaProposta avaliaProposta;
+    private AvaliaPropostaService avaliaPropostaService;
 
     //1
     @Autowired
@@ -49,8 +48,11 @@ public class NovaPropostaController {
             if(novaProposta.ehUnica(propostaRepository)){
 
 
+                propostaRepository.save(novaProposta);
+
+
                 //1
-                novaProposta.atualizaStatusElegibilidade(avaliaProposta.retornarAvaliacao(novaProposta));
+                novaProposta.atualizaStatusElegibilidade(avaliaPropostaService.retornarAvaliacao(novaProposta));
 
 
                 propostaRepository.save(novaProposta);
@@ -61,7 +63,7 @@ public class NovaPropostaController {
 
 
                 return ResponseEntity
-                        .created(uriComponentsBuilder.path("/propostas/{id}").buildAndExpand(novaProposta.getId()).toUri()).body(novaProposta);
+                        .created(uriComponentsBuilder.path("/propostas/{id}").buildAndExpand(novaProposta.getId()).toUri()).build();
 
             }
 

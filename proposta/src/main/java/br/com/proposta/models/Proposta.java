@@ -15,9 +15,8 @@ import java.math.BigDecimal;
 public class Proposta {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank
     private String nome;
@@ -54,7 +53,7 @@ public class Proposta {
         this.identificacao = identificacao;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

@@ -1,19 +1,25 @@
-package br.com.proposta.outrossistema;
+package br.com.proposta.services;
 
+import br.com.proposta.dtos.requests.BloqueioRequest;
 import br.com.proposta.dtos.requests.NovoCartaoRequest;
-import br.com.proposta.models.Cartao;
-import com.google.gson.JsonObject;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @FeignClient(url = "${cartao.host}/", name = "integracaoCartao")
-public interface IntegracaoCartao {
+public interface IntegracaoCartaoService {
 
     @PostMapping
     ResponseEntity<?> criarCartao(NovoCartaoRequest novoCartaoRequest);
+
+    @GetMapping("?idProposta={idProposta}")
+    String buscarCartao(@PathVariable String idProposta);
+
+    @PostMapping("{id}/bloqueios")
+    String bloquearCartao(@PathVariable String id, @RequestBody BloqueioRequest bloqueioRequest);
 
 }

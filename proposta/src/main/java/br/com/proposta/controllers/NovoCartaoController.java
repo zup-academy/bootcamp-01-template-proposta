@@ -1,10 +1,13 @@
 package br.com.proposta.controllers;
 
+import br.com.proposta.models.Cartao;
 import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.models.Proposta;
-import br.com.proposta.outrossistema.GerarCartao;
+import br.com.proposta.services.GerarCartaoService;
 import br.com.proposta.repositories.CartaoRepository;
 import br.com.proposta.repositories.PropostaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +19,7 @@ import java.util.Collection;
 public class NovoCartaoController {
 
     @Autowired
-    private GerarCartao gerarCartao;
+    private GerarCartaoService gerarCartaoService;
 
 
     @Autowired
@@ -25,6 +28,9 @@ public class NovoCartaoController {
 
     @Autowired
     private PropostaRepository propostaRepository;
+
+
+    private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
 
     @PostMapping
@@ -36,7 +42,12 @@ public class NovoCartaoController {
 
         propostasAceitasSemCartao.forEach(proposta -> {
 
-                gerarCartao.geraCartaoSegundoPlano(proposta, cartaoRepository);
+                gerarCartaoService.geraCartaoSegundoPlano(proposta, cartaoRepository);
+
+            logger.info("Cartão gerado no serviço de cartões referente à proposta:" +
+                            "nome do cliente={}",
+                    proposta.getNome());
+
 
         });
     }

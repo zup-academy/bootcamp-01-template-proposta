@@ -1,7 +1,7 @@
-package br.com.proposta.outrossistema;
+package br.com.proposta.services;
 
-import br.com.proposta.dtos.requests.SolicitacaoAnalise;
-import br.com.proposta.dtos.responses.ResultadoAnalise;
+import br.com.proposta.dtos.requests.SolicitacaoAnaliseRequest;
+import br.com.proposta.dtos.responses.ResultadoAnaliseResponse;
 import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.models.Proposta;
 import com.google.gson.Gson;
@@ -13,11 +13,10 @@ import org.springframework.validation.annotation.Validated;
 
 @Service
 @Validated
-public class AvaliaProposta {
-
+public class AvaliaPropostaService {
 
     @Autowired
-    private IntegracaoProposta integracaoProposta;
+    private IntegracaoPropostaService integracaoPropostaService;
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
@@ -25,14 +24,14 @@ public class AvaliaProposta {
     public StatusAvaliacaoProposta retornarAvaliacao(Proposta proposta){
 
         String resultadoAnalise =
-                    integracaoProposta.avaliaproposta(new SolicitacaoAnalise(proposta));
+                    integracaoPropostaService.avaliaproposta(new SolicitacaoAnaliseRequest(proposta));
 
-        ResultadoAnalise resultadoAnaliseJson = new Gson().fromJson(resultadoAnalise, ResultadoAnalise.class);
+        ResultadoAnaliseResponse resultadoAnaliseResponseJson = new Gson().fromJson(resultadoAnalise, ResultadoAnaliseResponse.class);
 
         logger.info("Proposta={} Status={} status de avaliação de proposta retornado com sucesso!",
-                resultadoAnaliseJson.getNome(), resultadoAnaliseJson.getResultadoSolicitacao());
+                resultadoAnaliseResponseJson.getNome(), resultadoAnaliseResponseJson.getResultadoSolicitacao());
 
-        return resultadoAnaliseJson.retornaStatus();
+        return resultadoAnaliseResponseJson.retornaStatus();
 
     }
 }

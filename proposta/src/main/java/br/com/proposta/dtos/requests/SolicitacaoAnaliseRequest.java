@@ -4,7 +4,7 @@ import br.com.proposta.models.Proposta;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class SolicitacaoAnalise {
+public class SolicitacaoAnaliseRequest {
 
 
     private String documento;
@@ -15,12 +15,12 @@ public class SolicitacaoAnalise {
 
 
     @Deprecated
-    public SolicitacaoAnalise() {}
+    public SolicitacaoAnaliseRequest() {}
 
-    public SolicitacaoAnalise(Proposta proposta){
+    public SolicitacaoAnaliseRequest(Proposta proposta){
         this.documento = proposta.getIdentificacao();
         this.nome = proposta.getNome();
-        this.idProposta = proposta.getId();
+        this.idProposta = String.valueOf(proposta.getId());
     }
 
     public String getDocumento() {

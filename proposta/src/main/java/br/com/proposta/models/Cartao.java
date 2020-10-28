@@ -1,5 +1,6 @@
 package br.com.proposta.models;
 
+import br.com.proposta.models.Enums.StatusBloqueio;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -22,8 +23,13 @@ public class Cartao {
     @ElementCollection
     private Set<Biometria> biometria = new HashSet();
 
+    @OneToMany(mappedBy = "cartao")
+    private Set<Bloqueio> bloqueios = new HashSet<>();
+
     @OneToOne
     private Proposta proposta;
+
+    private String idProposta;
 
     @Deprecated
     public Cartao(){}
@@ -31,26 +37,27 @@ public class Cartao {
     public Cartao(String titular, String idProposta) {
         this.emitidoEm = OffsetDateTime.now();
         this.titular = titular;
+        this.idProposta = idProposta;
+    }
+
+    public void associarComProposta(EntityManager entityManager, Long propostaId){
+
+        this.proposta = entityManager.find(Proposta.class, propostaId);
+
+    }
+
+    public void bloqueiaCartao(String internetProtocol, String userAgent, StatusBloqueio resposta){
+
+        this.bloqueios.add(new Bloqueio(internetProtocol, userAgent, resposta, this));
+
     }
 
     public String getId() {
         return id;
     }
 
-    public Cartao(String id) {
-        this.id = id;
-    }
-
     public void adicionaBiometria(Biometria biometria){
         this.biometria.add(biometria);
-    }
-
-    public String getTitular() {
-        return titular;
-    }
-
-    public void setTitular(String titular) {
-        this.titular = titular;
     }
 
     public Proposta getProposta() {
@@ -59,5 +66,9 @@ public class Cartao {
 
     public void setProposta(Proposta proposta) {
         this.proposta = proposta;
+    }
+
+    public String getIdProposta() {
+        return idProposta;
     }
 }
