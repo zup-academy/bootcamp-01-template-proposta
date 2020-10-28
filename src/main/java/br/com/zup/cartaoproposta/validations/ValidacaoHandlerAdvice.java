@@ -41,7 +41,7 @@ public class ValidacaoHandlerAdvice {
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ErroPadronizado> handle(ResponseStatusException responseStatusException) {
         Collection<String> mensagens = new ArrayList<>();
-        mensagens.add(responseStatusException.getMessage());
+        mensagens.add(responseStatusException.getReason());
 
         ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
         return ResponseEntity.status(responseStatusException.getStatus()).body(erroPadronizado);

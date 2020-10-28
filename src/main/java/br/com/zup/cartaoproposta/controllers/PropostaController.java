@@ -25,11 +25,9 @@ import java.util.Optional;
 @RequestMapping("/propostas")
 public class PropostaController {
 
-    @Autowired
     //1
     private PropostaRepository propostaRepository;
 
-    //Criado para realizar testes
     public PropostaController(PropostaRepository propostaRepository) {
         this.propostaRepository = propostaRepository;
     }
