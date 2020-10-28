@@ -1,11 +1,12 @@
 package br.com.cartao.proposta.domain.model;
 
 import br.com.cartao.proposta.annotation.CpfOuCnpj;
+import br.com.cartao.proposta.domain.enums.EstadoProposta;
+import br.com.cartao.proposta.domain.request.AnalisePropostaRequest;
+import br.com.cartao.proposta.domain.response.AnalisePropostResponse;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ public class Proposta {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    @NotBlank @CpfOuCnpj
+    @NotBlank @CpfOuCnpj @Column(unique = true)
     private String documento;
     @NotBlank @Email
     private String email;
@@ -29,6 +30,8 @@ public class Proposta {
     private String nome;
     @Positive @NotNull
     private BigDecimal salario;
+    @Enumerated(EnumType.STRING)
+    private EstadoProposta estadoProposta;
 
     @Deprecated
     public Proposta() {
@@ -66,6 +69,10 @@ public class Proposta {
         return salario;
     }
 
+    public EstadoProposta getEstadoProposta() {
+        return estadoProposta;
+    }
+
     @Override
     public String toString() {
         return "Proposta{" +
@@ -75,5 +82,16 @@ public class Proposta {
                 ", nome='" + nome + '\'' +
                 ", salario=" + salario +
                 '}';
+    }
+
+    public AnalisePropostaRequest toAnalisePropostaRequest(){
+        return new AnalisePropostaRequest(this.documento,this.nome,this.id);
+    }
+
+    public void adicionaEstadoProposta(AnalisePropostResponse analisePropostResponse) {
+        EstadoProposta estadoProposta = analisePropostResponse.getResultadoSolicitacao().toNormalize();
+
+        this.estadoProposta = estadoProposta;
+
     }
 }

@@ -1,5 +1,6 @@
 package br.com.cartao.proposta.domain.response;
 
+import br.com.cartao.proposta.domain.enums.EstadoProposta;
 import br.com.cartao.proposta.domain.model.Proposta;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ public class NovaPropostaResponseDto {
     private String endereco;
     private String nome;
     private BigDecimal salario;
+    private EstadoProposta estadoProposta;
 
 
     public NovaPropostaResponseDto(Proposta proposta) {
@@ -21,6 +23,7 @@ public class NovaPropostaResponseDto {
         this.endereco= proposta.getEndereco();
         this.nome= proposta.getNome();
         this.salario=proposta.getSalario();
+        this.estadoProposta = proposta.getEstadoProposta();
     }
 
     public String getId() {
