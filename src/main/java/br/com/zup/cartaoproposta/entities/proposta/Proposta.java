@@ -1,7 +1,10 @@
 package br.com.zup.cartaoproposta.entities.proposta;
 
-import br.com.zup.cartaoproposta.validations.cpfcnpj.CpfCnpj;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -9,14 +12,18 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
- * Contagem de carga intrínseca da classe: 2
+ * Contagem de carga intrínseca da classe: 0
  */
 
-public class PropostaNovoRequest {
+@Entity
+public class Proposta {
+
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
 
     @NotBlank
-    //1
-    @CpfCnpj
     private String documento;
     @NotBlank
     @Email
@@ -29,12 +36,19 @@ public class PropostaNovoRequest {
     @Positive
     private BigDecimal salario;
 
-    public PropostaNovoRequest(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome, @NotBlank String endereco, @NotNull @Positive BigDecimal salario) {
+    @Deprecated
+    public Proposta() {}
+
+    public Proposta(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome, @NotBlank String endereco, @NotNull @Positive BigDecimal salario) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getDocumento() {
@@ -56,10 +70,4 @@ public class PropostaNovoRequest {
     public BigDecimal getSalario() {
         return salario;
     }
-
-    //1
-    public Proposta toModel(){
-        return new Proposta(documento, email, nome, endereco, salario);
-    }
 }
-
