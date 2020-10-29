@@ -42,7 +42,6 @@ public class BloqueioCartaoController {
     private EntityManager entityManager;
 
 
-
     public BloqueioCartaoController(CartaoBloqueioService cartaoBloqueioService, UserAgentEInternetProtocolService userAgentEInternetProtocolService,
                                     CartaoRepository cartaoRepository, EntityManager entityManager) {
         this.cartaoBloqueioService = cartaoBloqueioService;

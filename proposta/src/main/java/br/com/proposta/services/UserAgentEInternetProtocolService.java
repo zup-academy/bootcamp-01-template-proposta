@@ -19,9 +19,10 @@ public class UserAgentEInternetProtocolService {
             String userAgent = headers.get(HttpHeaders.USER_AGENT).get(0);
 
             List<String> userAgentEInternetProtocol = new ArrayList<>();
-            userAgentEInternetProtocol.add(internetProtocol);
-            userAgentEInternetProtocol.add(userAgent);
 
+            userAgentEInternetProtocol.add(internetProtocol);
+
+            userAgentEInternetProtocol.add(userAgent);
 
             return userAgentEInternetProtocol;
 

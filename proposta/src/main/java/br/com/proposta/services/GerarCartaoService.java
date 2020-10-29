@@ -37,7 +37,7 @@ public class GerarCartaoService {
 
             Cartao cartao = new Cartao(proposta.getNome(), String.valueOf(proposta.getId()));
 
-            cartao.associarComProposta(entityManager, proposta.getId());
+            cartao.associarComProposta(proposta);
 
             cartaoRepository.save(cartao);
 

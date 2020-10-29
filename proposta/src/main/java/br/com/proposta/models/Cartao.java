@@ -40,9 +40,9 @@ public class Cartao {
         this.idProposta = idProposta;
     }
 
-    public void associarComProposta(EntityManager entityManager, Long propostaId){
+    public void associarComProposta(Proposta proposta){
 
-        this.proposta = entityManager.find(Proposta.class, propostaId);
+        this.proposta = proposta;
 
     }
 

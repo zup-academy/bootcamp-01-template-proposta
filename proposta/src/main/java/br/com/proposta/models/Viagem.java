@@ -1,40 +1,48 @@
 package br.com.proposta.models;
 
-import br.com.proposta.models.Enums.StatusBloqueio;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 
 @Entity
-public class Bloqueio {
+public class Viagem {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+    @NotBlank
+    private String destino;
+
     @ManyToOne
     private Cartao cartao;
 
-    private OffsetDateTime instanteBloqueio;
+    @Future
+    @NotNull
+    private OffsetDateTime termino;
 
+    @NotNull
+    private OffsetDateTime avisadoEm;
+
+    @NotBlank
     private String internetProtocol;
 
+    @NotBlank
     private String userAgent;
 
-    private StatusBloqueio statusBloqueio;
 
-
-    public Bloqueio(String internetProtocol, String userAgent, StatusBloqueio statusBloqueio, Cartao cartao) {
-
+    public Viagem(Cartao cartao, @Future OffsetDateTime termino,
+                  String internetProtocol, String userAgent) {
         this.cartao = cartao;
-        this.instanteBloqueio = OffsetDateTime.now();
+        this.termino = termino;
+        this.avisadoEm = OffsetDateTime.now();
         this.internetProtocol = internetProtocol;
         this.userAgent = userAgent;
-        this.statusBloqueio = statusBloqueio;
-
     }
-
 
 }

@@ -1,5 +1,7 @@
 package br.com.proposta.services;
 
+import br.com.proposta.dtos.requests.AssociaCarteiraRequest;
+import br.com.proposta.dtos.requests.AvisoViagemRequest;
 import br.com.proposta.dtos.requests.BloqueioRequest;
 import br.com.proposta.dtos.requests.NovoCartaoRequest;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -22,5 +24,10 @@ public interface IntegracaoCartaoService {
     @PostMapping("{id}/bloqueios")
     String avisarLegadoBloqueioDoCartao(@PathVariable String id, @RequestBody BloqueioRequest bloqueioRequest);
 
+    @PostMapping("{id}/avisos")
+    String avisarViagem(@PathVariable String id, @RequestBody AvisoViagemRequest viagemRequest);
+
+    @PostMapping("{id}/carteiras")
+    String associarCarteira(@PathVariable String id, @RequestBody AssociaCarteiraRequest associaCarteiraRequest);
 
 }
