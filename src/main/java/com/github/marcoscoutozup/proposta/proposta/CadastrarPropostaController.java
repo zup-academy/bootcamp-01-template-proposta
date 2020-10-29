@@ -39,7 +39,7 @@ public class CadastrarPropostaController {
         tracer.activeSpan().setBaggageItem("usuario.email", propostaRequest.getEmail());
         tracer.activeSpan().log("Cadastrando a proposta do usuário");
 
-        Optional<Proposta> response = propostaRepository.findByDocumento(propostaRequest.getDocumento());
+        Optional<Proposta> response = propostaRepository.findByDocumento(Proposta.criptografarDocumento(propostaRequest.getDocumento()));
 
         //4
         if(response.isPresent()) {

@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class Proposta {
     @GeneratedValue(generator = "uuid4")
     private UUID id;
 
-    @NotBlank
+    @NotNull
     private String documento;
 
     @NotBlank
@@ -52,7 +53,7 @@ public class Proposta {
     }
 
     public Proposta(@NotBlank String documento, @NotBlank String email, @NotBlank String nome, @NotBlank String endereco, @NotNull BigDecimal salario) {
-        this.documento = encriptarDocumento(documento);
+        this.documento = criptografarDocumento(documento);
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
@@ -87,8 +88,12 @@ public class Proposta {
         return statusDaProposta;
     }
 
-    public String encriptarDocumento(String documento){
-        return new BCryptPasswordEncoder().encode(documento);
+    public static String criptografarDocumento(String documento){
+        return new String(Base64.getEncoder().encode(documento.getBytes()));
+    }
+
+    public String descriptografarDocumento(){
+        return new String(Base64.getDecoder().decode(documento.getBytes()));
     }
 
     public void modificarStatusDaProposta(StatusDaProposta statusDaProposta) {

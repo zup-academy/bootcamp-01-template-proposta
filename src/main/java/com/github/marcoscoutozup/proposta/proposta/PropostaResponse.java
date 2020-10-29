@@ -15,7 +15,7 @@ public class PropostaResponse {
     private StatusDaProposta statusDaProposta;
                                 //2
     public PropostaResponse(Proposta proposta) {
-        this.documento = proposta.getDocumento();
+        this.documento = proposta.descriptografarDocumento();
         this.email = proposta.getEmail();
         this.nome = proposta.getNome();
         this.endereco = proposta.getEndereco();

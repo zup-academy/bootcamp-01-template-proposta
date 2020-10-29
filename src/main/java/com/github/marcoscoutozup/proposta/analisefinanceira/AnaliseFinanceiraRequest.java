@@ -12,7 +12,7 @@ public class AnaliseFinanceiraRequest {
 
                                     //1
     public AnaliseFinanceiraRequest(Proposta proposta) {
-        this.documento = proposta.getDocumento();
+        this.documento = proposta.descriptografarDocumento();
         this.nome = proposta.getNome();
         this.idProposta = proposta.getId();
     }
