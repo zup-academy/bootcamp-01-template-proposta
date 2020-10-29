@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -33,7 +34,7 @@ public class NovaPropostaControllerTest {
 
     private ObjectMapper objectMapper;
 
-    private RestTemplate restTemplate;
+    private TestRestTemplate restTemplate;
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,7 +51,7 @@ public class NovaPropostaControllerTest {
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
-        restTemplate = new RestTemplate();
+        restTemplate = new TestRestTemplate();
     }
 
     @Test
