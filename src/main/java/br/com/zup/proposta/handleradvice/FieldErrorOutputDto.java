@@ -1,4 +1,4 @@
-package br.com.zup.proposta.erro;
+package br.com.zup.proposta.handleradvice;
 
 public class FieldErrorOutputDto {
     private String field;

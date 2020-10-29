@@ -1,8 +1,11 @@
 package br.com.zup.proposta.novaproposta;
 
+import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.util.Assert;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,13 +17,15 @@ import java.util.Objects;
 @Entity
 public class Proposta {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
     private @NotBlank String documento;
     private @NotBlank @Email String email;
     private @NotBlank String nome;
     private @NotBlank String endereco;
     private @NotNull @PositiveOrZero BigDecimal salario;
+    private @NotNull StatusAvaliacaoProposta statusAvaliacao;
 
     @Deprecated
     public Proposta() {
@@ -34,6 +39,7 @@ public class Proposta {
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.statusAvaliacao = StatusAvaliacaoProposta.NAO_ELEGIVEL;
     }
 
     @Override
@@ -49,7 +55,21 @@ public class Proposta {
         return Objects.hash(documento);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
+        Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL),
+                "Uma vez que a proposta é elegível, não é possível trocar");
+        this.statusAvaliacao = statusAvaliacao;
     }
 }
