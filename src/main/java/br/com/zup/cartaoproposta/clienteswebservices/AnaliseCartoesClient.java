@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Contagem de carga intrínseca da classe: 2
  */
 
-@FeignClient(value = "analise", url = "http://localhost:9999/api")
+@FeignClient(value = "analise-cartoes", url = "${url.analise-cartoes}")
 public interface AnaliseCartoesClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/solicitacao")
