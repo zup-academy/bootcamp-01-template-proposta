@@ -11,6 +11,10 @@ import br.com.zup.nossocartao.proposta.Proposta;
 
 public class NovaPropostaRequest {
 
+	public String getCpfCnpj() {
+		return cpfCnpj;
+	}
+
 	@NotBlank
 	// @CpfCnjp
 	private String cpfCnpj;

@@ -27,4 +27,8 @@ public class PropostaService {
 
 	}
 
+	public boolean verificaDocumento(String cpfCnpj) {
+		boolean exiteCpfCnpj = propostaRepository.existsByCpfCnpj(cpfCnpj);
+		return exiteCpfCnpj;
+	}
 }

@@ -2,6 +2,7 @@ package br.com.zup.nossocartao.proposta.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,12 @@ public class PropostaController {
 	@PostMapping(value = "/propostas")
 	public ResponseEntity<?> novaProposta(@RequestBody @Valid NovaPropostaRequest dadosProposta,
 			UriComponentsBuilder builder) {
+
+		boolean verificaCpfCnpj = propostaService.verificaDocumento(dadosProposta.getCpfCnpj());
+
+		if (verificaCpfCnpj) {
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+		}
 
 		NovaPropostaResponse propostaSalva = propostaService.salvarProposta(dadosProposta);
 
