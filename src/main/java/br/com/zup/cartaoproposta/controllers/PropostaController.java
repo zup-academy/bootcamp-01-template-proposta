@@ -1,8 +1,10 @@
 package br.com.zup.cartaoproposta.controllers;
 
+import br.com.zup.cartaoproposta.entities.analisesolicitante.AnaliseSolicitanteRetorno;
 import br.com.zup.cartaoproposta.entities.proposta.Proposta;
 import br.com.zup.cartaoproposta.entities.proposta.PropostaNovoRequest;
 import br.com.zup.cartaoproposta.repositories.PropostaRepository;
+import br.com.zup.cartaoproposta.services.FeignTratamentoRetorno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ import java.net.URI;
 import java.util.Optional;
 
 /**
- * Contagem de carga intrínseca da classe: 4
+ * Contagem de carga intrínseca da classe: 6
  */
 
 @RestController
@@ -28,6 +30,10 @@ public class PropostaController {
     //1
     private PropostaRepository propostaRepository;
 
+    @Autowired
+    //1
+    private FeignTratamentoRetorno feignTratamentoRetorno;
+
     public PropostaController(PropostaRepository propostaRepository) {
         this.propostaRepository = propostaRepository;
     }
@@ -36,6 +42,7 @@ public class PropostaController {
     //1
     public ResponseEntity<String> criaProposta(@RequestBody @Valid PropostaNovoRequest novaProposta, UriComponentsBuilder uriComponentsBuilder) {
 
+        //1
         Optional<Proposta> testeProposta = propostaRepository.findByDocumento(novaProposta.getDocumentoApenasDigitos());
 
         //1
@@ -43,8 +50,13 @@ public class PropostaController {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Campo documento já cadastrado");
         }
 
-        //1
         Proposta proposta = novaProposta.toModel();
+        propostaRepository.save(proposta);
+
+        //1
+        AnaliseSolicitanteRetorno retorno = feignTratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), proposta.getId());
+
+        proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
         propostaRepository.save(proposta);
 
         URI link = uriComponentsBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();

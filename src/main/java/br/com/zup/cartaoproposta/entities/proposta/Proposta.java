@@ -1,8 +1,10 @@
 package br.com.zup.cartaoproposta.entities.proposta;
 
+import br.com.zup.cartaoproposta.entities.analisesolicitante.ResultadoSolicitacao;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
@@ -12,7 +14,7 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
- * Contagem de carga intrínseca da classe: 0
+ * Contagem de carga intrínseca da classe: 3
  */
 
 @Entity
@@ -35,6 +37,9 @@ public class Proposta {
     @NotNull
     @Positive
     private BigDecimal salario;
+    @Enumerated
+    //1
+    private StatusProposta statusProposta;
 
     @Deprecated
     public Proposta() {}
@@ -69,5 +74,22 @@ public class Proposta {
 
     public BigDecimal getSalario() {
         return salario;
+    }
+
+    public StatusProposta getStatusProposta() {
+        return statusProposta;
+    }
+
+    //1
+    public void defineStatusProposta(ResultadoSolicitacao resultadoSolicitacao) {
+        //1
+        switch (resultadoSolicitacao) {
+            case SEM_RESTRICAO:
+                this.statusProposta = StatusProposta.ELEGIVEL;
+                break;
+            case COM_RESTRICAO:
+                this.statusProposta = StatusProposta.NAO_ELEGIVEL;
+                break;
+        }
     }
 }
