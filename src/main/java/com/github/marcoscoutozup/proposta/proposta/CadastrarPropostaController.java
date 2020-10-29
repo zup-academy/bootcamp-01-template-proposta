@@ -1,5 +1,6 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraService;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
 import io.opentracing.Tracer;
@@ -34,7 +35,7 @@ public class CadastrarPropostaController {
     }
 
     @PostMapping                                                  //3
-    public ResponseEntity cadastrarProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uri){
+    public ResponseEntity cadastrarProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uri) throws JsonProcessingException {
         tracer.activeSpan().setTag("usuario.email", propostaRequest.getEmail());
         tracer.activeSpan().setBaggageItem("usuario.email", propostaRequest.getEmail());
         tracer.activeSpan().log("Cadastrando a proposta do usuário");

@@ -1,5 +1,6 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraService;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
 import org.junit.Assert;
@@ -43,7 +44,7 @@ public class CadastrarPropostaControllerTests {
 
     @Test
     @DisplayName("Não deve cadastrar proposta - Status code 422")
-    public void naoDeveCadastrarProposta(){
+    public void naoDeveCadastrarProposta() throws JsonProcessingException {
         cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, null, null);
                                                                                                 //4
         when(propostaRepository.findByDocumento(any(String.class))).thenReturn(Optional.of(new Proposta()));
@@ -54,7 +55,7 @@ public class CadastrarPropostaControllerTests {
 
     @Test
     @DisplayName("Deve cadastrar proposta - Status code 201")
-    public void deveCadastrarProposta(){
+    public void deveCadastrarProposta() throws JsonProcessingException {
         cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, analiseFinanceiraService, null);
         when(propostaRepository.findByDocumento(any(String.class))).thenReturn(Optional.empty());
         ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(propostaDtoMock(), builder);
