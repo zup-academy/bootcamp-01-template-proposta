@@ -2,8 +2,8 @@ package io.github.evertocnsouza.rest.controller;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import io.github.evertocnsouza.validation.ValidationErrorsOutputDto;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -22,13 +22,12 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestControllerAdvice
-public class ValidationErrorHandler {
+public class HandlerAdvice {
 
     @Autowired
     private MessageSource messageSource;
 
-    private static final Logger log = LoggerFactory
-            .getLogger(ValidationErrorHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(HandlerAdvice.class);
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -60,7 +59,7 @@ public class ValidationErrorHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ValidationErrorsOutputDto handleValidationError(
             HttpMessageNotReadableException exception) {
-      //  log.error("Problema de desserializar o objeto", exception);
+       log.error("Problema de desserializar o objeto", exception);
 
         InvalidFormatException invalidFormat = (InvalidFormatException) exception
                 .getCause();

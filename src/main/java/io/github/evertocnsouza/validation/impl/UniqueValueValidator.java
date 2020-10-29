@@ -1,5 +1,6 @@
-package io.github.evertocnsouza.validation;
+package io.github.evertocnsouza.validation.impl;
 
+import io.github.evertocnsouza.validation.annotation.UniqueValue;
 import org.springframework.util.Assert;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

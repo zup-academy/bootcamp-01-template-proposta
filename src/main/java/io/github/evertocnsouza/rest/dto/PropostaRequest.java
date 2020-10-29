@@ -1,52 +1,47 @@
 package io.github.evertocnsouza.rest.dto;
 
+import com.sun.istack.NotNull;
 import io.github.evertocnsouza.domain.entity.Proposta;
-import io.github.evertocnsouza.validation.CpfCnpj;
-import io.github.evertocnsouza.validation.UniqueValue;
+import io.github.evertocnsouza.validation.annotation.CpfCnpj;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public class PropostaRequest {
 
-    @NotBlank
-    @CpfCnpj
-    private String documento;
+        @Email
+        @NotBlank
+        private String email;
+        @NotBlank
+        private String nome;
+        @NotBlank
+        private String endereco;
+        @NotNull
+        @Positive
+        private BigDecimal salario;
+        @CpfCnpj
+        @NotBlank
+        private String documento;
 
-    @NotBlank
-    @Email
-    private String email;
+        public PropostaRequest(@Email @NotBlank String email,
+                                   @NotBlank String nome, @NotBlank String endereco,
+                                   @Positive BigDecimal salario, String documento) {
+            super();
+            this.email = email;
+            this.nome = nome;
+            this.endereco = endereco;
+            this.salario = salario;
+            this.documento = documento;
+        }
 
-    @NotBlank
-    private String nome;
+        public Proposta toModel() {
+            return new Proposta(email,nome,endereco,salario,documento);
+        }
 
-    @NotBlank
-    private String endereco;
+        public String getDocumento() {
+            return documento;
+        }
 
-    @NotNull
-    private BigDecimal salario;
-
-    public PropostaRequest(@NotBlank String documento,
-                           @NotBlank @Email String email,
-                           @NotBlank String nome,
-                           @NotBlank String endereco,
-                           @NotBlank BigDecimal salario) {
-        super();
-        this.documento = documento;
-        this.email = email;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.salario = salario;
     }
-
-    public String getDocumento() {
-        return documento;
-    }
-
-    public Proposta ToModel() {
-        return new Proposta(documento, email, nome, endereco, salario);
-    }
-}
-

@@ -1,5 +1,6 @@
-package io.github.evertocnsouza.validation;
+package io.github.evertocnsouza.validation.impl;
 
+import io.github.evertocnsouza.validation.annotation.CpfCnpj;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;

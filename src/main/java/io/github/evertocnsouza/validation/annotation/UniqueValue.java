@@ -1,4 +1,6 @@
-package io.github.evertocnsouza.validation;
+package io.github.evertocnsouza.validation.annotation;
+
+import io.github.evertocnsouza.validation.impl.UniqueValueValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

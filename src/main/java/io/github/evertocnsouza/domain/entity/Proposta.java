@@ -1,19 +1,14 @@
 package io.github.evertocnsouza.domain.entity;
 
 import io.github.evertocnsouza.domain.enums.StatusAvaliacaoProposta;
-import io.github.evertocnsouza.validation.CpfCnpj;
+import io.github.evertocnsouza.validation.annotation.CpfCnpj;
 import org.springframework.util.Assert;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @Entity
 public class Proposta {
@@ -22,12 +17,8 @@ public class Proposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @CpfCnpj
-    private String documento;
-
-    @NotBlank
     @Email
+    @NotBlank
     private String email;
 
     @NotBlank
@@ -36,69 +27,50 @@ public class Proposta {
     @NotBlank
     private String endereco;
 
-    @NotNull
     @Positive
     private BigDecimal salario;
+
+    @CpfCnpj
+    @NotBlank
+    private String documento;
 
     @NotNull
     private StatusAvaliacaoProposta statusAvaliacao;
 
     @Deprecated
     public Proposta() {
+
     }
 
-    public Proposta(@NotBlank String documento,
-                    @NotBlank @Email String email,
-                    @NotBlank String nome,
-                    @NotBlank String endereco,
-                    @NotBlank BigDecimal salario) {
-        this.documento = documento;
+    public Proposta(@Email @NotBlank String email, @NotBlank String nome,
+                    @NotBlank String endereco, @Positive BigDecimal salario,
+                    @CpfCnpj String documento) {
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
-        this.statusAvaliacao = StatusAvaliacaoProposta.nao_elegivel;
+        this.documento = documento;
+        this.statusAvaliacao = StatusAvaliacaoProposta.NAO_ELEGIVEL;
     }
 
-    public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
-        Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.nao_elegivel),
-                "uma vez que a proposta é elegível, não é possível trocar");
-        this.statusAvaliacao = statusAvaliacao;
-    }
-
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
     public String getDocumento() {
-        return documento;
+        return this.documento;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Proposta)) return false;
-        Proposta proposta = (Proposta) o;
-        return Objects.equals(documento, proposta.documento);
+    public BigDecimal getSalario() { return salario; }
+
+    public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
+        Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL),
+                "Proposta elegível! Não é possível fazer a troca");
+        this.statusAvaliacao = statusAvaliacao;
+    }
+    public StatusAvaliacaoProposta getStatusAvaliacao() {
+        return statusAvaliacao;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(documento);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-                "id=" + id +
-                ", documento='" + documento + '\'' +
-                ", email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", salario=" + salario +
-                '}';
-
+    public String getNome() {
+        return nome;
     }
 }
-
-

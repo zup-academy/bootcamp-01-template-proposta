@@ -1,9 +1,9 @@
 package validation;
 
-import io.github.evertocnsouza.validation.CpfCnpjValidator;
-import org.junit.Test;
+import io.github.evertocnsouza.validation.impl.CpfCnpjValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 public class CpfCnpjValidatorTest {
 
