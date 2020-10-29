@@ -1,39 +1,40 @@
-package br.com.zup.cartaoproposta.services;
+package br.com.zup.cartaoproposta.services.analisesolicitnte;
 
-import br.com.zup.cartaoproposta.clienteswebservices.AnaliseCartoesClient;
 import br.com.zup.cartaoproposta.entities.analisesolicitante.AnaliseSolicitante;
 import br.com.zup.cartaoproposta.entities.analisesolicitante.AnaliseSolicitanteRetorno;
 import br.com.zup.cartaoproposta.entities.analisesolicitante.ResultadoSolicitacao;
-import feign.FeignException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Objects;
+
 /**
- * Contagem de carga intrínseca da classe: 7
+ * Contagem de carga intrínseca da classe: 5
  */
 
+@Primary
 @Component
-public class FeignTratamentoRetorno {
+public class RestTemplateTratamentoRetorno implements TratamentoRetorno {
 
-    @Autowired
-    //1
-    AnaliseCartoesClient analiseCartoesClient;
+    @Value("${url.analise-cartoes}")
+    private String url;
 
-    public FeignTratamentoRetorno(AnaliseCartoesClient analiseCartoesClient) {
-        this.analiseCartoesClient = analiseCartoesClient;
-    }
-
-    //1
+    @Override
     public AnaliseSolicitanteRetorno analiseSolicitante(String documentoSolicitante, String nomeSolicitante, String idProposta) {
+        RestTemplate restTemplate = new RestTemplate();
+
         //1
         AnaliseSolicitante analiseSolicitante = new AnaliseSolicitante(documentoSolicitante, nomeSolicitante, idProposta);
 
         //2
         try{
-            return analiseCartoesClient.solicitacaoAnaliseResource(analiseSolicitante);
-        } catch (FeignException e) {
+            return restTemplate.postForObject(url+"/solicitacao", analiseSolicitante, AnaliseSolicitanteRetorno.class);
+        } catch (HttpClientErrorException e) {
             String resultadoEsperadoMensagem = String.format(
                     "{" +
                             "\"documento\":\"%s\"," +
@@ -49,8 +50,8 @@ public class FeignTratamentoRetorno {
             int resultadoEsperadoStatusCode = 422;
 
             //1
-            if (e.status() == resultadoEsperadoStatusCode
-                    && e.getMessage().contains(resultadoEsperadoMensagem)) {
+            if (e.getStatusCode().value() == resultadoEsperadoStatusCode
+                    && Objects.requireNonNull(e.getMessage()).contains(resultadoEsperadoMensagem)) {
                 //1
                 return new AnaliseSolicitanteRetorno(analiseSolicitante.getDocumento(), analiseSolicitante.getNome(), ResultadoSolicitacao.COM_RESTRICAO, analiseSolicitante.getIdProposta());
             }

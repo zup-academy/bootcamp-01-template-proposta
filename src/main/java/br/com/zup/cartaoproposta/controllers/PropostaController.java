@@ -4,7 +4,7 @@ import br.com.zup.cartaoproposta.entities.analisesolicitante.AnaliseSolicitanteR
 import br.com.zup.cartaoproposta.entities.proposta.Proposta;
 import br.com.zup.cartaoproposta.entities.proposta.PropostaNovoRequest;
 import br.com.zup.cartaoproposta.repositories.PropostaRepository;
-import br.com.zup.cartaoproposta.services.FeignTratamentoRetorno;
+import br.com.zup.cartaoproposta.services.analisesolicitnte.TratamentoRetorno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,7 @@ public class PropostaController {
 
     @Autowired
     //1
-    private FeignTratamentoRetorno feignTratamentoRetorno;
+    private TratamentoRetorno tratamentoRetorno;
 
     public PropostaController(PropostaRepository propostaRepository) {
         this.propostaRepository = propostaRepository;
@@ -54,7 +54,7 @@ public class PropostaController {
         propostaRepository.save(proposta);
 
         //1
-        AnaliseSolicitanteRetorno retorno = feignTratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), proposta.getId());
+        AnaliseSolicitanteRetorno retorno = tratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), proposta.getId());
 
         proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
         propostaRepository.save(proposta);

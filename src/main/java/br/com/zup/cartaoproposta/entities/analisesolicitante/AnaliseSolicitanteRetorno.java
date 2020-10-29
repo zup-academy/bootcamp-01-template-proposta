@@ -19,6 +19,9 @@ public class AnaliseSolicitanteRetorno {
     private ResultadoSolicitacao resultadoSolicitacao;
     private String idProposta;
 
+    @Deprecated
+    public AnaliseSolicitanteRetorno() {}
+
     public AnaliseSolicitanteRetorno(@NotBlank String documento, @NotNull String nome, ResultadoSolicitacao resultadoSolicitacao, String idProposta) {
         this.documento = documento;
         this.nome = nome;

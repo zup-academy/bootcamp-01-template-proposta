@@ -9,25 +9,24 @@ import br.com.zup.cartaoproposta.entities.proposta.Proposta;
 import br.com.zup.cartaoproposta.entities.proposta.PropostaNovoRequest;
 import br.com.zup.cartaoproposta.entities.proposta.StatusProposta;
 import br.com.zup.cartaoproposta.repositories.PropostaRepository;
-import br.com.zup.cartaoproposta.services.FeignTratamentoRetorno;
+import br.com.zup.cartaoproposta.services.analisesolicitnte.FeignTratamentoRetorno;
+import br.com.zup.cartaoproposta.services.analisesolicitnte.RestTemplateTratamentoRetorno;
+import br.com.zup.cartaoproposta.services.analisesolicitnte.TratamentoRetorno;
 import br.com.zup.cartaoproposta.validations.cpfcnpj.CpfCnpjValidador;
-import feign.FeignException;
-import feign.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.doThrow;
 
 @SpringBootTest
 public class PropostaTest {
@@ -113,8 +112,8 @@ public class PropostaTest {
     }
 
     @Test
-    @DisplayName("status elegivel")
-    void statusElegivel(){
+    @DisplayName("status elegivel - usando Feign")
+    void statusElegivelFeign(){
 
         PropostaNovoRequest novaProposta = new PropostaNovoRequest(documentoValido,emailValido,nomeValido,enderecoValido,salarioValido);
         Proposta proposta = novaProposta.toModel();
@@ -127,49 +126,45 @@ public class PropostaTest {
                 .solicitacaoAnaliseResource(analiseSolicitante))
                 .thenReturn(new AnaliseSolicitanteRetorno(proposta.getDocumento(), proposta.getNome(), ResultadoSolicitacao.SEM_RESTRICAO, idPropostaFake));
 
+        TratamentoRetorno feignTratamentoRetorno = new FeignTratamentoRetorno();
+        ReflectionTestUtils.setField(feignTratamentoRetorno,"analiseCartoesClient",analiseCartoesClient);
 
-
-        FeignTratamentoRetorno feignTratamentoRetorno = new FeignTratamentoRetorno(analiseCartoesClient);
-        AnaliseSolicitanteRetorno retorno = feignTratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), "id-da-proposta-fake");
+        AnaliseSolicitanteRetorno retorno = feignTratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), idPropostaFake);
 
         proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
 
         assertEquals(proposta.getStatusProposta(), StatusProposta.ELEGIVEL);
     }
 
-    //Teste com erro para gerar a exeção FeignException no mock
-//    @Test
-    @DisplayName("status não elegivel")
-    void statusNaoElegivel(){
+    @Test
+    @DisplayName("status elegivel - usando RestTemplate")
+    void statusElegivelRestTemplate(){
+
+        PropostaNovoRequest novaProposta = new PropostaNovoRequest(documentoValido,emailValido,nomeValido,enderecoValido,salarioValido);
+        Proposta proposta = novaProposta.toModel();
+
+        TratamentoRetorno restTemplateTratamentoRetorno = new RestTemplateTratamentoRetorno();
+        ReflectionTestUtils.setField(restTemplateTratamentoRetorno,"url","http://localhost:9999/api");
+
+        AnaliseSolicitanteRetorno retorno = restTemplateTratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), "id-da-proposta-fake");
+
+        proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
+
+        assertEquals(proposta.getStatusProposta(), StatusProposta.ELEGIVEL);
+    }
+
+
+    @Test
+    @DisplayName("status não elegivel - usando RestTemplate")
+    void statusNaoElegivelRestTemplate(){
         String documentoComRestricao = "38.816.231/0001-40";
         PropostaNovoRequest novaProposta = new PropostaNovoRequest(documentoComRestricao,emailValido,nomeValido,enderecoValido,salarioValido);
         Proposta proposta = novaProposta.toModel();
 
-        String idPropostaFake = "id-da-proposta-fake";
-        AnaliseSolicitante analiseSolicitante = new AnaliseSolicitante(proposta.getDocumento(), proposta.getNome(), idPropostaFake);
-        AnaliseCartoesClient analiseCartoesClient = Mockito.mock(AnaliseCartoesClient.class);
+        TratamentoRetorno restTemplateTratamentoRetorno = new RestTemplateTratamentoRetorno();
+        ReflectionTestUtils.setField(restTemplateTratamentoRetorno,"url","http://localhost:9999/api");
 
-        //imitacao
-        doThrow(FeignException.errorStatus("AnaliseCartoesClient",
-                        Response.builder()
-                                .headers(Collections.emptyMap())
-                                .status(422)
-                                .body(String.format(
-                                        "Erro[{" +
-                                                "\"documento\":\"%s\"," +
-                                                "\"nome\":\"%s\"," +
-                                                "\"resultadoSolicitacao\":\"COM_RESTRICAO\"," +
-                                                "\"idProposta\":\"%s\"" +
-                                                "}]",
-                                        analiseSolicitante.getDocumento(),
-                                        analiseSolicitante.getNome(),
-                                        analiseSolicitante.getIdProposta()).getBytes()
-                                ).build()
-                ))
-                .when(analiseCartoesClient.solicitacaoAnaliseResource(analiseSolicitante));
-
-        FeignTratamentoRetorno feignTratamentoRetorno = new FeignTratamentoRetorno(analiseCartoesClient);
-        AnaliseSolicitanteRetorno retorno = feignTratamentoRetorno.analiseSolicitante(documentoValido, nomeValido, "id-da-proposta-fake");
+        AnaliseSolicitanteRetorno retorno = restTemplateTratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), "id-da-proposta-fake");
 
         proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
 
