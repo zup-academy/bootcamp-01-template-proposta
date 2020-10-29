@@ -35,8 +35,8 @@ public class AcompanhamentoPropostaController {
         Proposta propostaAcompanhamento =
                 propostaRepository.findById(id).get();
 
-        logger.info("Acompanhamento da proposta documento={}",
-                propostaAcompanhamento.getIdentificacao());
+        logger.info("Acompanhamento da proposta do cliente={}",
+                propostaAcompanhamento.getNome());
 
         return ResponseEntity.ok(new PropostaResponse(propostaAcompanhamento));
 

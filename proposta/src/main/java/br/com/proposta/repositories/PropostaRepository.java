@@ -15,4 +15,6 @@ public interface PropostaRepository extends JpaRepository<Proposta, String> {
 
     Collection<Proposta> findByStatusAndCartaoNull(StatusAvaliacaoProposta status);
 
+    Optional<Proposta> findByIdCartao(String idCartao);
+
 }

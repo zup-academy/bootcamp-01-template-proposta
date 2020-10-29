@@ -4,11 +4,9 @@ import br.com.proposta.models.Cartao;
 import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.models.Proposta;
 import br.com.proposta.services.GerarCartaoService;
-import br.com.proposta.repositories.CartaoRepository;
 import br.com.proposta.repositories.PropostaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
@@ -21,17 +19,13 @@ public class NovoCartaoController {
 
     private GerarCartaoService gerarCartaoService;
 
-    private CartaoRepository cartaoRepository;
-
     private PropostaRepository propostaRepository;
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
 
-    public NovoCartaoController(GerarCartaoService gerarCartaoService, CartaoRepository cartaoRepository,
-                                PropostaRepository propostaRepository) {
+    public NovoCartaoController(GerarCartaoService gerarCartaoService, PropostaRepository propostaRepository) {
         this.gerarCartaoService = gerarCartaoService;
-        this.cartaoRepository = cartaoRepository;
         this.propostaRepository = propostaRepository;
     }
 
@@ -45,12 +39,9 @@ public class NovoCartaoController {
 
         propostasAceitasSemCartao.forEach(proposta -> {
 
-                gerarCartaoService.geraCartaoSegundoPlano(proposta, cartaoRepository);
+            gerarCartaoService.geraCartaoSegundoPlano(proposta);
 
-            logger.info("Cartão gerado no serviço de cartões referente à proposta:" +
-                            "nome do cliente={}",
-                    proposta.getNome());
-
+            logger.info("Cartão gerado no serviço de cartões referente à proposta: nome do cliente={}", proposta.getNome());
 
         });
     }

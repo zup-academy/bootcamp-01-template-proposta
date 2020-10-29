@@ -4,11 +4,8 @@ import br.com.proposta.dtos.requests.SolicitacaoAnaliseRequest;
 import br.com.proposta.dtos.responses.ResultadoAnaliseResponse;
 import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.models.Proposta;
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -16,11 +13,15 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class AvaliaPropostaService {
 
-    @Autowired
+
     private IntegracaoPropostaService integracaoPropostaService;
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
+
+    public AvaliaPropostaService(IntegracaoPropostaService integracaoPropostaService) {
+        this.integracaoPropostaService = integracaoPropostaService;
+    }
 
     public StatusAvaliacaoProposta retornarAvaliacao(Proposta proposta){
 

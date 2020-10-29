@@ -1,29 +1,19 @@
 package br.com.proposta.controllers;
 
-import br.com.proposta.dtos.requests.BloqueioRequest;
-import br.com.proposta.dtos.responses.BloqueioResponse;
-import br.com.proposta.dtos.responses.CartaoResponse;
-import br.com.proposta.dtos.responses.ResultadoAnaliseResponse;
 import br.com.proposta.models.Cartao;
-import br.com.proposta.models.Enums.StatusBloqueio;
 import br.com.proposta.models.Proposta;
 import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.services.CartaoBloqueioService;
-import br.com.proposta.services.IntegracaoCartaoService;
-import br.com.proposta.repositories.CartaoRepository;
 import br.com.proposta.services.UserAgentEInternetProtocolService;
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -37,19 +27,15 @@ public class BloqueioCartaoController {
 
     private UserAgentEInternetProtocolService userAgentEInternetProtocolService;
 
-    private CartaoRepository cartaoRepository;
-
-    private EntityManager entityManager;
+    private PropostaRepository propostaRepository;
 
 
     public BloqueioCartaoController(CartaoBloqueioService cartaoBloqueioService, UserAgentEInternetProtocolService userAgentEInternetProtocolService,
-                                    CartaoRepository cartaoRepository, EntityManager entityManager) {
+                                    PropostaRepository propostaRepository) {
         this.cartaoBloqueioService = cartaoBloqueioService;
         this.userAgentEInternetProtocolService = userAgentEInternetProtocolService;
-        this.cartaoRepository = cartaoRepository;
-        this.entityManager = entityManager;
+        this.propostaRepository = propostaRepository;
     }
-
 
 
     @PostMapping
@@ -57,22 +43,19 @@ public class BloqueioCartaoController {
                                       @RequestHeader HttpHeaders headers, HttpServletRequest httpRequest){
 
 
-        Cartao cartao = cartaoRepository.findByProposta(entityManager.find(Proposta.class, Long.parseLong(propostaId)));
+        Optional<Proposta> proposta = propostaRepository.findById(propostaId);
+
 
         List<String> userAgentEInternetProtocol = userAgentEInternetProtocolService
                 .recuperarUserAgentEInternetProtocolNaRequisicao(headers, httpRequest);
 
-        cartao.bloqueiaCartao(userAgentEInternetProtocol.get(0), userAgentEInternetProtocol.get(1));
 
+        cartaoBloqueioService.bloquear(propostaId, userAgentEInternetProtocol);
 
-        cartaoBloqueioService.bloquear(propostaId);
-
-
-        logger.info("Bloqueio realizado com sucesso no cartão de proposta número={}",
-                cartao.getIdProposta());
+        logger.info("Bloqueio realizado com sucesso no cartão de proposta número={}", proposta.get().getId());
 
         return ResponseEntity
-                .created(uriComponentsBuilder.path("/bloqueios/{propostaId}").buildAndExpand(cartao.getId()).toUri()).build();
+                .created(uriComponentsBuilder.path("/bloqueios/{propostaId}").buildAndExpand(proposta.get().getId()).toUri()).build();
 
     }
 }

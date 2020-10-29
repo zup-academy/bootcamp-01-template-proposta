@@ -54,6 +54,10 @@ public class Proposta {
         this.identificacao = identificacao;
     }
 
+    public void associaCartao(Cartao cartao){
+        this.cartao = cartao;
+    }
+
     public String getId() {
         return id;
     }

@@ -14,8 +14,7 @@ public class Bloqueio {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @ManyToOne
-    private Cartao cartao;
+    private String idCartao;
 
     private OffsetDateTime instanteBloqueio;
 
@@ -25,16 +24,12 @@ public class Bloqueio {
 
     private StatusBloqueio statusBloqueio;
 
-
-    public Bloqueio(String internetProtocol, String userAgent, StatusBloqueio statusBloqueio, Cartao cartao) {
-
-        this.cartao = cartao;
+    public Bloqueio(String idCartao, String internetProtocol, String userAgent, StatusBloqueio statusBloqueio) {
+        this.idCartao = idCartao;
         this.instanteBloqueio = OffsetDateTime.now();
         this.internetProtocol = internetProtocol;
         this.userAgent = userAgent;
         this.statusBloqueio = statusBloqueio;
-
     }
-
 
 }

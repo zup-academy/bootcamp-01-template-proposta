@@ -29,6 +29,9 @@ public class Cartao {
     @OneToOne
     private Proposta proposta;
 
+    @OneToOne
+    private Carteira carteira;
+
     private String idProposta;
 
     @Deprecated
@@ -40,17 +43,6 @@ public class Cartao {
         this.idProposta = idProposta;
     }
 
-    public void associarComProposta(Proposta proposta){
-
-        this.proposta = proposta;
-
-    }
-
-    public void bloqueiaCartao(String internetProtocol, String userAgent){
-
-        this.bloqueios.add(new Bloqueio(internetProtocol, userAgent, StatusBloqueio.BLOQUEADO , this));
-
-    }
 
     public String getId() {
         return id;

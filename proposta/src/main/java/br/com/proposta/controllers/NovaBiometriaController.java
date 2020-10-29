@@ -2,12 +2,11 @@ package br.com.proposta.controllers;
 
 import br.com.proposta.dtos.requests.BiometriaRequest;
 import br.com.proposta.models.Biometria;
-import br.com.proposta.models.Cartao;
 import br.com.proposta.models.Proposta;
-import br.com.proposta.repositories.CartaoRepository;
+import br.com.proposta.repositories.BiometriaRepository;
+import br.com.proposta.repositories.PropostaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -19,13 +18,17 @@ import java.util.Optional;
 @RequestMapping("/biometrias/{cartaoId}")
 public class NovaBiometriaController {
 
-    private CartaoRepository cartaoRepository;
 
     private final Logger logger = LoggerFactory.getLogger(Biometria.class);
 
+    private PropostaRepository propostaRepository;
 
-    public NovaBiometriaController(CartaoRepository cartaoRepository) {
-        this.cartaoRepository = cartaoRepository;
+    private BiometriaRepository biometriaRepository;
+
+
+    public NovaBiometriaController(PropostaRepository propostaRepository, BiometriaRepository biometriaRepository) {
+        this.propostaRepository = propostaRepository;
+        this.biometriaRepository = biometriaRepository;
     }
 
 
@@ -33,9 +36,9 @@ public class NovaBiometriaController {
     public ResponseEntity<?> criaBiometria(@PathVariable String cartaoId,
                                            @RequestBody @Valid BiometriaRequest biometriaRequest, UriComponentsBuilder uriComponentsBuilder){
 
-        Optional<Cartao> cartao = cartaoRepository.findById(cartaoId);
+        Optional<Proposta> propostaComCartao = propostaRepository.findByIdCartao(cartaoId);
 
-        if(!cartao.isPresent()){
+        if(!propostaComCartao.isPresent()){
 
             return ResponseEntity.notFound().build();
 
@@ -43,12 +46,13 @@ public class NovaBiometriaController {
 
         Biometria biometria = biometriaRequest.toModel();
 
-        cartao.get().adicionaBiometria(biometria);
+        biometriaRepository.save(biometria);
+
 
         logger.info("Biometria registrada com sucesso");
 
         return ResponseEntity
-                .created(uriComponentsBuilder.path("/biometrias/{cartaoId}").buildAndExpand(cartao.get().getId()).toUri()).build();
+                .created(uriComponentsBuilder.path("/biometrias/{cartaoId}").buildAndExpand(propostaComCartao.get().getId()).toUri()).build();
 
     }
 }

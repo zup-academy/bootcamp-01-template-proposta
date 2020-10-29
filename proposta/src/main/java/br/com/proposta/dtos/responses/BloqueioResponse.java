@@ -4,6 +4,9 @@ public class BloqueioResponse {
 
     private String resultado;
 
+    @Deprecated
+    public BloqueioResponse(){}
+
     public BloqueioResponse(String resultado) {
         this.resultado = resultado;
     }

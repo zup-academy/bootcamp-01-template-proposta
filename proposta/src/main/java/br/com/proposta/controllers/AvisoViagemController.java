@@ -26,9 +26,11 @@ public class AvisoViagemController {
     @PostMapping("/{idCartao}")
     public ResponseEntity<?> avisa(@PathVariable String idCartao, @RequestBody AvisoViagemRequest avisoViagemRequest){
 
-        ResponseEntity<AvisoViagemResponse> avisoViagemResposta = integracaoCartaoService.avisarViagem(idCartao, avisoViagemRequest);
+        ResponseEntity<AvisoViagemResponse> avisoViagemResposta =
+                integracaoCartaoService.avisarViagem(idCartao, avisoViagemRequest);
 
-        /*controller incompleto -> continua....*/
+
+
 
         return ResponseEntity.ok().build();
 
