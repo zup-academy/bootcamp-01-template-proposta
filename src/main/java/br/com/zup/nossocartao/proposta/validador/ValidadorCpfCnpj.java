@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.proposta;
+package br.com.zup.nossocartao.proposta.validador;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

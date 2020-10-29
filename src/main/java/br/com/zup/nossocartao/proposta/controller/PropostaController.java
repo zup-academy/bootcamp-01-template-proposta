@@ -1,8 +1,5 @@
-package br.com.zup.nossocartao.proposta;
+package br.com.zup.nossocartao.proposta.controller;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -12,22 +9,25 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.zup.nossocartao.proposta.service.PropostaService;
+
 @RestController
 public class PropostaController {
 
-	@PersistenceContext
-	private EntityManager bancoDados;
+	private PropostaService propostaService;
+
+	public PropostaController(PropostaService propostaService) {
+		this.propostaService = propostaService;
+	}
 
 	@PostMapping(value = "/propostas")
-	@Transactional
 	public ResponseEntity<?> novaProposta(@RequestBody @Valid NovaPropostaRequest dadosProposta,
 			UriComponentsBuilder builder) {
 
-		Proposta novaProposta = dadosProposta.gerarProposta();
-		bancoDados.persist(novaProposta);
+		NovaPropostaResponse propostaSalva = propostaService.salvarProposta(dadosProposta);
 
-		UriComponents uriComponents = builder.path("/propostas/{id}").buildAndExpand(novaProposta.getId());
+		UriComponents uriComponents = builder.path("/propostas/{id}").buildAndExpand(propostaSalva.getId());
 
-		return ResponseEntity.created(uriComponents.toUri()).build();
+		return ResponseEntity.created(uriComponents.toUri()).body(propostaSalva);
 	}
 }

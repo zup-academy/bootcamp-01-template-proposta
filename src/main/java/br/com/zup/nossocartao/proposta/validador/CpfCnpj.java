@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.proposta;
+package br.com.zup.nossocartao.proposta.validador;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;

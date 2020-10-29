@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.proposta;
+package br.com.zup.nossocartao.proposta.controller;
 
 import java.math.BigDecimal;
 
@@ -6,6 +6,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
+import br.com.zup.nossocartao.proposta.Proposta;
 
 public class NovaPropostaRequest {
 
