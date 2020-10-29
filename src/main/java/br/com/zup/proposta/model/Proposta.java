@@ -33,6 +33,8 @@ public class Proposta {
     private Double salario;
     @NotNull
     private EstadoProposta estadoProposta;
+    @NotNull
+    private boolean cartaoCriado;
 
     @Deprecated
     public Proposta(){}
@@ -44,10 +46,19 @@ public class Proposta {
         this.endereco = endereco;
         this.salario = salario;
         this.estadoProposta = EstadoProposta.NAO_ELEGIVEL;
+        this.cartaoCriado = false;
     }
 
     public void setEstadoProposta(EstadoProposta estadoProposta) {
         this.estadoProposta = estadoProposta;
+    }
+
+    public boolean isCartaoCriado() {
+        return this.cartaoCriado;
+    }
+
+    public void setCartaoCriado(boolean cartaoCriado) {
+        this.cartaoCriado = cartaoCriado;
     }
 
 	public PropostaDto toDto() {
@@ -56,6 +67,20 @@ public class Proposta {
     
     public AnaliseRequestForm toAnaliseForm() {
         return new AnaliseRequestForm(this.documento, this.nome, this.id);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + this.id + "'" +
+            ", documento='" + this.documento + "'" +
+            ", email='" + this.email + "'" +
+            ", nome='" + this.nome + "'" +
+            ", endereco='" + this.endereco + "'" +
+            ", salario='" + this.salario + "'" +
+            ", estadoProposta='" + this.estadoProposta + "'" +
+            ", cartaoCriado='" + this.cartaoCriado + "'" +
+            "}";
     }
     
 }
