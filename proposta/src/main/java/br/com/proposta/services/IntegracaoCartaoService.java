@@ -4,6 +4,9 @@ import br.com.proposta.dtos.requests.AssociaCarteiraRequest;
 import br.com.proposta.dtos.requests.AvisoViagemRequest;
 import br.com.proposta.dtos.requests.BloqueioRequest;
 import br.com.proposta.dtos.requests.NovoCartaoRequest;
+import br.com.proposta.dtos.responses.AvisoViagemResponse;
+import br.com.proposta.dtos.responses.BloqueioResponse;
+import br.com.proposta.dtos.responses.CartaoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,15 +22,15 @@ public interface IntegracaoCartaoService {
     ResponseEntity<?> criarCartao(NovoCartaoRequest novoCartaoRequest);
 
     @GetMapping("?idProposta={idProposta}")
-    String buscarCartao(@PathVariable String idProposta);
+    ResponseEntity<CartaoResponse> buscarCartao(@PathVariable String idProposta);
 
     @PostMapping("{id}/bloqueios")
-    String avisarLegadoBloqueioDoCartao(@PathVariable String id, @RequestBody BloqueioRequest bloqueioRequest);
+    ResponseEntity<BloqueioResponse> avisarLegadoBloqueioDoCartao(@PathVariable String id, @RequestBody BloqueioRequest bloqueioRequest);
 
     @PostMapping("{id}/avisos")
-    String avisarViagem(@PathVariable String id, @RequestBody AvisoViagemRequest viagemRequest);
+    ResponseEntity<AvisoViagemResponse> avisarViagem(@PathVariable String id, @RequestBody AvisoViagemRequest viagemRequest);
 
     @PostMapping("{id}/carteiras")
-    String associarCarteira(@PathVariable String id, @RequestBody AssociaCarteiraRequest associaCarteiraRequest);
+    ResponseEntity<AssociaCarteiraRequest> associarCarteira(@PathVariable String id, @RequestBody AssociaCarteiraRequest associaCarteiraRequest);
 
 }

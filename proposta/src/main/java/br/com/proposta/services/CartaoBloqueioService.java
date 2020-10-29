@@ -4,19 +4,17 @@ import br.com.proposta.dtos.requests.BloqueioRequest;
 import br.com.proposta.dtos.responses.BloqueioResponse;
 import br.com.proposta.dtos.responses.CartaoResponse;
 import br.com.proposta.models.Proposta;
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CartaoBloqueioService {
 
-
     @Autowired
     private IntegracaoCartaoService integracaoCartaoService;
-
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
@@ -24,14 +22,11 @@ public class CartaoBloqueioService {
     public BloqueioResponse bloquear(String propostaId){
 
 
-        String resposta = integracaoCartaoService.buscarCartao(propostaId);
-
-        CartaoResponse cartaoResponse = new Gson().fromJson(resposta, CartaoResponse.class);
+        CartaoResponse cartaoResponse = integracaoCartaoService.buscarCartao(propostaId).getBody();
 
 
-        String bloqueio = integracaoCartaoService.avisarLegadoBloqueioDoCartao(cartaoResponse.getId(), new BloqueioRequest("api-cartoes"));
-
-        BloqueioResponse bloqueioResponse = new Gson().fromJson(bloqueio, BloqueioResponse.class);
+        BloqueioResponse bloqueioResponse = integracaoCartaoService
+                .avisarLegadoBloqueioDoCartao(cartaoResponse.getId(), new BloqueioRequest("api-cartoes")).getBody();
 
 
         logger.info("Tentativa de bloqueio do cartão de número={}. Resultado={}",
@@ -41,5 +36,4 @@ public class CartaoBloqueioService {
         return bloqueioResponse;
 
     }
-
 }

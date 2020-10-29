@@ -1,6 +1,7 @@
 package br.com.proposta.controllers;
 
 import br.com.proposta.dtos.requests.AvisoViagemRequest;
+import br.com.proposta.dtos.responses.AvisoViagemResponse;
 import br.com.proposta.repositories.ViagemRepository;
 import br.com.proposta.services.IntegracaoCartaoService;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class AvisoViagemController {
     @PostMapping("/{idCartao}")
     public ResponseEntity<?> avisa(@PathVariable String idCartao, @RequestBody AvisoViagemRequest avisoViagemRequest){
 
-        String resultado = integracaoCartaoService.avisarViagem(idCartao, avisoViagemRequest);
+        ResponseEntity<AvisoViagemResponse> avisoViagemResposta = integracaoCartaoService.avisarViagem(idCartao, avisoViagemRequest);
 
         /*controller incompleto -> continua....*/
 
