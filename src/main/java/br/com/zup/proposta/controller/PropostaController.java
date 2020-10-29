@@ -1,7 +1,9 @@
 package br.com.zup.proposta.controller;
 
+import br.com.zup.proposta.dto.AvaliacaoPropostaRequest;
 import br.com.zup.proposta.dto.NovaPropostaDtoRequest;
 import br.com.zup.proposta.model.Proposta;
+import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;
 import br.com.zup.proposta.validations.DocumentoIgualValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,30 +24,48 @@ import javax.validation.Valid;
 public class PropostaController {
 
     private EntityManager entityManager;
-    private DocumentoIgualValidator documentoIgualValidator;
+
+    private DocumentoIgualValidator documentoIgualValidator; //1
+
+    private AvaliaProposta avaliaProposta; //2
 
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
 
-    public PropostaController(EntityManager entityManager, DocumentoIgualValidator documentoIgualValidator) {
+    public PropostaController(EntityManager entityManager,
+                              DocumentoIgualValidator documentoIgualValidator, AvaliaProposta avaliaProposta) {
         this.entityManager = entityManager;
         this.documentoIgualValidator = documentoIgualValidator;
+        this.avaliaProposta = avaliaProposta;
     }
 
     @PostMapping
     @Transactional
     public ResponseEntity novaProposta(@RequestBody @Valid NovaPropostaDtoRequest request,
-                                       UriComponentsBuilder builder){
+                                       UriComponentsBuilder builder){ //3
 
         //é necessário descrever o erro aqui?
-        if(documentoIgualValidator.existe(request))
+        if(documentoIgualValidator.existe(request)) //4
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body("Documento inválido!");
 
-        Proposta novaProposta = request.toProposta();
+        Proposta novaProposta = request.toProposta(); //5
 
-        logger.info("Proposta: documento= {}", request.getDocumento());
+        //logger.info("Proposta: documento= {}", request.getDocumento());
 
         entityManager.persist(novaProposta);
+
+        //servico externo
+        StatusAvaliacaoProposta statusAvaliacaoProposta = avaliaProposta.executar(novaProposta); //6
+
+        novaProposta.atualizaStatus(statusAvaliacaoProposta);
+
+        logger.info("Nome:{} , Documento:{}, Status Avaliação:{} "
+                + novaProposta.getNome() , novaProposta.getDocumento(),
+                novaProposta.getStatusAvaliacaoProposta());
+
+        //atualizar proposta
+        entityManager.merge(novaProposta);
+
 
         return ResponseEntity.created(builder.path("/api/propostas/{id}")
                 .buildAndExpand(novaProposta.getId())
