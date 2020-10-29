@@ -1,0 +1,38 @@
+## Porta do Servidor
+server:
+  port: ${SERVER_PORT:8081}
+
+## Serviço de Análise
+analise:
+  url: ${ANALISE_URL:localhost:9999}
+
+## Serviço de Cartão
+cartao:
+  url: ${CARTAO_URL:localhost:8888}
+
+## Cron
+cron:
+  habilitada: ${CRON_HABILITADA:true}
+  cartao:
+    ## segundo | minuto | hora | dia-do-mes | mes | dias-da-semana | ano
+    cron: ${CARTAO_CRON:1 1 * * * ?}
+
+## Spring Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:dev_proposta}
+    username: ${DATABASE_USER:keycloak}
+    password: ${DATABASE_PASSWORD:password}
+  jpa:
+    hibernate:
+      ddl-auto: ${DATABASE_DDL_AUTO:update}
+    properties:
+      hibernate:
+        show_sql: ${JPA_SHOW_SQL:true}
+        format_sql: ${JPA_FORMAT_SQL:true}
