@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -34,12 +33,10 @@ public class AnaliseFinanceiraService {
         request.put("documento", proposta.descriptografarDocumento());
         request.put("nome", proposta.getNome());
         request.put("idProposta", proposta.getId());
-        ResponseEntity<AnaliseFinanceiraResponse> responseEntity;
 
         //4
         try {
-            responseEntity = analiseFinanceiraClient.processaAnaliseFinanceira(request);
-            analiseFinanceiraResponse = responseEntity.getBody();
+            analiseFinanceiraResponse = analiseFinanceiraClient.processaAnaliseFinanceira(request);
         } catch (FeignException e){ //5
             //6
             if(e.status() == 422){
