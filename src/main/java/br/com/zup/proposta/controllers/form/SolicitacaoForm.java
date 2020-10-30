@@ -34,6 +34,22 @@ public class SolicitacaoForm {
         return this.documento;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public String getEndereco() {
+        return this.endereco;
+    }
+
+    public Double getSalario() {
+        return this.salario;
+    }
+
     public Proposta toProposta() {
         return new Proposta(this.documento, this.email, this.nome, this.endereco, this.salario);
     }

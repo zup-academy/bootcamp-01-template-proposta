@@ -59,9 +59,28 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
     		<groupId>org.postgresql</groupId>
     		<artifactId>postgresql</artifactId>
     		<version>42.2.12</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>io.rest-assured</groupId>
+    		<artifactId>spring-mock-mvc</artifactId>
+    		<version>4.3.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+    		<groupId>io.rest-assured</groupId>
+    		<artifactId>rest-assured-common</artifactId>
+    		<version>4.3.1</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -74,6 +93,20 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+  			<groupId>org.assertj</groupId>
+  			<artifactId>assertj-core</artifactId>
+  			<version>3.18.0</version>
+  			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+  			<groupId>org.awaitility</groupId>
+  			<artifactId>awaitility</artifactId>
+  			<version>3.1.2</version>
+  			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

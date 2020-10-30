@@ -42,4 +42,14 @@ public class AnaliseResponse {
         throw new RuntimeException("AnaliseResponse recebida incorretamente.");
 	}
 
+    @Override
+    public String toString() {
+        return "{" +
+            " documento='" + getDocumento() + "'" +
+            ", nome='" + getNome() + "'" +
+            ", resultadoSolicitacao='" + getResultadoSolicitacao() + "'" +
+            ", idProposta='" + getIdProposta() + "'" +
+            "}";
+    }
+
 }
