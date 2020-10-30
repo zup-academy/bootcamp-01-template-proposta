@@ -1,11 +1,10 @@
 package br.com.proposta.models;
 
+import br.com.proposta.models.Enums.StatusCarteira;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,14 +16,18 @@ public class Carteira {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+    @NotBlank
     private String carteira;
 
-    @OneToMany(mappedBy = "carteira")
-    private Set<Cartao> cartoes = new HashSet<>();
+    private StatusCarteira status;
 
-    public Carteira(String carteira, Set<Cartao> cartoes) {
+    @ElementCollection
+    private Set<String> cartoesId = new HashSet<>();
+
+    public Carteira(String carteira, String cartaoId, StatusCarteira status) {
         this.carteira = carteira;
-        this.cartoes = cartoes;
+        this.cartoesId.add(cartaoId);
+        this.status = status;
     }
 
 }

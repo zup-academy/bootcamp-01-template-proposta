@@ -19,8 +19,7 @@ public class Viagem {
     @NotBlank
     private String destino;
 
-    @ManyToOne
-    private Cartao cartao;
+    private String idCartao;
 
     @Future
     @NotNull
@@ -36,13 +35,13 @@ public class Viagem {
     private String userAgent;
 
 
-    public Viagem(Cartao cartao, @Future OffsetDateTime termino,
-                  String internetProtocol, String userAgent) {
-        this.cartao = cartao;
+    public Viagem(@NotBlank String destino, String idCartao, @Future @NotNull OffsetDateTime termino,
+                  @NotNull OffsetDateTime avisadoEm, @NotBlank String internetProtocol, @NotBlank String userAgent) {
+        this.destino = destino;
+        this.idCartao = idCartao;
         this.termino = termino;
-        this.avisadoEm = OffsetDateTime.now();
+        this.avisadoEm = avisadoEm;
         this.internetProtocol = internetProtocol;
         this.userAgent = userAgent;
     }
-
 }

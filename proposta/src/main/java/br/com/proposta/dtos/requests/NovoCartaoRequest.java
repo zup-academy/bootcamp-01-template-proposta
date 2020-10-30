@@ -3,12 +3,17 @@ package br.com.proposta.dtos.requests;
 
 import br.com.proposta.models.Proposta;
 
+import javax.validation.constraints.NotBlank;
+
 public class NovoCartaoRequest {
 
+    @NotBlank
     private String documento;
 
+    @NotBlank
     private String nome;
 
+    @NotBlank
     private String idProposta;
 
     public NovoCartaoRequest(Proposta proposta) {

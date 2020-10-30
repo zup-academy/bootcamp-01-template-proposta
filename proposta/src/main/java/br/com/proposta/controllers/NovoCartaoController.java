@@ -1,6 +1,5 @@
 package br.com.proposta.controllers;
 
-import br.com.proposta.models.Cartao;
 import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.models.Proposta;
 import br.com.proposta.services.GerarCartaoService;

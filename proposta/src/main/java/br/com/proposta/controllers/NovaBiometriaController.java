@@ -2,7 +2,6 @@ package br.com.proposta.controllers;
 
 import br.com.proposta.dtos.requests.BiometriaRequest;
 import br.com.proposta.models.Biometria;
-import br.com.proposta.models.Proposta;
 import br.com.proposta.repositories.BiometriaRepository;
 import br.com.proposta.repositories.PropostaRepository;
 import org.slf4j.Logger;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/biometrias/{cartaoId}")
@@ -36,13 +35,6 @@ public class NovaBiometriaController {
     public ResponseEntity<?> criaBiometria(@PathVariable String cartaoId,
                                            @RequestBody @Valid BiometriaRequest biometriaRequest, UriComponentsBuilder uriComponentsBuilder){
 
-        Optional<Proposta> propostaComCartao = propostaRepository.findByIdCartao(cartaoId);
-
-        if(!propostaComCartao.isPresent()){
-
-            return ResponseEntity.notFound().build();
-
-        }
 
         Biometria biometria = biometriaRequest.toModel();
 
@@ -52,7 +44,7 @@ public class NovaBiometriaController {
         logger.info("Biometria registrada com sucesso");
 
         return ResponseEntity
-                .created(uriComponentsBuilder.path("/biometrias/{cartaoId}").buildAndExpand(propostaComCartao.get().getId()).toUri()).build();
+                .created(uriComponentsBuilder.path("/biometrias/{cartaoId}").buildAndExpand(biometria.getId()).toUri()).build();
 
     }
 }

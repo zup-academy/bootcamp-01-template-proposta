@@ -3,14 +3,19 @@ package br.com.proposta.dtos.requests;
 import br.com.proposta.models.Proposta;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import javax.validation.constraints.NotBlank;
+
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SolicitacaoAnaliseRequest {
 
 
+    @NotBlank
     private String documento;
 
+    @NotBlank
     private String nome;
 
+    @NotBlank
     private String idProposta;
 
 

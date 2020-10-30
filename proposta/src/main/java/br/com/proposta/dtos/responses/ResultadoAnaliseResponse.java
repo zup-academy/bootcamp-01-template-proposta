@@ -5,6 +5,7 @@ import br.com.proposta.models.Enums.StatusAvaliacaoProposta;
 
 public class ResultadoAnaliseResponse {
 
+
     private String documento;
 
     private String nome;
@@ -13,6 +14,9 @@ public class ResultadoAnaliseResponse {
 
     private String idProposta;
 
+
+    @Deprecated
+    public ResultadoAnaliseResponse(){}
 
     public ResultadoAnaliseResponse(String documento, String nome, RespostaStatusAvaliacao resultadoSolicitacao, String idProposta) {
         this.documento = documento;

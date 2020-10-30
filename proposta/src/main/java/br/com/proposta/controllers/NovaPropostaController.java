@@ -4,6 +4,7 @@ import br.com.proposta.dtos.requests.PropostaRequest;
 import br.com.proposta.models.Proposta;
 import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.services.AvaliaPropostaService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,9 @@ public class NovaPropostaController {
     //1
     private PropostaRepository propostaRepository;
 
-    private EntityManager entityManager;
-
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
+
+    private EntityManager entityManager;
 
 
     public NovaPropostaController(AvaliaPropostaService avaliaPropostaService, PropostaRepository propostaRepository,
@@ -43,7 +44,7 @@ public class NovaPropostaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> novaProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity<?> novaProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uriComponentsBuilder) throws JsonProcessingException {
 
 
             //1

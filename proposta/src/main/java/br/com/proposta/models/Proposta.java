@@ -39,14 +39,14 @@ public class Proposta {
 
     private StatusAvaliacaoProposta status;
 
-    @OneToOne(mappedBy = "proposta",cascade = CascadeType.MERGE)
-    private Cartao cartao;
+    private String cartao;
 
     @Deprecated
     public Proposta(){}
 
-    public Proposta(@NotBlank String nome, @NotBlank @Email String email, @NotBlank String endereco,
-                    @NotNull @Positive BigDecimal salario, @NotBlank String identificacao) {
+
+    public Proposta(@NotBlank String nome, @NotBlank @Email String email, @NotBlank String endereco, @NotNull @Positive BigDecimal salario,
+                    @NotBlank String identificacao) {
         this.nome = nome;
         this.email = email;
         this.endereco = endereco;
@@ -54,69 +54,8 @@ public class Proposta {
         this.identificacao = identificacao;
     }
 
-    public void associaCartao(Cartao cartao){
-        this.cartao = cartao;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public BigDecimal getSalario() {
-        return salario;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public void setSalario(BigDecimal salario) {
-        this.salario = salario;
-    }
-
-    public void setIdentificacao(String identificacao) {
-        this.identificacao = identificacao;
-    }
-
-    public StatusAvaliacaoProposta getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusAvaliacaoProposta status) {
-        this.status = status;
-    }
-
-    public Cartao getCartao() {
-        return cartao;
-    }
-
-    public void setCartao(Cartao cartao) {
-        this.cartao = cartao;
-    }
-
-    public String getIdentificacao() {
-        return identificacao;
-    }
-
-    public String getNome() {
-        return nome;
+    public void associaCartao(String idCartao){
+        this.cartao = idCartao;
     }
 
     public boolean ehUnica(PropostaRepository propostaRepository){
@@ -128,6 +67,38 @@ public class Proposta {
     public void atualizaStatusElegibilidade(StatusAvaliacaoProposta status){
 
         this.status = status;
-
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+
+    public BigDecimal getSalario() {
+        return salario;
+    }
+
+
+    public String getIdentificacao() {
+        return identificacao;
+    }
+
+
+    public StatusAvaliacaoProposta getStatus() {
+        return status;
+    }
+
+
+    public String getIdCartao() {
+        return cartao;
+    }
+
 }

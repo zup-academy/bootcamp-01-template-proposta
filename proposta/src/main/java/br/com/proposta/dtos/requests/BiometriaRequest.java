@@ -2,11 +2,14 @@ package br.com.proposta.dtos.requests;
 
 import br.com.proposta.models.Biometria;
 
+import javax.validation.constraints.NotBlank;
+
 public class BiometriaRequest {
 
+    @NotBlank
     private String imagemBiometria;
 
-    public BiometriaRequest(String imagemBiometria) {
+    public BiometriaRequest(@NotBlank String imagemBiometria) {
         this.imagemBiometria = imagemBiometria;
     }
 

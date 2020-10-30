@@ -4,6 +4,7 @@ import br.com.proposta.dtos.requests.AssociaCarteiraRequest;
 import br.com.proposta.dtos.requests.AvisoViagemRequest;
 import br.com.proposta.dtos.requests.BloqueioRequest;
 import br.com.proposta.dtos.requests.NovoCartaoRequest;
+import br.com.proposta.dtos.responses.AssociaCarteiraResponse;
 import br.com.proposta.dtos.responses.AvisoViagemResponse;
 import br.com.proposta.dtos.responses.BloqueioResponse;
 import br.com.proposta.dtos.responses.CartaoResponse;
@@ -31,6 +32,6 @@ public interface IntegracaoCartaoService {
     ResponseEntity<AvisoViagemResponse> avisarViagem(@PathVariable String id, @RequestBody AvisoViagemRequest viagemRequest);
 
     @PostMapping("{id}/carteiras")
-    ResponseEntity<AssociaCarteiraRequest> associarCarteira(@PathVariable String id, @RequestBody AssociaCarteiraRequest associaCarteiraRequest);
+    ResponseEntity<AssociaCarteiraResponse> associarCarteira(@PathVariable String id, @RequestBody AssociaCarteiraRequest associaCarteiraRequest);
 
 }

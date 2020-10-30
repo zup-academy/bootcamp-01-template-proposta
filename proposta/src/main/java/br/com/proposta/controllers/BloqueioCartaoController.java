@@ -1,6 +1,5 @@
 package br.com.proposta.controllers;
 
-import br.com.proposta.models.Cartao;
 import br.com.proposta.models.Proposta;
 import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.services.CartaoBloqueioService;
@@ -21,7 +20,7 @@ import java.util.Optional;
 public class BloqueioCartaoController {
 
 
-    private final Logger logger = LoggerFactory.getLogger(Cartao.class);
+    private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
     private CartaoBloqueioService cartaoBloqueioService;
 
