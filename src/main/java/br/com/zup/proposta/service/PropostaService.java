@@ -45,4 +45,13 @@ public class PropostaService {
         logger.info("Retornando DTO");
         return propostaCriada.toDto();
     }
+
+    public Proposta buscarPorId(String id) {
+        return repository.findById(id).orElseThrow(() -> 
+            new IllegalStateException("Proposta com id " + id + " não encontrada"));
+    }
+
+    public void removeTudo() {
+        repository.deleteAll();
+    }
 }

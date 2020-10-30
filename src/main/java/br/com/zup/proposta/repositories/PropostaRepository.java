@@ -11,6 +11,6 @@ import br.com.zup.proposta.model.Proposta;
 public interface PropostaRepository extends JpaRepository<Proposta, String> {
     Optional<Proposta> findByDocumento(String documento);
 
-    @Query("SELECT p FROM Proposta p WHERE p.cartaoCriado = false AND p.estadoProposta = 1")
+    @Query("SELECT p FROM Proposta p WHERE p.cartaoCriado = false AND p.estadoProposta = 'ELEGIVEL'")
     Collection<Proposta> findByCartaoNaoCriado();
 }

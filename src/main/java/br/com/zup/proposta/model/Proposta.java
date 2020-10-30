@@ -1,6 +1,8 @@
 package br.com.zup.proposta.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
@@ -16,28 +18,33 @@ import br.com.zup.proposta.service.validadores.anotações.CpfCnpj;
 
 @Entity
 public class Proposta {
-    
-    @Id 
+
+    @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    @NotNull @CpfCnpj
+    @NotNull
+    @CpfCnpj
     private String documento;
-    @NotNull @Email
+    @NotNull
+    @Email
     private String email;
     @NotNull
     private String nome;
     @NotNull
     private String endereco;
-    @NotNull @Positive
+    @NotNull
+    @Positive
     private Double salario;
     @NotNull
+    @Enumerated(EnumType.STRING)
     private EstadoProposta estadoProposta;
     @NotNull
     private boolean cartaoCriado;
 
     @Deprecated
-    public Proposta(){}
+    public Proposta() {
+    }
 
     public Proposta(String documento, String email, String nome, String endereco, Double salario) {
         this.documento = documento;
@@ -47,6 +54,38 @@ public class Proposta {
         this.salario = salario;
         this.estadoProposta = EstadoProposta.NAO_ELEGIVEL;
         this.cartaoCriado = false;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public String getDocumento() {
+        return this.documento;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public String getEndereco() {
+        return this.endereco;
+    }
+
+    public Double getSalario() {
+        return this.salario;
+    }
+
+    public EstadoProposta getEstadoProposta() {
+        return this.estadoProposta;
+    }
+
+    public boolean getCartaoCriado() {
+        return this.cartaoCriado;
     }
 
     public void setEstadoProposta(EstadoProposta estadoProposta) {
@@ -61,26 +100,20 @@ public class Proposta {
         this.cartaoCriado = cartaoCriado;
     }
 
-	public PropostaDto toDto() {
-		return new PropostaDto(this.id);
-	}
-    
+    public PropostaDto toDto() {
+        return new PropostaDto(this.id);
+    }
+
     public AnaliseRequestForm toAnaliseForm() {
         return new AnaliseRequestForm(this.documento, this.nome, this.id);
     }
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + this.id + "'" +
-            ", documento='" + this.documento + "'" +
-            ", email='" + this.email + "'" +
-            ", nome='" + this.nome + "'" +
-            ", endereco='" + this.endereco + "'" +
-            ", salario='" + this.salario + "'" +
-            ", estadoProposta='" + this.estadoProposta + "'" +
-            ", cartaoCriado='" + this.cartaoCriado + "'" +
-            "}";
+        return "{" + " id='" + this.id + "'" + ", documento='" + this.documento + "'" + ", email='" + this.email + "'"
+                + ", nome='" + this.nome + "'" + ", endereco='" + this.endereco + "'" + ", salario='" + this.salario
+                + "'" + ", estadoProposta='" + this.estadoProposta + "'" + ", cartaoCriado='" + this.cartaoCriado + "'"
+                + "}";
     }
-    
+
 }

@@ -4,6 +4,9 @@ public class PropostaDto {
     
     private String id;
 
+    @Deprecated
+    public PropostaDto(){}
+
     public PropostaDto (String id) {
         this.id = id;
     }
