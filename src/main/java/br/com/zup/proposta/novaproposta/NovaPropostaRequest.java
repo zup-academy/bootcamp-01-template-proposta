@@ -1,8 +1,6 @@
 package br.com.zup.proposta.novaproposta;
 
 import br.com.zup.proposta.validation.CpfOuCnpj;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +10,6 @@ import java.math.BigDecimal;
 
 public class NovaPropostaRequest {
     @NotBlank
-    @CpfOuCnpj
     public String documento;
     @NotBlank
     @Email

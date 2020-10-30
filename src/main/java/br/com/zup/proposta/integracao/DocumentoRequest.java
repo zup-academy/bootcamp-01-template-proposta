@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class DocumentoRequest {
-    @CpfOuCnpj
     private String documento;
     private String nome;
     private String idProposta;

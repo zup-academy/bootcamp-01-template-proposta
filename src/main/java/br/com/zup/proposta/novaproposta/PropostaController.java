@@ -3,6 +3,7 @@ package br.com.zup.proposta.novaproposta;
 import br.com.zup.proposta.integracao.AvaliaProposta;
 import br.com.zup.proposta.integracao.ExecutorTransacao;
 import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
+import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,11 +36,17 @@ public class PropostaController {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
         Proposta novaProposta = request.toModel();
-        executorTransacao.salvaEComita(novaProposta);
-        StatusAvaliacaoProposta avaliacao = avaliaProposta.executa(novaProposta);
-        novaProposta.atualizaStatus(avaliacao);
-        executorTransacao.atualizaEComita(novaProposta);
-        URI enderecoConsulta = uriComponentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
-        return ResponseEntity.created(enderecoConsulta).build();
+        try {
+            executorTransacao.salvaEComita(novaProposta);
+            StatusAvaliacaoProposta avaliacao = avaliaProposta.executa(novaProposta);
+            novaProposta.atualizaStatus(avaliacao);
+            executorTransacao.atualizaEComita(novaProposta);
+            URI enderecoConsulta = uriComponentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
+            return ResponseEntity.created(enderecoConsulta).build();
+        } catch (FeignException.UnprocessableEntity e) {
+            executorTransacao.salvaEComita(novaProposta);
+            URI enderecoConsulta = uriComponentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
+            return ResponseEntity.created(enderecoConsulta).build();
+        }
     }
 }

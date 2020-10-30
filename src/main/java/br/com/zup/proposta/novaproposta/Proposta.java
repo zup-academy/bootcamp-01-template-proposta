@@ -4,9 +4,7 @@ import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.util.Assert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,7 +23,7 @@ public class Proposta {
     private @NotBlank String nome;
     private @NotBlank String endereco;
     private @NotNull @PositiveOrZero BigDecimal salario;
-    private @NotNull StatusAvaliacaoProposta statusAvaliacao;
+    private @NotNull @Enumerated(EnumType.STRING) StatusAvaliacaoProposta statusAvaliacao;
 
     @Deprecated
     public Proposta() {

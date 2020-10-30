@@ -1,5 +1,5 @@
 package br.com.zup.proposta.integracao;
 
 public enum StatusAvaliacaoProposta {
-    NAO_ELEGIVEL, ELEGIVEL, NAO_AVALIADA;
+    NAO_ELEGIVEL, ELEGIVEL, PENDENTE;
 }
