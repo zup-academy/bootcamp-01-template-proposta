@@ -1,4 +1,4 @@
-package io.github.evertocnsouza.rest.dto;
+package io.github.evertocnsouza.rest.dto.request;
 
 import com.sun.istack.NotNull;
 import io.github.evertocnsouza.domain.entity.Proposta;

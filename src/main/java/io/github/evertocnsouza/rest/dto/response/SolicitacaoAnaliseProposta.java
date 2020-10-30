@@ -1,5 +1,4 @@
-package io.github.evertocnsouza.rest.dto;
-
+package io.github.evertocnsouza.rest.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -7,7 +6,7 @@ import io.github.evertocnsouza.domain.entity.Proposta;
 import io.github.evertocnsouza.validation.annotation.CpfCnpj;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
-public class PropostaSolicitadaRequest {
+public class SolicitacaoAnaliseProposta {
 
     @CpfCnpj
     private String documento;
@@ -18,9 +17,9 @@ public class PropostaSolicitadaRequest {
 
 
     @Deprecated
-    public PropostaSolicitadaRequest() {}
+    public SolicitacaoAnaliseProposta() {}
 
-    public PropostaSolicitadaRequest(Proposta proposta){
+    public SolicitacaoAnaliseProposta(Proposta proposta){
         this.documento = proposta.getDocumento();
         this.nome = proposta.getNome();
         this.idProposta = String.valueOf(proposta.getId());

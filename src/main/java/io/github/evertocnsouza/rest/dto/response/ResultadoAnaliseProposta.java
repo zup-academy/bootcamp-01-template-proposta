@@ -1,9 +1,9 @@
-package io.github.evertocnsouza.rest.dto;
+package io.github.evertocnsouza.rest.dto.response;
 
-import io.github.evertocnsouza.domain.enums.StatusAvaliacaoResposta;
 import io.github.evertocnsouza.domain.enums.StatusAvaliacaoProposta;
+import io.github.evertocnsouza.domain.enums.StatusAvaliacaoResposta;
 
-public class ResultAnalisePropostaResponse {
+public class ResultadoAnaliseProposta {
 
     private String documento;
 
@@ -14,16 +14,16 @@ public class ResultAnalisePropostaResponse {
     private String idProposta;
 
 
-    public ResultAnalisePropostaResponse(String documento, String nome,
-                                         StatusAvaliacaoResposta resultadoSolicitacao, String idProposta) {
+    public ResultadoAnaliseProposta(String documento, String nome,
+                                    StatusAvaliacaoResposta resultadoSolicitacao, String idProposta) {
         this.documento = documento;
         this.nome = nome;
         this.resultadoSolicitacao = resultadoSolicitacao;
         this.idProposta = idProposta;
     }
 
-    public StatusAvaliacaoProposta retornaStatus(){
 
+    public StatusAvaliacaoProposta retornaStatus(){
         return this.resultadoSolicitacao.getStatusAvaliacao();
 
     }

@@ -1,6 +1,7 @@
 package io.github.evertocnsouza.rest.controller;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import feign.FeignException;
 import io.github.evertocnsouza.validation.ValidationErrorsOutputDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestControllerAdvice
@@ -55,11 +57,11 @@ public class HandlerAdvice {
         return buildValidationErrors(globalErrors, fieldErrors);
     }
 
-   @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ValidationErrorsOutputDto handleValidationError(
             HttpMessageNotReadableException exception) {
-       log.error("Problema de desserializar o objeto", exception);
+        log.error("Problema de desserializar o objeto", exception);
 
         InvalidFormatException invalidFormat = (InvalidFormatException) exception
                 .getCause();
@@ -104,5 +106,11 @@ public class HandlerAdvice {
     private String getErrorMessage(ObjectError error) {
         return messageSource.getMessage(error, LocaleContextHolder.getLocale());
     }
+
+//    @ExceptionHandler(FeignException.class)
+//    public String handleFeignStatusException(FeignException feign, HttpServletResponse response) {
+//        response.setStatus(feign.status());
+//        return "Esta proposta não foi aprovada";
+//    }
 
 }

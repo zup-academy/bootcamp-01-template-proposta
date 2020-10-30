@@ -1,6 +1,6 @@
 package io.github.evertocnsouza.validation;
 
-import io.github.evertocnsouza.rest.dto.PropostaRequest;
+import io.github.evertocnsouza.rest.dto.request.PropostaRequest;
 import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

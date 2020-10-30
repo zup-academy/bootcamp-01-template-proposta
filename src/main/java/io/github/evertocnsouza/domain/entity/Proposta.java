@@ -9,8 +9,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
+@NamedQuery(name = "findPropostaByStatus", query = "select p from Proposta p where p.statusAvaliacao = :statusAvaliacao")
 public class Proposta {
 
     @Id
@@ -35,7 +37,11 @@ public class Proposta {
     private String documento;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private StatusAvaliacaoProposta statusAvaliacao;
+
+    @OneToOne
+    private Cartao cartao;
 
     @Deprecated
     public Proposta() {
@@ -53,13 +59,19 @@ public class Proposta {
         this.statusAvaliacao = StatusAvaliacaoProposta.NAO_ELEGIVEL;
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
     public String getDocumento() {
         return this.documento;
     }
 
     public BigDecimal getSalario() { return salario; }
+
+    public String getEmail() {return email; }
+
+    public String getEndereco() {return endereco; }
 
     public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
         Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL),
@@ -72,5 +84,14 @@ public class Proposta {
 
     public String getNome() {
         return nome;
+    }
+
+
+    public boolean verificarSeNaoExisteCartao() {
+        return Objects.isNull(cartao);
+    }
+
+    public void incluirCartaoNaProposta(Cartao cartao) {
+        this.cartao = cartao;
     }
 }

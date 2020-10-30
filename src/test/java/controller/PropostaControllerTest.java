@@ -1,7 +1,7 @@
 //package io.github.evertocnsouza.rest.controller;
 //
 //import io.github.evertocnsouza.domain.entity.Proposta;
-//import io.github.evertocnsouza.rest.dto.PropostaRequest;
+//import io.github.evertocnsouza.rest.dto.request.PropostaRequest;
 //import io.github.evertocnsouza.validation.BloqueiaDocIgualValidator;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.DisplayName;
