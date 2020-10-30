@@ -1,9 +1,7 @@
 package com.github.marcoscoutozup.proposta.analisefinanceira;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.marcoscoutozup.proposta.proposta.Proposta;
-import com.github.marcoscoutozup.proposta.proposta.enums.StatusDaProposta;
+import com.google.gson.Gson;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +11,6 @@ import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class AnaliseFinanceiraService {
@@ -30,7 +27,7 @@ public class AnaliseFinanceiraService {
         this.logger = LoggerFactory.getLogger(AnaliseFinanceiraService.class);;
     }
                                                         //3
-    public void processarAnaliseFinanceiraDaProposta(Proposta proposta) throws JsonProcessingException {
+    public void processarAnaliseFinanceiraDaProposta(Proposta proposta) {
         Assert.notNull(proposta, "A proposta avaliada não pode ser nula");
         logger.info("[ANALISE FINANCEIRA] Processando a análise financeira de proposta: {}", proposta.getId());
         Map request = new HashMap();
@@ -46,7 +43,7 @@ public class AnaliseFinanceiraService {
         } catch (FeignException e){ //5
             //6
             if(e.status() == 422){
-                analiseFinanceiraResponse = new ObjectMapper().readValue(e.contentUTF8(), AnaliseFinanceiraResponse.class);
+                analiseFinanceiraResponse = new Gson().fromJson(e.contentUTF8(), AnaliseFinanceiraResponse.class);
             }
         }
 

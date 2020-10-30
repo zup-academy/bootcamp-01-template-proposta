@@ -35,7 +35,7 @@ public class CadastrarPropostaController {
     }
 
     @PostMapping                                                  //3
-    public ResponseEntity cadastrarProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uri) throws JsonProcessingException {
+    public ResponseEntity cadastrarProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uri) {
         tracer.activeSpan().setTag("usuario.email", propostaRequest.getEmail());
         tracer.activeSpan().setBaggageItem("usuario.email", propostaRequest.getEmail());
         tracer.activeSpan().log("Cadastrando a proposta do usuário");

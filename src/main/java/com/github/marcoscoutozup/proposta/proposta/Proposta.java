@@ -58,6 +58,7 @@ public class Proposta {
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.statusDaProposta = StatusDaProposta.PENDENTE;
     }
 
     public UUID getId() {
