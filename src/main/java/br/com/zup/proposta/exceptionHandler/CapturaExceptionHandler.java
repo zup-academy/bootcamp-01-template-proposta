@@ -60,7 +60,7 @@ public class CapturaExceptionHandler extends ResponseEntityExceptionHandler {
                 status.value(), status.getReasonPhrase(), fieldErrors), status);
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    /*@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(FeignException.class)
     public ResponseEntity handleFeignExceptionUnprocessableEntity(
             FeignException.FeignServerException exception, HttpHeaders headers,
@@ -68,13 +68,12 @@ public class CapturaExceptionHandler extends ResponseEntityExceptionHandler {
             WebRequest request){
 
         InvalidFormatException invalidFormat = (InvalidFormatException) exception.getCause();
-
         List<ErrorObject> fieldErrors = List.of();
 
         return new ResponseEntity(new ErrorResponse(invalidFormat.getValue() +
                 " não é um formato válido",
                 status.value(), status.getReasonPhrase(), fieldErrors), status);
-    }
+    }*/
 
     private ErrorResponse getErrorResponse(HttpStatus status,
                                            List<ErrorObject> errors){

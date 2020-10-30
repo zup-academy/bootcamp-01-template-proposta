@@ -1,10 +1,11 @@
 package br.com.zup.proposta.controller;
 
-import br.com.zup.proposta.dto.AvaliacaoPropostaRequest;
+import br.com.zup.proposta.dto.AvaliaProposta;
 import br.com.zup.proposta.dto.NovaPropostaDtoRequest;
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;
 import br.com.zup.proposta.validations.DocumentoIgualValidator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,8 @@ public class PropostaController {
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
 
     public PropostaController(EntityManager entityManager,
-                              DocumentoIgualValidator documentoIgualValidator, AvaliaProposta avaliaProposta) {
+                              DocumentoIgualValidator documentoIgualValidator,
+                              AvaliaProposta avaliaProposta) {
         this.entityManager = entityManager;
         this.documentoIgualValidator = documentoIgualValidator;
         this.avaliaProposta = avaliaProposta;
@@ -41,37 +43,36 @@ public class PropostaController {
     @PostMapping
     @Transactional
     public ResponseEntity novaProposta(@RequestBody @Valid NovaPropostaDtoRequest request,
-                                       UriComponentsBuilder builder){ //3
+                                       UriComponentsBuilder builder)
+            throws JsonProcessingException { //3
 
-        //é necessário descrever o erro aqui?
         if(documentoIgualValidator.existe(request)) //4
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body("Documento inválido!");
 
         Proposta novaProposta = request.toProposta(); //5
 
-        //logger.info("Proposta: documento= {}", request.getDocumento());
+        logger.info("Proposta pendente: Nome={} , Documento={}, Status Avaliação={}",
+                novaProposta.getNome() , novaProposta.getDocumento(),
+                novaProposta.getStatusAvaliacaoProposta());
 
         entityManager.persist(novaProposta);
 
         //servico externo
-        StatusAvaliacaoProposta statusAvaliacaoProposta = avaliaProposta.executar(novaProposta); //6
+        StatusAvaliacaoProposta statusAvaliacaoProposta =
+                avaliaProposta.executar(novaProposta); //6
 
         novaProposta.atualizaStatus(statusAvaliacaoProposta);
 
-        logger.info("Nome:{} , Documento:{}, Status Avaliação:{} "
-                + novaProposta.getNome() , novaProposta.getDocumento(),
+        logger.info("Proposta avaliada: Nome={} , Documento={}, Status Avaliação={}",
+                novaProposta.getNome() , novaProposta.getDocumento(),
                 novaProposta.getStatusAvaliacaoProposta());
 
         //atualizar proposta
         entityManager.merge(novaProposta);
 
-
         return ResponseEntity.created(builder.path("/api/propostas/{id}")
-                .buildAndExpand(novaProposta.getId())
-                .toUri())
-                .build();
+                .buildAndExpand(novaProposta.getId()).toUri()).build();
     }
-
 
 }

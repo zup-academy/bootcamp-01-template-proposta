@@ -1,14 +1,14 @@
 package br.com.zup.proposta;
 
-import br.com.zup.proposta.controller.AvaliaProposta;
+import br.com.zup.proposta.dto.AvaliaProposta;
 import br.com.zup.proposta.controller.PropostaController;
 import br.com.zup.proposta.dto.NovaPropostaDtoRequest;
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.validations.DocumentoIgualValidator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +40,7 @@ public class PropostaControllerTest {
 
     @Test
     @DisplayName("deve salvar se o documento está válido")
-    void teste02(){
+    void teste02() throws JsonProcessingException {
 
         EntityManager entityManager = Mockito.mock(EntityManager.class);
 

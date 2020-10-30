@@ -1,4 +1,4 @@
-package br.com.zup.proposta.controller.integration;
+package br.com.zup.proposta.dto.integration;
 
 import br.com.zup.proposta.dto.AvaliacaoPropostaRequest;
 import org.springframework.cloud.openfeign.FeignClient;
