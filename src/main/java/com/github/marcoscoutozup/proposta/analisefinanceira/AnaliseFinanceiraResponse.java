@@ -1,5 +1,6 @@
 package com.github.marcoscoutozup.proposta.analisefinanceira;
 
+import com.github.marcoscoutozup.proposta.proposta.enums.ResultadoStatusProposta;
 import com.github.marcoscoutozup.proposta.proposta.enums.StatusDaProposta;
 
 import java.util.UUID;
@@ -9,7 +10,7 @@ public class AnaliseFinanceiraResponse {
     private String documento;
     private String nome;
                 //1
-    private StatusDaProposta resultadoSolicitacao;
+    private ResultadoStatusProposta resultadoSolicitacao;
     private UUID idProposta;
 
     public String getDocumento() {
@@ -28,11 +29,11 @@ public class AnaliseFinanceiraResponse {
         this.nome = nome;
     }
 
-    public StatusDaProposta getResultadoSolicitacao() {
+    public ResultadoStatusProposta getResultadoSolicitacao() {
         return resultadoSolicitacao;
     }
 
-    public void setResultadoSolicitacao(StatusDaProposta resultadoSolicitacao) {
+    public void setResultadoSolicitacao(ResultadoStatusProposta resultadoSolicitacao) {
         this.resultadoSolicitacao = resultadoSolicitacao;
     }
 

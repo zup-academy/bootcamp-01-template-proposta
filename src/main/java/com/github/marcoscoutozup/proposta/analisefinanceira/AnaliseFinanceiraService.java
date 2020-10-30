@@ -51,6 +51,6 @@ public class AnaliseFinanceiraService {
         }
 
         Assert.notNull(analiseFinanceiraResponse, "A resposta da análise financeira não pode ser nula");
-        proposta.modificarStatusDaProposta(analiseFinanceiraResponse.getResultadoSolicitacao());
+        proposta.modificarStatusDaProposta(analiseFinanceiraResponse.getResultadoSolicitacao().toStatusDaProposta());
     }
 }
