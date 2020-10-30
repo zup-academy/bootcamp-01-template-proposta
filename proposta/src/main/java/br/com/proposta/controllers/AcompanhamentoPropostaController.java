@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/propostas/{id}")
+@RequestMapping("/api/acompanhar-propostas/{id}")
 public class AcompanhamentoPropostaController {
 
 

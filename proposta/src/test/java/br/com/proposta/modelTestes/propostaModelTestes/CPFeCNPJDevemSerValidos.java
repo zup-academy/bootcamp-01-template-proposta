@@ -1,4 +1,4 @@
-package br.com.proposta.novapropostatestes;
+package br.com.proposta.modelTestes.propostaModelTestes;
 
 
 import org.json.JSONException;

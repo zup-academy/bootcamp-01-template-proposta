@@ -1,41 +1,31 @@
-package br.com.proposta.novapropostatestes;
+package br.com.proposta.controllerTestes;
 
-import br.com.proposta.models.Proposta;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 
-import static io.restassured.RestAssured.*;
-import static io.restassured.matcher.RestAssuredMatchers.*;
-import static org.hamcrest.Matchers.*;
+import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class NovaPropostaDeveRetornarOkOuBadRequest {
-
-    /* Requisitos:
-
-    1) documento do solicitante deve ser obrigatório e válido
-    2) email não pode ser vazio, nulo ou inválido
-    3) nome não pode ser vazio ou nulo
-    4) endereço não pode ser vazio ou nulo
-    5) salário bruto não pode ser vazio, nulo ou negativo
-    6) A proposta deve estar armazenada no sistema, com um identificador gerado pelo sistema.
-    7) Retornar 201 com Header Location preenchido com a URL da nova proposta em caso de sucesso.
-    8) Retornar 400 quando violado alguma das restrições.
-
-    */
+@TestPropertySource(locations = "classpath:application.properties")
+public class NovaPropostaControllerTestes {
 
     @LocalServerPort
     private int port;
 
+    @Value("${proposta.token.testes}")
+    private String token;
 
     @Test
     public void deveRetornarOkAoCriarNovaProposta() throws JSONException {
@@ -63,13 +53,13 @@ public class NovaPropostaDeveRetornarOkOuBadRequest {
 
 
     @Test
-    public void deveRetornarBadRequestAoCriarNovaPropostaComViolacaoDeRestricoes() throws JSONException {
+    public void deveRetornarBadRequestAoCriarNovaPropostaInvalida() throws JSONException {
 
 
         JSONObject novaProposta = new JSONObject()
                 .put("nome"," ")
-                .put("email","teste")
-                .put("endereco","  ")
+                .put("email","teste@email.com")
+                .put("endereco","Rua Teste, Edifício Insomnia")
                 .put("salario",new BigDecimal(10000))
                 .put("numeroIdentificacao", "123.456.789");
 
@@ -85,4 +75,5 @@ public class NovaPropostaDeveRetornarOkOuBadRequest {
                 .statusCode(HttpStatus.BAD_REQUEST.value());
 
     }
+
 }

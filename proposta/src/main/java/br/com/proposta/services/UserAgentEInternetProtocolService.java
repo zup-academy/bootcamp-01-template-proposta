@@ -11,12 +11,11 @@ import java.util.List;
 public class UserAgentEInternetProtocolService {
 
 
-        public List<String> recuperarUserAgentEInternetProtocolNaRequisicao(HttpHeaders headers,
-                                                                            HttpServletRequest httpRequest){
+        public List<String> recuperarUserAgentEInternetProtocolNaRequisicao(HttpServletRequest httpRequest){
 
             String internetProtocol = httpRequest.getRemoteAddr();
 
-            String userAgent = headers.get(HttpHeaders.USER_AGENT).get(0);
+            String userAgent = httpRequest.getHeader("user-agent");
 
             List<String> userAgentEInternetProtocol = new ArrayList<>();
 

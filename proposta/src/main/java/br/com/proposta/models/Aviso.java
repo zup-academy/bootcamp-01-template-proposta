@@ -1,15 +1,17 @@
 package br.com.proposta.models;
 
+import br.com.proposta.models.Enums.StatusAviso;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Entity
-public class Viagem {
+public class Aviso {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -17,16 +19,13 @@ public class Viagem {
     private String id;
 
     @NotBlank
-    private String destino;
+    private String numeroCartao;
 
-    private String idCartao;
-
-    @Future
-    @NotNull
-    private OffsetDateTime termino;
+    @ManyToOne
+    private Cartao cartao;
 
     @NotNull
-    private OffsetDateTime avisadoEm;
+    private LocalDateTime avisadoEm;
 
     @NotBlank
     private String internetProtocol;
@@ -35,13 +34,14 @@ public class Viagem {
     private String userAgent;
 
 
-    public Viagem(@NotBlank String destino, String idCartao, @Future @NotNull OffsetDateTime termino,
-                  @NotNull OffsetDateTime avisadoEm, @NotBlank String internetProtocol, @NotBlank String userAgent) {
-        this.destino = destino;
-        this.idCartao = idCartao;
-        this.termino = termino;
-        this.avisadoEm = avisadoEm;
+    private StatusAviso status;
+
+
+    public Aviso(String numeroCartao, @NotBlank String internetProtocol, @NotBlank String userAgent, StatusAviso status) {
+        this.numeroCartao = numeroCartao;
+        this.avisadoEm = LocalDateTime.now();
         this.internetProtocol = internetProtocol;
         this.userAgent = userAgent;
+        this.status = status;
     }
 }

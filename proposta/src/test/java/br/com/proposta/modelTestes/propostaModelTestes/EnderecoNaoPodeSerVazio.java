@@ -1,4 +1,4 @@
-package br.com.proposta.novapropostatestes;
+package br.com.proposta.modelTestes.propostaModelTestes;
 
 import br.com.proposta.models.Proposta;
 import org.junit.Assert;
@@ -12,7 +12,8 @@ import javax.validation.ValidatorFactory;
 import java.math.BigDecimal;
 import java.util.Set;
 
-public class SalarioBrutoNaoPodeSerVazio {
+public class EnderecoNaoPodeSerVazio {
+
 
     private Validator validator;
 
@@ -22,7 +23,7 @@ public class SalarioBrutoNaoPodeSerVazio {
     @Before
     public void setUp() {
 
-        novaProposta = new Proposta("Nome", "teste@teste.com", "Endereço teste", new BigDecimal(0), "123.456.789");
+        novaProposta = new Proposta("Teste", "teste@email.com", "  ", new BigDecimal(10000), "123.456.789");
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
@@ -32,7 +33,7 @@ public class SalarioBrutoNaoPodeSerVazio {
 
 
     @Test
-    public void nomeNaoDeveSerEmBrancoNoCadastro(){
+    public void enderecoNaoDeveSerEmBrancoNoCadastro(){
 
         Set<ConstraintViolation<Proposta>> violations = validator.validate(novaProposta);
 

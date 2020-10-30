@@ -1,10 +1,9 @@
-package br.com.proposta.novapropostatestes;
+package br.com.proposta.modelTestes.propostaModelTestes;
 
 import br.com.proposta.models.Proposta;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

@@ -1,4 +1,4 @@
-package br.com.proposta.novabiometriatestes;
+package br.com.proposta.modelTestes;
 import static org.mockito.Mockito.*;
 
 public class BiometriaModelTestes {

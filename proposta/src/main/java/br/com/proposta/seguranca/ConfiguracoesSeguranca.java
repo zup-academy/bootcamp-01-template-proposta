@@ -14,7 +14,7 @@ public class ConfiguracoesSeguranca extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorizeRequests ->
                 authorizeRequests
-                        .antMatchers("/actuator/prometheus").permitAll()
+                        .antMatchers("/actuator/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
                         .anyRequest()
                         .authenticated()

@@ -39,14 +39,14 @@ public class BloqueioCartaoController {
 
     @PostMapping
     public ResponseEntity<?> bloqueia(@PathVariable String propostaId, UriComponentsBuilder uriComponentsBuilder,
-                                      @RequestHeader HttpHeaders headers, HttpServletRequest httpRequest){
+                                    HttpServletRequest httpRequest){
 
 
         Optional<Proposta> proposta = propostaRepository.findById(propostaId);
 
 
         List<String> userAgentEInternetProtocol = userAgentEInternetProtocolService
-                .recuperarUserAgentEInternetProtocolNaRequisicao(headers, httpRequest);
+                .recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
 
 
         cartaoBloqueioService.bloquear(propostaId, userAgentEInternetProtocol);

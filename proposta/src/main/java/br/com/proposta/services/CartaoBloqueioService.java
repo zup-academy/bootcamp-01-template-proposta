@@ -10,7 +10,6 @@ import br.com.proposta.repositories.BloqueioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -36,13 +35,13 @@ public class CartaoBloqueioService {
 
         CartaoResponse cartaoResponse = integracaoCartaoService.buscarCartao(propostaId).getBody();
 
+
         BloqueioResponse bloqueioResponse = integracaoCartaoService
                 .avisarLegadoBloqueioDoCartao(cartaoResponse.getId(), new BloqueioRequest("api-cartoes")).getBody();
 
 
         Bloqueio novoBloqueio =
-                new Bloqueio(cartaoResponse.getId(), userAgentEInternetProtocol.get(1),
-                        userAgentEInternetProtocol.get(0), StatusBloqueio.BLOQUEADO);
+                new Bloqueio(userAgentEInternetProtocol.get(1), userAgentEInternetProtocol.get(0), StatusBloqueio.BLOQUEADO);
 
 
         bloqueioRepository.save(novoBloqueio);

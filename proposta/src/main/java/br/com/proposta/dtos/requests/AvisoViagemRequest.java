@@ -1,18 +1,26 @@
 package br.com.proposta.dtos.requests;
 
-import javax.validation.constraints.Future;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.constraints.NotBlank;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
+
+
+
 
 public class AvisoViagemRequest {
+
 
     @NotBlank
     private String destino;
 
-    @Future
-    private OffsetDateTime validoAte;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate validoAte;
 
-    public AvisoViagemRequest(@NotBlank String destino, @Future OffsetDateTime validoAte) {
+    @Deprecated
+    public AvisoViagemRequest(){}
+
+
+    public AvisoViagemRequest(@NotBlank String destino, LocalDate validoAte) {
         this.destino = destino;
         this.validoAte = validoAte;
     }
@@ -25,11 +33,11 @@ public class AvisoViagemRequest {
         this.destino = destino;
     }
 
-    public OffsetDateTime getValidoAte() {
+    public LocalDate getValidoAte() {
         return validoAte;
     }
 
-    public void setValidoAte(OffsetDateTime validoAte) {
+    public void setValidoAte(LocalDate validoAte) {
         this.validoAte = validoAte;
     }
 }

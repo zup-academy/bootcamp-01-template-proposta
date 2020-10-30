@@ -21,13 +21,12 @@ public class Carteira {
 
     private StatusCarteira status;
 
-    @ElementCollection
-    private Set<String> cartoesId = new HashSet<>();
+    @ManyToOne
+    private Cartao cartao;
 
-    public Carteira(String carteira, String cartaoId, StatusCarteira status) {
+    public Carteira(@NotBlank String carteira, StatusCarteira status, Cartao cartao) {
         this.carteira = carteira;
-        this.cartoesId.add(cartaoId);
         this.status = status;
+        this.cartao = cartao;
     }
-
 }
