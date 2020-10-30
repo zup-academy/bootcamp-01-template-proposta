@@ -1,5 +1,8 @@
 package br.com.proposta.controllers;
 
+import br.com.proposta.dtos.responses.BloqueioResponse;
+import br.com.proposta.models.Bloqueio;
+import br.com.proposta.models.Enums.StatusBloqueio;
 import br.com.proposta.models.Proposta;
 import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.services.CartaoBloqueioService;
@@ -20,7 +23,7 @@ import java.util.Optional;
 public class BloqueioCartaoController {
 
 
-    private final Logger logger = LoggerFactory.getLogger(Proposta.class);
+    private final Logger logger = LoggerFactory.getLogger(Bloqueio.class);
 
     private CartaoBloqueioService cartaoBloqueioService;
 
@@ -42,19 +45,19 @@ public class BloqueioCartaoController {
                                     HttpServletRequest httpRequest){
 
 
-        Optional<Proposta> proposta = propostaRepository.findById(propostaId);
-
-
         List<String> userAgentEInternetProtocol = userAgentEInternetProtocolService
                 .recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
 
+        BloqueioResponse bloqueioResponse =
+                cartaoBloqueioService.bloquear(propostaId, userAgentEInternetProtocol);
 
-        cartaoBloqueioService.bloquear(propostaId, userAgentEInternetProtocol);
+        Bloqueio bloqueio =
+                new Bloqueio(userAgentEInternetProtocol.get(0), userAgentEInternetProtocol.get(1), StatusBloqueio.valueOf(bloqueioResponse.getResultado()));
 
-        logger.info("Bloqueio realizado com sucesso no cartão de proposta número={}", proposta.get().getId());
+        logger.info("Bloqueio realizado com sucesso no cartão");
 
         return ResponseEntity
-                .created(uriComponentsBuilder.path("/bloqueios/{propostaId}").buildAndExpand(proposta.get().getId()).toUri()).build();
+                .created(uriComponentsBuilder.path("/bloqueios/{propostaId}").buildAndExpand(bloqueio.getId()).toUri()).build();
 
     }
 }

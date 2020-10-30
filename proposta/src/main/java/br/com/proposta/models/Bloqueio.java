@@ -37,4 +37,7 @@ public class Bloqueio {
         this.statusBloqueio = statusBloqueio;
     }
 
+    public String getId() {
+        return id;
+    }
 }

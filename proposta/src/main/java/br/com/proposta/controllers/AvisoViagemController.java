@@ -26,7 +26,6 @@ public class AvisoViagemController {
     @Autowired
     private AvisoRepository avisoRepository;
 
-
     @Autowired
     private IntegracaoCartaoService integracaoCartaoService;
 
@@ -53,5 +52,4 @@ public class AvisoViagemController {
         return ResponseEntity.ok().build();
 
     }
-
 }
