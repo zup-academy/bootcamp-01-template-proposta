@@ -1,4 +1,4 @@
-package br.com.proposta.controllerTestes;
+package br.com.proposta.testesEndpoints;
 
 
 import org.junit.Test;

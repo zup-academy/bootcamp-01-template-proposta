@@ -1,4 +1,4 @@
-package br.com.proposta.modelTestes;
+package br.com.proposta.testesValidacoes;
 import br.com.proposta.entidades.Bloqueio;
 import br.com.proposta.entidades.Enums.StatusBloqueio;
 import org.junit.Assert;
@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.Set;
 
 
-public class CartaoModelTestes {
+public class ValidacoesCartoesTestes {
 
     private OffsetDateTime emitidoEm;
 

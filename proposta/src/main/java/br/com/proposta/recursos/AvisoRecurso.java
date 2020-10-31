@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/viagens")
-public class AvisoViagemRecurso {
+public class AvisoRecurso {
 
     /* total de pontos = 6 */
 
@@ -26,8 +26,8 @@ public class AvisoViagemRecurso {
     private final BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao;
 
 
-    public AvisoViagemRecurso(AvisoRepository avisoRepository, IntegracaoApiCartoes integracaoApiCartoes,
-                              BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao) {
+    public AvisoRecurso(AvisoRepository avisoRepository, IntegracaoApiCartoes integracaoApiCartoes,
+                        BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao) {
         this.avisoRepository = avisoRepository;
         this.integracaoApiCartoes = integracaoApiCartoes;
         this.buscarIPeUserAgentNaRequisicao = buscarIPeUserAgentNaRequisicao;

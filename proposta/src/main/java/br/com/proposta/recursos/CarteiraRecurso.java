@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/carteiras")
-public class AssociaCarteiraRecurso {
+public class CarteiraRecurso {
 
     /* total de pontos = 8 */
 
@@ -29,8 +29,8 @@ public class AssociaCarteiraRecurso {
     private final CartaoRepository cartaoRepository;
 
 
-    public AssociaCarteiraRecurso(IntegracaoApiCartoes integracaoApiCartoes, CarteiraRepository carteiraRepository,
-                                  CartaoRepository cartaoRepository) {
+    public CarteiraRecurso(IntegracaoApiCartoes integracaoApiCartoes, CarteiraRepository carteiraRepository,
+                           CartaoRepository cartaoRepository) {
         this.integracaoApiCartoes = integracaoApiCartoes;
         this.carteiraRepository = carteiraRepository;
         this.cartaoRepository = cartaoRepository;

@@ -1,4 +1,4 @@
-package br.com.proposta.modelTestes;
+package br.com.proposta.testesValidacoes;
 
 import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.validacoes.interfaces.CpfCnpj;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
-public class propostaModelTestes {
+public class ValidacoesPropostasTestes {
 
     @NotBlank
     private String nome;

@@ -1,4 +1,4 @@
-package br.com.proposta.modelTestes;
+package br.com.proposta.testesValidacoes;
 
 
 import br.com.proposta.entidades.Aviso;
@@ -14,7 +14,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
 
-public class AvisoModelTestes {
+public class ValidacoesAvisosTestes {
 
     /* Validações testadas:
 
