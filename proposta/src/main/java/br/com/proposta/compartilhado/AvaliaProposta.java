@@ -1,7 +1,7 @@
 package br.com.proposta.compartilhado;
 
-import br.com.proposta.transferenciadados.requisicoes.RequisicaoSolicitarAnaliseDaProposta;
-import br.com.proposta.transferenciadados.respostas.RespostaAnaliseDeProposta;
+import br.com.proposta.dtos.requests.AnaliseDaPropostaRequest;
+import br.com.proposta.dtos.responses.AnaliseDaPropostaResponse;
 import br.com.proposta.integracoes.IntegracaoApiAnalise;
 import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
 import br.com.proposta.entidades.Proposta;
@@ -11,25 +11,22 @@ import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 
 @Service
+@Validated
 public class AvaliaProposta {
 
-    /* total de pontos = 6 */
+    /* total de pontos = 5 */
 
-    /* @complexidade - classe criada no projeto */
-    private RespostaAnaliseDeProposta respostaAnaliseDePropostaJson;
-
-    /* @complexidade - classe criada no projeto */
+    /* @complexidade - acoplamento contextual */
     private final IntegracaoApiAnalise integracaoApiAnalise;
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
-
-    public AvaliaProposta(IntegracaoApiAnalise integracaoApiAnalise, RespostaAnaliseDeProposta respostaAnaliseDePropostaJson) {
+    public AvaliaProposta(IntegracaoApiAnalise integracaoApiAnalise) {
         this.integracaoApiAnalise = integracaoApiAnalise;
-        this.respostaAnaliseDePropostaJson = respostaAnaliseDePropostaJson;
     }
 
 
@@ -39,21 +36,25 @@ public class AvaliaProposta {
         try{
 
             /* @complexidade - classe criada no projeto */
-            respostaAnaliseDePropostaJson = integracaoApiAnalise.avaliaproposta(new RequisicaoSolicitarAnaliseDaProposta(proposta)).getBody();
+           var respostaAnaliseDeProposta = integracaoApiAnalise.avaliaproposta(new AnaliseDaPropostaRequest(proposta)).getBody();
+
+            logger.info("Proposta={} Status={} retornada da avaliação da API de Análise.",
+                    respostaAnaliseDeProposta.getNome(), respostaAnaliseDeProposta.getResultadoSolicitacao());
+
+            return respostaAnaliseDeProposta.retornaStatus();
 
 
         }catch(FeignException e){
 
             /* @complexidade - classe criada no projeto + @complexidade - pacote externo utilizado no projeto */
-            respostaAnaliseDePropostaJson = new ObjectMapper().readValue(e.contentUTF8(), RespostaAnaliseDeProposta.class);
+            var respostaAnaliseDeProposta = new ObjectMapper().readValue(e.contentUTF8(), AnaliseDaPropostaResponse.class);
+
+            logger.info("Proposta={} Status={} retornada da avaliação da API de Análise.",
+                    respostaAnaliseDeProposta.getNome(), respostaAnaliseDeProposta.getResultadoSolicitacao());
+
+            return respostaAnaliseDeProposta.retornaStatus();
+
         }
-
-
-        logger.info("Proposta={} Status={} retornada da avaliação da API de Análise.",
-                respostaAnaliseDePropostaJson.getNome(), respostaAnaliseDePropostaJson.getResultadoSolicitacao());
-
-
-        return respostaAnaliseDePropostaJson.retornaStatus();
 
     }
 }

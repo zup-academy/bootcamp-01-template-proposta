@@ -1,6 +1,6 @@
 package br.com.proposta.entidades;
 
-import br.com.proposta.transferenciadados.respostas.RespostaBloqueio;
+import br.com.proposta.dtos.responses.BloqueioResponse;
 import br.com.proposta.entidades.Enums.StatusBloqueio;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -39,7 +39,7 @@ public class Bloqueio {
         this.statusBloqueio = statusBloqueio;
     }
 
-    public Bloqueio(List<String> IPeUserAgent, RespostaBloqueio bloqueio) {
+    public Bloqueio(List<String> IPeUserAgent, BloqueioResponse bloqueio) {
         this.instanteBloqueio = OffsetDateTime.now();
         this.internetProtocol = IPeUserAgent.get(0);
         this.userAgent = IPeUserAgent.get(1);

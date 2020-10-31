@@ -1,14 +1,15 @@
 package br.com.proposta.compartilhado;
 
-import br.com.proposta.transferenciadados.requisicoes.RequisicaoBloqueio;
-import br.com.proposta.transferenciadados.respostas.RespostaBloqueio;
+import br.com.proposta.dtos.requests.BloqueioRequest;
+import br.com.proposta.dtos.responses.BloqueioResponse;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import br.com.proposta.entidades.Bloqueio;
-import br.com.proposta.entidades.Enums.StatusBloqueio;
 import br.com.proposta.entidades.Proposta;
-import br.com.proposta.repositorios.BloqueioRepository;
+import br.com.proposta.repositories.BloqueioRepository;
+import br.com.proposta.repositories.CartaoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -17,11 +18,14 @@ public class BloquearCartao {
 
     /* total de pontos = 7 */
 
-    /* @complexidade - classe criada no projeto */
+    /* @complexidade - acoplamento contextual */
     private final IntegracaoApiCartoes integracaoApiCartoes;
 
-    /* @complexidade - classe criada no projeto */
+    /* @complexidade - acoplamento contextual */
     private BloqueioRepository bloqueioRepository;
+
+    @Autowired
+    private CartaoRepository cartaoRepository;
 
 
     public BloquearCartao(IntegracaoApiCartoes integracaoApiCartoes,
@@ -33,21 +37,23 @@ public class BloquearCartao {
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
 
-    public RespostaBloqueio bloquear(String propostaId, List<String> userAgentEInternetProtocol){
+    public BloqueioResponse bloquear(String cartaoId, List<String> userAgentEInternetProtocol){
 
+        System.out.println(cartaoId);
 
         /* @complexidade - classe criada no projeto + @complexidade - classe criada no projeto */
-        var cartaoResponse = integracaoApiCartoes.buscarCartao(propostaId).getBody();
+        var cartao = cartaoRepository.findByNumero(cartaoId);
 
+        System.out.println(cartao);
 
         /* @complexidade - classe criada no projeto + @complexidade - classe criada no projeto */
         var bloqueioResponse = integracaoApiCartoes
-                .avisarLegadoBloqueioDoCartao(cartaoResponse.getId(), new RequisicaoBloqueio("api-cartoes")).getBody();
+                .avisarLegadoBloqueioDoCartao(cartao.getNumero(), new BloqueioRequest("api-cartoes"))
+                .getBody();
 
 
         /* @complexidade - classe criada no projeto */
-        var novoBloqueio = new Bloqueio(userAgentEInternetProtocol.get(0), userAgentEInternetProtocol.get(1),
-                        StatusBloqueio.valueOf(bloqueioResponse.getResultado()));
+        var novoBloqueio = new Bloqueio(userAgentEInternetProtocol, bloqueioResponse);
 
 
         bloqueioRepository.save(novoBloqueio);

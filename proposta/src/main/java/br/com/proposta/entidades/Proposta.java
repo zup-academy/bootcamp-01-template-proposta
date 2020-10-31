@@ -1,7 +1,7 @@
 package br.com.proposta.entidades;
 
 import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
-import br.com.proposta.repositorios.PropostaRepository;
+import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.validacoes.interfaces.CpfCnpj;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -43,7 +43,6 @@ public class Proposta {
 
     @Deprecated
     public Proposta(){}
-
 
     public Proposta(@NotBlank String nome, @NotBlank @Email String email, @NotBlank String endereco, @NotNull @Positive BigDecimal salario,
                     @NotBlank String identificacao) {

@@ -1,6 +1,6 @@
 package br.com.proposta.testesEndpoints;
 
-
+import io.restassured.authentication.OAuthSignature;
 import io.restassured.response.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,30 +10,68 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
+import java.math.BigDecimal;
+
+
 import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AcompanhaPropostaTestes {
+public class PropostaResourceTestes {
 
     @LocalServerPort
     private int port;
 
+
     @Test
     public void deveRetornarOkAoCriarNovaProposta() throws JSONException {
 
-        /* {idProposta} */
+        JSONObject novaProposta = new JSONObject()
+                .put("nome","Teste Testando")
+                .put("email","teste@email.com")
+                .put("endereco","Rua Teste, Edifício Insomnia")
+                .put("salario",new BigDecimal(10000))
+                .put("numeroIdentificacao", "123.022.719-34");
+
 
         given()
-                .basePath("/api/acompanhar-propostas")
-                .header("Authorization", getToken())
+                .basePath("/api/propostas")
                 .port(port)
+                .header("Content-Type", "application/json")
+                .header("Authorization", getToken())
+                .body(novaProposta.toString())
                 .when()
-                .get()
+                .post()
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.CREATED.value());
 
     }
+
+
+    @Test
+    public void deveRetornarBadRequestAoCriarNovaPropostaInvalida() throws JSONException {
+
+
+        JSONObject novaProposta = new JSONObject()
+                .put("nome"," ")
+                .put("email","teste@email.com")
+                .put("endereco","Rua Teste, Edifício Insomnia")
+                .put("salario",new BigDecimal(10000))
+                .put("numeroIdentificacao", "123.022.719-34");
+
+
+        given().auth().oauth2(getToken(), OAuthSignature.QUERY_STRING)
+                .basePath("/propostas")
+                .port(port)
+                .header("Content-Type", "application/json")
+                .body(novaProposta.toString())
+                .when()
+                .post()
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+
+    }
+
 
     public String getToken() throws JSONException {
 
@@ -55,4 +93,5 @@ public class AcompanhaPropostaTestes {
 
         return token;
     }
+
 }

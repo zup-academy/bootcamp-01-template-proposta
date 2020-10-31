@@ -55,7 +55,7 @@ public class ValidacoesAvisosTestes {
 
         Set<ConstraintViolation<Aviso>> violations = validator.validate(aviso);
 
-        Assert.assertTrue(!violations.isEmpty());
+        Assert.assertTrue(violations.isEmpty());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class ValidacoesAvisosTestes {
     public void oIPNaoPodeEstarEmBrancoNemSerNulo() {
 
         Aviso aviso = new Aviso("c29b096f-f094-4963-ad75-96c4493c2bdb",
-                "127.0.0.1", "insomnia/2020.4.1", StatusAviso.CRIADO);
+                " ", "insomnia/2020.4.1", StatusAviso.CRIADO);
 
         Set<ConstraintViolation<Aviso>> violations = validator.validate(aviso);
 
@@ -75,7 +75,7 @@ public class ValidacoesAvisosTestes {
     public void oUserAgentNaoPodeEstarEmBrancoNemSerNulo() {
 
         Aviso aviso = new Aviso("c29b096f-f094-4963-ad75-96c4493c2bdb",
-                "127.0.0.1", "insomnia/2020.4.1", StatusAviso.CRIADO);
+                "127.0.0.1", " ", StatusAviso.CRIADO);
 
         Set<ConstraintViolation<Aviso>> violations = validator.validate(aviso);
 
@@ -92,8 +92,8 @@ public class ValidacoesAvisosTestes {
         Aviso aviso2 = new Aviso("c29b096f-f094-4963-ad75-96c4493c2bdb",
                 "127.0.0.1", "insomnia/2020.4.1", StatusAviso.NAO_CRIADO);
 
-        Assert.assertNull(aviso1);
-        Assert.assertNull(aviso2);
+        Assert.assertNotNull(aviso1);
+        Assert.assertNotNull(aviso2);
     }
 
 }

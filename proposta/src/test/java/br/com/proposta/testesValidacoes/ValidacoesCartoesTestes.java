@@ -1,6 +1,8 @@
 package br.com.proposta.testesValidacoes;
 import br.com.proposta.entidades.Bloqueio;
+import br.com.proposta.entidades.Cartao;
 import br.com.proposta.entidades.Enums.StatusBloqueio;
+import br.com.proposta.entidades.Proposta;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,21 +11,16 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.time.OffsetDateTime;
+import java.math.BigDecimal;
 import java.util.Set;
 
 
 public class ValidacoesCartoesTestes {
 
-    private OffsetDateTime emitidoEm;
-
-    private String titular;
-
 
     /* Validações testadas:
-     *  1 - o IP não pode estar me branco nem ser nulo
-     *  2 - o userAgente não pode estar em branco nem ser nulo
-     *  3 - o status deve receber dois valores
+     *  1 - o titular não pode estar em branco ou nulo
+     *  2 - o número não pode estar em branco ou nulo
      * */
 
 
@@ -38,41 +35,33 @@ public class ValidacoesCartoesTestes {
 
     @Test
     @DisplayName("o IP não pode estar me branco nem ser nulo")
-    public void oIPNaoPodeEstarEmBrancoNemSerNulo() {
+    public void titularDoCartaoNaoPodeEstarEmBrancoOuNulo() {
 
-        Bloqueio bloqueio =
-                new Bloqueio(" ", "insomnia/2020.4.1", StatusBloqueio.BLOQUEADO);
+        var proposta =
+                new Proposta("Teste Testando", "teste@email.com", "teste teste teste", new BigDecimal(10000), "123.123.123-01");
 
-        Set<ConstraintViolation<Bloqueio>> violations = validator.validate(bloqueio);
+        var cartao =
+                new Cartao("4ca82223-8c9b-4472-a565-a0280f2ee903", " ", proposta);
+
+        Set<ConstraintViolation<Cartao>> violations = validator.validate(cartao);
 
         Assert.assertTrue(!violations.isEmpty());
     }
 
     @Test
     @DisplayName("o userAgente não pode estar em branco nem ser nulo")
-    public void oUserAgentNaoPodeEstarEmBrancoNemSerNulo() {
+    public void numeroDoCartaoNaoPodeEstarEmBrancoOuNulo() {
 
-        Bloqueio bloqueio =
-                new Bloqueio("127.0.0.1", " ", StatusBloqueio.BLOQUEADO);
+        var proposta =
+                new Proposta("Teste Testando", "teste@email.com", "teste teste teste", new BigDecimal(10000), "123.123.123-01");
 
-        Set<ConstraintViolation<Bloqueio>> violations = validator.validate(bloqueio);
+        var cartao =
+                new Cartao(" ", "Teste Testando", proposta);
+
+        Set<ConstraintViolation<Cartao>> violations = validator.validate(cartao);
 
         Assert.assertTrue(!violations.isEmpty());
     }
 
-    @Test
-    @DisplayName("o status deve receber dois valores")
-    public void oStatusDeveReceberDoisValores() {
-
-        Bloqueio bloqueio1 =
-                new Bloqueio("127.0.0.1", " ", StatusBloqueio.BLOQUEADO);
-
-        Bloqueio bloqueio2 =
-                new Bloqueio("127.0.0.1", " ", StatusBloqueio.DESBLOQUEADO);
-
-        Assert.assertNull(bloqueio1);
-        Assert.assertNull(bloqueio2);
-
-    }
 
 }

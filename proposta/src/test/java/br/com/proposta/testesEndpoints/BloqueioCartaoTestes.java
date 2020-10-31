@@ -1,5 +1,6 @@
 package br.com.proposta.testesEndpoints;
 
+import io.restassured.response.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -23,15 +24,40 @@ public class BloqueioCartaoTestes {
         JSONObject novaProposta = new JSONObject()
                 .put("sistemaResponsavel","API proposta");
 
+        /* /api/bloqueios/{propostaId} */
+
         given()
-                .basePath("/bloqueios/c29b096f-f094-4963-ad75-96c4493c2bdb")
+                .basePath("/api/bloqueios/b4516115-5098-42ae-ab38-c419b5d0537f")
                 .port(port)
                 .header("Content-Type", "application/json")
+                .header("Authorization", getToken())
                 .body(novaProposta.toString())
                 .when()
                 .post()
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.CREATED.value());
 
     }
+
+    public String getToken() throws JSONException {
+
+        Response response = given()
+                .contentType("application/x-www-form-urlencoded")
+                .formParam("grant_type", "password")
+                .formParam("username", "bootcamp")
+                .formParam("password", "bootcampproposta")
+                .formParam("client_id", "nosso-cartao")
+                .formParam("client_secret", "")
+                .when()
+                .post("http://localhost:18080/auth/realms/nosso-cartao/protocol/openid-connect/token");
+
+
+        JSONObject jsonObject = new JSONObject(response.getBody().asString());
+        String accessToken = jsonObject.get("access_token").toString();
+
+        String token = "Bearer " + accessToken;
+
+        return token;
+    }
+
 }

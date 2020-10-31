@@ -1,6 +1,5 @@
 package br.com.proposta.testesEndpoints;
 
-
 import io.restassured.response.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,28 +9,40 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AcompanhaPropostaTestes {
+public class BiometriaResourceTestes {
 
     @LocalServerPort
     private int port;
 
     @Test
-    public void deveRetornarOkAoCriarNovaProposta() throws JSONException {
+    public void deveRetornarOkAoCriarNovaBiometria() throws JSONException {
 
-        /* {idProposta} */
+
+        /* não concluído */
+
+
+        JSONObject novaBiometria = new JSONObject()
+                .put("imagemBiometria","imagemBase64");
+
+
+        /* /biometrias/{cartaoId} */
 
         given()
-                .basePath("/api/acompanhar-propostas")
-                .header("Authorization", getToken())
+                .basePath("/api/biometrias/cda5ecb6-4e6e-40e2-8ded-fe137c2383ec")
                 .port(port)
+                .header("Content-Type", "application/json")
+                .header("Authorization", getToken())
+                .body(novaBiometria.toString())
                 .when()
-                .get()
+                .post()
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.CREATED.value());
+
 
     }
 
@@ -55,4 +66,5 @@ public class AcompanhaPropostaTestes {
 
         return token;
     }
+
 }

@@ -27,6 +27,7 @@ public class TaskPoolConfiguration implements AsyncConfigurer {
         threadPoolTaskExecutor.setCorePoolSize(core_pool_size);
         threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         threadPoolTaskExecutor.setThreadNamePrefix("Gerador de Cartão em segundo plano");
+        threadPoolTaskExecutor.initialize();
         return threadPoolTaskExecutor;
 
     }

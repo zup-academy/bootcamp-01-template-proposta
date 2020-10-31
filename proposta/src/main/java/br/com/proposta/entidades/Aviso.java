@@ -1,6 +1,6 @@
 package br.com.proposta.entidades;
 
-import br.com.proposta.transferenciadados.respostas.RespostaAvisoViagem;
+import br.com.proposta.dtos.responses.AvisoViagemResponse;
 import br.com.proposta.entidades.Enums.StatusAviso;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -46,7 +46,7 @@ public class Aviso {
     }
 
 
-    public Aviso(String numeroCartao, List<String> IPeUserAgent, RespostaAvisoViagem resposta) {
+    public Aviso(String numeroCartao, List<String> IPeUserAgent, AvisoViagemResponse resposta) {
         this.numeroCartao = numeroCartao;
         this.avisadoEm = LocalDateTime.now();
         this.internetProtocol = IPeUserAgent.get(0);

@@ -5,13 +5,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
-
 
 public class ValidacoesBloqueioTestes {
 
@@ -66,8 +64,8 @@ public class ValidacoesBloqueioTestes {
         Bloqueio bloqueio2 =
                 new Bloqueio("127.0.0.1", " ", StatusBloqueio.DESBLOQUEADO);
 
-        Assert.assertNull(bloqueio1);
-        Assert.assertNull(bloqueio2);
+        Assert.assertNotNull(bloqueio1);
+        Assert.assertNotNull(bloqueio2);
 
     }
 }
