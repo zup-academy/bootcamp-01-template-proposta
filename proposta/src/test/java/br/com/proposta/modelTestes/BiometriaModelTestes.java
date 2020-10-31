@@ -1,6 +1,6 @@
 package br.com.proposta.modelTestes;
-import br.com.proposta.models.Aviso;
-import br.com.proposta.models.Enums.StatusAviso;
+import br.com.proposta.entidades.Aviso;
+import br.com.proposta.entidades.Enums.StatusAviso;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +11,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
-
-import static org.mockito.Mockito.*;
 
 public class BiometriaModelTestes {
 

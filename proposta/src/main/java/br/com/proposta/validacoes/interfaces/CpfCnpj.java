@@ -1,7 +1,7 @@
 package br.com.proposta.validacoes.interfaces;
 
 
-import br.com.proposta.validacoes.validators.CpfCnpjValidator;
+import br.com.proposta.validacoes.validadores.CpfCnpjValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
