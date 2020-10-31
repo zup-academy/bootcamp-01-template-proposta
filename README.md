@@ -44,7 +44,7 @@
 
 
 
-![](/readme-images/keycloak.jpg)
+![](/readme-images/prometheus1.jpg)
 
 
 
