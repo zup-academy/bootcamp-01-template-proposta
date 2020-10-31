@@ -2,6 +2,7 @@ package br.com.proposta.compartilhado;
 
 import br.com.proposta.dtos.requests.BloqueioRequest;
 import br.com.proposta.dtos.responses.BloqueioResponse;
+import br.com.proposta.entidades.Enums.StatusBloqueio;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import br.com.proposta.entidades.Bloqueio;
 import br.com.proposta.entidades.Proposta;
@@ -36,15 +37,12 @@ public class BloquearCartao {
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
-
     public BloqueioResponse bloquear(String cartaoId, List<String> userAgentEInternetProtocol){
 
-        System.out.println(cartaoId);
 
         /* @complexidade - classe criada no projeto + @complexidade - classe criada no projeto */
         var cartao = cartaoRepository.findByNumero(cartaoId);
 
-        System.out.println(cartao);
 
         /* @complexidade - classe criada no projeto + @complexidade - classe criada no projeto */
         var bloqueioResponse = integracaoApiCartoes
@@ -52,11 +50,14 @@ public class BloquearCartao {
                 .getBody();
 
 
+        /* @complexidade - função como parâmetro */
+        cartao.setStatus(StatusBloqueio.valueOf(bloqueioResponse.getResultado()));
+
         /* @complexidade - classe criada no projeto */
         var novoBloqueio = new Bloqueio(userAgentEInternetProtocol, bloqueioResponse);
 
-
         bloqueioRepository.save(novoBloqueio);
+
 
         logger.info("Tentativa de bloqueio de cartão. Resultado={}", bloqueioResponse.getResultado());
 

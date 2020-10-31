@@ -1,5 +1,6 @@
 package br.com.proposta.entidades;
 
+import br.com.proposta.entidades.Enums.StatusBloqueio;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -38,6 +39,8 @@ public class Cartao {
     @OneToOne
     private Proposta proposta;
 
+    private StatusBloqueio status;
+
     @Deprecated
     public Cartao(){}
 
@@ -50,5 +53,9 @@ public class Cartao {
 
     public String getNumero() {
         return numero;
+    }
+
+    public void setStatus(StatusBloqueio status) {
+        this.status = status;
     }
 }
