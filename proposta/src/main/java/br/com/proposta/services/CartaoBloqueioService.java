@@ -3,6 +3,7 @@ package br.com.proposta.services;
 import br.com.proposta.dtos.requests.BloqueioRequest;
 import br.com.proposta.dtos.responses.BloqueioResponse;
 import br.com.proposta.dtos.responses.CartaoResponse;
+import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import br.com.proposta.models.Bloqueio;
 import br.com.proposta.models.Enums.StatusBloqueio;
 import br.com.proposta.models.Proposta;
@@ -15,15 +16,18 @@ import java.util.List;
 @Service
 public class CartaoBloqueioService {
 
+    /* total de pontos = 7 */
 
-    private IntegracaoCartaoService integracaoCartaoService;
+    /* @complexidade - classe criada no projeto */
+    private final IntegracaoApiCartoes integracaoApiCartoes;
 
+    /* @complexidade - classe criada no projeto */
     private BloqueioRepository bloqueioRepository;
 
 
-    public CartaoBloqueioService(IntegracaoCartaoService integracaoCartaoService,
+    public CartaoBloqueioService(IntegracaoApiCartoes integracaoApiCartoes,
                                  BloqueioRepository bloqueioRepository) {
-        this.integracaoCartaoService = integracaoCartaoService;
+        this.integracaoApiCartoes = integracaoApiCartoes;
         this.bloqueioRepository = bloqueioRepository;
     }
 
@@ -33,19 +37,21 @@ public class CartaoBloqueioService {
     public BloqueioResponse bloquear(String propostaId, List<String> userAgentEInternetProtocol){
 
 
-        CartaoResponse cartaoResponse = integracaoCartaoService.buscarCartao(propostaId).getBody();
+        /* @complexidade - classe criada no projeto + @complexidade - classe criada no projeto */
+        var cartaoResponse = integracaoApiCartoes.buscarCartao(propostaId).getBody();
 
 
-        BloqueioResponse bloqueioResponse = integracaoCartaoService
+        /* @complexidade - classe criada no projeto + @complexidade - classe criada no projeto */
+        var bloqueioResponse = integracaoApiCartoes
                 .avisarLegadoBloqueioDoCartao(cartaoResponse.getId(), new BloqueioRequest("api-cartoes")).getBody();
 
 
-        Bloqueio novoBloqueio =
-                new Bloqueio(userAgentEInternetProtocol.get(1), userAgentEInternetProtocol.get(0), StatusBloqueio.BLOQUEADO);
+        /* @complexidade - classe criada no projeto */
+        var novoBloqueio = new Bloqueio(userAgentEInternetProtocol.get(0), userAgentEInternetProtocol.get(1),
+                        StatusBloqueio.valueOf(bloqueioResponse.getResultado()));
 
 
         bloqueioRepository.save(novoBloqueio);
-
 
         logger.info("Tentativa de bloqueio de cartão. Resultado={}", bloqueioResponse.getResultado());
 

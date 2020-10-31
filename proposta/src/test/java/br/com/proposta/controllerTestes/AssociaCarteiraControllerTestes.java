@@ -18,16 +18,11 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:application.properties")
 public class AssociaCarteiraControllerTestes {
 
 
     @LocalServerPort
     private int port;
-
-
-    @Value("${proposta.token.testes}")
-    private String token;
 
 
     @Test
@@ -40,7 +35,7 @@ public class AssociaCarteiraControllerTestes {
 
 
         given()
-                .basePath("/carteiras/fa3995b0-2234-4f30-953c-aba8801dc4af")
+                .basePath("/carteiras/c29b096f-f094-4963-ad75-96c4493c2bdb")
                 .port(port)
                 .header("Content-Type", "application/json")
                 .body(novaAssociacaoCarteira.toString())

@@ -24,8 +24,6 @@ public class NovaPropostaControllerTestes {
     @LocalServerPort
     private int port;
 
-    @Value("${proposta.token.testes}")
-    private String token;
 
     @Test
     public void deveRetornarOkAoCriarNovaProposta() throws JSONException {
@@ -36,7 +34,7 @@ public class NovaPropostaControllerTestes {
                 .put("email","teste@email.com")
                 .put("endereco","Rua Teste, Edifício Insomnia")
                 .put("salario",new BigDecimal(10000))
-                .put("numeroIdentificacao", "123.456.789");
+                .put("numeroIdentificacao", "123.126.789");
 
 
         given()
@@ -61,7 +59,7 @@ public class NovaPropostaControllerTestes {
                 .put("email","teste@email.com")
                 .put("endereco","Rua Teste, Edifício Insomnia")
                 .put("salario",new BigDecimal(10000))
-                .put("numeroIdentificacao", "123.456.789");
+                .put("numeroIdentificacao", "123.423.789");
 
 
         given()

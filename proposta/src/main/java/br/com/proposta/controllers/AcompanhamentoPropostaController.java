@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/acompanhar-propostas/{id}")
+@RequestMapping("/api/acompanhar/{id}")
 public class AcompanhamentoPropostaController {
 
+    /* total de pontos = 3 */
 
-    private PropostaRepository propostaRepository;
+    /* @complexidade - classe criada no projeto */
+    private final PropostaRepository propostaRepository;
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
@@ -28,16 +30,17 @@ public class AcompanhamentoPropostaController {
         this.propostaRepository = propostaRepository;
     }
 
-
     @GetMapping
     public ResponseEntity<?> acompanharProposta(@PathVariable String id){
 
-        Proposta propostaAcompanhamento =
+        /* @complexidade - classe criada no projeto */
+        var propostaAcompanhamento =
                 propostaRepository.findById(id).get();
 
         logger.info("Acompanhamento da proposta do cliente={}",
                 propostaAcompanhamento.getNome());
 
+                                /* @complexidade - classe criada no projeto  */
         return ResponseEntity.ok(new PropostaResponse(propostaAcompanhamento));
 
     }

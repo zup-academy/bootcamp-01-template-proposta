@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
-
-
-
 public class AvisoViagemRequest {
 
 

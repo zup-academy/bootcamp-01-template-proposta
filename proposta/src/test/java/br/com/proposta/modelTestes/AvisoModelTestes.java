@@ -1,4 +1,6 @@
 package br.com.proposta.modelTestes;
+
+
 import br.com.proposta.models.Aviso;
 import br.com.proposta.models.Enums.StatusAviso;
 import org.junit.Assert;
@@ -10,21 +12,20 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
-import static org.mockito.Mockito.*;
-
-public class BiometriaModelTestes {
+public class AvisoModelTestes {
 
     /* Validações testadas:
 
-     *  1 - número do cartão não pode estar em branco nem ser nulo
-     *  2 - registro de data do aviso não pode ser nulo
-     *  3 - o IP não pode estar me branco nem ser nulo
-     *  4 - o userAgente não pode estar em branco nem ser nulo
-     *  5 - o status deve receber dois valores
-     *
-     * */
+    *  1 - número do cartão não pode estar em branco nem ser nulo
+    *  2 - registro de data do aviso não pode ser nulo
+    *  3 - o IP não pode estar me branco nem ser nulo
+    *  4 - o userAgente não pode estar em branco nem ser nulo
+    *  5 - o status deve receber dois valores
+    *
+    * */
 
     private Validator validator;
 

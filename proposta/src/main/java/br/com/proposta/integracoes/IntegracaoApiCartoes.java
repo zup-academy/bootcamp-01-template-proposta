@@ -1,4 +1,4 @@
-package br.com.proposta.services;
+package br.com.proposta.integracoes;
 
 import br.com.proposta.dtos.requests.AssociaCarteiraRequest;
 import br.com.proposta.dtos.requests.AvisoViagemRequest;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @FeignClient(url = "${cartao.host}/", name = "integracaoCartao")
-public interface IntegracaoCartaoService {
+public interface IntegracaoApiCartoes {
 
     @PostMapping
     ResponseEntity<?> criarCartao(NovoCartaoRequest novoCartaoRequest);

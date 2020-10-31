@@ -14,14 +14,10 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:application.properties")
 public class BloqueioCartaoControllerTestes {
 
     @LocalServerPort
     private int port;
-
-    @Value("${proposta.token.testes}")
-    private String token;
 
     @Test
     public void deveRetornarOkAoCriarNovaProposta() throws JSONException {
@@ -30,7 +26,7 @@ public class BloqueioCartaoControllerTestes {
                 .put("sistemaResponsavel","API proposta");
 
         given()
-                .basePath("/bloqueios/96ae33e7-d2b3-42a8-8f71-b282f32fb758")
+                .basePath("/bloqueios/c29b096f-f094-4963-ad75-96c4493c2bdb")
                 .port(port)
                 .header("Content-Type", "application/json")
                 .body(novaProposta.toString())

@@ -1,5 +1,6 @@
 package br.com.proposta.models;
 
+import br.com.proposta.dtos.responses.AvisoViagemResponse;
 import br.com.proposta.models.Enums.StatusAviso;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Entity
 public class Aviso {
@@ -44,4 +46,17 @@ public class Aviso {
         this.userAgent = userAgent;
         this.status = status;
     }
+
+
+    public Aviso(String numeroCartao, List<String> IPeUserAgent, AvisoViagemResponse resposta) {
+        this.numeroCartao = numeroCartao;
+        this.avisadoEm = LocalDateTime.now();
+        this.internetProtocol = IPeUserAgent.get(0);
+        this.userAgent = IPeUserAgent.get(1);
+        this.status = StatusAviso.valueOf(resposta.getResultado());
+    }
+
+
 }
+
+

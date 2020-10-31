@@ -27,7 +27,7 @@ public class AcompanhaPropostaControllerTestes {
     public void deveRetornarOkAoCriarNovaProposta() throws JSONException {
 
         given()
-                .basePath("/api/acompanhar-propostas/64b72c05-7f96-4538-88e9-69e3373c2ef3")
+                .basePath("/api/acompanhar-propostas/b4516115-5098-42ae-ab38-c419b5d0537f")
                 .port(port)
                 .when()
                 .get()

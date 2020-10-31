@@ -17,14 +17,10 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:application.properties")
 public class NovaBiometriaControllerTestes {
 
     @LocalServerPort
     private int port;
-
-    @Value("${proposta.token.testes}")
-    private String token;
 
     @Test
     public void deveRetornarOkAoCriarNovaBiometria() throws JSONException {
@@ -40,7 +36,7 @@ public class NovaBiometriaControllerTestes {
         /* /biometrias/{cartaoId} */
 
         given()
-                .basePath("/biometrias/b4516115-5098-42ae-ab38-c419b5d0537f")
+                .basePath("/biometrias/c29b096f-f094-4963-ad75-96c4493c2bdb")
                 .port(port)
                 .header("Content-Type", "application/json")
                 .body(novaBiometria.toString())

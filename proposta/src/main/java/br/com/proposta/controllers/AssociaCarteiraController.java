@@ -7,40 +7,52 @@ import br.com.proposta.models.Carteira;
 import br.com.proposta.models.Enums.StatusCarteira;
 import br.com.proposta.repositories.CartaoRepository;
 import br.com.proposta.repositories.CarteiraRepository;
-import br.com.proposta.services.IntegracaoCartaoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/carteiras")
+@RequestMapping("/api/carteiras")
 public class AssociaCarteiraController {
 
-    @Autowired
-    private IntegracaoCartaoService integracaoCartaoService;
+    /* total de pontos = 8 */
 
-    @Autowired
-    private CarteiraRepository carteiraRepository;
+    /* @complexidade - classe criada no projeto */
+    private final IntegracaoApiCartoes integracaoApiCartoes;
 
-    @Autowired
-    private CartaoRepository cartaoRepository;
+    /* @complexidade - classe criada no projeto */
+    private final CarteiraRepository carteiraRepository;
+
+    /* @complexidade - classe criada no projeto */
+    private final CartaoRepository cartaoRepository;
+
+
+    public AssociaCarteiraController(IntegracaoApiCartoes integracaoApiCartoes, CarteiraRepository carteiraRepository,
+                                     CartaoRepository cartaoRepository) {
+        this.integracaoApiCartoes = integracaoApiCartoes;
+        this.carteiraRepository = carteiraRepository;
+        this.cartaoRepository = cartaoRepository;
+    }
 
 
     @PostMapping("/{cartaoId}")
-    public ResponseEntity<?> associa(@PathVariable String cartaoId,
+    public ResponseEntity<?> associa(@PathVariable String cartaoId,  /* @complexidade - classe criada no projeto */
                                      @RequestBody AssociaCarteiraRequest associaCarteiraRequest){
 
+        /* @complexidade - utilizando classe criada no projeto */
         Optional<Cartao> cartao = cartaoRepository.findById(cartaoId);
 
+        /* @complexidade - utilizando classe criada no projeto */
         ResponseEntity<AssociaCarteiraResponse> response =
-                integracaoCartaoService.associarCarteira(cartaoId, associaCarteiraRequest);
+                integracaoApiCartoes.associarCarteira(cartaoId, associaCarteiraRequest);
 
+        /* @complexidade - utilizando classe criada no projeto */
         StatusCarteira status = StatusCarteira.valueOf(response.getBody().getResultado());
 
-        Carteira carteira =
-                new Carteira(associaCarteiraRequest.getCarteira(), status, cartao.get());
+        /* @complexidade - utilizando classe criada no projeto */
+        Carteira carteira = new Carteira(associaCarteiraRequest.getCarteira(), status, cartao.get());
 
         carteiraRepository.save(carteira);
 

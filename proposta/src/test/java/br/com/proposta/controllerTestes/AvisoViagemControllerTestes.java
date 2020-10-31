@@ -17,16 +17,11 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:application.properties")
 public class AvisoViagemControllerTestes {
 
 
     @LocalServerPort
     private int port;
-
-
-    @Value("${proposta.token.testes}")
-    private String token;
 
 
     @Test

@@ -1,6 +1,7 @@
 package br.com.proposta.services;
 
 import br.com.proposta.dtos.requests.NovoCartaoRequest;
+import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import br.com.proposta.models.Cartao;
 import br.com.proposta.models.Proposta;
 import br.com.proposta.repositories.CartaoRepository;
@@ -16,34 +17,45 @@ import javax.transaction.Transactional;
 @Service
 public class GerarCartaoService {
 
-    @Autowired
-    private EntityManager entityManager;
+    /* total de pontos = 7 */
 
-    @Autowired
-    private IntegracaoCartaoService integracaoCartaoService;
+    private final EntityManager entityManager;
 
-    @Autowired
-    private CartaoRepository cartaoRepository;
+    /* @complexidade - classe criada no projeto */
+    private final IntegracaoApiCartoes integracaoApiCartoes;
+
+    /* @complexidade - classe criada no projeto */
+    private final CartaoRepository cartaoRepository;
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
+
+
+    public GerarCartaoService(EntityManager entityManager, IntegracaoApiCartoes integracaoApiCartoes, CartaoRepository cartaoRepository) {
+        this.entityManager = entityManager;
+        this.integracaoApiCartoes = integracaoApiCartoes;
+        this.cartaoRepository = cartaoRepository;
+    }
 
 
     @Transactional
     public void geraCartaoSegundoPlano(Proposta proposta){
 
+        /* @complexidade - if */
         if(proposta.getCartao() == null){
 
-            boolean cartaoCriadoNaApiDeContas =
-                    integracaoCartaoService.criarCartao(new NovoCartaoRequest(proposta)).getStatusCode() == HttpStatus.CREATED;
+                                            /* @complexidade - classe criada no projeto */
+            boolean cartaoCriadoNaApiDeContas = integracaoApiCartoes.criarCartao(new NovoCartaoRequest(proposta)).getStatusCode() == HttpStatus.CREATED;
 
+            /* @complexidade - if */
             if(cartaoCriadoNaApiDeContas){
 
 
+                /* @complexidade - classe criada no projeto */
                 Cartao cartao = new Cartao(proposta.getNome(), proposta);
 
                 cartaoRepository.save(cartao);
 
-
+                /* @complexidade - classe criada no projeto */
                 proposta.associaCartao(cartao);
 
                 entityManager.merge(proposta);

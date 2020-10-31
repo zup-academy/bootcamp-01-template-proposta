@@ -1,7 +1,6 @@
 package br.com.proposta.dtos.requests;
 
 import br.com.proposta.models.Biometria;
-
 import javax.validation.constraints.NotBlank;
 
 public class BiometriaRequest {

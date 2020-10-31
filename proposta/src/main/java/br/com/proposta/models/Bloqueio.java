@@ -1,5 +1,6 @@
 package br.com.proposta.models;
 
+import br.com.proposta.dtos.responses.BloqueioResponse;
 import br.com.proposta.models.Enums.StatusBloqueio;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Entity
 public class Bloqueio {
@@ -35,6 +37,13 @@ public class Bloqueio {
         this.internetProtocol = internetProtocol;
         this.userAgent = userAgent;
         this.statusBloqueio = statusBloqueio;
+    }
+
+    public Bloqueio(List<String> IPeUserAgent, BloqueioResponse bloqueio) {
+        this.instanteBloqueio = OffsetDateTime.now();
+        this.internetProtocol = IPeUserAgent.get(0);
+        this.userAgent = IPeUserAgent.get(1);
+        this.statusBloqueio = StatusBloqueio.valueOf(bloqueio.getResultado());
     }
 
     public String getId() {

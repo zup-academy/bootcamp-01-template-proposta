@@ -22,15 +22,18 @@ import javax.validation.Valid;
 @RequestMapping("/api/propostas")
 public class NovaPropostaController {
 
-    //1
-    private AvaliaPropostaService avaliaPropostaService;
+    /* total de pontos = 6 */
 
-    //1
-    private PropostaRepository propostaRepository;
+
+    /* @complexidade - classe criada no projeto */
+    private final AvaliaPropostaService avaliaPropostaService;
+
+    /* @complexidade - classe criada no projeto */
+    private final PropostaRepository propostaRepository;
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
 
     public NovaPropostaController(AvaliaPropostaService avaliaPropostaService, PropostaRepository propostaRepository,
@@ -47,26 +50,27 @@ public class NovaPropostaController {
     public ResponseEntity<?> novaProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uriComponentsBuilder) throws JsonProcessingException {
 
 
-            //1
-            Proposta novaProposta = propostaRequest.toModel();
+            /* @complexidade - classe criada no projeto */
+            var novaProposta = propostaRequest.toModel();
 
 
-            //1
+            /* @complexidade - if */
             if(novaProposta.ehUnica(propostaRepository)){
+
 
 
                 propostaRepository.save(novaProposta);
 
 
-                //1
+                /* @complexidade - função como parâmetro  */
                 novaProposta.atualizaStatusElegibilidade(avaliaPropostaService.retornarAvaliacao(novaProposta));
+
 
 
                 entityManager.merge(novaProposta);
 
 
-                logger.info("Proposta documento={} salário={} criada com sucesso!",
-                        novaProposta.getIdentificacao(), novaProposta.getSalario());
+                logger.info("Proposta documento={} salário={} criada com sucesso!", novaProposta.getIdentificacao(), novaProposta.getSalario());
 
 
                 return ResponseEntity
@@ -75,7 +79,7 @@ public class NovaPropostaController {
             }
 
 
-            //1
+            /* @complexidade - exceção no fluxo do programa */
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Número de identificação já existe");
 
 

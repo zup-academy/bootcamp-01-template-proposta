@@ -14,15 +14,18 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/biometrias/{cartaoId}")
+@RequestMapping("/api/biometrias/{cartaoId}")
 public class NovaBiometriaController {
 
+    /* total de pontos = 4 */
 
     private final Logger logger = LoggerFactory.getLogger(Biometria.class);
 
-    private PropostaRepository propostaRepository;
+    /* @complexidade - classe criada no projeto */
+    private final PropostaRepository propostaRepository;
 
-    private BiometriaRepository biometriaRepository;
+    /* @complexidade - classe criada no projeto */
+    private final BiometriaRepository biometriaRepository;
 
 
     public NovaBiometriaController(PropostaRepository propostaRepository, BiometriaRepository biometriaRepository) {
@@ -31,15 +34,16 @@ public class NovaBiometriaController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<?> criaBiometria(@PathVariable String cartaoId,
-                                           @RequestBody @Valid BiometriaRequest biometriaRequest, UriComponentsBuilder uriComponentsBuilder){
+    @PostMapping                                                          /* @complexidade - classe criada no projeto */
+    public ResponseEntity<?> criaBiometria(@PathVariable String cartaoId, @RequestBody @Valid BiometriaRequest biometriaRequest,
+                                           UriComponentsBuilder uriComponentsBuilder){
 
 
-        Biometria biometria = biometriaRequest.toModel();
+
+        /* @complexidade - classe criada no projeto */
+        var biometria = biometriaRequest.toModel();
 
         biometriaRepository.save(biometria);
-
 
         logger.info("Biometria registrada com sucesso");
 
