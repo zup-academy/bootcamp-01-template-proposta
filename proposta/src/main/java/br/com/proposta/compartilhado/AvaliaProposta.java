@@ -15,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 
 
 @Service
-@Validated
 public class AvaliaProposta {
 
     /* total de pontos = 5 */
@@ -24,6 +23,7 @@ public class AvaliaProposta {
     private final IntegracaoApiAnalise integracaoApiAnalise;
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
+
 
     public AvaliaProposta(IntegracaoApiAnalise integracaoApiAnalise) {
         this.integracaoApiAnalise = integracaoApiAnalise;
@@ -46,6 +46,7 @@ public class AvaliaProposta {
 
         }catch(FeignException e){
 
+
             /* @complexidade - classe criada no projeto + @complexidade - pacote externo utilizado no projeto */
             var respostaAnaliseDeProposta = new ObjectMapper().readValue(e.contentUTF8(), AnaliseDaPropostaResponse.class);
 
@@ -54,7 +55,7 @@ public class AvaliaProposta {
 
             return respostaAnaliseDeProposta.retornaStatus();
 
-        }
 
+        }
     }
 }

@@ -24,10 +24,10 @@ public class BloqueioCartaoTestes {
         JSONObject novaProposta = new JSONObject()
                 .put("sistemaResponsavel","API proposta");
 
-        /* /api/bloqueios/{propostaId} */
+        /* /api/bloqueios/{cartaoId} */
 
         given()
-                .basePath("/api/bloqueios/b4516115-5098-42ae-ab38-c419b5d0537f")
+                .basePath("/api/bloqueios/15d34c2f-8166-459a-928b-78f363d69695")
                 .port(port)
                 .header("Content-Type", "application/json")
                 .header("Authorization", getToken())

@@ -36,6 +36,9 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao")
     private Set<Carteira> carteiras = new HashSet<>();
 
+    @OneToMany(mappedBy = "cartao")
+    private Set<Biometria> biometrias = new HashSet<>();
+
     @OneToOne
     private Proposta proposta;
 
@@ -49,6 +52,10 @@ public class Cartao {
         this.titular = titular;
         this.proposta = proposta;
         this.emitidoEm = OffsetDateTime.now();
+    }
+
+    public void adicionarBiometria(Biometria biometria){
+        this.biometrias.add(biometria);
     }
 
     public String getNumero() {

@@ -31,6 +31,7 @@ public class PropostaResource {
     /* @complexidade - acoplamento contextual */
     private final PropostaRepository propostaRepository;
 
+
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
     private final EntityManager entityManager;
@@ -78,18 +79,27 @@ public class PropostaResource {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> acompanharProposta(@PathVariable String id){
+    @GetMapping("/{propostaId}")
+    public ResponseEntity<?> acompanharProposta(@PathVariable String propostaId){
 
         /* @complexidade - classe criada no projeto */
         var propostaAcompanhamento =
-                propostaRepository.findById(id).get();
+                propostaRepository.findById(propostaId);
 
-        logger.info("Acompanhamento da proposta do cliente={}",
-                propostaAcompanhamento.getNome());
+        /* @complexidade - if */
+        if(propostaAcompanhamento.isPresent()){
 
-        /* @complexidade - classe criada no projeto  */
-        return ResponseEntity.ok(new PropostaResponse(propostaAcompanhamento));
+            logger.info("Acompanhamento da proposta do cliente={}",
+                    propostaAcompanhamento.get().getNome());
+
+            /* @complexidade - classe criada no projeto  */
+            return ResponseEntity.ok(propostaAcompanhamento);
+
+        }
+
+        logger.info("proposta não encontrada");
+
+        return ResponseEntity.notFound().build();
 
     }
 }

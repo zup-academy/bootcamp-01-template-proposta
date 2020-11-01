@@ -31,7 +31,7 @@ public class PropostaResourceTestes {
                 .put("email","teste@email.com")
                 .put("endereco","Rua Teste, Edifício Insomnia")
                 .put("salario",new BigDecimal(10000))
-                .put("numeroIdentificacao", "123.022.719-34");
+                .put("numeroIdentificacao", "187.167.123-34");
 
 
         given()
@@ -44,31 +44,6 @@ public class PropostaResourceTestes {
                 .post()
                 .then()
                 .statusCode(HttpStatus.CREATED.value());
-
-    }
-
-
-    @Test
-    public void deveRetornarBadRequestAoCriarNovaPropostaInvalida() throws JSONException {
-
-
-        JSONObject novaProposta = new JSONObject()
-                .put("nome"," ")
-                .put("email","teste@email.com")
-                .put("endereco","Rua Teste, Edifício Insomnia")
-                .put("salario",new BigDecimal(10000))
-                .put("numeroIdentificacao", "123.022.719-34");
-
-
-        given().auth().oauth2(getToken(), OAuthSignature.QUERY_STRING)
-                .basePath("/propostas")
-                .port(port)
-                .header("Content-Type", "application/json")
-                .body(novaProposta.toString())
-                .when()
-                .post()
-                .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
 
     }
 
@@ -90,6 +65,8 @@ public class PropostaResourceTestes {
         String accessToken = jsonObject.get("access_token").toString();
 
         String token = "Bearer " + accessToken;
+
+        System.out.println(token);
 
         return token;
     }

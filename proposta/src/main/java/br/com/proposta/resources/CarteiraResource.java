@@ -8,8 +8,10 @@ import br.com.proposta.entidades.Enums.StatusCarteira;
 import br.com.proposta.repositories.CartaoRepository;
 import br.com.proposta.repositories.CarteiraRepository;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
 
@@ -39,24 +41,36 @@ public class CarteiraResource {
 
     @PostMapping("/{cartaoId}")
     public ResponseEntity<?> associa(@PathVariable String cartaoId,  /* @complexidade - classe criada no projeto */
-                                     @RequestBody AssociarCarteiraRequest associarCarteiraRequest){
+                                     @RequestBody AssociarCarteiraRequest associarCarteiraRequest, UriComponentsBuilder uriComponentsBuilder){
+
 
         /* @complexidade - utilizando classe criada no projeto */
-        Optional<Cartao> cartao = cartaoRepository.findById(cartaoId);
+        Cartao cartao = cartaoRepository.findByNumero(cartaoId);
 
         /* @complexidade - utilizando classe criada no projeto */
         ResponseEntity<AssociaCarteiraResponse> response =
                 integracaoApiCartoes.associarCarteira(cartaoId, associarCarteiraRequest);
 
-        /* @complexidade - utilizando classe criada no projeto */
-        StatusCarteira status = StatusCarteira.valueOf(response.getBody().getResultado());
 
-        /* @complexidade - utilizando classe criada no projeto */
-        Carteira carteira = new Carteira(associarCarteiraRequest.getCarteira(), status, cartao.get());
+        /* @complexidade - if */
+        if(response.getStatusCode() == HttpStatus.OK){
 
-        carteiraRepository.save(carteira);
 
-        return ResponseEntity.ok().build();
+            /* @complexidade - utilizando classe criada no projeto */
+            StatusCarteira status = StatusCarteira.valueOf(response.getBody().getResultado());
+
+            /* @complexidade - utilizando classe criada no projeto */
+            Carteira carteira = new Carteira(associarCarteiraRequest.getCarteira(), status, cartao);
+
+            carteiraRepository.save(carteira);
+
+            return ResponseEntity
+                    .created(uriComponentsBuilder.path("/propostas/{id}").buildAndExpand(carteira.getId()).toUri()).build();
+
+
+        }
+
+        return ResponseEntity.notFound().build();
 
     }
 }

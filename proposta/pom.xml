@@ -60,6 +60,7 @@
 			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
 
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -141,6 +142,12 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+			</plugin>
+
 		</plugins>
 	</build>
 

@@ -27,12 +27,12 @@ public class AvisoResourceTestes {
 
         JSONObject novoAviso = new JSONObject()
                 .put("destino","Jericoacoara")
-                .put("validoAte","2026-10-30");
+                .put("validoAte","2023-10-30");
 
         /* /api/viagens/{idCartao} */
 
         given()
-                .basePath("/api/viagens/cda5ecb6-4e6e-40e2-8ded-fe137c2383ec")
+                .basePath("/api/viagens/15d34c2f-8166-459a-928b-78f363d69695")
                 .header("Authorization", getToken())
                 .port(port)
                 .header("Content-Type", "application/json")

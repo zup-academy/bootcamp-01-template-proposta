@@ -41,6 +41,8 @@ public class Proposta {
     @OneToOne
     private Cartao cartao;
 
+    private String numeroCartao;
+
     @Deprecated
     public Proposta(){}
 
@@ -53,10 +55,12 @@ public class Proposta {
         this.identificacao = identificacao;
     }
 
-    public void associaCartao(Cartao cartao){
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
 
-        this.cartao = cartao;
-
+    public void associaCartao(String numeroCartao){
+        this.numeroCartao = numeroCartao;
     }
 
     public boolean ehUnica(PropostaRepository propostaRepository){

@@ -27,4 +27,8 @@ public class Carteira {
         this.status = status;
         this.cartao = cartao;
     }
+
+    public String getId() {
+        return id;
+    }
 }

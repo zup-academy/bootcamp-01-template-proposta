@@ -17,14 +17,11 @@ import static io.restassured.RestAssured.given;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CarteiraResourceTestes {
 
-
     @LocalServerPort
     private int port;
 
-
     @Test
     public void deveRetornarCreatedAoAssociarCarteira() throws JSONException {
-
 
         JSONObject novaAssociacaoCarteira = new JSONObject()
                 .put("email","teste@teste.com")
@@ -33,9 +30,10 @@ public class CarteiraResourceTestes {
         /* {cartaoId} */
 
         given()
-                .basePath("/api/carteiras/b4516115-5098-42ae-ab38-c419b5d0537f")
+                .basePath("/api/carteiras/15d34c2f-8166-459a-928b-78f363d69695")
                 .port(port)
                 .header("Content-Type", "application/json")
+                .header("Authorization", getToken())
                 .body(novaAssociacaoCarteira.toString())
                 .when()
                 .post()

@@ -2,11 +2,15 @@ package br.com.proposta.entidades;
 
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.util.Assert;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 import java.util.Base64;
 
@@ -23,15 +27,16 @@ public class Biometria {
     @NotNull
     private OffsetDateTime criadaEm;
 
+    @ManyToOne
+    private Cartao cartao;
+
     @Deprecated
     public Biometria(){}
 
     public Biometria(String biometria) {
 
-        this.biometria = Base64.getEncoder().encode(biometria.getBytes());
-
+        this.biometria = Base64.getDecoder().decode(biometria);
         this.criadaEm = OffsetDateTime.now();
-
     }
 
     public String getId() {

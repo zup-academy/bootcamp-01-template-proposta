@@ -39,7 +39,7 @@ public class CartaoResource {
 
         /* @complexidade - utilizando classe criada no projeto */
         var propostasAceitasSemCartao =
-                propostaRepository.findByStatusAndCartaoNull(StatusAvaliacaoProposta.ELEGIVEL);
+                propostaRepository.findByStatusAndNumeroCartaoNull(StatusAvaliacaoProposta.ELEGIVEL);
 
         /* @complexidade - iterando coleção criada no projeto  */
         propostasAceitasSemCartao.forEach(proposta -> {
@@ -49,5 +49,6 @@ public class CartaoResource {
 
             logger.info("Cartão gerado no serviço de cartões referente à proposta: nome do cliente={}", proposta.getNome());
         });
+
     }
 }

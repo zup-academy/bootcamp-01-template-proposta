@@ -20,12 +20,12 @@ public class AcompanhaPropostaTestes {
     private int port;
 
     @Test
-    public void deveRetornarOkAoCriarNovaProposta() throws JSONException {
+    public void deveRetornarOkSolicitarAcompanhamentoDeProposta() throws JSONException {
 
         /* {idProposta} */
 
         given()
-                .basePath("/api/acompanhar-propostas")
+                .basePath("/api/propostas/55252cf8-e5ac-4f42-b1ea-f1cb419a2da7")
                 .header("Authorization", getToken())
                 .port(port)
                 .when()

@@ -29,6 +29,8 @@ public class Bloqueio {
 
     private StatusBloqueio statusBloqueio;
 
+    private String numeroCartao;
+
     @ManyToOne
     private Cartao cartao;
 
@@ -39,14 +41,20 @@ public class Bloqueio {
         this.statusBloqueio = statusBloqueio;
     }
 
-    public Bloqueio(List<String> IPeUserAgent, BloqueioResponse bloqueio) {
+    public Bloqueio(List<String> IPeUserAgent, String numeroCartao) {
         this.instanteBloqueio = OffsetDateTime.now();
         this.internetProtocol = IPeUserAgent.get(0);
         this.userAgent = IPeUserAgent.get(1);
-        this.statusBloqueio = StatusBloqueio.valueOf(bloqueio.getResultado());
+        this.numeroCartao = numeroCartao;
     }
 
     public String getId() {
         return id;
+    }
+
+    public void atualizaStatusAposRespostaDoLegado(String status){
+
+        this.statusBloqueio = StatusBloqueio.valueOf(status);
+
     }
 }

@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 import org.junit.jupiter.api.DisplayName;
 
 import javax.validation.ConstraintViolation;
@@ -33,17 +34,6 @@ public class ValidacoesBiometriaTestes {
     }
 
 
-    @Test
-    @DisplayName("classe não aceita valor de biometria nulo ou branco")
-    public void deveriaRejeitarBiometriaSemConteudo() {
-
-        var biometria = new Biometria(" ");
-
-        Set<ConstraintViolation<Biometria>> violations = validator.validate(biometria);
-
-        Assert.assertTrue(!violations.isEmpty());
-    }
-
 
     @Test
     @DisplayName("biometria está instanciando sem problemas")
@@ -52,7 +42,7 @@ public class ValidacoesBiometriaTestes {
         /* testando com arquivo de imagem do próprio repositório -> metricas.jpg */
 
         byte[] imagem =
-                FileUtils.readFileToByteArray(new File("/home/marceloamorim/Documentos/bootcamp-01-template-proposta/readme-images/metricas.jpg"));
+                FileUtils.readFileToByteArray(new File("/home/marceloamorim/Documentos/bootcamp-01-template-proposta/readme-images/analise_proposta.jpg"));
 
         String encodedString = Base64
                 .getEncoder()

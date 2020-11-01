@@ -4,29 +4,25 @@
 ### Docker
 
 
-
 - Docker: Já é possível criar um container para a API 
 
 
-
-
-- Como diz na documentação do Spring: "This command builds an image and tags it as..." - no caso aqui, 'bootcamp/proposta'.
+- Como consta na documentação do Spring (link no material do apoio do bootcamp): "This command builds an image and tags it as..." - no caso aqui, 'bootcamp/proposta'.
 
 > docker build -t bootcamp/proposta .
 
 
-
-
 - Depois, para rodar a API dentro do container
 
-> docker run -p 8080:8080 bootcamp/proposta
 
+> docker run -p 8080:8080 bootcamp/proposta
 
 
 
 ### Testes - Pitest, RestAssured, JUnit
 
 
+![](/readme-images/cobertura-testes-proposta.jpg =150x150)
 
 
 ### CDD
@@ -36,69 +32,52 @@
 
 ### Prometheus e Grafana
 
-
-
-
-- Prometheus: as métricas já estão sendo geradas na porta 9090
-
-
-
-
-![](/readme-images/prometheus1.jpg)
+##### Prometheus: as métricas já estão sendo geradas na porta 9090
 
 
 
 
-- Grafana: é possível visualizar os gráficos gerados na porta 3000 -> agora falta ainda construir métricas customizadas e extrair dados importantes da API.
+![](/readme-images/prometheus1.jpg =150x150)
 
 
 
 
-![](/readme-images/grafana1.jpg)
+##### Grafana: é possível visualizar os gráficos gerados na porta 3000 -> agora falta ainda construir métricas customizadas e extrair dados importantes da API.
 
 
 
 
-![](/readme-images/grafana2.jpg)
+![](/readme-images/grafana1.jpg =150x150)
+
+
+
+
+![](/readme-images/grafana2.jpg =150x150)
 
 
 
 ### Keycloak
 
 
-
-
-- Keycloak: todas as configurações já foram feitas e a geração do token está funcionando (testei com grant type = authorization code).
+##### Keycloak: todas as configurações já foram feitas e a geração do token está funcionando (testei com grant type = authorization code).
 
 
 
 
 
-![](/readme-images/keycloak.jpg)
+![](/readme-images/keycloak.jpg =150x150)
 
 
 
 
 ### Jaeger
 
-
-
-- Jaeger: o 'spring.application.name' ficou como proposta
-
-
-
-
-![](/readme-images/jaeger.jpg)
+##### Jaeger: as requisições já estão passando pelo jaeger e o gráfico está sendo gerado
 
 
 
 
-- Jaeger: as requisições já estão passando pelo jaeger e o gráfico está sendo gerado
-
-
-
-
-![](/readme-images/jaeger1.jpg)
+![](/readme-images/jaeger1.jpg =150x150)
 
 
 
@@ -106,15 +85,13 @@
 ### OpenApi 3.0
 
 
-
-
-- OpenApi 3.0: aqui foi mais motivo de organização mesmo. Vou atualizando aqui os endpoints à medida que for desenvolvendo a API.
+##### OpenApi 3.0: aqui foi mais motivo de organização mesmo. Vou atualizando aqui os endpoints à medida que for desenvolvendo a API.
 
 
 
 
 
-![](/readme-images/endpointsproposta.jpg)
+![](/readme-images/endpointsproposta.jpg =150x150)
 
 
 
@@ -126,7 +103,7 @@
 
 
 
-![](/readme-images/analise_proposta.jpg)
+![](/readme-images/analise_proposta.jpg =150x150)
 
 
 

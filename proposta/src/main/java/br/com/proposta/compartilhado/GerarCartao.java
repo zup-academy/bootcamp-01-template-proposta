@@ -35,21 +35,17 @@ public class GerarCartao {
         this.cartaoRepository = cartaoRepository;
     }
 
-
     @Transactional
     public void geraCartaoSegundoPlano(Proposta proposta){
 
+        /* @complexidade - classe criada no projeto */
+        var cartaoGeradoPeloLegado = integracaoApiCartoes.buscarCartao(proposta.getId());
+
         /* @complexidade - if */
-        if(proposta.getCartao() == null){
-
-                                            /* @complexidade - classe criada no projeto */
-            boolean cartaoCriadoNaApiDeContas = integracaoApiCartoes.criarCartao(new NovoCartaoRequest(proposta)).getStatusCode() == HttpStatus.CREATED;
-
-            /* @complexidade - if */
-            if(cartaoCriadoNaApiDeContas){
+        if(proposta.getNumeroCartao() == null && cartaoGeradoPeloLegado.getStatusCode() == HttpStatus.OK){
 
                 /* @complexidade - classe criada no projeto */
-                var cartaoResponse = integracaoApiCartoes.buscarCartao(proposta.getId()).getBody();
+                var cartaoResponse = cartaoGeradoPeloLegado.getBody();
 
                 /* @complexidade - classe criada no projeto */
                 Cartao cartao = new Cartao(cartaoResponse.getId(), proposta.getNome(), proposta);
@@ -57,14 +53,12 @@ public class GerarCartao {
                 cartaoRepository.save(cartao);
 
                 /* @complexidade - classe criada no projeto */
-                proposta.associaCartao(cartao);
+                proposta.associaCartao(cartaoResponse.getId());
 
                 entityManager.merge(proposta);
 
-
                 logger.info("Cartão criado em segundo plano e associado com a proposta do cliente={}", proposta.getNome());
 
-            }
         }
     }
 }

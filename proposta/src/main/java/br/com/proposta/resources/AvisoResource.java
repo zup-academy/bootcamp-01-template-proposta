@@ -5,6 +5,7 @@ import br.com.proposta.entidades.Aviso;
 import br.com.proposta.repositories.AvisoRepository;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import br.com.proposta.compartilhado.BuscarIPeUserAgentNaRequisicao;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api/viagens")
 public class AvisoResource {
+
 
     /* total de pontos = 6 */
 
@@ -26,6 +28,7 @@ public class AvisoResource {
     private final BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao;
 
 
+
     public AvisoResource(AvisoRepository avisoRepository, IntegracaoApiCartoes integracaoApiCartoes,
                          BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao) {
         this.avisoRepository = avisoRepository;
@@ -33,23 +36,33 @@ public class AvisoResource {
         this.buscarIPeUserAgentNaRequisicao = buscarIPeUserAgentNaRequisicao;
     }
 
+
     @PostMapping("/{idCartao}")
     public ResponseEntity<?> avisa(@PathVariable String idCartao, @RequestBody AvisarViagemRequest avisarViagemRequest,
                             HttpServletRequest httpRequest){
 
         /* @complexidade - utilizando duas classes criadas no projeto */
-        var resposta = integracaoApiCartoes.avisarViagem(idCartao, avisarViagemRequest).getBody();
+        var resposta = integracaoApiCartoes.avisarViagem(idCartao, avisarViagemRequest);
 
         /* @complexidade - utilizando classe criada no projeto */
         var userAgentEip = buscarIPeUserAgentNaRequisicao.recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
 
-        /* @complexidade - instanciando classe criada no projeto */
-        var novoAviso = new Aviso(idCartao, userAgentEip, resposta);
+        /* @complexidade - if */
+        if(resposta.getStatusCode() == HttpStatus.OK){
 
-        avisoRepository.save(novoAviso);
+            /* @complexidade - instanciando classe criada no projeto */
+            var novoAviso = new Aviso(idCartao, userAgentEip, resposta.getBody());
+
+            avisoRepository.save(novoAviso);
+
+            return ResponseEntity
+                    .ok()
+                    .build();
+
+        }
 
         return ResponseEntity
-                .ok()
+                .notFound()
                 .build();
 
     }

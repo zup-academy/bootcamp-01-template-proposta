@@ -1,6 +1,8 @@
 package br.com.proposta.resources;
 
 import br.com.proposta.entidades.Bloqueio;
+import br.com.proposta.entidades.Cartao;
+import br.com.proposta.repositories.CartaoRepository;
 import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.compartilhado.BloquearCartao;
 import br.com.proposta.compartilhado.BuscarIPeUserAgentNaRequisicao;
@@ -16,7 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/bloqueios/{cartaoId}")
 public class BloqueioResource {
 
-    /* total de pontos = 6 */
+
+    /* total de pontos = 7 */
 
     private final Logger logger = LoggerFactory.getLogger(Bloqueio.class);
 
@@ -27,14 +30,15 @@ public class BloqueioResource {
     private final BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao;
 
     /* @complexidade - acoplamento contextual */
-    private final PropostaRepository propostaRepository;
+    private final CartaoRepository cartaoRepository;
+
 
 
     public BloqueioResource(BloquearCartao bloquearCartao, BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao,
-                            PropostaRepository propostaRepository) {
+                            CartaoRepository cartaoRepository) {
         this.bloquearCartao = bloquearCartao;
         this.buscarIPeUserAgentNaRequisicao = buscarIPeUserAgentNaRequisicao;
-        this.propostaRepository = propostaRepository;
+        this.cartaoRepository = cartaoRepository;
     }
 
 
@@ -43,21 +47,27 @@ public class BloqueioResource {
     public ResponseEntity<?> bloqueia(@PathVariable String cartaoId, UriComponentsBuilder uriComponentsBuilder,
                                     HttpServletRequest httpRequest){
 
+        Cartao cartao = cartaoRepository.findByNumero(cartaoId);
 
         /* @complexidade - classe criada no projeto */
         var userAgentEInternetProtocol = buscarIPeUserAgentNaRequisicao
                 .recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
 
-        /* @complexidade - classe criada no projeto */
-        var bloqueioResponse = bloquearCartao.bloquear(cartaoId, userAgentEInternetProtocol);
 
         /* @complexidade - classe criada no projeto */
-        var bloqueio = new Bloqueio(userAgentEInternetProtocol, bloqueioResponse);
+        Bloqueio bloqueio = bloquearCartao.bloquear(cartaoId, userAgentEInternetProtocol);
+
+        /* @complexidade - classe criada no projeto */
+        var bloqueioResponse = bloquearCartao.avisarLegadoDoBloqueio(cartao);
+
+        /* @complexidade - classe criada no projeto */
+        bloqueio.atualizaStatusAposRespostaDoLegado(bloqueioResponse.getResultado());
+
 
         logger.info("Bloqueio realizado com sucesso no cartão");
 
         return ResponseEntity
-                .created(uriComponentsBuilder.path("/bloqueios/{propostaId}").buildAndExpand(bloqueio.getId()).toUri()).build();
+                .created(uriComponentsBuilder.path("/bloqueios/{propostaId}").buildAndExpand(cartaoId).toUri()).build();
 
     }
 }
