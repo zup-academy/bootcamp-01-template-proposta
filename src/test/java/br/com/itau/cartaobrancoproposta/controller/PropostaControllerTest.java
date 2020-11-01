@@ -23,7 +23,7 @@ public class PropostaControllerTest {
         EntityManager manager = Mockito.mock(EntityManager.class);
         VerificaPropostaMesmoSolicitante verificaProposta = Mockito.mock(VerificaPropostaMesmoSolicitante.class);
 
-        PropostaController propostaController = new PropostaController(manager, verificaProposta);
+        PropostaController propostaController = new PropostaController(null, verificaProposta, null);
         PropostaRequest propostaRequest = new PropostaRequest("330.547.310-06", "raphael@gmail.com", "Raphael", "Rua 1", BigDecimal.valueOf(1000));
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
 
@@ -36,7 +36,7 @@ public class PropostaControllerTest {
         EntityManager manager = Mockito.mock(EntityManager.class);
         VerificaPropostaMesmoSolicitante verificaProposta = Mockito.mock(VerificaPropostaMesmoSolicitante.class);
 
-        PropostaController propostaController = new PropostaController(manager, verificaProposta);
+        PropostaController propostaController = new PropostaController(null, verificaProposta, null);
         PropostaRequest propostaRequest = new PropostaRequest("330.547.310-06", "raphael@gmail.com", "Raphael", "Rua 1", BigDecimal.valueOf(1000));
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
 

@@ -12,17 +12,17 @@ public class PropostaRequest {
 
     @NotBlank
     @CpfOuCnpj
-    private String documento;
+    private final String documento;
     @NotBlank
     @Email
-    private String email;
+    private final String email;
     @NotBlank
-    private String nome;
+    private final String nome;
     @NotBlank
-    private String endereco;
+    private final String endereco;
     @NotNull
     @Positive
-    private BigDecimal salario;
+    private final BigDecimal salario;
 
     public String getDocumento() {
         return documento;
@@ -54,6 +54,6 @@ public class PropostaRequest {
     }
 
     public Proposta toModel() {
-        return new Proposta(this.documento, this.email, this.nome, this.endereco, this.salario);
+        return new Proposta(this.documento, this.email, this.nome, this.endereco, this.salario, Restricao.PENDENTE);
     }
 }

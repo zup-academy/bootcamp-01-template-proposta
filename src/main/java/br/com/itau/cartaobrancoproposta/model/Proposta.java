@@ -1,11 +1,9 @@
 package br.com.itau.cartaobrancoproposta.model;
 
 import br.com.itau.cartaobrancoproposta.validator.CpfOuCnpj;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,8 +15,9 @@ import java.util.Objects;
 public class Proposta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
     @NotBlank
     @CpfOuCnpj
     private String documento;
@@ -32,25 +31,28 @@ public class Proposta {
     @NotNull
     @Positive
     private BigDecimal salario;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Restricao restricao;
 
     @Deprecated
     public Proposta() {
     }
 
-    public Proposta(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome,
-                    @NotBlank String endereco, @NotNull @Positive BigDecimal salario) {
+    public Proposta(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome, @NotBlank String endereco, @NotNull @Positive BigDecimal salario, @NotNull Restricao restricao) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.restricao = restricao;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -94,6 +96,14 @@ public class Proposta {
         this.salario = salario;
     }
 
+    public Restricao getRestricao() {
+        return restricao;
+    }
+
+    public void setRestricao(Restricao restricao) {
+        this.restricao = restricao;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -110,5 +120,13 @@ public class Proposta {
     @Override
     public int hashCode() {
         return Objects.hash(id, documento, email, nome, endereco, salario);
+    }
+
+    public void verifica(String resultadoSolicitacao) {
+        if (resultadoSolicitacao.equals("SEM_RESTRICAO")){
+            this.restricao = Restricao.ELEGIVEL;
+        } else {
+            this.restricao = Restricao.NAO_ELEGIVEL;
+        }
     }
 }
