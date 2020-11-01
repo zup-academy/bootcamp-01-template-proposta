@@ -1,7 +1,7 @@
 package com.proposta.feign;
 
-import com.proposta.criacaoproposta.ResultadoAnaliseResponse;
-import com.proposta.criacaoproposta.SolicitacaoAnaliseRequest;
+import com.proposta.feign.response.ResultadoAnaliseResponse;
+import com.proposta.feign.request.SolicitacaoAnaliseRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
