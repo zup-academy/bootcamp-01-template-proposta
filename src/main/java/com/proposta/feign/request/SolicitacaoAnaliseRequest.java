@@ -1,4 +1,4 @@
-package com.proposta.criacaoproposta;
+package com.proposta.feign.request;
 
 public class SolicitacaoAnaliseRequest {
 

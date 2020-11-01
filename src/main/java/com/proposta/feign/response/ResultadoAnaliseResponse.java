@@ -1,4 +1,4 @@
-package com.proposta.criacaoproposta;
+package com.proposta.feign.response;
 
 public class ResultadoAnaliseResponse {
 
