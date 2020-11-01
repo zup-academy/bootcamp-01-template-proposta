@@ -22,7 +22,7 @@ public class AvisoResourceTestes {
 
 
     @Test
-    public void deveRetornarCreatedAoAvisarViagem() throws JSONException {
+    public void deveRetornarOKAoAvisarViagem() throws JSONException {
 
 
         JSONObject novoAviso = new JSONObject()

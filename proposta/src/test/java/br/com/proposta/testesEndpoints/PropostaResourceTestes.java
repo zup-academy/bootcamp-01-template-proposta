@@ -24,7 +24,7 @@ public class PropostaResourceTestes {
 
 
     @Test
-    public void deveRetornarOkAoCriarNovaProposta() throws JSONException {
+    public void deveRetornarCreatedAoCriarNovaProposta() throws JSONException {
 
         JSONObject novaProposta = new JSONObject()
                 .put("nome","Teste Testando")

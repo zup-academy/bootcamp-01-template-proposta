@@ -19,7 +19,7 @@ public class BloqueioCartaoTestes {
     private int port;
 
     @Test
-    public void deveRetornarOkAoCriarNovaProposta() throws JSONException {
+    public void deveRetornarCreatedAoBloquearCartao() throws JSONException {
 
         JSONObject novaProposta = new JSONObject()
                 .put("sistemaResponsavel","API proposta");
