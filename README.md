@@ -22,7 +22,7 @@
 ### Testes - Pitest, RestAssured, JUnit
 
 
-![](/readme-images/cobertura-testes-proposta.jpg =150x150)
+![](./readme-images/cobertura-testes-proposta.jpg =150x150)
 
 
 ### CDD
@@ -37,7 +37,7 @@
 
 
 
-![](/readme-images/prometheus1.jpg =150x150)
+![](./readme-images/prometheus1.jpg =150x150)
 
 
 
@@ -47,12 +47,12 @@
 
 
 
-![](/readme-images/grafana1.jpg =150x150)
+![](./readme-images/grafana1.jpg =150x150)
 
 
 
 
-![](/readme-images/grafana2.jpg =150x150)
+![](./readme-images/grafana2.jpg =150x150)
 
 
 
@@ -65,7 +65,7 @@
 
 
 
-![](/readme-images/keycloak.jpg =150x150)
+![](./readme-images/keycloak.jpg =150x150)
 
 
 
@@ -77,7 +77,7 @@
 
 
 
-![](/readme-images/jaeger1.jpg =150x150)
+![](./readme-images/jaeger1.jpg =150x150)
 
 
 
@@ -91,7 +91,7 @@
 
 
 
-![](/readme-images/endpointsproposta.jpg =150x150)
+![](./readme-images/endpointsproposta.jpg =150x150)
 
 
 
@@ -103,7 +103,7 @@
 
 
 
-![](/readme-images/analise_proposta.jpg =150x150)
+![](./readme-images/analise_proposta.jpg =150x150)
 
 
 
