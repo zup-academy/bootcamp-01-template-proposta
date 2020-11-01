@@ -44,7 +44,7 @@ public class PropostaController {
             return ResponseEntity.unprocessableEntity().body("Proposta inadequada.");
         }
 
-        //6 PropostaResponse
+        //6 PropostaResponse // 7 Proposta service
         PropostaResponse propostaResponse = propostaService.cria(proposta);
         URI uriCreated = builder.path("/propostas/{id}").build(propostaResponse.getId());
         return ResponseEntity.created(uriCreated).build();

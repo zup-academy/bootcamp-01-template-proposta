@@ -1,9 +1,9 @@
 package com.proposta.criacaoproposta;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.proposta.criacaocartao.Cartao;
+import com.proposta.feign.request.SolicitacaoAnaliseRequest;
+
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -36,6 +36,9 @@ public class Proposta {
 
     private StatusProposta status = StatusProposta.NAO_ANALISADA;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Cartao cartao;
+
     public Proposta() {
 
     }
@@ -53,6 +56,7 @@ public class Proposta {
         return new SolicitacaoAnaliseRequest(documento, nome, id.toString());
     }
 
+
     public Long getId() {
         return id;
     }
@@ -68,4 +72,17 @@ public class Proposta {
     public void setStatus(StatusProposta status) {
         this.status = status;
     }
+
+    public StatusProposta getStatus() {
+        return status;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
+    }
+
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
+    }
+
 }
