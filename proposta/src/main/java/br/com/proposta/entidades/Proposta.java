@@ -55,6 +55,8 @@ public class Proposta {
         this.identificacao = identificacao;
     }
 
+
+
     public String getNumeroCartao() {
         return numeroCartao;
     }
