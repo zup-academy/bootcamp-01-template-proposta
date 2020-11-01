@@ -14,13 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
-
+@RequestMapping("/propostas")
 @RestController
 public class PropostaController {
 
@@ -43,7 +44,7 @@ public class PropostaController {
     }
 
     @Transactional
-    @PostMapping(value = "/propostas")
+    @PostMapping
     public ResponseEntity<?> save(@RequestBody @Valid PropostaRequest request,
                                   UriComponentsBuilder builder) {
 

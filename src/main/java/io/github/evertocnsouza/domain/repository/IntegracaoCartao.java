@@ -11,4 +11,6 @@ public interface IntegracaoCartao {
     @GetMapping("/api/cartoes")
     CartaoResponse pesquisaIdProposta(@RequestParam Long idProposta);
 
+
+
 }
