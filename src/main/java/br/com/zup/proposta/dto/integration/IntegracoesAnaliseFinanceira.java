@@ -4,10 +4,10 @@ import br.com.zup.proposta.dto.AvaliacaoPropostaRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@FeignClient(url="http://localhost:9999/api/solicitacao", name = "integracoes")
-public interface Integracoes {
+@FeignClient(url="${host.analise.financeira}", name = "integracoes")
+public interface IntegracoesAnaliseFinanceira {
 
-    @PostMapping
+    @PostMapping("/api/solicitacao")
     public AvaliacaoPropostaRequest avalia(AvaliacaoPropostaRequest avaliacaoPropostaRequest);
 
 }

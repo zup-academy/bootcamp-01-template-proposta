@@ -1,6 +1,6 @@
 package br.com.zup.proposta.validations;
 
-import br.com.zup.proposta.dto.NovaPropostaDtoRequest;
+import br.com.zup.proposta.dto.NovaPropostaRequest;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -13,7 +13,7 @@ public class DocumentoIgualValidator {
     @PersistenceContext
     EntityManager entityManager;
 
-    public boolean existe(NovaPropostaDtoRequest request){
+    public boolean existe(NovaPropostaRequest request){
 
         Query query = entityManager.createQuery("select 1 from " +
                 "Proposta where documento =:documento");

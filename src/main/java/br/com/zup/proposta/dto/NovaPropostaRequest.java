@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
-public class NovaPropostaDtoRequest {
+public class NovaPropostaRequest {
 
     @NotBlank
     @CpfCnpj(message = "Documento inválido")
@@ -23,9 +23,9 @@ public class NovaPropostaDtoRequest {
     @NotNull @Positive
     private BigDecimal salarioBruto;
 
-    public NovaPropostaDtoRequest(@NotBlank String documento, @NotBlank @Email String email,
-                                  @NotBlank String nome,
-                                  @NotBlank String endereco, @NotNull @Positive BigDecimal salarioBruto) {
+    public NovaPropostaRequest(@NotBlank String documento, @NotBlank @Email String email,
+                               @NotBlank String nome,
+                               @NotBlank String endereco, @NotNull @Positive BigDecimal salarioBruto) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;

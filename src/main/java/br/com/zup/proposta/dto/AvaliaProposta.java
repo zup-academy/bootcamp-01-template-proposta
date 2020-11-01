@@ -1,6 +1,6 @@
 package br.com.zup.proposta.dto;
 
-import br.com.zup.proposta.dto.integration.Integracoes;
+import br.com.zup.proposta.dto.integration.IntegracoesAnaliseFinanceira;
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,32 +16,40 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class AvaliaProposta {
 
+    //services devem ter até 7 pontos de carga insentrica?
+
     @Autowired
-    private Integracoes integracoes; //1
+    private IntegracoesAnaliseFinanceira integracoesAnaliseFinanceira; //1
 
     private Logger logger = LoggerFactory.getLogger(AvaliaProposta.class);
 
-    public StatusAvaliacaoProposta executar(Proposta novaProposta) //2
-            throws JsonProcessingException {
+    public StatusAvaliacaoProposta executar(Proposta novaProposta) { //2
 
-        AvaliacaoPropostaRequest resultadoAvalicao; //3
+        AvaliacaoPropostaRequest resultadoAvalicao =
+                new AvaliacaoPropostaRequest(novaProposta); //3
 
         try{ //4
-             resultadoAvalicao =
-                    integracoes.avalia(new AvaliacaoPropostaRequest(novaProposta));
+             resultadoAvalicao = integracoesAnaliseFinanceira
+                     .avalia(new AvaliacaoPropostaRequest(novaProposta));
 
             return resultadoAvalicao.getResultadoSolicitacao().normaliza();
 
         }catch (FeignException e){ //5
 
-            if (e.status() == 422){ //6
-                logger.error("Execção do serviço legado", e.contentUTF8());
+            int httpStatusRequisicao = 422;
 
-                AvaliacaoPropostaRequest propostaRecusada = new ObjectMapper()
-                        .readValue(e.contentUTF8(),
-                                AvaliacaoPropostaRequest.class);
+            if (e.status() == httpStatusRequisicao){ //6
 
-                return propostaRecusada.getResultadoSolicitacao().normaliza();
+                logger.error("Resultado consulta sistema legado:{}", e.contentUTF8());
+
+                try { //7
+                    resultadoAvalicao = new ObjectMapper().readValue(e.contentUTF8(),
+                                    AvaliacaoPropostaRequest.class);
+                } catch (JsonProcessingException jsonProcessingException) { //8
+                    jsonProcessingException.printStackTrace();
+                }
+
+                return resultadoAvalicao.getResultadoSolicitacao().normaliza();
             }
 
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

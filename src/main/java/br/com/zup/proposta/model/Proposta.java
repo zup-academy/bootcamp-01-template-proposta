@@ -5,7 +5,6 @@ import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;
 import br.com.zup.proposta.validations.CpfCnpj;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -33,9 +32,13 @@ public class Proposta {
     @NotNull
     @Positive
     private BigDecimal salarioBruto;
-
     @Enumerated(EnumType.STRING)
     private StatusAvaliacaoProposta statusAvaliacaoProposta; //1
+    @OneToOne(mappedBy = "proposta", cascade = CascadeType.MERGE)
+    private Cartao cartao;
+
+    @Deprecated
+    public Proposta(){}
 
     public Proposta(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome,
                     @NotBlank String endereco, @NotNull @Positive BigDecimal salarioBruto) {
@@ -64,8 +67,29 @@ public class Proposta {
         return statusAvaliacaoProposta;
     }
 
+    public Cartao getCartao() {
+        return cartao;
+    }
+
     public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacaoProposta){
         this.statusAvaliacaoProposta = statusAvaliacaoProposta;
+    }
+
+    public void associarCartao(String numeroCartao) {
+        this.cartao = new Cartao(numeroCartao, this);
+    }
+
+    @Override
+    public String toString() {
+        return "Proposta{" +
+                "documento='" + documento + '\'' +
+                ", email='" + email + '\'' +
+                ", nome='" + nome + '\'' +
+                ", endereco='" + endereco + '\'' +
+                ", salarioBruto=" + salarioBruto +
+                ", statusAvaliacaoProposta=" + statusAvaliacaoProposta +
+                ", cartao=" + cartao +
+                '}';
     }
 
 }
