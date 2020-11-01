@@ -1,7 +1,9 @@
 package com.proposta.criacaoproposta;
 
+import com.proposta.feign.ApiCartaoCliente;
 import com.proposta.feign.AnalisePropostaCliente;
-import com.proposta.validator.ValidarDocumentoIgual;
+import com.proposta.feign.request.SolicitacaoCriarCartao;
+import com.proposta.feign.response.ResultadoAnaliseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +18,20 @@ public class PropostaService {
     @Autowired
     private AnalisePropostaCliente analisePropostaCliente;
 
+    @Autowired
+    private ApiCartaoCliente apiCartaoCliente;
 
     public PropostaResponse cria(Proposta proposta) {
 
         manager.persist(proposta);
 
-        ResultadoAnaliseResponse response = analisePropostaCliente.solicitarAnalise(proposta.toAnalise());
+        ResultadoAnaliseResponse analiseResponse = analisePropostaCliente.solicitarAnalise(proposta.toAnalise());
 
-        if (response.getResultadoSolicitacao() == ResultadoAnaliseResponse.ResultadoSolicitacao.COM_RESTRICAO) {
+        if (analiseResponse.getResultadoSolicitacao() == ResultadoAnaliseResponse.ResultadoSolicitacao.COM_RESTRICAO) {
             proposta.setStatus(StatusProposta.NAO_ELEGIVEL);
-        } else if (response.getResultadoSolicitacao() == ResultadoAnaliseResponse.ResultadoSolicitacao.SEM_RESTRICAO) {
+        } else if (analiseResponse.getResultadoSolicitacao() == ResultadoAnaliseResponse.ResultadoSolicitacao.SEM_RESTRICAO) {
             proposta.setStatus(StatusProposta.ELEGIVEL);
+            apiCartaoCliente.solicitarCartao(new SolicitacaoCriarCartao(proposta.getDocumento(), proposta.getNome(), proposta.getId().toString()));
         }
 
         manager.merge(proposta);
