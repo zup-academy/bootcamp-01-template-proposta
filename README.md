@@ -32,22 +32,40 @@ Depois, para rodar a API dentro do container
 
 ### Prometheus e Grafana
 
-Prometheus: as métricas já estão sendo geradas e podem ser acessadas na porta 9090
+Prometheus: as métricas já estão sendo geradas e podem ser acessadas na porta 9090. Com folga, o Prometheus e o Grafana foram as ferramentas mais legais de usar nesse desafio e com certeza são ferramentas para estar constantemente estudando e usando em projetos.
 
 
 ![](/readme-images/prometheus.jpg)
 
 
-Grafana: é possível visualizar os gráficos gerados na porta 3000 -> agora falta ainda construir métricas customizadas e extrair dados importantes da API e tentar fazer alguns alertas via grafana. Pelo que pesquisei, seria importante cobrir as seguintes estatísticas:
+Grafana: é possível visualizar os gráficos gerados na porta 3000. Pelo que pesquisei, seria importante cobrir as seguintes estatísticas:
 
-    - uso de capacidade do processador - cpu
-    - porcentagem de alocação de memória volátil - ram
-    - número de resposta http na faixa dos 400 e 500 em relação ao total de requisições
-    - tempo média das respostas 
-    - número de threads dedicadas para determinados processos (foco nas requisições async)
-    
 
-![](/readme-images/grafana.jpg)
+- uso da capacidade de processamento - cpu
+
+![](/readme-images/cpu-grafana.jpg)
+
+
+
+- uso da memória pela jvm
+
+![](/readme-images/jvm-grafana.jpg)
+
+
+- número de resposta http na faixa dos 400 e 500 em relação ao total de requisições
+
+Essa aqui ainda tenho que elaborar a query
+
+
+
+- tempo média das respostas 
+
+Também preciso montar a query aqui
+
+
+- número de threads dedicadas para determinados processos (foco nas requisições async)
+
+![](/readme-images/jvm-threads.jpg)
 
 
 
@@ -126,7 +144,6 @@ Ao rodar a aplicação, acessar:
 ### CodeMR
 
 Aqui já foi possível identificar duas classes que estão com as métricas de complexidade, acoplamento e coesão com nível médio, já sendo indicado tentar abaixar essa pontuação. As classes são Proposta e PropostaResource. O que tem algum sentido, tendo em vista que é o centro da API, mesmo assim, fica a tentativa de melhorar essa métrica.
-
 
 
 ![](/readme-images/analise_proposta.jpg)
