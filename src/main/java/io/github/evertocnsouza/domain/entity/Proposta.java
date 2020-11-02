@@ -45,7 +45,6 @@ public class Proposta {
 
     @Deprecated
     public Proposta() {
-
     }
 
     public Proposta(@Email @NotBlank String email, @NotBlank String nome,
@@ -73,11 +72,6 @@ public class Proposta {
 
     public String getEndereco() {return endereco; }
 
-    public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
-        Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL),
-                "Proposta elegível! Não é possível fazer a troca");
-        this.statusAvaliacao = statusAvaliacao;
-    }
     public StatusAvaliacaoProposta getStatusAvaliacao() {
         return statusAvaliacao;
     }
@@ -86,6 +80,11 @@ public class Proposta {
         return nome;
     }
 
+    public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
+        Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL),
+                "Proposta elegível! Não é possível fazer a troca");
+        this.statusAvaliacao = statusAvaliacao;
+    }
 
     public boolean verificarSeNaoExisteCartao() {
         return Objects.isNull(cartao);

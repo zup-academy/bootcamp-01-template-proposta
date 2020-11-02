@@ -2,7 +2,6 @@ package io.github.evertocnsouza.domain.entity;
 
 import io.github.evertocnsouza.domain.enums.StatusCartao;
 import org.springframework.util.Assert;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -29,6 +28,9 @@ public class Cartao {
     @OneToMany
     private Set<Biometria> biometrias = new HashSet<>();
 
+    @OneToMany
+    private Set<Bloqueio> bloqueios = new HashSet<>();
+
     @Deprecated
     public Cartao(){
     }
@@ -39,8 +41,24 @@ public class Cartao {
     }
 
     public void addBiometria(Biometria biometria) {
-        Assert.notNull(biometrias, "Biometria não pode ser nula para associação cartão");
+        Assert.notNull(biometrias, "Biometria não pode ser nula para associar ao cartão");
         biometrias.add(biometria);
+    }
+
+    public boolean verificarCartaoBloqueado() {
+        return statusCartao.equals(statusCartao.BLOQUEADO);
+    }
+
+    public void bloquearCartao() {
+        this.statusCartao= statusCartao.BLOQUEADO;
+    }
+
+    public void incluirBloqueioDoCartao(Bloqueio bloqueio){
+        bloqueios.add(bloqueio);
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public UUID getNumeroCartao() {

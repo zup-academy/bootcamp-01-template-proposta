@@ -2,12 +2,10 @@ package io.github.evertocnsouza.domain.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.UUID;
 
 @Entity
@@ -20,15 +18,19 @@ public class Biometria {
     @NotNull
     private byte[] digital;
 
-    private LocalDateTime instante = LocalDateTime.now();
+    @NotNull
+    private LocalDateTime instanteCadastro = LocalDateTime.now();
 
     public Biometria() {
     }
 
     public Biometria(String digital) {
-        this.digital = Base64.getEncoder().encode(digital.getBytes());
+        this.digital = digital.getBytes();
     }
 
+    public UUID getId() {
+        return id;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -43,7 +45,4 @@ public class Biometria {
         return Arrays.hashCode(digital);
     }
 
-    public UUID getId() {
-        return id;
-    }
 }

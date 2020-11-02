@@ -17,11 +17,11 @@ import javax.persistence.TypedQuery;
 @Service
 public class CartaoService {
 
-    private IntegracaoCartao integracaoCartao;
+    private final IntegracaoCartao integracaoCartao;
 
-    private EntityManager manager;
+    private final EntityManager manager;
 
-    private Logger logger;
+    private final Logger logger;
 
     public CartaoService(IntegracaoCartao integracaoCartao, EntityManager manager) {
         this.integracaoCartao = integracaoCartao;
@@ -38,7 +38,7 @@ public class CartaoService {
                 .setParameter("statusAvaliacao", StatusAvaliacaoProposta.ELEGIVEL);
 
             propostas.getResultList().forEach(proposta -> {
-            CartaoResponse cartaoResponse = integracaoCartao.pesquisaIdProposta(proposta.getId());
+            CartaoResponse cartaoResponse = integracaoCartao.pesquisaIdProposta(proposta.getId().longValue());
 
             if (proposta.verificarSeNaoExisteCartao()) {
                 Assert.notNull(cartaoResponse, "O cartão não pode ser nulo");
