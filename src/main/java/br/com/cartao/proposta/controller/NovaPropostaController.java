@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
@@ -34,7 +31,7 @@ public class NovaPropostaController {
 
     // +1
     private final PropostaRepository propostaRepository;
-
+    // +1
     private final NovaPropostaService novaPropostaService;
 
     public NovaPropostaController(PropostaRepository propostaRepository, NovaPropostaService novaPropostaService) {
@@ -46,7 +43,7 @@ public class NovaPropostaController {
     @Transactional
     // +1
     public ResponseEntity<?> criaNovaProposta(@RequestBody @Valid NovaPropostaRequest novaPropostaRequest, UriComponentsBuilder uriComponentsBuilder) throws JsonProcessingException {
-
+        // +1
         Optional<Proposta> propostaBuscadaPeloDocumento = propostaRepository.findByDocumento(novaPropostaRequest.getDocumento());
         // +1
         if (propostaBuscadaPeloDocumento.isPresent()) {
@@ -54,12 +51,27 @@ public class NovaPropostaController {
         }
 
         logger.info("Requisição recebida: {}", novaPropostaRequest);
-        // +1
 
+        // +1
         NovaPropostaResponseDto novaPropostaResponseDto = novaPropostaService.criaNovaProposta(novaPropostaRequest);
 
         return ResponseEntity
                 .created(uriComponentsBuilder.path("/v1/propostas/{id}").buildAndExpand(novaPropostaResponseDto.getId()).toUri())
                 .build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> verificaStatusProposta(@PathVariable String id){
+        logger.info("Requisição recebida para verificar o status da proposta. idProposta: {}", id);
+        Optional<Proposta> propostaBuscada  = propostaRepository.findById(id);
+        // +1
+        if (propostaBuscada.isEmpty()){
+            logger.warn("Id proposta não encontrado. idProposta: {}", id);
+            return ResponseEntity.notFound().build();
+        }
+
+        NovaPropostaResponseDto novaPropostaResponseDto = new NovaPropostaResponseDto(propostaBuscada.get());
+
+        return ResponseEntity.ok(novaPropostaResponseDto);
     }
 }
