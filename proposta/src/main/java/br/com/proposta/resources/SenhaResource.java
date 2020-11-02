@@ -13,9 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/senhas/{cartaoId}")
 public class SenhaResource {
 
+    /* total de pontos = 4 */
 
+    /* @complexidade - acoplamento contextual */
     private final BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao;
 
+    /* @complexidade - acoplamento contextual */
     private final SenhaRepository senhaRepository;
 
 
@@ -30,10 +33,14 @@ public class SenhaResource {
     public ResponseEntity<?> recuperaSenha(@PathVariable String cartaoId,
                   HttpServletRequest httpRequest, UriComponentsBuilder uriComponentsBuilder){
 
+        /* @complexidade - classe criada no projeto */
         var IpEuserAgent = buscarIPeUserAgentNaRequisicao
                 .recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
 
+        /* @complexidade - classe criada no projeto */
         Senha senha = new Senha(IpEuserAgent, cartaoId);
+
+        senhaRepository.save(senha);
 
         return ResponseEntity
                 .created(uriComponentsBuilder.path("/api/senhas/").buildAndExpand().toUri()).build();

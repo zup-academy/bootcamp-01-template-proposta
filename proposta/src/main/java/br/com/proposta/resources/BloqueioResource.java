@@ -15,13 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
-@RequestMapping("/api/bloqueios/{cartaoId}")
+@RequestMapping("/api/bloqueios/{numeroCartao}")
 public class BloqueioResource {
 
 
-    /* total de pontos = 7 */
+    /* total de pontos = 9 */
 
-    private final Logger logger = LoggerFactory.getLogger(Bloqueio.class);
 
     /* @complexidade - acoplamento contextual */
     private final BloquearCartao bloquearCartao;
@@ -32,6 +31,7 @@ public class BloqueioResource {
     /* @complexidade - acoplamento contextual */
     private final CartaoRepository cartaoRepository;
 
+    private final Logger logger = LoggerFactory.getLogger(Bloqueio.class);
 
 
     public BloqueioResource(BloquearCartao bloquearCartao, BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao,
@@ -44,18 +44,23 @@ public class BloqueioResource {
 
 
     @PostMapping
-    public ResponseEntity<?> bloqueia(@PathVariable String cartaoId, UriComponentsBuilder uriComponentsBuilder,
+    public ResponseEntity<?> bloqueia(@PathVariable String numeroCartao, UriComponentsBuilder uriComponentsBuilder,
                                     HttpServletRequest httpRequest){
 
-        Cartao cartao = cartaoRepository.findByNumero(cartaoId);
+        /* @complexidade - classe criada no projeto */
+        Cartao cartao = cartaoRepository.findByNumero(numeroCartao);
+
+        /* @complexidade - if */
+        if(cartao == null){
+            return ResponseEntity.notFound().build();
+        }
 
         /* @complexidade - classe criada no projeto */
         var userAgentEInternetProtocol = buscarIPeUserAgentNaRequisicao
                 .recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
 
-
         /* @complexidade - classe criada no projeto */
-        Bloqueio bloqueio = bloquearCartao.bloquear(cartaoId, userAgentEInternetProtocol);
+        Bloqueio bloqueio = bloquearCartao.bloquear(numeroCartao, userAgentEInternetProtocol);
 
         /* @complexidade - classe criada no projeto */
         var bloqueioResponse = bloquearCartao.avisarLegadoDoBloqueio(cartao);
@@ -64,10 +69,11 @@ public class BloqueioResource {
         bloqueio.atualizaStatusAposRespostaDoLegado(bloqueioResponse.getResultado());
 
 
-        logger.info("Bloqueio realizado com sucesso no cartão");
+        logger.info("Bloqueio realizado do cartao de {} realizado com sucesso", cartao.getTitular());
+
 
         return ResponseEntity
-                .created(uriComponentsBuilder.path("/bloqueios/{propostaId}").buildAndExpand(cartaoId).toUri()).build();
+                .created(uriComponentsBuilder.path("/api/bloqueios/{numeroCartao}").buildAndExpand(numeroCartao).toUri()).build();
 
     }
 }

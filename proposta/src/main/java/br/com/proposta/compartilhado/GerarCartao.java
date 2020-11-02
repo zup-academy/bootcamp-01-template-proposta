@@ -42,22 +42,22 @@ public class GerarCartao {
         var cartaoGeradoPeloLegado = integracaoApiCartoes.buscarCartao(proposta.getId());
 
         /* @complexidade - if */
-        if(proposta.getNumeroCartao() == null && cartaoGeradoPeloLegado.getStatusCode() == HttpStatus.OK){
+        if(cartaoGeradoPeloLegado.getStatusCode() == HttpStatus.OK){
 
                 /* @complexidade - classe criada no projeto */
-                var cartaoResponse = cartaoGeradoPeloLegado.getBody();
+                var dadosCartao = cartaoGeradoPeloLegado.getBody();
 
                 /* @complexidade - classe criada no projeto */
-                Cartao cartao = new Cartao(cartaoResponse.getId(), proposta.getNome(), proposta);
+                Cartao cartao = new Cartao(dadosCartao.getId(), proposta.getNome(), proposta);
 
                 cartaoRepository.save(cartao);
 
                 /* @complexidade - classe criada no projeto */
-                proposta.associaCartao(cartaoResponse.getId());
+                proposta.associaCartao(dadosCartao.getId());
 
                 entityManager.merge(proposta);
 
-                logger.info("Cartão criado em segundo plano e associado com a proposta do cliente={}", proposta.getNome());
+                logger.info("Cartão criado com sucesso e associado com a proposta do cliente={}", proposta.getNome());
 
         }
     }

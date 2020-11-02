@@ -65,4 +65,8 @@ public class Cartao {
     public void setStatus(StatusBloqueio status) {
         this.status = status;
     }
+
+    public String getTitular() {
+        return titular;
+    }
 }

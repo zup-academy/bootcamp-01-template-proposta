@@ -21,25 +21,26 @@ import java.util.List;
 @Service
 public class BloquearCartao {
 
-    /* total de pontos = 7 */
+    /* total de pontos = 9 */
 
     /* @complexidade - acoplamento contextual */
     private final IntegracaoApiCartoes integracaoApiCartoes;
 
     /* @complexidade - acoplamento contextual */
-    private BloqueioRepository bloqueioRepository;
+    private final BloqueioRepository bloqueioRepository;
 
-    @Autowired
-    private CartaoRepository cartaoRepository;
+    /* @complexidade - acoplamento contextual */
+    private final CartaoRepository cartaoRepository;
 
-    @Autowired
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
 
-    public BloquearCartao(IntegracaoApiCartoes integracaoApiCartoes,
-                          BloqueioRepository bloqueioRepository) {
+    public BloquearCartao(IntegracaoApiCartoes integracaoApiCartoes, BloqueioRepository bloqueioRepository,
+                          CartaoRepository cartaoRepository, EntityManager entityManager) {
         this.integracaoApiCartoes = integracaoApiCartoes;
         this.bloqueioRepository = bloqueioRepository;
+        this.cartaoRepository = cartaoRepository;
+        this.entityManager = entityManager;
     }
 
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
@@ -47,15 +48,16 @@ public class BloquearCartao {
 
     public Bloqueio bloquear(String cartaoId, List<String> userAgentEInternetProtocol){
 
-
         /* @complexidade - classe criada no projeto + @complexidade - classe criada no projeto */
         var cartao = cartaoRepository.findByNumero(cartaoId);
-
 
         /* @complexidade - classe criada no projeto */
         var novoBloqueio = new Bloqueio(userAgentEInternetProtocol, cartaoId);
 
         bloqueioRepository.save(novoBloqueio);
+
+        logger.info("Bloqueio gerado na API de propostas." +
+                " Identificação do bloqueio={}", novoBloqueio.getId());
 
         return novoBloqueio;
 
@@ -74,7 +76,8 @@ public class BloquearCartao {
 
         entityManager.merge(cartao);
 
-        logger.info("Tentativa de bloqueio de cartão. Resultado={}", bloqueioResponse.getResultado());
+        logger.info("Tentativa de bloqueio de cartão. Resposta do sistema legado = {} " +
+                  " Titular do cartão = {}", bloqueioResponse.getResultado(), cartao.getTitular());
 
         return bloqueioResponse;
 

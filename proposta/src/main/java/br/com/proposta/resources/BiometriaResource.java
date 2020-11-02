@@ -21,7 +21,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/biometrias/{cartaoId}")
 public class BiometriaResource {
 
-    /* total de pontos = 4 */
+    /* total de pontos = 6 */
 
     private final Logger logger = LoggerFactory.getLogger(Biometria.class);
 
@@ -47,6 +47,7 @@ public class BiometriaResource {
                                            UriComponentsBuilder uriComponentsBuilder){
 
 
+        /* @complexidade - classe criada no projeto */
         Cartao cartao = cartaoRepository.findByNumero(cartaoId);
 
         /* @complexidade - classe criada no projeto */
@@ -54,11 +55,13 @@ public class BiometriaResource {
 
         biometriaRepository.save(biometria);
 
+        /* @complexidade - classe criada no projeto */
         cartao.adicionarBiometria(biometria);
 
         entityManager.merge(cartao);
 
-        logger.info("Biometria registrada com sucesso");
+        logger.info("Biometria registrada com sucesso." +
+                " Pode ser identificada pelo número {}", biometria.getId());
 
         return ResponseEntity
                 .created(uriComponentsBuilder.path("/api/biometrias/{cartaoId}").buildAndExpand(biometria.getId()).toUri()).build();

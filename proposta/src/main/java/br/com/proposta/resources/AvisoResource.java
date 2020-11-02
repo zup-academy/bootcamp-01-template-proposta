@@ -2,9 +2,12 @@ package br.com.proposta.resources;
 
 import br.com.proposta.dtos.requests.AvisarViagemRequest;
 import br.com.proposta.entidades.Aviso;
+import br.com.proposta.entidades.Bloqueio;
 import br.com.proposta.repositories.AvisoRepository;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import br.com.proposta.compartilhado.BuscarIPeUserAgentNaRequisicao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/viagens")
 public class AvisoResource {
 
-
-    /* total de pontos = 6 */
+    /* total de pontos = 7 */
 
     /* @complexidade - acoplamento contextual */
     private final AvisoRepository avisoRepository;
@@ -28,6 +30,8 @@ public class AvisoResource {
     private final BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao;
 
 
+    private final Logger logger = LoggerFactory.getLogger(Aviso.class);
+
 
     public AvisoResource(AvisoRepository avisoRepository, IntegracaoApiCartoes integracaoApiCartoes,
                          BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao) {
@@ -37,29 +41,34 @@ public class AvisoResource {
     }
 
 
-    @PostMapping("/{idCartao}")
-    public ResponseEntity<?> avisa(@PathVariable String idCartao, @RequestBody AvisarViagemRequest avisarViagemRequest,
+    @PostMapping("/{numeroCartao}")
+    public ResponseEntity<?> avisa(@PathVariable String numeroCartao, @RequestBody AvisarViagemRequest avisarViagemRequest,
                             HttpServletRequest httpRequest){
 
         /* @complexidade - utilizando duas classes criadas no projeto */
-        var resposta = integracaoApiCartoes.avisarViagem(idCartao, avisarViagemRequest);
+        var resposta = integracaoApiCartoes
+                .avisarViagem(numeroCartao, avisarViagemRequest);
 
         /* @complexidade - utilizando classe criada no projeto */
-        var userAgentEip = buscarIPeUserAgentNaRequisicao.recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
+        var userAgentEip = buscarIPeUserAgentNaRequisicao
+                .recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
 
         /* @complexidade - if */
         if(resposta.getStatusCode() == HttpStatus.OK){
 
             /* @complexidade - instanciando classe criada no projeto */
-            var novoAviso = new Aviso(idCartao, userAgentEip, resposta.getBody());
+            var novoAviso = new Aviso(numeroCartao, userAgentEip, resposta.getBody());
 
             avisoRepository.save(novoAviso);
 
-            return ResponseEntity
-                    .ok()
-                    .build();
+            logger.info("Aviso devidamente registrado e pode ser identificado pelo número {}",
+                    novoAviso.getId());
+
+            return ResponseEntity.ok().build();
 
         }
+
+        logger.info("Cartão de número {} não foi encontrado", numeroCartao);
 
         return ResponseEntity
                 .notFound()

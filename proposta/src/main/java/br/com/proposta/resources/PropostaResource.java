@@ -1,7 +1,6 @@
 package br.com.proposta.resources;
 
 import br.com.proposta.dtos.requests.PropostaRequest;
-import br.com.proposta.dtos.responses.PropostaResponse;
 import br.com.proposta.entidades.Proposta;
 import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.compartilhado.AvaliaProposta;
@@ -23,7 +22,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/propostas")
 public class PropostaResource {
 
-    /* total de pontos = 8 */
+    /* total de pontos = 9 */
 
     /* @complexidade - acoplamento contextual */
     private final AvaliaProposta avaliaProposta;

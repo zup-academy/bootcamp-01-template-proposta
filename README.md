@@ -1,35 +1,6 @@
 ## Proposta
 
 
-### Docker
-
-Docker: Já é possível criar um container para a API 
-
-Como consta na documentação do Spring (link no material do apoio do bootcamp): "This command builds an image and tags it as..." - no caso aqui, 'bootcamp/proposta'.
-
-
-> docker build -t bootcamp/proposta .
-
-
-Depois, para rodar a API dentro do container
-
-
-> docker run -p 8080:8080 bootcamp/proposta
-
-
-
-### Testes - Pitest, RestAssured, JUnit
-
-
-
-![](/readme-images/cobertura-testes-proposta.jpg)
-
-
-
-### CDD
-
-
-
 ### Prometheus e Grafana
 
 Prometheus: as métricas já estão sendo geradas e podem ser acessadas na porta 9090. Com folga, o Prometheus e o Grafana foram as ferramentas mais legais de usar nesse desafio e com certeza são ferramentas para estar constantemente estudando e usando em projetos.
@@ -66,6 +37,56 @@ Também preciso montar a query aqui
 - número de threads dedicadas para determinados processos (foco nas requisições async)
 
 ![](/readme-images/jvm-threads.jpg)
+
+
+
+### CDD
+
+- Como o contador de complexidade desenvolvido no desafio anterior ainda não está muito preciso, optei por fazer a contagem manual mesmo. Plotei três gráficos, um com uma visão geral dos pontos de dificuldade de entendimento e outros dois com uma análise das classes por critérios (esses dois são basicamente iguais, só mudei a visualização: sendo que um foca no valor absoluto de pontos por classe e o outro na variação desse total de pontos por classe).
+
+
+1) Visão geral
+
+![](/readme-images/pontos-cdd-geral.jpg)
+
+
+
+2) Pontuação por critérios - 1
+
+![](/readme-images/pontos-cdd-criterio.jpg)
+
+
+
+3) Pontuação por critérios - 2
+
+![](/readme-images/pontos-cdd-criterio-variacao.jpg)
+
+
+
+
+### Docker
+
+Docker: Já é possível criar um container para a API 
+
+Como consta na documentação do Spring (link no material do apoio do bootcamp): "This command builds an image and tags it as..." - no caso aqui, 'bootcamp/proposta'.
+
+
+> docker build -t bootcamp/proposta .
+
+
+Depois, para rodar a API dentro do container
+
+
+> docker run -p 8080:8080 bootcamp/proposta
+
+
+
+### Testes - Pitest, RestAssured, JUnit
+
+
+
+![](/readme-images/cobertura-testes-proposta.jpg)
+
 
 
 

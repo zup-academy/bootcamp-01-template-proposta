@@ -54,7 +54,9 @@ public class Aviso {
         this.status = StatusAviso.valueOf(resposta.getResultado());
     }
 
-
+    public String getId() {
+        return id;
+    }
 }
 
 

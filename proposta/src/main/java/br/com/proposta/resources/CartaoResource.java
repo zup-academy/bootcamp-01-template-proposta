@@ -32,8 +32,8 @@ public class CartaoResource {
     }
 
 
-    @PostMapping
     @Async
+    @PostMapping
     @Scheduled(initialDelay=1000, fixedRate=5000)
     public void geraCartoesAsync(){
 
@@ -47,7 +47,7 @@ public class CartaoResource {
             /* @complexidade - utilizando classe criada no projeto */
             gerarCartao.geraCartaoSegundoPlano(proposta);
 
-            logger.info("Cartão gerado no serviço de cartões referente à proposta: nome do cliente={}", proposta.getNome());
+            logger.info("Cartão gerado na API de cartões. Nome do titular={}", proposta.getNome());
         });
 
     }

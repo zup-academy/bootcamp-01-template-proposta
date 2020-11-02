@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
 @Service
 public class AvaliaProposta {
 
-    /* total de pontos = 5 */
+    /* total de pontos = 6 */
 
     /* @complexidade - acoplamento contextual */
     private final IntegracaoApiAnalise integracaoApiAnalise;
@@ -41,6 +41,7 @@ public class AvaliaProposta {
             logger.info("Proposta={} Status={} retornada da avaliação da API de Análise.",
                     respostaAnaliseDeProposta.getNome(), respostaAnaliseDeProposta.getResultadoSolicitacao());
 
+            /* @complexidade - classe criada no projeto */
             return respostaAnaliseDeProposta.retornaStatus();
 
 
