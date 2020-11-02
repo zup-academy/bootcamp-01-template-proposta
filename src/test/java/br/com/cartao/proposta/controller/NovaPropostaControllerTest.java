@@ -1,7 +1,9 @@
 package br.com.cartao.proposta.controller;
 
+import br.com.cartao.proposta.domain.enums.EstadoAnaliseProposta;
 import br.com.cartao.proposta.domain.model.Proposta;
 import br.com.cartao.proposta.domain.request.NovaPropostaRequest;
+import br.com.cartao.proposta.domain.response.AnalisePropostaResponse;
 import br.com.cartao.proposta.domain.response.NovaPropostaResponseDto;
 import br.com.cartao.proposta.repository.PropostaRepository;
 import br.com.cartao.proposta.service.NovaPropostaService;
@@ -50,7 +52,7 @@ public class NovaPropostaControllerTest {
 
     @Test
     @DisplayName("Deve salvar uma proposta nova quando chamar o método")
-    public void deveRetornarSucessoParaNovaProposta() throws Exception {
+    void deveRetornarSucessoParaNovaProposta() throws Exception {
 
         NovaPropostaRequest novaPropostaRequest = new NovaPropostaRequest("83794884078","teste@gmail.com","Administrador","Rua governador", BigDecimal.valueOf(800));
         Proposta proposta = novaPropostaRequest.toModel();
@@ -72,7 +74,7 @@ public class NovaPropostaControllerTest {
 
     @Test
     @DisplayName("Deve retornar 422 quando tentar criar uma nova proposta com doumento já usado")
-    public void deveRetornarErroParaNovaPropostaComMesmoDocumento() throws Exception {
+    void deveRetornarErroParaNovaPropostaComMesmoDocumento() throws Exception {
 
         NovaPropostaRequest novaPropostaRequest = new NovaPropostaRequest("274.847.130-07","teste@gmail.com","Administrador","Rua governador", BigDecimal.valueOf(800));
         Proposta proposta = novaPropostaRequest.toModel();
@@ -85,6 +87,47 @@ public class NovaPropostaControllerTest {
         RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> novaPropostaController.criaNovaProposta(novaPropostaRequest, uriComponentsBuilder));
         Assertions.assertTrue(runtimeException.getMessage().contains("CPF ou CNPJ já em uso"));
 
+    }
+
+    @Test
+    @DisplayName("Deve retornar todos detalhes da proposta pelo idProposta")
+    void deveRetornarDetalhesProposta(){
+
+        final String id = "abc";
+        PropostaRepository propostaRepository = mock(PropostaRepository.class);
+        NovaPropostaService novaPropostaService = mock(NovaPropostaService.class);
+        Proposta proposta = new Proposta("83794884078","teste@gmail.com","Rua governador","Administrador", BigDecimal.valueOf(800));
+        proposta.adicionaNumeroCartao("abcdefg");
+        proposta.alteraStatusCartaoCriado(Boolean.TRUE);
+        AnalisePropostaResponse analisePropostaResponse = new AnalisePropostaResponse("83794884078","Administrador","123456", EstadoAnaliseProposta.SEM_RESTRICAO);
+        proposta.adicionaEstadoProposta(analisePropostaResponse);
+
+        NovaPropostaController novaPropostaController = new NovaPropostaController(propostaRepository,novaPropostaService);
+
+        when(propostaRepository.findById(id)).thenReturn(Optional.of(proposta));
+
+        ResponseEntity<?> responseEntity = novaPropostaController.verificaStatusProposta(id);
+
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCodeValue());
+
+        Assertions.assertTrue(responseEntity.getBody() != null);
+
+    }
+
+    @Test
+    @DisplayName("Não deve retornar todos detalhes da proposta com um idProposta falso")
+    void naoDeveRetornarDetalhesProposta_Status404(){
+        final String id = "abc";
+        PropostaRepository propostaRepository = mock(PropostaRepository.class);
+        NovaPropostaService novaPropostaService = mock(NovaPropostaService.class);
+
+        NovaPropostaController novaPropostaController = new NovaPropostaController(propostaRepository,novaPropostaService);
+
+        when(propostaRepository.findById(id)).thenReturn(Optional.empty());
+
+        ResponseEntity<?> responseEntity = novaPropostaController.verificaStatusProposta(id);
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), responseEntity.getStatusCodeValue());
     }
 
 }

@@ -40,8 +40,8 @@ public class AnalisePropostaService {
 
         // +1
         try{
-            logger.info("Tentativa de enviar proposta para analise financeira. idProposta: {}", proposta.getId());
             AnalisePropostaResponse analisePropostaResponse = analisePropostaConsumer.avaliacaoFinanceira(proposta.toAnalisePropostaRequest());
+            logger.info("Proposta enviada para analise financeira. idProposta: {}", proposta.getId());
             return Optional.of(analisePropostaResponse);
         }
         // +1

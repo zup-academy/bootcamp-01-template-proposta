@@ -1,6 +1,5 @@
 package br.com.cartao.proposta.service;
 
-
 import br.com.cartao.proposta.domain.enums.EstadoProposta;
 import br.com.cartao.proposta.domain.model.Cartao;
 import br.com.cartao.proposta.domain.model.Proposta;
@@ -42,19 +41,7 @@ public class AtualizaPropostaComCartaoCriado {
 
     }
 
-    private void percorreLista(List<Proposta> propostasAguardandoCartao) {
-
-/*        propostasAguardandoCartao.stream()
-                // +1
-                .filter(proposta ->{
-                    Optional<Cartao> cartao = verificaCartaoCriadoService.verificaSeCartaoCriado(proposta.getId());
-                    logger.info("Cartão: {}", cartao);
-                    return cartao.isPresent();
-                })
-                // +1
-                .forEach(proposta ->
-                    alteraStatusESalva(proposta, cartao.get())
-                );*/
+    protected void percorreLista(List<Proposta> propostasAguardandoCartao) {
 
         propostasAguardandoCartao.forEach(proposta -> {
             Optional<Cartao> cartao = verificaCartaoCriadoService.verificaSeCartaoCriado(proposta.getId());
@@ -65,13 +52,13 @@ public class AtualizaPropostaComCartaoCriado {
         });
     }
 
-    private List<Proposta> todasPropostasElegiveisSemCartao(){
+    protected List<Proposta> todasPropostasElegiveisSemCartao(){
         logger.info("Selecionando todas propostas elegiveis sem cartao associado");
         return propostaRepository.findAllByCartaoCriadoFalseAndEstadoProposta(estadoProposta);
     }
 
     @Transactional
-    private void alteraStatusESalva(Proposta proposta, Cartao cartao) {
+    protected void alteraStatusESalva(Proposta proposta, Cartao cartao) {
         logger.info("Alterando status do cartão para o idProposta: {}", proposta.getId());
         proposta.alteraStatusCartaoCriado(Boolean.TRUE);
         proposta.adicionaNumeroCartao(cartao.getId());

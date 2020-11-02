@@ -54,16 +54,10 @@ public class NovaPropostaService {
     }
 
     @Transactional
-    private void salvaTentativaProposta( Proposta proposta, AnalisePropostaResponse analisePropostaResponse){
+    protected void salvaTentativaProposta( Proposta proposta, AnalisePropostaResponse analisePropostaResponse){
         proposta.adicionaEstadoProposta(analisePropostaResponse);
         propostaRepository.save(proposta);
         logger.info("Proposta atualizada com status da analise financeira: {}", proposta);
-    }
-
-    @Transactional
-    private void salvaFlagCartaoCriado(Proposta proposta, boolean cartaoCriado) {
-        proposta.alteraStatusCartaoCriado(cartaoCriado);
-        propostaRepository.save(proposta);
     }
 
 }
