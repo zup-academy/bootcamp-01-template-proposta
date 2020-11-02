@@ -18,8 +18,8 @@
 	<properties>
 		<java.version>11</java.version>
 	</properties>
-	
-		<dependencyManagement>
+
+	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -29,7 +29,7 @@
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
-	</dependencyManagement>	
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
@@ -61,6 +61,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 			<exclusions>
@@ -71,7 +75,7 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-	
+
 
 	<build>
 		<plugins>
