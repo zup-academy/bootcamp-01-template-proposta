@@ -1,5 +1,8 @@
 package br.com.zup.proposta.model;
 
+import br.com.zup.proposta.util.ConverterArquivo;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -16,8 +19,9 @@ public class Biometria {
     @Deprecated
     public Biometria(){}
 
-    public Biometria(String digital) {
-        this.digital = Base64.getEncoder().encode(digital.getBytes());
+    public Biometria(MultipartFile digital) {
+        //Base64.getEncoder().encode(digital.getBytes())
+        this.digital = new ConverterArquivo().FileToBase64(digital); //1
         this.instanteCriacao = LocalDateTime.now();
     }
 

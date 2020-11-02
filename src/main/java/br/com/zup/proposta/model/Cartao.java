@@ -1,6 +1,7 @@
 package br.com.zup.proposta.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -41,7 +42,7 @@ public class Cartao {
         return biometrias;
     }
 
-    public void associaBiometria(String digital){
+    public void associaBiometria(MultipartFile digital){
         this.biometrias.add(new Biometria(digital));
     }
 

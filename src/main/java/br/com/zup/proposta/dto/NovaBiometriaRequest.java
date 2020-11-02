@@ -11,14 +11,17 @@ import java.util.List;
 
 public class NovaBiometriaRequest {
 
-    @NotBlank
-    private String digital;
+    @NotNull
+    private MultipartFile digital;
 
-    public String getDigital() {
+    @Deprecated
+    public NovaBiometriaRequest(){}
+
+    public MultipartFile getDigital() {
         return digital;
     }
 
-    private void setDigital(String digital) {
+    public void setDigital(MultipartFile digital) {
         this.digital = digital;
     }
 

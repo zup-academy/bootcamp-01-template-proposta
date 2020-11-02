@@ -38,7 +38,7 @@ public class NovaBiometriaController {
     @PostMapping("/{id}/biometrias")
     @Transactional
     public ResponseEntity novaBiometria(@PathVariable("id") UUID numeroCartao,
-                                        @RequestBody @Valid NovaBiometriaRequest request,
+                                        @Valid NovaBiometriaRequest request,
                                         UriComponentsBuilder builder){ //1
 
         Optional<Cartao> possivelCartao = Optional
