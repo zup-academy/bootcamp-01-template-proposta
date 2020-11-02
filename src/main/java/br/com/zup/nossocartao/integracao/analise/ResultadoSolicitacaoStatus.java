@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.integracao;
+package br.com.zup.nossocartao.integracao.analise;
 
 import br.com.zup.nossocartao.proposta.StatusSolicitacao;
 

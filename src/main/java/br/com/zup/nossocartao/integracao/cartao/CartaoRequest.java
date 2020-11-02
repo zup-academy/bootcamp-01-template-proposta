@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.integracao;
+package br.com.zup.nossocartao.integracao.cartao;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import br.com.zup.nossocartao.proposta.Proposta;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
-public class SolicitacaoAnaliseRequest {
+public class CartaoRequest {
 
 	private String documento;
 
@@ -15,13 +15,13 @@ public class SolicitacaoAnaliseRequest {
 	private String idProposta;
 
 	@Deprecated
-	public SolicitacaoAnaliseRequest() {
+	public CartaoRequest() {
 	}
 
-	public SolicitacaoAnaliseRequest(Proposta dadosSolicitacao) {
-		this.documento = dadosSolicitacao.getCpfCnpj();
-		this.nome = dadosSolicitacao.getNome();
-		this.idProposta = dadosSolicitacao.getId().toString();
+	public CartaoRequest(Proposta propostaCartao) {
+		this.documento = propostaCartao.getCpfCnpj();
+		this.nome = propostaCartao.getNome();
+		this.idProposta = propostaCartao.getId().toString();
 	}
 
 	public String getDocumento() {
@@ -47,5 +47,4 @@ public class SolicitacaoAnaliseRequest {
 	public void setIdProposta(String idProposta) {
 		this.idProposta = idProposta;
 	}
-
 }

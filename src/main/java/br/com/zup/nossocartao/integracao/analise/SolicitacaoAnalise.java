@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.integracao;
+package br.com.zup.nossocartao.integracao.analise;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;

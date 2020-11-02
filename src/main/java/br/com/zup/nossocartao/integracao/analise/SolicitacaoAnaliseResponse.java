@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.integracao;
+package br.com.zup.nossocartao.integracao.analise;
 
 public class SolicitacaoAnaliseResponse {
 

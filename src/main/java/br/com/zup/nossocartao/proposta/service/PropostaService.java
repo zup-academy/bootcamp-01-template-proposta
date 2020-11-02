@@ -2,9 +2,11 @@ package br.com.zup.nossocartao.proposta.service;
 
 import org.springframework.stereotype.Service;
 
-import br.com.zup.nossocartao.integracao.SolicitacaoAnalise;
-import br.com.zup.nossocartao.integracao.SolicitacaoAnaliseRequest;
-import br.com.zup.nossocartao.integracao.SolicitacaoAnaliseResponse;
+import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnalise;
+import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnaliseRequest;
+import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnaliseResponse;
+import br.com.zup.nossocartao.integracao.cartao.CartaoRequest;
+import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartao;
 import br.com.zup.nossocartao.proposta.Proposta;
 import br.com.zup.nossocartao.proposta.controller.NovaPropostaRequest;
 import br.com.zup.nossocartao.proposta.controller.NovaPropostaResponse;
@@ -17,9 +19,13 @@ public class PropostaService {
 
 	private SolicitacaoAnalise solicitacaoAnalise;
 
-	public PropostaService(PropostaRepository propostaRepository, SolicitacaoAnalise solicitacaoAnalise) {
+	private SolicitacaoCartao solicitacaoCartao;
+
+	public PropostaService(PropostaRepository propostaRepository, SolicitacaoAnalise solicitacaoAnalise,
+			SolicitacaoCartao solicitacaoCartao) {
 		this.propostaRepository = propostaRepository;
 		this.solicitacaoAnalise = solicitacaoAnalise;
+		this.solicitacaoCartao = solicitacaoCartao;
 	}
 
 	public NovaPropostaResponse salvarProposta(NovaPropostaRequest dadosRequisitados) {
@@ -31,8 +37,15 @@ public class PropostaService {
 
 		NovaPropostaResponse dadosPropostaResponse = new NovaPropostaResponse(propostaSalva);
 
+		emitirCartao(propostaSalva);
+
 		return dadosPropostaResponse;
 
+	}
+
+	private void emitirCartao(Proposta dadosPropostaCartao) {
+		CartaoRequest dadosEmissao = new CartaoRequest(dadosPropostaCartao);
+		solicitacaoCartao.emitirCartao(dadosEmissao);
 	}
 
 	private void avaliacaoFinanceira(Proposta propostaSalva) {
