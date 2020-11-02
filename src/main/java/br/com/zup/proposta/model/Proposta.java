@@ -59,6 +59,18 @@ public class Proposta {
         return nome;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public BigDecimal getSalarioBruto() {
+        return salarioBruto;
+    }
+
     public String getDocumento() {
         return documento;
     }

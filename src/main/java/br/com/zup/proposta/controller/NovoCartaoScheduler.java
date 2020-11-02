@@ -1,7 +1,7 @@
 package br.com.zup.proposta.controller;
 
 import br.com.zup.proposta.dao.ExecutorTransacao;
-import br.com.zup.proposta.dao.PropostaRepository;
+import br.com.zup.proposta.dao.repository.PropostaRepository;
 import br.com.zup.proposta.dto.CartaoRequest;
 import br.com.zup.proposta.dto.integration.IntegracoesCartao;
 import br.com.zup.proposta.model.Proposta;
@@ -14,16 +14,16 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class CartaoScheduler {
+public class NovoCartaoScheduler {
 
     private ExecutorTransacao executorTransacao; //1
     private IntegracoesCartao integracoesCartao; //2
     private PropostaRepository propostaRepository; //3
-    private Logger logger = LoggerFactory.getLogger(CartaoScheduler.class);
+    private Logger logger = LoggerFactory.getLogger(NovoCartaoScheduler.class);
 
-    public CartaoScheduler(ExecutorTransacao executorTransacao,
-                           IntegracoesCartao integracoesCartao,
-                           PropostaRepository propostaRepository) {
+    public NovoCartaoScheduler(ExecutorTransacao executorTransacao,
+                               IntegracoesCartao integracoesCartao,
+                               PropostaRepository propostaRepository) {
         this.executorTransacao = executorTransacao;
         this.integracoesCartao = integracoesCartao;
         this.propostaRepository = propostaRepository;

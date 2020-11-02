@@ -18,8 +18,11 @@ public class AvaliaProposta {
 
     //services devem ter até 7 pontos de carga insentrica?
 
-    @Autowired
     private IntegracoesAnaliseFinanceira integracoesAnaliseFinanceira; //1
+
+    public AvaliaProposta(IntegracoesAnaliseFinanceira integracoesAnaliseFinanceira) {
+        this.integracoesAnaliseFinanceira = integracoesAnaliseFinanceira;
+    }
 
     private Logger logger = LoggerFactory.getLogger(AvaliaProposta.class);
 

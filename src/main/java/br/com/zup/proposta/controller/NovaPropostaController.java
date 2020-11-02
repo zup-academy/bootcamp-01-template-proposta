@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/propostas")
-public class PropostaController {
+public class NovaPropostaController {
 
     private DocumentoIgualValidator documentoIgualValidator; //1
 
@@ -29,10 +29,10 @@ public class PropostaController {
 
     private ExecutorTransacao executorTransacao; //3
 
-    private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
+    private final Logger logger = LoggerFactory.getLogger(NovaPropostaController.class);
 
-    public PropostaController(DocumentoIgualValidator documentoIgualValidator,
-                              AvaliaProposta avaliaProposta, ExecutorTransacao executorTransacao) {
+    public NovaPropostaController(DocumentoIgualValidator documentoIgualValidator,
+                                  AvaliaProposta avaliaProposta, ExecutorTransacao executorTransacao) {
         this.documentoIgualValidator = documentoIgualValidator;
         this.avaliaProposta = avaliaProposta;
         this.executorTransacao = executorTransacao;

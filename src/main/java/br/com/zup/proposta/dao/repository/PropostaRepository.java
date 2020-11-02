@@ -1,4 +1,4 @@
-package br.com.zup.proposta.dao;
+package br.com.zup.proposta.dao.repository;
 
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;

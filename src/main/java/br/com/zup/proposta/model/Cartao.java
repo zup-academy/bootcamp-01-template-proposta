@@ -2,12 +2,9 @@ package br.com.zup.proposta.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 public class Cartao {
@@ -21,12 +18,31 @@ public class Cartao {
     @OneToOne
     private Proposta proposta; //1
 
+    @ElementCollection
+    private Set<Biometria> biometrias = new HashSet<>(); //2
+
     @Deprecated
     public Cartao() {}
 
     public Cartao(@NotBlank String numero, Proposta proposta) {
         this.numero = numero;
         this.proposta = proposta;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public Set<Biometria> getBiometrias() {
+        return biometrias;
+    }
+
+    public void associaBiometria(String digital){
+        this.biometrias.add(new Biometria(digital));
     }
 
     @Override

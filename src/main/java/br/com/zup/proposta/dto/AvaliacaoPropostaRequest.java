@@ -12,13 +12,13 @@ public class AvaliacaoPropostaRequest {
     private String documento;
     private String nome;
     private UUID idProposta;
-    private RespostaStatusAvaliacao resultadoSolicitacao;
+    private RespostaStatusAvaliacao resultadoSolicitacao; //1
 
     @Deprecated
     public AvaliacaoPropostaRequest() {
     }
 
-    public AvaliacaoPropostaRequest(Proposta proposta) {
+    public AvaliacaoPropostaRequest(Proposta proposta) { //2
         this.documento = proposta.getDocumento();
         this.nome = proposta.getNome();
         this.idProposta = proposta.getId();
