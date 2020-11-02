@@ -47,19 +47,19 @@ Também preciso montar a query aqui
 
 1) Visão geral
 
-![](/readme-images/pontos-cdd-geral.jpg)
+![](/readme-images/pontos-cdd-geral.png)
 
 
 
 2) Pontuação por critérios - 1
 
-![](/readme-images/pontos-cdd-criterio.jpg)
+![](/readme-images/pontos-cdd-criterio.png)
 
 
 
 3) Pontuação por critérios - 2
 
-![](/readme-images/pontos-cdd-criterio-variacao.jpg)
+![](/readme-images/pontos-cdd-criterio-variacao.png)
 
 
 
