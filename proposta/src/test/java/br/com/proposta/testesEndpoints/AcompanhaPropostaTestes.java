@@ -36,23 +36,6 @@ public class AcompanhaPropostaTestes {
     }
 
 
-    @Test
-    public void deveRetornar404SeApropostaNaoExistir() throws JSONException {
-
-        /* {idProposta} */
-
-        given()
-                .basePath("/api/propostas/55272cf8-e8ac-4f44-b1ea-f2cb419a2da3")
-                .header("Authorization", getToken())
-                .port(port)
-                .when()
-                .get()
-                .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
-
-    }
-
-
     public String getToken() throws JSONException {
 
         Response response = given()

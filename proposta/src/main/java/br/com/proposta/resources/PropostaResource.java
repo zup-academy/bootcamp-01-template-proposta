@@ -22,7 +22,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/propostas")
 public class PropostaResource {
 
-    /* total de pontos = 9 */
+    /* total de pontos = 8 */
 
     /* @complexidade - acoplamento contextual */
     private final AvaliaProposta avaliaProposta;
@@ -72,8 +72,7 @@ public class PropostaResource {
 
             }
 
-            /* @complexidade - exceção no fluxo do programa */
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Número de identificação já existe");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 
     }
 

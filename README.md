@@ -91,7 +91,7 @@ Depois, para rodar a API dentro do container
 
 
 
-![](/readme-images/cobertura-testes-proposta.jpg)
+![](/readme-images/testes.jpg)
 
 
 

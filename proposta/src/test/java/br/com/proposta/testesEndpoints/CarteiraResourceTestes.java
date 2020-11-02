@@ -27,10 +27,10 @@ public class CarteiraResourceTestes {
                 .put("email","teste@teste.com")
                 .put("carteira","paypal");
 
-        /* {cartaoId} */
+        /* {numeroCartao} */
 
         given()
-                .basePath("/api/carteiras/15d34c2f-8166-459a-928b-78f363d69695")
+                .basePath("/api/carteiras/e859f81f-9a57-470d-815e-d9bc980fd50a")
                 .port(port)
                 .header("Content-Type", "application/json")
                 .header("Authorization", getToken())

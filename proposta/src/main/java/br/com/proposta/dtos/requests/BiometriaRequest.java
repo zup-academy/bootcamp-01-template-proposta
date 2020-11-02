@@ -8,6 +8,9 @@ public class BiometriaRequest {
     @NotBlank
     private String imagemBiometria;
 
+    @Deprecated
+    public BiometriaRequest(){}
+
     public BiometriaRequest(@NotBlank String imagemBiometria) {
         this.imagemBiometria = imagemBiometria;
     }

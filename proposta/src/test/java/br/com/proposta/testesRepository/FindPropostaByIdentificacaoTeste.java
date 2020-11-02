@@ -30,7 +30,7 @@ public class FindPropostaByIdentificacaoTeste {
         String propostaId = "6aa6a454-8f21-497e-9fe3-ae35884eb13b";
 
         Optional<Proposta> proposta =
-                propostaRepository.findByIdentificacao(propostaId);
+                propostaRepository.findById(propostaId);
 
 
         Assert.assertNotNull(proposta);

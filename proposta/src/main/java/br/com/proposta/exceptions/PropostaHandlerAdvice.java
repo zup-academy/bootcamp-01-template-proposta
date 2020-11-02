@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @RestControllerAdvice
@@ -22,7 +23,6 @@ public class PropostaHandlerAdvice {
         Collection<String> mensagens = new ArrayList<>();
 
         mensagens.add(responseStatusException.getReason());
-
         ErroPadrao erroPadronizado = new ErroPadrao(mensagens);
 
         return ResponseEntity.status(responseStatusException.getStatus()).body(erroPadronizado);
@@ -45,4 +45,5 @@ public class PropostaHandlerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadronizado);
 
     }
+
 }

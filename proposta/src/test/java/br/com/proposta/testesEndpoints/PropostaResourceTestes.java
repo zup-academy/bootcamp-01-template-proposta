@@ -32,7 +32,7 @@ public class PropostaResourceTestes {
                 .put("email","teste@email.com")
                 .put("endereco","Rua Teste, Edifício Insomnia")
                 .put("salario",new BigDecimal(10000))
-                .put("numeroIdentificacao", "187.167.123-34");
+                .put("numeroIdentificacao", "013.167.123-11");
 
 
         given()
@@ -45,39 +45,6 @@ public class PropostaResourceTestes {
                 .post()
                 .then()
                 .statusCode(HttpStatus.CREATED.value());
-
-    }
-
-
-    @Test
-    public void deveRetornar422AoTentarFazerPropostaComDocumentoJaExistente() throws JSONException {
-
-        JSONObject novaProposta = new JSONObject()
-                .put("nome","Teste Testando")
-                .put("email","teste@email.com")
-                .put("endereco","Rua Teste, Edifício Insomnia")
-                .put("salario",new BigDecimal(10000))
-                .put("numeroIdentificacao", "187.167.123-70");
-
-        given()
-                .basePath("/api/propostas")
-                .port(port)
-                .header("Content-Type", "application/json")
-                .header("Authorization", getToken())
-                .body(novaProposta.toString())
-                .when()
-                .post();
-
-        given()
-                .basePath("/api/propostas")
-                .port(port)
-                .header("Content-Type", "application/json")
-                .header("Authorization", getToken())
-                .body(novaProposta.toString())
-                .when()
-                .post()
-                .then()
-                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
 
     }
 

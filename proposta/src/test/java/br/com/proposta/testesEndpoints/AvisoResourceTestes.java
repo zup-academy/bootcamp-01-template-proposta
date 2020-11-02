@@ -29,10 +29,10 @@ public class AvisoResourceTestes {
                 .put("destino","Jericoacoara")
                 .put("validoAte","2023-10-30");
 
-        /* /api/viagens/{idCartao} */
+        /* /api/viagens/{numeroCartao} */
 
         given()
-                .basePath("/api/viagens/15d34c2f-8166-459a-928b-78f363d69695")
+                .basePath("/api/viagens/e859f81f-9a57-470d-815e-d9bc980fd50a")
                 .header("Authorization", getToken())
                 .port(port)
                 .header("Content-Type", "application/json")
