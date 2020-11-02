@@ -4,18 +4,22 @@ import br.com.cartao.proposta.domain.enums.EstadoAnaliseProposta;
 
 import javax.validation.constraints.NotBlank;
 
-public class AnalisePropostResponse {
+public class AnalisePropostaResponse {
 
     @NotBlank
-    private final String documento;
+    private String documento;
     @NotBlank
-    private final String nome;
+    private String nome;
     @NotBlank
-    private final String idProposta;
+    private String idProposta;
 
-    private final EstadoAnaliseProposta resultadoSolicitacao;
+    private EstadoAnaliseProposta resultadoSolicitacao;
 
-    public AnalisePropostResponse(@NotBlank String documento, @NotBlank String nome, @NotBlank String idProposta, EstadoAnaliseProposta resultadoSolicitacao) {
+    @Deprecated
+    public AnalisePropostaResponse() {
+    }
+
+    public AnalisePropostaResponse(@NotBlank String documento, @NotBlank String nome, @NotBlank String idProposta, EstadoAnaliseProposta resultadoSolicitacao) {
         this.documento = documento;
         this.nome = nome;
         this.idProposta = idProposta;

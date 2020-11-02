@@ -1,57 +1,51 @@
 package br.com.cartao.proposta.controller;
 
-import br.com.cartao.proposta.consumer.AnalisePropostaConsumer;
 import br.com.cartao.proposta.domain.model.Proposta;
 import br.com.cartao.proposta.domain.request.NovaPropostaRequest;
+import br.com.cartao.proposta.domain.response.NovaPropostaResponseDto;
 import br.com.cartao.proposta.repository.PropostaRepository;
+import br.com.cartao.proposta.service.NovaPropostaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @WebMvcTest(controllers = NovaPropostaController.class)
 public class NovaPropostaControllerTest {
 
-    private final String urlProposta = "http://localhost:8080/v1/propostas";
+    private final String pathProposta = "/v1/propostas";
 
     private ObjectMapper objectMapper;
 
-    private TestRestTemplate restTemplate;
+    private UriComponentsBuilder uriComponentsBuilder;
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AnalisePropostaConsumer analisePropostaConsumer;
-
-    @MockBean
     private PropostaRepository propostaRepository;
 
-    @InjectMocks
-    private NovaPropostaController novaPropostaController;
+    @MockBean
+    private NovaPropostaService novaPropostaService;
 
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
-        restTemplate = new TestRestTemplate();
+        uriComponentsBuilder = UriComponentsBuilder.newInstance();
     }
 
     @Test
@@ -60,25 +54,19 @@ public class NovaPropostaControllerTest {
 
         NovaPropostaRequest novaPropostaRequest = new NovaPropostaRequest("83794884078","teste@gmail.com","Administrador","Rua governador", BigDecimal.valueOf(800));
         Proposta proposta = novaPropostaRequest.toModel();
+        NovaPropostaResponseDto novaPropostaResponseDto = new NovaPropostaResponseDto(proposta);
+        NovaPropostaController novaPropostaController = new NovaPropostaController(propostaRepository, novaPropostaService);
 
         when(propostaRepository.findByDocumento(novaPropostaRequest.getDocumento()))
                 .thenReturn(Optional.empty());
+        when(novaPropostaService.criaNovaProposta(novaPropostaRequest))
+                .thenReturn(novaPropostaResponseDto);
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> httpEntity = new HttpEntity(novaPropostaRequest,httpHeaders);
-        ResponseEntity<Void> response = restTemplate.exchange(urlProposta, HttpMethod.POST, httpEntity, Void.class);
+        ResponseEntity<?> responseEntity = novaPropostaController.criaNovaProposta(novaPropostaRequest, uriComponentsBuilder);
 
-        /*RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/v1/propostas")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(novaPropostaRequest));
+        Assertions.assertEquals(HttpStatus.CREATED.value(), responseEntity.getStatusCodeValue());
 
-        mockMvc.perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isCreated());*/
-
-        Assertions.assertEquals(HttpStatus.CREATED.value(), response.getStatusCodeValue());
-
-        // verify(propostaRepository).save(proposta);
+        verify(novaPropostaService,times(1)).criaNovaProposta(novaPropostaRequest);
 
     }
 
@@ -87,41 +75,17 @@ public class NovaPropostaControllerTest {
     public void deveRetornarErroParaNovaPropostaComMesmoDocumento() throws Exception {
 
         NovaPropostaRequest novaPropostaRequest = new NovaPropostaRequest("274.847.130-07","teste@gmail.com","Administrador","Rua governador", BigDecimal.valueOf(800));
-
         Proposta proposta = novaPropostaRequest.toModel();
+        NovaPropostaController novaPropostaController = new NovaPropostaController(propostaRepository, novaPropostaService);
 
-        when(propostaRepository.findByDocumento("274.847.130-07")).thenReturn(Optional.ofNullable(proposta));
+        when(propostaRepository.findByDocumento(novaPropostaRequest.getDocumento()))
+                .thenReturn(Optional.ofNullable(proposta));
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/v1/propostas")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(novaPropostaRequest));
 
-        mockMvc.perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
-
+        RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> novaPropostaController.criaNovaProposta(novaPropostaRequest, uriComponentsBuilder));
+        Assertions.assertTrue(runtimeException.getMessage().contains("CPF ou CNPJ já em uso"));
 
     }
-
-    @Test
-    @DisplayName("Deve retornar 400 com nova proposta vazia")
-    public void deveRetornar400ComNovaPropostaInvalida(){
-        String url = "http://localhost:8080/v1/propostas";
-        NovaPropostaRequest novaPropostaRequest = new NovaPropostaRequest("","","","", null);
-
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> httpEntity = new HttpEntity(novaPropostaRequest,httpHeaders);
-
-        try{
-            ResponseEntity<Void> response = restTemplate.exchange(url,HttpMethod.POST, httpEntity, Void.class);
-        }catch (HttpClientErrorException exception){
-            Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(),exception.getStatusCode().value());
-        }
-
-
-    }
-
 
 }
 

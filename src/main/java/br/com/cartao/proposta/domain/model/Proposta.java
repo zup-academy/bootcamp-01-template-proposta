@@ -3,7 +3,7 @@ package br.com.cartao.proposta.domain.model;
 import br.com.cartao.proposta.annotation.CpfOuCnpj;
 import br.com.cartao.proposta.domain.enums.EstadoProposta;
 import br.com.cartao.proposta.domain.request.AnalisePropostaRequest;
-import br.com.cartao.proposta.domain.response.AnalisePropostResponse;
+import br.com.cartao.proposta.domain.response.AnalisePropostaResponse;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -31,7 +31,12 @@ public class Proposta {
     @Positive @NotNull
     private BigDecimal salario;
     @Enumerated(EnumType.STRING)
+    // +1
     private EstadoProposta estadoProposta;
+
+    private Boolean cartaoCriado;
+
+    private String cartaoId;
 
     @Deprecated
     public Proposta() {
@@ -43,6 +48,9 @@ public class Proposta {
         this.endereco = endereco;
         this.nome = nome;
         this.salario = salario;
+        this.cartaoCriado = cartaoCriado;
+        this.estadoProposta = EstadoProposta.PENDENTE;
+        this.cartaoCriado = Boolean.FALSE;
     }
 
     public String getId() {
@@ -73,6 +81,14 @@ public class Proposta {
         return estadoProposta;
     }
 
+    public String getCartaoId() {
+        return cartaoId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Proposta{" +
@@ -88,10 +104,20 @@ public class Proposta {
         return new AnalisePropostaRequest(this.documento,this.nome,this.id);
     }
 
-    public void adicionaEstadoProposta(AnalisePropostResponse analisePropostResponse) {
-        EstadoProposta estadoProposta = analisePropostResponse.getResultadoSolicitacao().toNormalize();
+    public void adicionaEstadoProposta(AnalisePropostaResponse analisePropostaResponse) {
+        EstadoProposta estadoProposta = analisePropostaResponse.getResultadoSolicitacao().toEstadoProposta();
 
         this.estadoProposta = estadoProposta;
 
+    }
+
+    public void alteraStatusCartaoCriado(boolean cartaoCriado) {
+        if (cartaoCriado){
+            this.cartaoCriado = cartaoCriado;
+        }
+    }
+
+    public void adicionaNumeroCartao(String cartaoId){
+        this.cartaoId = cartaoId;
     }
 }

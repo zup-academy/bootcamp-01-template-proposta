@@ -1,12 +1,12 @@
 package br.com.cartao.proposta.controller;
 
-import br.com.cartao.proposta.consumer.AnalisePropostaConsumer;
 import br.com.cartao.proposta.domain.model.Proposta;
 import br.com.cartao.proposta.domain.request.NovaPropostaRequest;
-import br.com.cartao.proposta.domain.response.AnalisePropostResponse;
 import br.com.cartao.proposta.domain.response.NovaPropostaResponseDto;
 import br.com.cartao.proposta.handler.ErroNegocioException;
 import br.com.cartao.proposta.repository.PropostaRepository;
+import br.com.cartao.proposta.service.NovaPropostaService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -34,18 +34,18 @@ public class NovaPropostaController {
 
     // +1
     private final PropostaRepository propostaRepository;
-    // +1
-    private final AnalisePropostaConsumer analiseConsumer;
 
-    public NovaPropostaController(PropostaRepository propostaRepository, AnalisePropostaConsumer analiseConsumer) {
+    private final NovaPropostaService novaPropostaService;
+
+    public NovaPropostaController(PropostaRepository propostaRepository, NovaPropostaService novaPropostaService) {
         this.propostaRepository = propostaRepository;
-        this.analiseConsumer = analiseConsumer;
+        this.novaPropostaService = novaPropostaService;
     }
 
     @PostMapping
     @Transactional
     // +1
-    public ResponseEntity<?> criaNovaProposta(@RequestBody @Valid NovaPropostaRequest novaPropostaRequest, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity<?> criaNovaProposta(@RequestBody @Valid NovaPropostaRequest novaPropostaRequest, UriComponentsBuilder uriComponentsBuilder) throws JsonProcessingException {
 
         Optional<Proposta> propostaBuscadaPeloDocumento = propostaRepository.findByDocumento(novaPropostaRequest.getDocumento());
         // +1
@@ -55,17 +55,8 @@ public class NovaPropostaController {
 
         logger.info("Requisição recebida: {}", novaPropostaRequest);
         // +1
-        Proposta proposta = novaPropostaRequest.toModel();
 
-        propostaRepository.save(proposta);
-        // +1
-        AnalisePropostResponse analisePropostResponse = analiseConsumer.avaliacaoFinanceira(proposta.toAnalisePropostaRequest());
-
-        logger.info("Resposta da Analise da Proposta: {}",analisePropostResponse);
-        proposta.adicionaEstadoProposta(analisePropostResponse);
-        propostaRepository.save(proposta);
-        // +1
-        NovaPropostaResponseDto novaPropostaResponseDto = new NovaPropostaResponseDto(proposta);
+        NovaPropostaResponseDto novaPropostaResponseDto = novaPropostaService.criaNovaProposta(novaPropostaRequest);
 
         return ResponseEntity
                 .created(uriComponentsBuilder.path("/v1/propostas/{id}").buildAndExpand(novaPropostaResponseDto.getId()).toUri())
