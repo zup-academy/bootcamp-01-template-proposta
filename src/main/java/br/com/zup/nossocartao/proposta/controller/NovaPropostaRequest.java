@@ -8,15 +8,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import br.com.zup.nossocartao.proposta.Proposta;
+import br.com.zup.nossocartao.proposta.validador.CpfCnpj;
 
 public class NovaPropostaRequest {
 
-	public String getCpfCnpj() {
-		return cpfCnpj;
-	}
-
 	@NotBlank
-	// @CpfCnjp
+	@CpfCnpj
 	private String cpfCnpj;
 
 	@Email
@@ -40,6 +37,10 @@ public class NovaPropostaRequest {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.salario = salario;
+	}
+
+	public String getCpfCnpj() {
+		return cpfCnpj;
 	}
 
 	public void setCpfCnpj(String cpfCnpj) {

@@ -38,6 +38,9 @@ public class Proposta {
 	@Positive
 	private BigDecimal salario;
 
+	@NotNull
+	private StatusSolicitacao restricaoStatus;
+
 	@Deprecated
 	public Proposta() {
 
@@ -51,6 +54,7 @@ public class Proposta {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.salario = salario;
+		this.restricaoStatus = StatusSolicitacao.NAO_ELEGIVEL;
 	}
 
 	public Long getId() {
@@ -75,6 +79,10 @@ public class Proposta {
 
 	public BigDecimal getSalario() {
 		return salario;
+	}
+
+	public void alterarStatusProposta(StatusSolicitacao alteracao) {
+		this.restricaoStatus = alteracao;
 	}
 
 }
