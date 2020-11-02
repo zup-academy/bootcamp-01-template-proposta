@@ -62,6 +62,10 @@ Também preciso montar a query aqui
 ![](/readme-images/pontos-cdd-criterio-variacao.png)
 
 
+Observação sobre as configurações: Tive problema com as configurações do Prometheus. Na documentação consta um arquivo de configuração inicial 'prometheus.yml', local onde deveria definir os targets e todas as outras configurações, como rules etc. Da primeira vez que criei o container prom/prometheus, só foi reconhecido o próprio prometheus como target em localhost:9090. Tentei diversas coisas, removi e subi denovo o container diversas vezes, tentei copiar um arquivo 'prometheus.yml' do host para o container (fiz um docker cp para tentar transferir o arquivo do host para o container), deletei e recriei (recriação automática ao subir os containers) os volumes criados diversas vezes até que funcionou. Sinceramente não sei em qual etapa a configuração foi ajustada corretamente e fez o prometheus pegar o localhost:8080 como target. Vi que ter criado o 'prometheus.yml' na pasta do projeto teve algum efeito (tendo em vista que a primeira vez configurei o target como HOST_IP:8080 e depois 127.0.0.1:8080 - da primeira não funcionou, da segunda sim), mas não consegui identificar exatamente em qual momento o container utilizou o yml do host como configurações do prometheus instalado no container (obs1.: não sei se foi pelo docker cp ou se colocando na pasta raíz do projeto já está funciona como pasta default para o prometheus in docker procurar as configurações. obs2.: exclui o arquivo de configurações yml, mas está exatamente igual ao do artigo do medium abaixo - o qual está seguindo precisamente a documentação).
+
+Utilizei essa artigo do Medium e a documentação como auxílio: https://medium.com/aeturnuminc/configure-prometheus-and-grafana-in-dockers-ff2a2b51aa1d
+
 
 
 ### Docker
