@@ -1,9 +1,9 @@
-package br.com.proposta.compartilhado;
+package br.com.proposta.services;
 
 import br.com.proposta.dtos.requests.AnaliseDaPropostaRequest;
 import br.com.proposta.dtos.responses.AnaliseDaPropostaResponse;
 import br.com.proposta.integracoes.IntegracaoApiAnalise;
-import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
+import br.com.proposta.entidades.enums.StatusAvaliacaoProposta;
 import br.com.proposta.entidades.Proposta;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +11,6 @@ import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 
 @Service

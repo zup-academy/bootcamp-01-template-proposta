@@ -1,6 +1,5 @@
-package br.com.proposta.compartilhado;
+package br.com.proposta.services;
 
-import br.com.proposta.dtos.requests.NovoCartaoRequest;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import br.com.proposta.entidades.Cartao;
 import br.com.proposta.entidades.Proposta;

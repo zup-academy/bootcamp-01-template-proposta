@@ -1,7 +1,7 @@
 package br.com.proposta.dtos.responses;
 
-import br.com.proposta.entidades.Enums.RespostaStatusAvaliacao;
-import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
+import br.com.proposta.entidades.enums.RespostaStatusAvaliacao;
+import br.com.proposta.entidades.enums.StatusAvaliacaoProposta;
 
 public class AnaliseDaPropostaResponse {
 

@@ -1,6 +1,6 @@
 package br.com.proposta.entidades;
 
-import br.com.proposta.entidades.Enums.StatusCarteira;
+import br.com.proposta.entidades.enums.StatusCarteira;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

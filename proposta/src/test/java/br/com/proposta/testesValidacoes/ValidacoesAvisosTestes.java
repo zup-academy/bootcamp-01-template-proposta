@@ -2,9 +2,7 @@ package br.com.proposta.testesValidacoes;
 
 
 import br.com.proposta.entidades.Aviso;
-import br.com.proposta.entidades.Cartao;
-import br.com.proposta.entidades.Enums.StatusAviso;
-import br.com.proposta.entidades.Proposta;
+import br.com.proposta.entidades.enums.StatusAviso;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +12,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.math.BigDecimal;
 import java.util.Set;
 
 public class ValidacoesAvisosTestes {

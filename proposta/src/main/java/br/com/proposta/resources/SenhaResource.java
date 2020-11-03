@@ -1,6 +1,6 @@
 package br.com.proposta.resources;
 
-import br.com.proposta.compartilhado.BuscarIPeUserAgentNaRequisicao;
+import br.com.proposta.services.BuscarIPeUserAgentNaRequisicao;
 import br.com.proposta.entidades.Cartao;
 import br.com.proposta.entidades.Senha;
 import br.com.proposta.repositories.CartaoRepository;

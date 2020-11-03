@@ -1,6 +1,7 @@
 package br.com.proposta.entidades;
 
-import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
+import br.com.proposta.entidades.enums.StatusAvaliacaoProposta;
+import br.com.proposta.entidades.utils.IdentificacaoDescriptografada;
 import br.com.proposta.repositories.PropostaRepository;
 import br.com.proposta.validacoes.interfaces.CpfCnpj;
 import org.hibernate.annotations.GenericGenerator;
@@ -33,7 +34,6 @@ public class Proposta {
     private BigDecimal salario;
 
     @NotBlank
-    @CpfCnpj
     private String identificacao;
 
     @Enumerated(EnumType.STRING)
@@ -46,12 +46,15 @@ public class Proposta {
     public Proposta(){}
 
     public Proposta(@NotBlank String nome, @NotBlank @Email String email, @NotBlank String endereco, @NotNull @Positive BigDecimal salario,
-                    @NotBlank String identificacao) {
+                    IdentificacaoDescriptografada identificacaoDescriptografada) {
+
         this.nome = nome;
         this.email = email;
         this.endereco = endereco;
         this.salario = salario;
-        this.identificacao = identificacao;
+        this.identificacao = identificacaoDescriptografada.criptografa();
+
+
     }
 
     public String getNumeroCartao() {
@@ -103,5 +106,9 @@ public class Proposta {
 
     public Cartao getCartao() {
         return cartao;
+    }
+
+    public void setIdentificacao(String identificacao) {
+        this.identificacao = identificacao;
     }
 }

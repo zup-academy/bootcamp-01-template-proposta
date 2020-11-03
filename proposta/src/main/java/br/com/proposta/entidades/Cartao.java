@@ -1,6 +1,6 @@
 package br.com.proposta.entidades;
 
-import br.com.proposta.entidades.Enums.StatusBloqueio;
+import br.com.proposta.entidades.enums.StatusBloqueio;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

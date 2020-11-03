@@ -1,6 +1,6 @@
 package br.com.proposta.repositories;
 
-import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
+import br.com.proposta.entidades.enums.StatusAvaliacaoProposta;
 import br.com.proposta.entidades.Proposta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

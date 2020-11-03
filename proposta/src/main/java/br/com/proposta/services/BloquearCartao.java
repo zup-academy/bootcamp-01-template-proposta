@@ -1,9 +1,9 @@
-package br.com.proposta.compartilhado;
+package br.com.proposta.services;
 
 import br.com.proposta.dtos.requests.BloqueioRequest;
 import br.com.proposta.dtos.responses.BloqueioResponse;
 import br.com.proposta.entidades.Cartao;
-import br.com.proposta.entidades.Enums.StatusBloqueio;
+import br.com.proposta.entidades.enums.StatusBloqueio;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import br.com.proposta.entidades.Bloqueio;
 import br.com.proposta.entidades.Proposta;
@@ -11,7 +11,6 @@ import br.com.proposta.repositories.BloqueioRepository;
 import br.com.proposta.repositories.CartaoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;

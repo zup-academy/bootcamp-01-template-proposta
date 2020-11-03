@@ -2,10 +2,9 @@ package br.com.proposta.resources;
 
 import br.com.proposta.dtos.requests.AssociarCarteiraRequest;
 import br.com.proposta.dtos.responses.AssociaCarteiraResponse;
-import br.com.proposta.entidades.Aviso;
 import br.com.proposta.entidades.Cartao;
 import br.com.proposta.entidades.Carteira;
-import br.com.proposta.entidades.Enums.StatusCarteira;
+import br.com.proposta.entidades.enums.StatusCarteira;
 import br.com.proposta.repositories.CartaoRepository;
 import br.com.proposta.repositories.CarteiraRepository;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
@@ -15,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/carteiras")

@@ -1,6 +1,6 @@
 package br.com.proposta.testesRepository;
 
-import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
+import br.com.proposta.entidades.enums.StatusAvaliacaoProposta;
 import br.com.proposta.entidades.Proposta;
 import br.com.proposta.repositories.PropostaRepository;
 import org.junit.Assert;

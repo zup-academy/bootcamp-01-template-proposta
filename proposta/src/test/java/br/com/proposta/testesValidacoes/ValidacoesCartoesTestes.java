@@ -1,8 +1,7 @@
 package br.com.proposta.testesValidacoes;
-import br.com.proposta.entidades.Bloqueio;
 import br.com.proposta.entidades.Cartao;
-import br.com.proposta.entidades.Enums.StatusBloqueio;
 import br.com.proposta.entidades.Proposta;
+import br.com.proposta.entidades.utils.IdentificacaoDescriptografada;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +37,7 @@ public class ValidacoesCartoesTestes {
     public void titularDoCartaoNaoPodeEstarEmBrancoOuNulo() {
 
         var proposta =
-                new Proposta("Teste Testando", "teste@email.com", "teste teste teste", new BigDecimal(10000), "123.123.123-01");
+                new Proposta("Teste Testando", "teste@email.com", "teste teste teste", new BigDecimal(10000), new IdentificacaoDescriptografada("123.123.123-01"));
 
         var cartao =
                 new Cartao("4ca82223-8c9b-4472-a565-a0280f2ee903", " ", proposta);
@@ -53,7 +52,7 @@ public class ValidacoesCartoesTestes {
     public void numeroDoCartaoNaoPodeEstarEmBrancoOuNulo() {
 
         var proposta =
-                new Proposta("Teste Testando", "teste@email.com", "teste teste teste", new BigDecimal(10000), "123.123.123-01");
+                new Proposta("Teste Testando", "teste@email.com", "teste teste teste", new BigDecimal(10000), new IdentificacaoDescriptografada("123.123.123-01"));
 
         var cartao =
                 new Cartao(" ", "Teste Testando", proposta);

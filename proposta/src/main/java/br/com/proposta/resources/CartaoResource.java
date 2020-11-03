@@ -1,8 +1,8 @@
 package br.com.proposta.resources;
 
-import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
+import br.com.proposta.entidades.enums.StatusAvaliacaoProposta;
 import br.com.proposta.entidades.Proposta;
-import br.com.proposta.compartilhado.GerarCartao;
+import br.com.proposta.services.GerarCartao;
 import br.com.proposta.repositories.PropostaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

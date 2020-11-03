@@ -1,6 +1,8 @@
 package br.com.proposta.dtos.requests;
 
 import br.com.proposta.entidades.Proposta;
+import br.com.proposta.entidades.utils.IdentificacaoDescriptografada;
+import br.com.proposta.validacoes.interfaces.CpfCnpj;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -23,6 +25,7 @@ public class PropostaRequest {
     private BigDecimal salario;
 
     @NotBlank
+    @CpfCnpj
     private String identificacao;
 
 
@@ -37,7 +40,7 @@ public class PropostaRequest {
 
     public Proposta toModel(){
 
-        return new Proposta(nome, email, endereco, salario, identificacao);
+        return new Proposta(nome, email, endereco, salario, new IdentificacaoDescriptografada(identificacao));
 
     }
 

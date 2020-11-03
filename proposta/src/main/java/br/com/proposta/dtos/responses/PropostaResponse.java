@@ -1,6 +1,6 @@
 package br.com.proposta.dtos.responses;
 
-import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
+import br.com.proposta.entidades.enums.StatusAvaliacaoProposta;
 import br.com.proposta.entidades.Proposta;
 
 public class PropostaResponse {

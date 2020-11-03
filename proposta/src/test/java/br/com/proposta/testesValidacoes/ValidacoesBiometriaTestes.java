@@ -1,12 +1,9 @@
 package br.com.proposta.testesValidacoes;
-import br.com.proposta.entidades.Aviso;
 import br.com.proposta.entidades.Biometria;
-import br.com.proposta.entidades.Enums.StatusAviso;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 import org.junit.jupiter.api.DisplayName;
 
 import javax.validation.ConstraintViolation;

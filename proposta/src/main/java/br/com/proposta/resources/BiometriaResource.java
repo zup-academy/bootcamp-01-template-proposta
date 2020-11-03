@@ -17,10 +17,10 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/api/biometrias/{cartaoId}")
+@RequestMapping("/api/biometrias/{numeroCartao}")
 public class BiometriaResource {
 
-    /* total de pontos = 6 */
+    /* total de pontos = 7 */
 
     private final Logger logger = LoggerFactory.getLogger(Biometria.class);
 
@@ -42,16 +42,17 @@ public class BiometriaResource {
 
     @Transactional
     @PostMapping                                                          /* @complexidade - classe criada no projeto */
-    public ResponseEntity<?> criaBiometria(@PathVariable String cartaoId, @RequestBody @Valid BiometriaRequest biometriaRequest,
+    public ResponseEntity<?> criaBiometria(@PathVariable String numeroCartao, @RequestBody @Valid BiometriaRequest biometriaRequest,
                                            UriComponentsBuilder uriComponentsBuilder){
 
 
         /* @complexidade - classe criada no projeto */
-        Cartao cartao = cartaoRepository.findByNumero(cartaoId);
+        Cartao cartao = cartaoRepository.findByNumero(numeroCartao);
 
         /* @complexidade - classe criada no projeto */
         var biometria = biometriaRequest.toModel();
 
+        /* @complexidade - classe criada no projeto */
         biometria.associaCartao(cartao);
 
         biometriaRepository.save(biometria);
@@ -65,7 +66,7 @@ public class BiometriaResource {
                 " Pode ser identificada pelo número {}", biometria.getId());
 
         return ResponseEntity
-                .created(uriComponentsBuilder.path("/api/biometrias/{cartaoId}").buildAndExpand(biometria.getId()).toUri()).build();
+                .created(uriComponentsBuilder.path("/api/biometrias/{numeroCartao}").buildAndExpand(numeroCartao).toUri()).build();
 
     }
 }

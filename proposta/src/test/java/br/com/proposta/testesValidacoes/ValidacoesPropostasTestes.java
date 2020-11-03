@@ -1,10 +1,7 @@
 package br.com.proposta.testesValidacoes;
 
-import br.com.proposta.entidades.Aviso;
-import br.com.proposta.entidades.Enums.StatusAvaliacaoProposta;
-import br.com.proposta.entidades.Enums.StatusAviso;
 import br.com.proposta.entidades.Proposta;
-import br.com.proposta.validacoes.interfaces.CpfCnpj;
+import br.com.proposta.entidades.utils.IdentificacaoDescriptografada;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,10 +11,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -44,7 +37,7 @@ public class ValidacoesPropostasTestes {
     public void deveriaRejeitarNomeDaPropostaEmBrancoOuNulo() {
 
         var proposta =
-                new Proposta(" ", "teste@email.com", "teste teste teste", new BigDecimal(10000), "123.123.123-01");
+                new Proposta(" ", "teste@email.com", "teste teste teste", new BigDecimal(10000), new IdentificacaoDescriptografada("123.123.123-01"));
 
 
         Set<ConstraintViolation<Proposta>> violations = validator.validate(proposta);
@@ -57,7 +50,7 @@ public class ValidacoesPropostasTestes {
     public void deveriaRejeitarEmailDaPropostaEmBrancoOuNulo() {
 
         var proposta =
-                new Proposta("Teste testando", " ", "teste teste teste", new BigDecimal(10000), "123.123.123-01");
+                new Proposta("Teste Testando", " ", "teste teste teste", new BigDecimal(10000), new IdentificacaoDescriptografada("123.123.123-01"));
 
 
         Set<ConstraintViolation<Proposta>> violations = validator.validate(proposta);
@@ -70,7 +63,7 @@ public class ValidacoesPropostasTestes {
     public void deveriaRejeitarEndereçoDaPropostaEmBrancoOuNulo() {
 
         var proposta =
-                new Proposta("Teste testando", "teste@email.com", " ", new BigDecimal(10000), "123.123.123-01");
+                new Proposta("Teste Testando", "teste@email.com", " ", new BigDecimal(10000), new IdentificacaoDescriptografada("123.123.123-01"));
 
 
         Set<ConstraintViolation<Proposta>> violations = validator.validate(proposta);
@@ -79,11 +72,11 @@ public class ValidacoesPropostasTestes {
     }
 
     @Test
-    @DisplayName("o valor do salário não pode ser nulo")
+    @DisplayName("o valor do salário não pode ser nulo nem negativo")
     public void deveriaRejeitarValorDoSalarioNegativoDaProposta() {
 
         var proposta =
-                new Proposta("Teste testando", "teste@email.com", "teste teste teste", new BigDecimal(-1), "123.123.123-01");
+                new Proposta("Teste Testando", "teste@email.com", "teste teste teste", new BigDecimal(-10000), new IdentificacaoDescriptografada("123.123.123-01"));
 
 
         Set<ConstraintViolation<Proposta>> violations = validator.validate(proposta);

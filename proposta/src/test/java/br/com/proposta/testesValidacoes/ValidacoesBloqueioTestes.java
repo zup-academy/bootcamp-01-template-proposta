@@ -1,6 +1,5 @@
 package br.com.proposta.testesValidacoes;
 import br.com.proposta.entidades.Bloqueio;
-import br.com.proposta.entidades.Enums.StatusBloqueio;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,5 @@
 package br.com.proposta.entidades;
 
-import br.com.proposta.dtos.responses.BloqueioResponse;
-import br.com.proposta.entidades.Enums.StatusBloqueio;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

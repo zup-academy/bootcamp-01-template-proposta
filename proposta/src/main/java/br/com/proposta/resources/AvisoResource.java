@@ -4,7 +4,7 @@ import br.com.proposta.dtos.requests.AvisarViagemRequest;
 import br.com.proposta.entidades.Aviso;
 import br.com.proposta.repositories.AvisoRepository;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
-import br.com.proposta.compartilhado.BuscarIPeUserAgentNaRequisicao;
+import br.com.proposta.services.BuscarIPeUserAgentNaRequisicao;
 import br.com.proposta.repositories.CartaoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/viagens")
 public class AvisoResource {
 
-    /* total de pontos = 7 */
+    /* total de pontos = 8 */
 
     /* @complexidade - acoplamento contextual */
     private final AvisoRepository avisoRepository;
@@ -76,9 +76,7 @@ public class AvisoResource {
 
         logger.info("Cartão de número {} não foi encontrado", numeroCartao);
 
-        return ResponseEntity
-                .notFound()
-                .build();
+        return ResponseEntity.notFound().build();
 
     }
 }
