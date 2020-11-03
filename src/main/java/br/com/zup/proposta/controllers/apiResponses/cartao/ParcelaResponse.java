@@ -1,12 +1,15 @@
 package br.com.zup.proposta.controllers.apiResponses.cartao;
 
-public class Parcela {
+import br.com.zup.proposta.model.cartao.Cartao;
+import br.com.zup.proposta.model.cartao.Parcela;
+
+public class ParcelaResponse {
     
     private String id;
     private Integer quantidade;
     private Double valor;
 
-    public Parcela(String id, Integer quantidade, Double valor) {
+    public ParcelaResponse(String id, Integer quantidade, Double valor) {
         this.id = id;
         this.quantidade = quantidade;
         this.valor = valor;
@@ -24,4 +27,7 @@ public class Parcela {
         return this.valor;
     }
 
+    public Parcela toParcela(Cartao cartao) {
+        return new Parcela(this, cartao);
+    }
 }

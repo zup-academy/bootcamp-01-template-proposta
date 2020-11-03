@@ -2,14 +2,17 @@ package br.com.zup.proposta.controllers.apiResponses.cartao;
 
 import java.time.LocalDateTime;
 
-public class CartaoBloqueio {
+import br.com.zup.proposta.model.cartao.Cartao;
+import br.com.zup.proposta.model.cartao.CartaoBloqueio;
+
+public class CartaoBloqueioResponse {
     
     private String id;
     private LocalDateTime bloqueadoEm;
     private String sistemaResponsavel;
     private boolean ativo;
 
-    public CartaoBloqueio(String id, LocalDateTime bloqueadoEm, String sistemaResponsavel, boolean ativo) {
+    public CartaoBloqueioResponse(String id, LocalDateTime bloqueadoEm, String sistemaResponsavel, boolean ativo) {
         this.id = id;
         this.bloqueadoEm = bloqueadoEm;
         this.sistemaResponsavel = sistemaResponsavel;
@@ -36,4 +39,7 @@ public class CartaoBloqueio {
         return this.ativo;
     }
 
+    public CartaoBloqueio toCartaoBloqueio(Cartao cartao) {
+        return new CartaoBloqueio(this, cartao);
+    }
 }

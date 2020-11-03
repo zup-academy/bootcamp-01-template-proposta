@@ -2,12 +2,15 @@ package br.com.zup.proposta.controllers.apiResponses.cartao;
 
 import java.time.LocalDate;
 
-public class CartaoAvisos {
+import br.com.zup.proposta.model.cartao.Cartao;
+import br.com.zup.proposta.model.cartao.CartaoAvisos;
+
+public class CartaoAvisosResponse {
     
     private LocalDate validoAte;
     private String destino;
 
-    public CartaoAvisos(LocalDate validoAte, String destino) {
+    public CartaoAvisosResponse(LocalDate validoAte, String destino) {
         this.validoAte = validoAte;
         this.destino = destino;
     }
@@ -20,4 +23,7 @@ public class CartaoAvisos {
         return this.destino;
     }
 
+    public CartaoAvisos toCartaoAviso(Cartao cartao) {
+        return new CartaoAvisos(this, cartao);
+    }
 }
