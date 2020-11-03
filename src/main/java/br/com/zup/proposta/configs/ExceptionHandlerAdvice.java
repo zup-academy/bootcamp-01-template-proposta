@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import br.com.zup.proposta.configs.exceptions.BiometriaException;
 import br.com.zup.proposta.configs.exceptions.PropostaDuplicadaException;
 
 @RestControllerAdvice
@@ -34,5 +35,25 @@ public class ExceptionHandlerAdvice {
 
         ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(erroPadronizado);
+    }
+
+    @ExceptionHandler(BiometriaException.class)
+    public ResponseEntity<ErroPadronizado> erroConversaoBiometria(BiometriaException exception) {
+        Collection<String> mensagens = new ArrayList<>();
+
+        mensagens.add(exception.getMessage());
+
+        ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadronizado);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErroPadronizado> objetoNaoEncontrado(IllegalStateException exception) {
+        Collection<String> mensagens = new ArrayList<>();
+
+        mensagens.add(exception.getMessage());
+
+        ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erroPadronizado);
     }
 }

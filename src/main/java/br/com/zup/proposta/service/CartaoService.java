@@ -1,5 +1,7 @@
 package br.com.zup.proposta.service;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
@@ -12,10 +14,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import br.com.zup.proposta.configs.exceptions.BiometriaException;
 import br.com.zup.proposta.controllers.apiResponses.cartao.CartaoResponse;
 import br.com.zup.proposta.model.Proposta;
+import br.com.zup.proposta.model.cartao.Biometria;
 import br.com.zup.proposta.model.cartao.Cartao;
+import br.com.zup.proposta.repositories.CartaoRepository;
 import br.com.zup.proposta.repositories.PropostaRepository;
 import br.com.zup.proposta.service.feign.CartaoClient;
 
@@ -26,6 +32,8 @@ public class CartaoService {
 
     @Autowired
     private PropostaRepository propostaRepository;
+    @Autowired
+    private CartaoRepository cartaoRepository;
     @Autowired
     private CartaoClient cartaoClient;
 
@@ -61,8 +69,6 @@ public class CartaoService {
                     logger.info("Cartão salvo no banco de dados");
                     manager.merge(proposta);
                     logger.info("Proposta atualizada no banco de dados");
-                    //manager.joinTransaction();
-                    //manager.flush();
                 } catch (Exception e) {
                     logger.info("Deu ruim, proposta {}", proposta.getId());
                     logger.info(e.getCause().toString());
@@ -72,5 +78,31 @@ public class CartaoService {
 
         logger.info("verificaCartao() finalizado.");
         return CompletableFuture.completedFuture(propostas);
+    }
+
+    @Transactional
+    public Cartao cadastrarBiometria(String id, MultipartFile file) {
+        Cartao cartao = cartaoRepository.findById(id).orElseThrow(() -> new IllegalStateException("Cartão não encontrado."));
+        logger.info("Cartão encontrado no banco de dados {}", cartao.getId());
+
+        try{
+            logger.info("Convertendo arquivo para array de bytes");
+            byte[] fileContent = file.getBytes();
+            logger.info("Convertendo array de bytes para Base64");
+            String encodedString = Base64.getEncoder().encodeToString(fileContent);
+
+            logger.info("Adicionando biometria base64 para cartão {}", cartao.getId());
+            cartao.addBiometria(new Biometria(encodedString, cartao));
+            logger.info("Atualizando cartão no banco de dados.");
+            manager.merge(cartao);
+            logger.info("Cartão atualizado com sucesso");
+        } catch (IOException e) {
+            logger.warn("Erro ao converter arquivo para Base64. {}", e.getMessage());
+            throw new BiometriaException(String.format("Erro ao converter arquivo para Base64 em cartão de id {}", 
+                cartao.getId()));
+        }
+
+        logger.info("Retornando cartão.");
+        return cartao;
     }
 }

@@ -33,16 +33,16 @@ public class Cartao {
     private String titular;
 
     @NotNull
-    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "cartao", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private Collection<CartaoBloqueio> bloqueios = new ArrayList<>();
     @NotNull
-    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "cartao", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private Collection<CartaoAvisos> avisos = new ArrayList<>();
     @NotNull
-    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "cartao", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private Collection<CarteiraDigital> carteiras = new ArrayList<>();
     @NotNull
-    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "cartao", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private Collection<Parcela> parcelas = new ArrayList<>();
 
     @NotNull
@@ -51,11 +51,15 @@ public class Cartao {
     @ManyToOne
     private CartaoRenegociacao renegociacao;
     @NotNull
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private CartaoVencimento vencimento;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "cartao", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private Collection<Biometria> biometria = new ArrayList<>();
+
+    @NotNull
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private Proposta proposta;
 
     @Deprecated
@@ -63,14 +67,17 @@ public class Cartao {
     }
 
     public Cartao(String id, LocalDateTime emitidoEm, String titular, Set<CartaoBloqueioResponse> bloqueios,
-            Set<CartaoAvisosResponse> avisos, Set<CarteiraDigitalResponse> carteiras, Set<ParcelaResponse> parcelas, 
-            Integer limite, CartaoRenegociacaoResponse renegociacao, CartaoVencimentoResponse vencimento, Proposta proposta) {
+            Set<CartaoAvisosResponse> avisos, Set<CarteiraDigitalResponse> carteiras, Set<ParcelaResponse> parcelas,
+            Integer limite, CartaoRenegociacaoResponse renegociacao, CartaoVencimentoResponse vencimento,
+            Proposta proposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
-        this.bloqueios = bloqueios.stream().map(bloqueio -> bloqueio.toCartaoBloqueio(this)).collect(Collectors.toList());
+        this.bloqueios = bloqueios.stream().map(bloqueio -> bloqueio.toCartaoBloqueio(this))
+                .collect(Collectors.toList());
         this.avisos = avisos.stream().map(aviso -> aviso.toCartaoAviso(this)).collect(Collectors.toList());
-        this.carteiras = carteiras.stream().map(carteira -> carteira.toCarteiraDigital(this)).collect(Collectors.toList());
+        this.carteiras = carteiras.stream().map(carteira -> carteira.toCarteiraDigital(this))
+                .collect(Collectors.toList());
         this.parcelas = parcelas.stream().map(parcela -> parcela.toParcela(this)).collect(Collectors.toList());
         this.limite = limite;
         this.renegociacao = renegociacao == null ? null : renegociacao.toRenegociacao(this);
@@ -118,25 +125,25 @@ public class Cartao {
         return this.vencimento;
     }
 
+    public Collection<Biometria> getBiometria() {
+        return this.biometria;
+    }
+
+    public void addBiometria(Biometria biometria) {
+        this.biometria.add(biometria);
+    }
+
     public Proposta getProposta() {
         return this.proposta;
     }
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", emitidoEm='" + getEmitidoEm() + "'" +
-            ", titular='" + getTitular() + "'" +
-            ", bloqueios='" + getBloqueios() + "'" +
-            ", avisos='" + getAvisos() + "'" +
-            ", carteiras='" + getCarteiras() + "'" +
-            ", parcelas='" + getParcelas() + "'" +
-            ", limite='" + getLimite() + "'" +
-            ", renegociacao='" + getRenegociacao() + "'" +
-            ", vencimento='" + getVencimento() + "'" +
-            ", proposta='" + getProposta() + "'" +
-            "}";
+        return "{" + " id='" + getId() + "'" + ", emitidoEm='" + getEmitidoEm() + "'" + ", titular='" + getTitular()
+                + "'" + ", bloqueios='" + getBloqueios() + "'" + ", avisos='" + getAvisos() + "'" + ", carteiras='"
+                + getCarteiras() + "'" + ", parcelas='" + getParcelas() + "'" + ", limite='" + getLimite() + "'"
+                + ", renegociacao='" + getRenegociacao() + "'" + ", vencimento='" + getVencimento() + "'"
+                + ", biometria='" + getBiometria() + "'" + ", proposta='" + getProposta() + "'" + "}";
     }
 
 }

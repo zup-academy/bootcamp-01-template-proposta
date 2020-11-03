@@ -58,4 +58,5 @@ public class PropostaService {
     public void removeTudo() {
         repository.deleteAll();
     }
+
 }
