@@ -11,6 +11,7 @@ import javax.validation.constraints.Positive;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import br.com.zup.proposta.controllers.dto.DetailedPropostaDto;
 import br.com.zup.proposta.controllers.dto.PropostaDto;
 import br.com.zup.proposta.controllers.form.AnaliseRequestForm;
 import br.com.zup.proposta.model.enums.EstadoProposta;
@@ -41,6 +42,8 @@ public class Proposta {
     private EstadoProposta estadoProposta;
     @NotNull
     private boolean cartaoCriado;
+    @NotNull
+    private String cartao;
 
     @Deprecated
     public Proposta() {
@@ -54,6 +57,7 @@ public class Proposta {
         this.salario = salario;
         this.estadoProposta = EstadoProposta.NAO_ELEGIVEL;
         this.cartaoCriado = false;
+        this.cartao = "";
     }
 
     public String getId() {
@@ -88,8 +92,15 @@ public class Proposta {
         return this.cartaoCriado;
     }
 
+    public String getCartao() {
+        return this.cartao;
+    }
+
     public void setEstadoProposta(EstadoProposta estadoProposta) {
         this.estadoProposta = estadoProposta;
+    }
+	public void setCartao(String cartao) {
+        this.cartao = cartao;
     }
 
     public boolean isCartaoCriado() {
@@ -102,6 +113,10 @@ public class Proposta {
 
     public PropostaDto toDto() {
         return new PropostaDto(this.id);
+    }
+
+    public DetailedPropostaDto toDetailedDto() {
+        return new DetailedPropostaDto(this.id, this.nome, this.estadoProposta, this.cartaoCriado);
     }
 
     public AnaliseRequestForm toAnaliseForm() {

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import br.com.zup.proposta.controllers.apiResponses.cartao.CartaoResponse;
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.repositories.PropostaRepository;
 import br.com.zup.proposta.service.feign.CartaoClient;
@@ -33,9 +34,13 @@ public class CartaoService {
 
         propostas.forEach(proposta -> {
             
-            cartaoClient.solicitaCartao(proposta.toAnaliseForm());
-            proposta.setCartaoCriado(true);
-            repository.save(proposta);
+            CartaoResponse cartaoCriado = cartaoClient.solicitaCartao(proposta.getId());
+
+            if (cartaoCriado != null) {
+                proposta.setCartaoCriado(true);
+                proposta.setCartao(cartaoCriado.getId());
+                repository.save(proposta);
+            }
         });
 
         return CompletableFuture.completedFuture(propostas);
