@@ -2,14 +2,17 @@ package br.com.zup.proposta.controllers.apiResponses.cartao;
 
 import java.time.LocalDateTime;
 
-public class CarteiraDigital {
+import br.com.zup.proposta.model.cartao.Cartao;
+import br.com.zup.proposta.model.cartao.CarteiraDigital;
+
+public class CarteiraDigitalResponse {
     
     private String id;
     private String email;
     private LocalDateTime associadaEm;
     private String emissor;
 
-    public CarteiraDigital(String id, String email, LocalDateTime associadaEm, String emissor) {
+    public CarteiraDigitalResponse(String id, String email, LocalDateTime associadaEm, String emissor) {
         this.id = id;
         this.email = email;
         this.associadaEm = associadaEm;
@@ -32,4 +35,7 @@ public class CarteiraDigital {
         return this.emissor;
     }
 
+    public CarteiraDigital toCarteiraDigital(Cartao cartao) {
+        return new CarteiraDigital(this, cartao);
+    }
 }

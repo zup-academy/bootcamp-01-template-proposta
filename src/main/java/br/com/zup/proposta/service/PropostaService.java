@@ -38,8 +38,12 @@ public class PropostaService {
             }
 
         } catch (UnprocessableEntity e) {
-            logger.info("Proposta Não Elegível", propostaCriada.toString());
-            return propostaCriada.toDto();
+            if (e.status() == 422) {
+                logger.info("Proposta Não Elegível", propostaCriada.toString());
+                return propostaCriada.toDto();
+            } else {
+                logger.info("Erro desconhecido no sistema de análise. Status code recebido: {}", e.status());
+            }
         }
         
         logger.info("Retornando DTO");
