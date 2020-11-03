@@ -17,6 +17,7 @@ public class Carteira {
     @NotBlank
     private String carteira;
 
+    @Enumerated(EnumType.STRING)
     private StatusCarteira status;
 
     @ManyToOne

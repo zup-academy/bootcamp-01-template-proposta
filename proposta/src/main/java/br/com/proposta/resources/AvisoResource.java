@@ -2,7 +2,6 @@ package br.com.proposta.resources;
 
 import br.com.proposta.dtos.requests.AvisarViagemRequest;
 import br.com.proposta.entidades.Aviso;
-import br.com.proposta.entidades.Bloqueio;
 import br.com.proposta.repositories.AvisoRepository;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import br.com.proposta.compartilhado.BuscarIPeUserAgentNaRequisicao;

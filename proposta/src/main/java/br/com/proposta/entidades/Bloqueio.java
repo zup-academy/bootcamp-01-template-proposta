@@ -19,7 +19,7 @@ public class Bloqueio {
     private String id;
 
     @NotNull
-    private OffsetDateTime instanteBloqueio;
+    private OffsetDateTime instanteBloqueio = OffsetDateTime.now();
 
     @NotBlank
     private String internetProtocol;
@@ -27,6 +27,7 @@ public class Bloqueio {
     @NotBlank
     private String userAgent;
 
+    @Enumerated(EnumType.STRING)
     private StatusBloqueio statusBloqueio;
 
     private String numeroCartao;
@@ -35,14 +36,12 @@ public class Bloqueio {
     private Cartao cartao;
 
     public Bloqueio(@NotBlank String internetProtocol, @NotBlank String userAgent, StatusBloqueio statusBloqueio) {
-        this.instanteBloqueio = OffsetDateTime.now();
         this.internetProtocol = internetProtocol;
         this.userAgent = userAgent;
         this.statusBloqueio = statusBloqueio;
     }
 
     public Bloqueio(List<String> IPeUserAgent, String numeroCartao) {
-        this.instanteBloqueio = OffsetDateTime.now();
         this.internetProtocol = IPeUserAgent.get(0);
         this.userAgent = IPeUserAgent.get(1);
         this.numeroCartao = numeroCartao;

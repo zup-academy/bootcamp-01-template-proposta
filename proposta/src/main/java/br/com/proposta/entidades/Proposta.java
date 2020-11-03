@@ -36,6 +36,7 @@ public class Proposta {
     @CpfCnpj
     private String identificacao;
 
+    @Enumerated(EnumType.STRING)
     private StatusAvaliacaoProposta status;
 
     @OneToOne

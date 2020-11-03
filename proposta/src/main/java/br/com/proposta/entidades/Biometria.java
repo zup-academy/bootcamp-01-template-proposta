@@ -25,7 +25,7 @@ public class Biometria {
     private byte[] biometria;
 
     @NotNull
-    private OffsetDateTime criadaEm;
+    private OffsetDateTime criadaEm = OffsetDateTime.now();
 
     @ManyToOne
     private Cartao cartao;
@@ -36,18 +36,10 @@ public class Biometria {
     public Biometria(String biometria) {
 
         this.biometria = Base64.getDecoder().decode(biometria);
-        this.criadaEm = OffsetDateTime.now();
     }
 
     public String getId() {
         return id;
     }
 
-    public byte[] getBiometria() {
-        return biometria;
-    }
-
-    public void setBiometria(byte[] biometria) {
-        this.biometria = biometria;
-    }
 }

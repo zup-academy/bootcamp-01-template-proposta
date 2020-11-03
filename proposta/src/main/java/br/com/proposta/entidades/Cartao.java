@@ -19,7 +19,7 @@ public class Cartao {
     private String id;
 
     @NotNull
-    private OffsetDateTime emitidoEm;
+    private OffsetDateTime emitidoEm = OffsetDateTime.now();
 
     @NotBlank
     private String titular;
@@ -42,7 +42,8 @@ public class Cartao {
     @OneToOne
     private Proposta proposta;
 
-    private StatusBloqueio status;
+    @Enumerated(EnumType.STRING)
+    private StatusBloqueio status = StatusBloqueio.DESBLOQUEADO;
 
     @Deprecated
     public Cartao(){}
@@ -51,7 +52,6 @@ public class Cartao {
         this.numero = numero;
         this.titular = titular;
         this.proposta = proposta;
-        this.emitidoEm = OffsetDateTime.now();
     }
 
     public void adicionarBiometria(Biometria biometria){

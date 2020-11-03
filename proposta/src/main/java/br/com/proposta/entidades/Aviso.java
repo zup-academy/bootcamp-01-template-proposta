@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,7 @@ public class Aviso {
     private Cartao cartao;
 
     @NotNull
-    private LocalDateTime avisadoEm;
+    private LocalDateTime avisadoEm = LocalDateTime.now();
 
     @NotBlank
     private String internetProtocol;
@@ -33,13 +34,12 @@ public class Aviso {
     @NotBlank
     private String userAgent;
 
-
+    @Enumerated(EnumType.STRING)
     private StatusAviso status;
 
 
     public Aviso(String numeroCartao, @NotBlank String internetProtocol, @NotBlank String userAgent, StatusAviso status) {
         this.numeroCartao = numeroCartao;
-        this.avisadoEm = LocalDateTime.now();
         this.internetProtocol = internetProtocol;
         this.userAgent = userAgent;
         this.status = status;
@@ -48,7 +48,6 @@ public class Aviso {
 
     public Aviso(String numeroCartao, List<String> IPeUserAgent, AvisoViagemResponse resposta) {
         this.numeroCartao = numeroCartao;
-        this.avisadoEm = LocalDateTime.now();
         this.internetProtocol = IPeUserAgent.get(0);
         this.userAgent = IPeUserAgent.get(1);
         this.status = StatusAviso.valueOf(resposta.getResultado());

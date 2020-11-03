@@ -19,7 +19,7 @@ public class Senha {
     private String id;
 
     @NotNull
-    private OffsetDateTime instanteSolicitacao;
+    private OffsetDateTime instanteSolicitacao = OffsetDateTime.now();
 
     @NotBlank
     private String internetProtocol;
@@ -33,12 +33,9 @@ public class Senha {
     public Senha(){}
 
     public Senha(List<String> ipEuserAgent, String numeroCartao) {
-        this.instanteSolicitacao = OffsetDateTime.now();
         this.internetProtocol = ipEuserAgent.get(0);
         this.userAgent = ipEuserAgent.get(1);
         this.numeroCartao = numeroCartao;
     }
-
-
 
 }

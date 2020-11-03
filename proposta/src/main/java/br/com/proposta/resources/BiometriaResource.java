@@ -5,7 +5,6 @@ import br.com.proposta.entidades.Biometria;
 import br.com.proposta.entidades.Cartao;
 import br.com.proposta.repositories.BiometriaRepository;
 import br.com.proposta.repositories.CartaoRepository;
-import br.com.proposta.repositories.PropostaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
