@@ -4,6 +4,8 @@ import br.com.zup.proposta.integracao.AvaliaProposta;
 import br.com.zup.proposta.integracao.ExecutorTransacao;
 import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
 import feign.FeignException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ public class PropostaController {
     private final PropostaRepository repository;
     private final ExecutorTransacao executorTransacao;
     private final AvaliaProposta avaliaProposta;
+
+    private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
 
     public PropostaController(PropostaRepository repository,
                               ExecutorTransacao executorTransacao, AvaliaProposta avaliaProposta) {
@@ -42,10 +46,14 @@ public class PropostaController {
             novaProposta.atualizaStatus(avaliacao);
             executorTransacao.atualizaEComita(novaProposta);
             URI enderecoConsulta = uriComponentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
+            logger.info("Proposta de Documento = {} e Status = {} criada com sucesso!",
+                    novaProposta.getDocumento(), novaProposta.getStatusAvaliacao());
             return ResponseEntity.created(enderecoConsulta).build();
         } catch (FeignException.UnprocessableEntity e) {
             executorTransacao.salvaEComita(novaProposta);
             URI enderecoConsulta = uriComponentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
+            logger.info("Proposta de Documento = {} e Status = {} criada com sucesso!",
+                    novaProposta.getDocumento(), novaProposta.getStatusAvaliacao());
             return ResponseEntity.created(enderecoConsulta).build();
         }
     }

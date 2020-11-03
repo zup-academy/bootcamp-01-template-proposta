@@ -1,6 +1,7 @@
 package br.com.zup.proposta.novaproposta;
 
 import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
+import br.com.zup.proposta.integracao.cartao.Cartao;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.util.Assert;
 
@@ -65,9 +66,13 @@ public class Proposta {
         return nome;
     }
 
+    public StatusAvaliacaoProposta getStatusAvaliacao() {
+        return statusAvaliacao;
+    }
+
     public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
-        Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL),
-                "Uma vez que a proposta é elegível, não é possível trocar");
+//        Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL),
+//                "Uma vez que a proposta é elegível, não é possível trocar");
         this.statusAvaliacao = statusAvaliacao;
     }
 }

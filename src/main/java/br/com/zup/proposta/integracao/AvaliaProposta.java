@@ -14,12 +14,12 @@ import javax.validation.constraints.NotNull;
 @Validated
 public class AvaliaProposta {
     @Autowired
-    private Integracoes integracoes;
+    private IntegracaoProposta integracaoProposta;
 
     private Logger logger = LoggerFactory.getLogger(Proposta.class);
 
     public StatusAvaliacaoProposta executa(@NotNull @Validated Proposta proposta) {
-        String resultadoAvaliacao = integracoes.avalia(new DocumentoRequest(proposta));
+        String resultadoAvaliacao = integracaoProposta.avalia(new DocumentoRequest(proposta));
 
         ResultadoAnaliseResponse resultadoAnaliseResponseJson = new Gson().fromJson(resultadoAvaliacao,
                 ResultadoAnaliseResponse.class);
