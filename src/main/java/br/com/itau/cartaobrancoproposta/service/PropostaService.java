@@ -1,7 +1,7 @@
 package br.com.itau.cartaobrancoproposta.service;
 
+import br.com.itau.cartaobrancoproposta.client.AnaliseClient;
 import br.com.itau.cartaobrancoproposta.error.ApiErrorException;
-import br.com.itau.cartaobrancoproposta.model.AnaliseClient;
 import br.com.itau.cartaobrancoproposta.model.Proposta;
 import br.com.itau.cartaobrancoproposta.model.Solicitacao;
 import br.com.itau.cartaobrancoproposta.model.SolicitacaoRequest;
@@ -29,7 +29,7 @@ public class PropostaService {
         } catch (FeignException.UnprocessableEntity feignExcpetion) { //1
             logger.error("O documento {} não é elegível.", proposta.getDocumento());
             throw new ApiErrorException(HttpStatus.UNPROCESSABLE_ENTITY, "O documento não é elegível"); //1
-        } catch (RetryableException retryableException) {
+        } catch (RetryableException retryableException) { //1
             logger.error("Erro na requisição da análise do documento {}. Motivo: {}.", proposta.getDocumento(), retryableException.getMessage());
             throw new ApiErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Ocorreu um problema na requisição da análise");
         }

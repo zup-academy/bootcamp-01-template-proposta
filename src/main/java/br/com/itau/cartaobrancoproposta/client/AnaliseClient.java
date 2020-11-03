@@ -1,5 +1,7 @@
-package br.com.itau.cartaobrancoproposta.model;
+package br.com.itau.cartaobrancoproposta.client;
 
+import br.com.itau.cartaobrancoproposta.model.Solicitacao;
+import br.com.itau.cartaobrancoproposta.model.SolicitacaoRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

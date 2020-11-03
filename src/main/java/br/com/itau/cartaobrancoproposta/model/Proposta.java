@@ -1,6 +1,8 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import br.com.itau.cartaobrancoproposta.client.CartaoClient;
 import br.com.itau.cartaobrancoproposta.validator.CpfOuCnpj;
+import feign.FeignException;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -34,6 +36,7 @@ public class Proposta {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Restricao restricao;
+    private String idCartao;
 
     @Deprecated
     public Proposta() {
@@ -104,6 +107,14 @@ public class Proposta {
         this.restricao = restricao;
     }
 
+    public String getIdCartao() {
+        return idCartao;
+    }
+
+    public void setIdCartao(String idCartao) {
+        this.idCartao = idCartao;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -114,12 +125,28 @@ public class Proposta {
                 Objects.equals(email, proposta.email) &&
                 Objects.equals(nome, proposta.nome) &&
                 Objects.equals(endereco, proposta.endereco) &&
-                Objects.equals(salario, proposta.salario);
+                Objects.equals(salario, proposta.salario) &&
+                restricao == proposta.restricao &&
+                Objects.equals(idCartao, proposta.idCartao);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, documento, email, nome, endereco, salario);
+        return Objects.hash(id, documento, email, nome, endereco, salario, restricao, idCartao);
+    }
+
+    @Override
+    public String toString() {
+        return "Proposta{" +
+                "id='" + id + '\'' +
+                ", documento='" + documento + '\'' +
+                ", email='" + email + '\'' +
+                ", nome='" + nome + '\'' +
+                ", endereco='" + endereco + '\'' +
+                ", salario=" + salario +
+                ", restricao=" + restricao +
+                ", idCartao='" + idCartao + '\'' +
+                '}';
     }
 
     public void verifica(String resultadoSolicitacao) {
@@ -128,5 +155,10 @@ public class Proposta {
         } else {
             this.restricao = Restricao.NAO_ELEGIVEL;
         }
+    }
+
+    public void verificaCartao(CartaoClient cartaoClient) throws FeignException {
+        Cartao cartao = cartaoClient.buscaCartao(this.id);
+        this.idCartao = cartao.getId();
     }
 }
