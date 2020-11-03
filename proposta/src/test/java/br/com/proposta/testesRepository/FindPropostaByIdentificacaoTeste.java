@@ -42,7 +42,7 @@ public class FindPropostaByIdentificacaoTeste {
     public void DeveriaRetornarUmaPropostaElegivelSemCartaoGerado(){
 
         Collection<Proposta> propostas =
-                propostaRepository.findByStatusAndNumeroCartaoNull(StatusAvaliacaoProposta.ELEGIVEL);
+                propostaRepository.findByStatusAndCartaoNull(StatusAvaliacaoProposta.ELEGIVEL);
 
         propostas.forEach(proposta -> {
 

@@ -60,14 +60,10 @@ public class BloqueioResource {
                 .recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
 
         /* @complexidade - classe criada no projeto */
-        Bloqueio bloqueio = bloquearCartao.bloquear(numeroCartao, userAgentEInternetProtocol);
+        bloquearCartao.bloquear(numeroCartao, userAgentEInternetProtocol);
 
         /* @complexidade - classe criada no projeto */
-        var bloqueioResponse = bloquearCartao.avisarLegadoDoBloqueio(cartao);
-
-        /* @complexidade - classe criada no projeto */
-        bloqueio.atualizaStatusAposRespostaDoLegado(bloqueioResponse.getResultado());
-
+        bloquearCartao.avisarLegadoDoBloqueio(cartao);
 
         logger.info("Bloqueio realizado do cartao de {} realizado com sucesso", cartao.getTitular());
 

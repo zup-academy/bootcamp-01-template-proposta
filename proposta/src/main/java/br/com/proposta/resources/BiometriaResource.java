@@ -52,6 +52,8 @@ public class BiometriaResource {
         /* @complexidade - classe criada no projeto */
         var biometria = biometriaRequest.toModel();
 
+        biometria.associaCartao(cartao);
+
         biometriaRepository.save(biometria);
 
         /* @complexidade - classe criada no projeto */

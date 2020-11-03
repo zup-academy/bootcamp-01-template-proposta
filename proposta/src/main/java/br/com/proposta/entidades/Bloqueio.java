@@ -27,33 +27,28 @@ public class Bloqueio {
     @NotBlank
     private String userAgent;
 
-    @Enumerated(EnumType.STRING)
-    private StatusBloqueio statusBloqueio;
-
-    private String numeroCartao;
 
     @ManyToOne
     private Cartao cartao;
 
-    public Bloqueio(@NotBlank String internetProtocol, @NotBlank String userAgent, StatusBloqueio statusBloqueio) {
+    public Bloqueio(@NotBlank String internetProtocol, @NotBlank String userAgent) {
         this.internetProtocol = internetProtocol;
         this.userAgent = userAgent;
-        this.statusBloqueio = statusBloqueio;
     }
 
-    public Bloqueio(List<String> IPeUserAgent, String numeroCartao) {
+    public Bloqueio(List<String> IPeUserAgent, Cartao cartao) {
         this.internetProtocol = IPeUserAgent.get(0);
         this.userAgent = IPeUserAgent.get(1);
-        this.numeroCartao = numeroCartao;
+        this.cartao = cartao;
     }
 
     public String getId() {
         return id;
     }
 
-    public void atualizaStatusAposRespostaDoLegado(String status){
+    public void associaCartao(Cartao cartao){
 
-        this.statusBloqueio = StatusBloqueio.valueOf(status);
-
+        this.cartao = cartao;
     }
+
 }

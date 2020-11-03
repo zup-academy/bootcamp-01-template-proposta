@@ -39,7 +39,7 @@ public class CartaoResource {
 
         /* @complexidade - utilizando classe criada no projeto */
         var propostasAceitasSemCartao =
-                propostaRepository.findByStatusAndNumeroCartaoNull(StatusAvaliacaoProposta.ELEGIVEL);
+                propostaRepository.findByStatusAndCartaoNull(StatusAvaliacaoProposta.ELEGIVEL);
 
         /* @complexidade - iterando coleção criada no projeto  */
         propostasAceitasSemCartao.forEach(proposta -> {

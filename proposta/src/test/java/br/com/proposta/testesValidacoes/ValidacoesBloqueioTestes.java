@@ -35,7 +35,7 @@ public class ValidacoesBloqueioTestes {
     public void oIPNaoPodeEstarEmBrancoNemSerNulo() {
 
         Bloqueio bloqueio =
-                new Bloqueio(" ", "insomnia/2020.4.1", StatusBloqueio.BLOQUEADO);
+                new Bloqueio(" ", "insomnia/2020.4.1");
 
         Set<ConstraintViolation<Bloqueio>> violations = validator.validate(bloqueio);
 
@@ -47,7 +47,7 @@ public class ValidacoesBloqueioTestes {
     public void oUserAgentNaoPodeEstarEmBrancoNemSerNulo() {
 
         Bloqueio bloqueio =
-                new Bloqueio("127.0.0.1", " ", StatusBloqueio.BLOQUEADO);
+                new Bloqueio("127.0.0.1", " ");
 
         Set<ConstraintViolation<Bloqueio>> violations = validator.validate(bloqueio);
 
@@ -59,10 +59,10 @@ public class ValidacoesBloqueioTestes {
     public void oStatusDeveReceberDoisValores() {
 
         Bloqueio bloqueio1 =
-                new Bloqueio("127.0.0.1", " ", StatusBloqueio.BLOQUEADO);
+                new Bloqueio("127.0.0.1", " ");
 
         Bloqueio bloqueio2 =
-                new Bloqueio("127.0.0.1", " ", StatusBloqueio.DESBLOQUEADO);
+                new Bloqueio("127.0.0.1", " ");
 
         Assert.assertNotNull(bloqueio1);
         Assert.assertNotNull(bloqueio2);

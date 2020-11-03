@@ -2,6 +2,7 @@ package br.com.proposta.entidades;
 
 import br.com.proposta.dtos.responses.AvisoViagemResponse;
 import br.com.proposta.entidades.Enums.StatusAviso;
+import br.com.proposta.repositories.CartaoRepository;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -19,9 +20,6 @@ public class Aviso {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @NotBlank
-    private String numeroCartao;
-
     @ManyToOne
     private Cartao cartao;
 
@@ -38,16 +36,15 @@ public class Aviso {
     private StatusAviso status;
 
 
-    public Aviso(String numeroCartao, @NotBlank String internetProtocol, @NotBlank String userAgent, StatusAviso status) {
-        this.numeroCartao = numeroCartao;
+    public Aviso(@NotBlank String internetProtocol,
+                 @NotBlank String userAgent, StatusAviso status) {
         this.internetProtocol = internetProtocol;
         this.userAgent = userAgent;
         this.status = status;
     }
 
 
-    public Aviso(String numeroCartao, List<String> IPeUserAgent, AvisoViagemResponse resposta) {
-        this.numeroCartao = numeroCartao;
+    public Aviso(List<String> IPeUserAgent, AvisoViagemResponse resposta) {
         this.internetProtocol = IPeUserAgent.get(0);
         this.userAgent = IPeUserAgent.get(1);
         this.status = StatusAviso.valueOf(resposta.getResultado());
@@ -55,6 +52,10 @@ public class Aviso {
 
     public String getId() {
         return id;
+    }
+
+    public void associaCartao(Cartao cartao){
+        this.cartao = cartao;
     }
 }
 

@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
@@ -27,15 +28,15 @@ public class Senha {
     @NotBlank
     private String userAgent;
 
-    private String numeroCartao;
+    @OneToOne
+    private Cartao cartao;
 
     @Deprecated
     public Senha(){}
 
-    public Senha(List<String> ipEuserAgent, String numeroCartao) {
+    public Senha(List<String> ipEuserAgent, Cartao cartao) {
         this.internetProtocol = ipEuserAgent.get(0);
         this.userAgent = ipEuserAgent.get(1);
-        this.numeroCartao = numeroCartao;
+        this.cartao = cartao;
     }
-
 }

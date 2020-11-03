@@ -53,7 +53,7 @@ public class GerarCartao {
                 cartaoRepository.save(cartao);
 
                 /* @complexidade - classe criada no projeto */
-                proposta.associaCartao(dadosCartao.getId());
+                proposta.associaCartao(cartao);
 
                 entityManager.merge(proposta);
 

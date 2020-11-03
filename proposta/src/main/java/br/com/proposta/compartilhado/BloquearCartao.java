@@ -32,6 +32,7 @@ public class BloquearCartao {
     /* @complexidade - acoplamento contextual */
     private final CartaoRepository cartaoRepository;
 
+
     private final EntityManager entityManager;
 
 
@@ -52,7 +53,9 @@ public class BloquearCartao {
         var cartao = cartaoRepository.findByNumero(cartaoId);
 
         /* @complexidade - classe criada no projeto */
-        var novoBloqueio = new Bloqueio(userAgentEInternetProtocol, cartaoId);
+        var novoBloqueio = new Bloqueio(userAgentEInternetProtocol, cartao);
+
+        novoBloqueio.associaCartao(cartao);
 
         bloqueioRepository.save(novoBloqueio);
 

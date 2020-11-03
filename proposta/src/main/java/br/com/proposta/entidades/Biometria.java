@@ -42,4 +42,8 @@ public class Biometria {
         return id;
     }
 
+    public void associaCartao(Cartao cartao){
+        this.cartao = cartao;
+    }
+
 }

@@ -5,6 +5,7 @@ import br.com.proposta.entidades.Aviso;
 import br.com.proposta.repositories.AvisoRepository;
 import br.com.proposta.integracoes.IntegracaoApiCartoes;
 import br.com.proposta.compartilhado.BuscarIPeUserAgentNaRequisicao;
+import br.com.proposta.repositories.CartaoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,15 +29,19 @@ public class AvisoResource {
     /* @complexidade - acoplamento contextual */
     private final BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao;
 
+    /* @complexidade - acoplamento contextual */
+    private final CartaoRepository cartaoRepository;
+
 
     private final Logger logger = LoggerFactory.getLogger(Aviso.class);
 
 
     public AvisoResource(AvisoRepository avisoRepository, IntegracaoApiCartoes integracaoApiCartoes,
-                         BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao) {
+                         BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao, CartaoRepository cartaoRepository) {
         this.avisoRepository = avisoRepository;
         this.integracaoApiCartoes = integracaoApiCartoes;
         this.buscarIPeUserAgentNaRequisicao = buscarIPeUserAgentNaRequisicao;
+        this.cartaoRepository = cartaoRepository;
     }
 
 
@@ -56,7 +61,9 @@ public class AvisoResource {
         if(resposta.getStatusCode() == HttpStatus.OK){
 
             /* @complexidade - instanciando classe criada no projeto */
-            var novoAviso = new Aviso(numeroCartao, userAgentEip, resposta.getBody());
+            var novoAviso = new Aviso(userAgentEip, resposta.getBody());
+
+            novoAviso.associaCartao(cartaoRepository.findByNumero(numeroCartao));
 
             avisoRepository.save(novoAviso);
 
