@@ -14,7 +14,7 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
- * Contagem de carga intrínseca da classe: 3
+ * Contagem de carga intrínseca da classe: 5
  */
 
 @Entity
@@ -85,11 +85,21 @@ public class Proposta {
         //1
         switch (resultadoSolicitacao) {
             case SEM_RESTRICAO:
-                this.statusProposta = StatusProposta.ELEGIVEL;
+                //1
+                if (this.statusProposta != StatusProposta.ELEGIVEL) {
+                    this.statusProposta = StatusProposta.AGUARDANDO_CARTAO;
+                }
                 break;
             case COM_RESTRICAO:
                 this.statusProposta = StatusProposta.NAO_ELEGIVEL;
                 break;
+        }
+    }
+
+    public void atualizaStatusProposta() {
+        //1
+        if (this.statusProposta == StatusProposta.AGUARDANDO_CARTAO) {
+            this.statusProposta = StatusProposta.ELEGIVEL;
         }
     }
 }
