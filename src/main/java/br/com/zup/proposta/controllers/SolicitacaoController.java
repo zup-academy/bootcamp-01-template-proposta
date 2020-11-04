@@ -34,7 +34,7 @@ public class SolicitacaoController {
         binder.addValidators(propostaDuplicadaValidador);
     }
 
-    @PostMapping("/propostas")
+    @PostMapping("/api/propostas")
     public ResponseEntity<PropostaDto> criarSolicitacao(@RequestBody @Valid SolicitacaoForm form, UriComponentsBuilder builder) {
         final PropostaDto propostaCriada = service.criar(form.toProposta());
 
@@ -42,7 +42,7 @@ public class SolicitacaoController {
         return ResponseEntity.created(uri).body(propostaCriada);
     }
 
-    @GetMapping("/propostas/{id}")
+    @GetMapping("/api/propostas/{id}")
     public ResponseEntity<DetailedPropostaDto> buscarProposta(@PathVariable String id) {
         return ResponseEntity.ok(service.buscarPorId(id).toDetailedDto());
     }
