@@ -1,4 +1,4 @@
-package br.com.zup.proposta.novaproposta;
+package br.com.zup.proposta.proposta;
 
 public class PropostaCriada {
     private String id;

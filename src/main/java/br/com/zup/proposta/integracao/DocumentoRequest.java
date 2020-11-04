@@ -1,7 +1,6 @@
 package br.com.zup.proposta.integracao;
 
-import br.com.zup.proposta.novaproposta.Proposta;
-import br.com.zup.proposta.validation.CpfOuCnpj;
+import br.com.zup.proposta.proposta.Proposta;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)

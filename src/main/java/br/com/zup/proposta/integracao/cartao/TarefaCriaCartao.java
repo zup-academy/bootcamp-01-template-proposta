@@ -2,8 +2,8 @@ package br.com.zup.proposta.integracao.cartao;
 
 import br.com.zup.proposta.integracao.ExecutorTransacao;
 import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
-import br.com.zup.proposta.novaproposta.Proposta;
-import br.com.zup.proposta.novaproposta.PropostaRepository;
+import br.com.zup.proposta.proposta.Proposta;
+import br.com.zup.proposta.proposta.PropostaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,8 @@ public class TarefaCriaCartao {
         CartaoResponse cartaoResponse = integracaoCartao.pesquisaIdProposta(proposta.getId());
         Cartao cartao = cartaoResponse.toModel();
         executorTransacao.salvaEComita(cartao);
-        proposta.atualizaStatus(StatusAvaliacaoProposta.CRIADO);
+        proposta.atualizaStatus(StatusAvaliacaoProposta.APROVADA);
+        proposta.incluirCartao(cartao);
         executorTransacao.atualizaEComita(proposta);
         logger.info("Cartão para proposta de id " + proposta.getId() + " criado.");
         logger.info("Status da proposta depois: " + proposta.getStatusAvaliacao().toString());

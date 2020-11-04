@@ -1,4 +1,4 @@
-package br.com.zup.proposta.novaproposta;
+package br.com.zup.proposta.proposta;
 
 import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
 import org.springframework.data.repository.CrudRepository;

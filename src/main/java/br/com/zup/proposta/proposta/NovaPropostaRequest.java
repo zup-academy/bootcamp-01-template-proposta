@@ -1,6 +1,4 @@
-package br.com.zup.proposta.novaproposta;
-
-import br.com.zup.proposta.validation.CpfOuCnpj;
+package br.com.zup.proposta.proposta;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

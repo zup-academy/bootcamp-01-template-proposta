@@ -1,4 +1,4 @@
-package br.com.zup.proposta.novaproposta;
+package br.com.zup.proposta.proposta;
 
 import br.com.zup.proposta.integracao.AvaliaProposta;
 import br.com.zup.proposta.integracao.ExecutorTransacao;

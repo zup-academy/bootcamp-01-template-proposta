@@ -1,9 +1,8 @@
-package br.com.zup.proposta.novaproposta;
+package br.com.zup.proposta.proposta;
 
 import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
 import br.com.zup.proposta.integracao.cartao.Cartao;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -25,6 +24,7 @@ public class Proposta {
     private @NotBlank String endereco;
     private @NotNull @PositiveOrZero BigDecimal salario;
     private @NotNull @Enumerated(EnumType.STRING) StatusAvaliacaoProposta statusAvaliacao;
+    private @OneToOne Cartao cartao;
 
     @Deprecated
     public Proposta() {
@@ -74,5 +74,9 @@ public class Proposta {
 //        Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL),
 //                "Uma vez que a proposta é elegível, não é possível trocar");
         this.statusAvaliacao = statusAvaliacao;
+    }
+
+    public void incluirCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 }

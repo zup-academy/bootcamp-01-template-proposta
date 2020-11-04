@@ -1,6 +1,6 @@
 package br.com.zup.proposta.integracao;
 
-import br.com.zup.proposta.novaproposta.Proposta;
+import br.com.zup.proposta.proposta.Proposta;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
