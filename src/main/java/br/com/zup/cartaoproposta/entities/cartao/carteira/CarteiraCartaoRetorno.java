@@ -1,4 +1,4 @@
-package br.com.zup.cartaoproposta.entities.cartao;
+package br.com.zup.cartaoproposta.entities.cartao.carteira;
 
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package br.com.zup.cartaoproposta.entities.cartao;
+package br.com.zup.cartaoproposta.entities.cartao.aviso;
 
 import java.time.LocalDate;
 

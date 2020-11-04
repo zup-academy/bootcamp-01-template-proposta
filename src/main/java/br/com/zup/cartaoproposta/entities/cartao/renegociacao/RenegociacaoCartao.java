@@ -1,22 +1,21 @@
-package br.com.zup.cartaoproposta.entities.cartao;
+package br.com.zup.cartaoproposta.entities.cartao.renegociacao;
 
+import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Contagem de carga intrínseca da classe: 0
- */
+@Embeddable
+public class RenegociacaoCartao {
 
-public class RenegociacaoCartaoRetorno {
     private String id;
     private int quantidade;
     private BigDecimal valor;
     private LocalDateTime dataDeCriacao;
 
     @Deprecated
-    public RenegociacaoCartaoRetorno(){}
+    public RenegociacaoCartao(){}
 
-    public RenegociacaoCartaoRetorno(String id, int quantidade, BigDecimal valor, LocalDateTime dataDeCriacao) {
+    public RenegociacaoCartao(String id, int quantidade, BigDecimal valor, LocalDateTime dataDeCriacao) {
         this.id = id;
         this.quantidade = quantidade;
         this.valor = valor;
@@ -37,9 +36,5 @@ public class RenegociacaoCartaoRetorno {
 
     public LocalDateTime getDataDeCriacao() {
         return dataDeCriacao;
-    }
-
-    public RenegociacaoCartao toModel() {
-        return new RenegociacaoCartao(id, quantidade, valor, dataDeCriacao);
     }
 }

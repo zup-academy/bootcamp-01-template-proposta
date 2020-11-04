@@ -1,10 +1,18 @@
 package br.com.zup.cartaoproposta.entities.cartao;
 
+import br.com.zup.cartaoproposta.entities.cartao.aviso.AvisoCartao;
+import br.com.zup.cartaoproposta.entities.cartao.bloqueio.BloqueioCartao;
+import br.com.zup.cartaoproposta.entities.cartao.carteira.CarteiraCartao;
+import br.com.zup.cartaoproposta.entities.cartao.parcela.ParcelaCartao;
+import br.com.zup.cartaoproposta.entities.cartao.renegociacao.RenegociacaoCartao;
+import br.com.zup.cartaoproposta.entities.cartao.vencimento.VencimentoCartao;
 import br.com.zup.cartaoproposta.entities.proposta.Proposta;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,28 +27,45 @@ public class Cartao {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+    @NotNull
     private String idClient;
 
+    @NotNull
     private LocalDateTime emitidoEm;
+    @NotNull
     private String titular;
-//    @ElementCollection
-//    //1
-//    private List<BloqueioCartao> bloqueios;
-//    @ElementCollection
-//    //1
-//    private List<AvisoCartao> avisos;
-//    @ElementCollection
-//    //1
-//    private List<CarteiraCartao> carteiras;
-//    @ElementCollection
-//    //1
-//    private List<ParcelaCartao> parcelas;
+    @ElementCollection
+    //1
+    private List<BloqueioCartao> bloqueios = new ArrayList<>();
+    @ElementCollection
+    //1
+    private List<AvisoCartao> avisos = new ArrayList<>();
+    @ElementCollection
+    //1
+    private List<CarteiraCartao> carteiras = new ArrayList<>();
+    @ElementCollection
+    //1
+    private List<ParcelaCartao> parcelas = new ArrayList<>();
+    @NotNull
     private int limite;
-//    @ElementCollection
-//    //1
-//    private RenegociacaoCartao renegociacao;
-//    //1
-//    private VencimentoCartao vencimento;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "id", column = @Column(name = "id_renegociacao")),
+            @AttributeOverride( name = "quantidade", column = @Column(name = "quantidade_renegociacao")),
+            @AttributeOverride( name = "valor", column = @Column(name = "valor_renegociacao")),
+            @AttributeOverride( name = "dataDeCriacao", column = @Column(name = "data_de_criacao_renegociacao"))
+    })
+    //1
+    private RenegociacaoCartao renegociacao;
+    @NotNull
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "id", column = @Column(name = "id_vencimento")),
+            @AttributeOverride( name = "dia", column = @Column(name = "dia_vencimento")),
+            @AttributeOverride( name = "dataDeCriacao", column = @Column(name = "data_de_criacao_vencimento"))
+    })
+    //1
+    private VencimentoCartao vencimento;
 
     @OneToOne
     //1
@@ -49,27 +74,14 @@ public class Cartao {
     @Deprecated
     public Cartao(){}
 
-    public Cartao(String idClient, LocalDateTime emitidoEm, String titular, int limite, Proposta proposta) {
+    public Cartao(String idClient, LocalDateTime emitidoEm, String titular, int limite, VencimentoCartao vencimento, Proposta proposta) {
         this.idClient = idClient;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.limite = limite;
+        this.vencimento = vencimento;
         this.proposta = proposta;
     }
-
-    //    public Cartao(String idClient, LocalDateTime emitidoEm, String titular, List<BloqueioCartao> bloqueios, List<AvisoCartao> avisos, List<CarteiraCartao> carteiras, List<ParcelaCartao> parcelas, int limite, RenegociacaoCartao renegociacao, VencimentoCartao vencimento, Proposta proposta) {
-//        this.idClient = idClient;
-//        this.emitidoEm = emitidoEm;
-//        this.titular = titular;
-//        this.bloqueios = bloqueios;
-//        this.avisos = avisos;
-//        this.carteiras = carteiras;
-//        this.parcelas = parcelas;
-//        this.limite = limite;
-//        this.renegociacao = renegociacao;
-//        this.vencimento = vencimento;
-//        this.proposta = proposta;
-//    }
 
     public String getId() {
         return id;

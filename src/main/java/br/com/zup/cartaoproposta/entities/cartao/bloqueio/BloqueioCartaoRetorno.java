@@ -1,4 +1,4 @@
-package br.com.zup.cartaoproposta.entities.cartao;
+package br.com.zup.cartaoproposta.entities.cartao.bloqueio;
 
 import java.time.LocalDateTime;
 

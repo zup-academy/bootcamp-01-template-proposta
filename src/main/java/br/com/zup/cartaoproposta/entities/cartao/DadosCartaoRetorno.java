@@ -1,5 +1,11 @@
 package br.com.zup.cartaoproposta.entities.cartao;
 
+import br.com.zup.cartaoproposta.entities.cartao.aviso.AvisoCartaoRetorno;
+import br.com.zup.cartaoproposta.entities.cartao.bloqueio.BloqueioCartaoRetorno;
+import br.com.zup.cartaoproposta.entities.cartao.carteira.CarteiraCartaoRetorno;
+import br.com.zup.cartaoproposta.entities.cartao.parcela.ParcelaCartaoRetorno;
+import br.com.zup.cartaoproposta.entities.cartao.renegociacao.RenegociacaoCartaoRetorno;
+import br.com.zup.cartaoproposta.entities.cartao.vencimento.VencimentoCartaoRetorno;
 import br.com.zup.cartaoproposta.entities.proposta.Proposta;
 import br.com.zup.cartaoproposta.repositories.PropostaRepository;
 import org.springframework.util.Assert;
@@ -100,6 +106,6 @@ public class DadosCartaoRetorno {
         Assert.notNull(proposta, "Proposta inválida");
         Assert.notNull(vencimento, "Vencimento inválido");
 
-        return new Cartao(id, emitidoEm, titular, limite, proposta);
+        return new Cartao(id, emitidoEm, titular, limite, vencimento.toModel(), proposta);
     }
 }

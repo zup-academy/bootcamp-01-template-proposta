@@ -1,4 +1,4 @@
-package br.com.zup.cartaoproposta.entities.cartao;
+package br.com.zup.cartaoproposta.entities.cartao.vencimento;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +32,7 @@ public class VencimentoCartaoRetorno {
     }
 
     //1
-    VencimentoCartao toModel(){
+    public VencimentoCartao toModel(){
         return new VencimentoCartao(id, dia, dataDeCriacao);
     }
 }
