@@ -15,5 +15,5 @@ public interface PropostaRepository extends CrudRepository<Proposta, String> {
 
     List<Proposta> findAllByCartaoCriadoFalseAndEstadoProposta(EstadoProposta estadoProposta);
 
-    Optional<Proposta> findByCartaoId(String idCartao);
+    //Optional<Proposta> findByCartaoId(String idCartao);
 }

@@ -1,14 +1,10 @@
 package br.com.cartao.proposta.service;
 
 import br.com.cartao.proposta.consumer.CriacaoCartaoConsumer;
-import br.com.cartao.proposta.domain.model.Cartao;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import br.com.cartao.proposta.domain.response.CartaoResponseSistemaLegado;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -29,10 +25,10 @@ public class VerificaCartaoCriadoService {
         this.criacaoCartaoConsumer = criacaoCartaoConsumer;
     }
 
-    public Optional<Cartao> verificaSeCartaoCriado(String idProposta){
+    public Optional<CartaoResponseSistemaLegado> verificaSeCartaoCriado(String idProposta){
         // +1
         try{
-            Cartao cartao = criacaoCartaoConsumer.verificaCartaoCriado(idProposta);
+            CartaoResponseSistemaLegado cartao = criacaoCartaoConsumer.verificaCartaoCriado(idProposta);
             logger.info("Cartão criado: {}", cartao);
 
             return Optional.ofNullable(cartao);

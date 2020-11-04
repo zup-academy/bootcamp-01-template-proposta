@@ -1,11 +1,10 @@
 package br.com.cartao.proposta.controller;
 
 import br.com.cartao.proposta.domain.model.Biometria;
-import br.com.cartao.proposta.domain.model.Proposta;
+import br.com.cartao.proposta.domain.model.Cartao;
 import br.com.cartao.proposta.domain.request.NovaBiometriaRequest;
 import br.com.cartao.proposta.domain.response.NovaBiometriaResponseDto;
-import br.com.cartao.proposta.repository.BiometriaRepository;
-import br.com.cartao.proposta.repository.PropostaRepository;
+import br.com.cartao.proposta.repository.CartaoRepository;
 import br.com.cartao.proposta.validator.Base64Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,27 +13,30 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Optional;
 
 /**
  * Carga intrínseca máxima permitida - 7
- * Carga intrínseca da classe - 8
+ * Carga intrínseca da classe - 7
  */
 
 @RestController
-@RequestMapping("/v1/biometrias")
+@RequestMapping("/v1/cartoes")
 public class NovaBiometriaController {
 
     private static Logger logger = LoggerFactory.getLogger(NovaBiometriaController.class);
+    @PersistenceContext
+    private final EntityManager manager;
     // +1
-    private final PropostaRepository propostaRepository;
-    // +1
-    private final BiometriaRepository biometriaRepository;
+    private final CartaoRepository cartaoRepository;
 
-    public NovaBiometriaController(PropostaRepository propostaRepository, BiometriaRepository biometriaRepository) {
-        this.propostaRepository = propostaRepository;
-        this.biometriaRepository = biometriaRepository;
+    public NovaBiometriaController(EntityManager manager, CartaoRepository cartaoRepository) {
+        this.manager = manager;
+        this.cartaoRepository = cartaoRepository;
     }
 
     @InitBinder
@@ -43,23 +45,24 @@ public class NovaBiometriaController {
         binder.addValidators(new Base64Validator());
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/biometrias")
+    @Transactional
     // +1
-    public ResponseEntity<?> criaBiometria(@PathVariable("id") String idCartao,
+    public ResponseEntity<?> criaBiometria(@PathVariable("id") String cartaoId,
                                            @RequestBody @Valid NovaBiometriaRequest novaBiometriaRequest,
                                            UriComponentsBuilder uriComponentsBuilder){
         logger.info("Requisição para nova biometria recebida: {}", novaBiometriaRequest);
         // +1
-        Optional<Proposta> propostaBuscadaPeloCartao = propostaRepository.findByCartaoId(idCartao);
+        Optional<Cartao> cartaoBuscado = cartaoRepository.findByCartaoId(cartaoId);
         // +1
-        if (propostaBuscadaPeloCartao.isEmpty()){
-            logger.info("ipProposta não encontrado: {}", idCartao);
+        if (cartaoBuscado.isEmpty()){
+            logger.info("ipProposta não encontrado: {}", cartaoId);
             return ResponseEntity.notFound().build();
         }
         // +1
-        Biometria biometria = novaBiometriaRequest.toModel(idCartao);
+        Biometria biometria = novaBiometriaRequest.toModel(cartaoId);
 
-        biometriaRepository.save(biometria);
+        manager.persist(biometria);
         // +1
         NovaBiometriaResponseDto novabiometriaResponseDto = new NovaBiometriaResponseDto(biometria);
 

@@ -1,6 +1,5 @@
 package br.com.cartao.proposta.service;
 
-import br.com.cartao.proposta.domain.model.Cartao;
 import br.com.cartao.proposta.domain.model.Proposta;
 import br.com.cartao.proposta.domain.request.NovaPropostaRequest;
 import br.com.cartao.proposta.domain.response.AnalisePropostaResponse;

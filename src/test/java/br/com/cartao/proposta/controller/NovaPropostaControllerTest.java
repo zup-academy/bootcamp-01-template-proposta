@@ -1,6 +1,7 @@
 package br.com.cartao.proposta.controller;
 
 import br.com.cartao.proposta.domain.enums.EstadoAnaliseProposta;
+import br.com.cartao.proposta.domain.model.Cartao;
 import br.com.cartao.proposta.domain.model.Proposta;
 import br.com.cartao.proposta.domain.request.NovaPropostaRequest;
 import br.com.cartao.proposta.domain.response.AnalisePropostaResponse;
@@ -97,7 +98,8 @@ public class NovaPropostaControllerTest {
         PropostaRepository propostaRepository = mock(PropostaRepository.class);
         NovaPropostaService novaPropostaService = mock(NovaPropostaService.class);
         Proposta proposta = new Proposta("83794884078","teste@gmail.com","Rua governador","Administrador", BigDecimal.valueOf(800));
-        proposta.adicionaNumeroCartao("abcdefg");
+        Cartao cartao = new Cartao("abcdefg",proposta);
+        proposta.adicionaNumeroCartao(cartao);
         proposta.alteraStatusCartaoCriado(Boolean.TRUE);
         AnalisePropostaResponse analisePropostaResponse = new AnalisePropostaResponse("83794884078","Administrador","123456", EstadoAnaliseProposta.SEM_RESTRICAO);
         proposta.adicionaEstadoProposta(analisePropostaResponse);

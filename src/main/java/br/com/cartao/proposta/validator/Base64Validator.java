@@ -17,14 +17,11 @@ public class Base64Validator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
 
-        NovaBiometriaRequest biometrias = (NovaBiometriaRequest) o;
+        NovaBiometriaRequest novaBiometriaRequest = (NovaBiometriaRequest) o;
 
-        biometrias.getFingerprint().forEach(s -> {
-//            if (Base64.isBase64(s.getBytes())){
-//                errors.rejectValue("fingerprint", null, "não esta codificado Base64");
-//            }
+        novaBiometriaRequest.getBiometrias().forEach(printfingerRequest -> {
             try{
-                byte[] decode = Base64.getDecoder().decode(s.getBytes());
+                byte[] decode = Base64.getDecoder().decode(printfingerRequest.getDigital().getBytes());
                 String decodificado = new String(decode);
             }catch (Exception exception){
                 errors.rejectValue("fingerprint", null, "não esta codificado Base64");

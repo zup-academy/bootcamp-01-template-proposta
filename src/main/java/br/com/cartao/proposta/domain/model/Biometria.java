@@ -17,14 +17,17 @@ public class Biometria {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @ElementCollection
     @NotNull
-    private final List<String> fingerprint;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<FingerPrint> fingerprint;
     @NotBlank
-    private final String idCartao;
+    private String idCartao;
 
+    @Deprecated
+    public Biometria() {
+    }
 
-    public Biometria(@NotNull @Size(min = 1) List<String> fingerprint, String idCartao) {
+    public Biometria(@NotNull @Size(min = 1) List<FingerPrint> fingerprint, String idCartao) {
 
         this.fingerprint = fingerprint;
         this.idCartao = idCartao;
@@ -34,7 +37,7 @@ public class Biometria {
         return id;
     }
 
-    public List<String> getFingerprint() {
+    public List<FingerPrint> getFingerprint() {
         return fingerprint;
     }
 

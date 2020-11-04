@@ -1,40 +1,48 @@
 package br.com.cartao.proposta.domain.request;
 
 import br.com.cartao.proposta.domain.model.Biometria;
+import br.com.cartao.proposta.domain.model.FingerPrint;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NovaBiometriaRequest {
 
     @NotNull
     @Size(min = 1)
-    private List<String> fingerprint;
+    private List<PrintfingerRequest> biometrias;
 
     @Deprecated
     public NovaBiometriaRequest() {
     }
 
-    public NovaBiometriaRequest(List<String> fingerprint) {
-        this.fingerprint = fingerprint;
+    public NovaBiometriaRequest(List<PrintfingerRequest> biometrias) {
+        this.biometrias = biometrias;
     }
 
-    public List<String> getFingerprint() {
-        return fingerprint;
+    public List<PrintfingerRequest> getBiometrias() {
+        return biometrias;
     }
 
     @Override
     public String toString() {
         return "NovaBiometriaRequest{" +
-                "fingerprint=" + fingerprint +
+                "fingerprint=" + biometrias +
                 '}';
     }
 
     public Biometria toModel(String idCartao){
-        return new Biometria(this.fingerprint, idCartao);
+
+        List<FingerPrint> printFinger = this.biometrias.stream()
+                .map(printfingerRequest -> {
+                    return printfingerRequest.toModel();
+                })
+                // +1
+                .collect(Collectors.toList());
+
+        return new Biometria(printFinger, idCartao);
     }
 
 }

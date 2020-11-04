@@ -14,7 +14,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 .and()
                         .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                         .csrf().disable()

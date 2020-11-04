@@ -1,13 +1,14 @@
 package br.com.cartao.proposta.domain.response;
 
 import br.com.cartao.proposta.domain.model.Biometria;
+import br.com.cartao.proposta.domain.model.FingerPrint;
 
 import java.util.List;
 
 public class NovaBiometriaResponseDto {
 
     private final String id;
-    private final List<String> fingerprint;
+    private final List<FingerPrint> fingerprint;
     private final String idCartao;
 
     public NovaBiometriaResponseDto(Biometria biometria) {
@@ -20,7 +21,7 @@ public class NovaBiometriaResponseDto {
         return id;
     }
 
-    public List<String> getFingerprint() {
+    public List<FingerPrint> getFingerprint() {
         return fingerprint;
     }
 

@@ -36,7 +36,8 @@ public class Proposta {
 
     private Boolean cartaoCriado;
 
-    private String cartaoId;
+    @OneToOne(mappedBy = "proposta", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Cartao cartao;
 
     @Deprecated
     public Proposta() {
@@ -48,7 +49,6 @@ public class Proposta {
         this.endereco = endereco;
         this.nome = nome;
         this.salario = salario;
-        this.cartaoCriado = cartaoCriado;
         this.estadoProposta = EstadoProposta.PENDENTE;
         this.cartaoCriado = Boolean.FALSE;
     }
@@ -81,8 +81,8 @@ public class Proposta {
         return estadoProposta;
     }
 
-    public String getCartaoId() {
-        return cartaoId;
+    public Cartao getCartao() {
+        return cartao;
     }
 
     public void setId(String id) {
@@ -117,7 +117,7 @@ public class Proposta {
         }
     }
 
-    public void adicionaNumeroCartao(String cartaoId){
-        this.cartaoId = cartaoId;
+    public void adicionaNumeroCartao(Cartao cartao){
+        this.cartao = cartao;
     }
 }

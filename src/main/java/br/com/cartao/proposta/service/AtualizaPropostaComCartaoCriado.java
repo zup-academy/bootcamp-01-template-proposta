@@ -2,13 +2,17 @@ package br.com.cartao.proposta.service;
 
 import br.com.cartao.proposta.domain.enums.EstadoProposta;
 import br.com.cartao.proposta.domain.model.Cartao;
+import br.com.cartao.proposta.domain.response.CartaoResponseSistemaLegado;
 import br.com.cartao.proposta.domain.model.Proposta;
+import br.com.cartao.proposta.repository.CartaoRepository;
 import br.com.cartao.proposta.repository.PropostaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -40,11 +44,11 @@ public class AtualizaPropostaComCartaoCriado {
         }
 
     }
-
+    @Transactional
     protected void percorreLista(List<Proposta> propostasAguardandoCartao) {
 
         propostasAguardandoCartao.forEach(proposta -> {
-            Optional<Cartao> cartao = verificaCartaoCriadoService.verificaSeCartaoCriado(proposta.getId());
+            Optional<CartaoResponseSistemaLegado> cartao = verificaCartaoCriadoService.verificaSeCartaoCriado(proposta.getId());
             logger.info("Cartão: {}", cartao);
             if (cartao.isPresent()){
                 alteraStatusESalva(proposta, cartao.get());
@@ -58,10 +62,12 @@ public class AtualizaPropostaComCartaoCriado {
     }
 
     @Transactional
-    protected void alteraStatusESalva(Proposta proposta, Cartao cartao) {
+    protected void alteraStatusESalva(Proposta proposta, CartaoResponseSistemaLegado cartaoResponseSistemaLegado) {
         logger.info("Alterando status do cartão para o idProposta: {}", proposta.getId());
         proposta.alteraStatusCartaoCriado(Boolean.TRUE);
-        proposta.adicionaNumeroCartao(cartao.getId());
+        // +1
+        Cartao cartao = new Cartao(cartaoResponseSistemaLegado.getId(), proposta);
+        proposta.adicionaNumeroCartao(cartao);
         propostaRepository.save(proposta);
     }
 }

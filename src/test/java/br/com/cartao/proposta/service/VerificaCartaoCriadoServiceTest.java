@@ -1,7 +1,7 @@
 package br.com.cartao.proposta.service;
 
 import br.com.cartao.proposta.consumer.CriacaoCartaoConsumer;
-import br.com.cartao.proposta.domain.model.Cartao;
+import br.com.cartao.proposta.domain.response.CartaoResponseSistemaLegado;
 import br.com.cartao.proposta.domain.response.VencimentoResponseDto;
 import feign.FeignException;
 import feign.Request;
@@ -32,11 +32,11 @@ class VerificaCartaoCriadoServiceTest {
 
         CriacaoCartaoConsumer criacaoCartaoConsumer = mock(CriacaoCartaoConsumer.class);
         VerificaCartaoCriadoService verificaCartaoCriadoService = new VerificaCartaoCriadoService(criacaoCartaoConsumer);
-        Cartao cartao = new Cartao("123","2020-10-20T14:10:55","Teste",null,null,null,null, BigDecimal.valueOf(100),null,new VencimentoResponseDto("1",10,"2020-10-20T15:30:45"),"abc123");
+        CartaoResponseSistemaLegado cartao = new CartaoResponseSistemaLegado("123","2020-10-20T14:10:55","Teste",null,null,null,null, BigDecimal.valueOf(100),null,new VencimentoResponseDto("1",10,"2020-10-20T15:30:45"),"abc123");
 
         when(criacaoCartaoConsumer.verificaCartaoCriado(idProposta)).thenReturn(cartao);
 
-        Optional<Cartao> cartaoCriado = verificaCartaoCriadoService.verificaSeCartaoCriado(idProposta);
+        Optional<CartaoResponseSistemaLegado> cartaoCriado = verificaCartaoCriadoService.verificaSeCartaoCriado(idProposta);
 
         Assertions.assertEquals(cartao, cartaoCriado.get());
         verify(criacaoCartaoConsumer,times(1)).verificaCartaoCriado(idProposta);
@@ -54,7 +54,7 @@ class VerificaCartaoCriadoServiceTest {
 
         when(criacaoCartaoConsumer.verificaCartaoCriado(idProposta)).thenThrow(new FeignException.BadRequest("Teste", request,null));
 
-        Optional<Cartao> cartaoCriado = verificaCartaoCriadoService.verificaSeCartaoCriado(idProposta);
+        Optional<CartaoResponseSistemaLegado> cartaoCriado = verificaCartaoCriadoService.verificaSeCartaoCriado(idProposta);
 
         FeignException feignException = Assertions.assertThrows(FeignException.class, () -> criacaoCartaoConsumer.verificaCartaoCriado(idProposta));
         Assertions.assertEquals(Optional.empty(), cartaoCriado);
