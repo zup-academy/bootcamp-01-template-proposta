@@ -6,15 +6,15 @@ import java.time.LocalDate;
  * Contagem de carga intrínseca da classe: 0
  */
 
-public class AvisoCartaoRetorno {
+public class AvisoCartaoRetornoLegado {
 
     private LocalDate validoAte;
     private String destino;
 
     @Deprecated
-    public AvisoCartaoRetorno(){}
+    public AvisoCartaoRetornoLegado(){}
 
-    public AvisoCartaoRetorno(LocalDate validoAte, String destino) {
+    public AvisoCartaoRetornoLegado(LocalDate validoAte, String destino) {
         this.validoAte = validoAte;
         this.destino = destino;
     }

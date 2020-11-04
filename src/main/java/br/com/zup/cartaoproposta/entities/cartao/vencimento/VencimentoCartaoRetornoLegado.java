@@ -6,14 +6,14 @@ import java.time.LocalDateTime;
  * Contagem de carga intrínseca da classe: 0
  */
 
-public class VencimentoCartaoRetorno {
+public class VencimentoCartaoRetornoLegado {
     private String id;
     private int dia;
     private LocalDateTime dataDeCriacao;
 
-    public VencimentoCartaoRetorno(){}
+    public VencimentoCartaoRetornoLegado(){}
 
-    public VencimentoCartaoRetorno(String id, int dia, LocalDateTime dataDeCriacao) {
+    public VencimentoCartaoRetornoLegado(String id, int dia, LocalDateTime dataDeCriacao) {
         this.id = id;
         this.dia = dia;
         this.dataDeCriacao = dataDeCriacao;

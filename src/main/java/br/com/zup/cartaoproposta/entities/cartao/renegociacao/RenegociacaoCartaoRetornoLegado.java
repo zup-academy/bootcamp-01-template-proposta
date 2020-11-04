@@ -7,16 +7,16 @@ import java.time.LocalDateTime;
  * Contagem de carga intrínseca da classe: 0
  */
 
-public class RenegociacaoCartaoRetorno {
+public class RenegociacaoCartaoRetornoLegado {
     private String id;
     private int quantidade;
     private BigDecimal valor;
     private LocalDateTime dataDeCriacao;
 
     @Deprecated
-    public RenegociacaoCartaoRetorno(){}
+    public RenegociacaoCartaoRetornoLegado(){}
 
-    public RenegociacaoCartaoRetorno(String id, int quantidade, BigDecimal valor, LocalDateTime dataDeCriacao) {
+    public RenegociacaoCartaoRetornoLegado(String id, int quantidade, BigDecimal valor, LocalDateTime dataDeCriacao) {
         this.id = id;
         this.quantidade = quantidade;
         this.valor = valor;

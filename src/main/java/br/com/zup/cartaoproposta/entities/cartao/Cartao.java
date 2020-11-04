@@ -28,7 +28,7 @@ public class Cartao {
     private String id;
 
     @NotNull
-    private String idClient;
+    private String idLegado;
 
     @NotNull
     private LocalDateTime emitidoEm;
@@ -74,8 +74,8 @@ public class Cartao {
     @Deprecated
     public Cartao(){}
 
-    public Cartao(String idClient, LocalDateTime emitidoEm, String titular, int limite, VencimentoCartao vencimento, Proposta proposta) {
-        this.idClient = idClient;
+    public Cartao(String idLegado, LocalDateTime emitidoEm, String titular, int limite, VencimentoCartao vencimento, Proposta proposta) {
+        this.idLegado = idLegado;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.limite = limite;

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  */
 
 @Embeddable
-public class CarteiraCartaoRetorno {
+public class CarteiraCartaoRetornoLegado {
 
     private String id;
     private String email;
@@ -16,9 +16,9 @@ public class CarteiraCartaoRetorno {
     private String emissor;
 
     @Deprecated
-    public CarteiraCartaoRetorno(){}
+    public CarteiraCartaoRetornoLegado(){}
 
-    public CarteiraCartaoRetorno(String id, String email, LocalDateTime associadaEm, String emissor) {
+    public CarteiraCartaoRetornoLegado(String id, String email, LocalDateTime associadaEm, String emissor) {
         this.id = id;
         this.email = email;
         this.associadaEm = associadaEm;

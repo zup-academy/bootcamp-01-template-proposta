@@ -2,7 +2,7 @@ package br.com.zup.cartaoproposta.services.cartao;
 
 import br.com.zup.cartaoproposta.clienteswebservices.CartoesClient;
 import br.com.zup.cartaoproposta.entities.cartao.Cartao;
-import br.com.zup.cartaoproposta.entities.cartao.DadosCartaoRetorno;
+import br.com.zup.cartaoproposta.entities.cartao.DadosCartaoRetornoLegado;
 import br.com.zup.cartaoproposta.entities.proposta.Proposta;
 import br.com.zup.cartaoproposta.entities.proposta.StatusProposta;
 import br.com.zup.cartaoproposta.repositories.CartaoRepository;
@@ -49,7 +49,7 @@ public class CriacaoCartao {
             try {
                 logger.info("Busca dos dados do cartão da proposta. ipProposta: {}; documentoProposta: {}",p.getId(), p.getDocumento());
                 //1
-                DadosCartaoRetorno dadosCartao = cartoesClient.buscaDadosCartoesResource(p.getId());
+                DadosCartaoRetornoLegado dadosCartao = cartoesClient.buscaDadosCartoesResource(p.getId());
                 //1
                 Cartao cartao = dadosCartao.toModel(propostaRepository);
                 cartaoRepository.save(cartao);

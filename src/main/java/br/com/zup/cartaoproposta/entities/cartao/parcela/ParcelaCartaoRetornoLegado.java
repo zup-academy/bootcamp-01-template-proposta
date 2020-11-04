@@ -6,15 +6,15 @@ import java.math.BigDecimal;
  * Contagem de carga intrínseca da classe: 0
  */
 
-public class ParcelaCartaoRetorno {
+public class ParcelaCartaoRetornoLegado {
     private String id;
     private int quantidade;
     private BigDecimal valor;
 
     @Deprecated
-    public ParcelaCartaoRetorno(){}
+    public ParcelaCartaoRetornoLegado(){}
 
-    public ParcelaCartaoRetorno(String id, int quantidade, BigDecimal valor) {
+    public ParcelaCartaoRetornoLegado(String id, int quantidade, BigDecimal valor) {
         this.id = id;
         this.quantidade = quantidade;
         this.valor = valor;

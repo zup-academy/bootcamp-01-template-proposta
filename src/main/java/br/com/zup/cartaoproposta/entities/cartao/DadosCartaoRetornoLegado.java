@@ -1,11 +1,11 @@
 package br.com.zup.cartaoproposta.entities.cartao;
 
-import br.com.zup.cartaoproposta.entities.cartao.aviso.AvisoCartaoRetorno;
-import br.com.zup.cartaoproposta.entities.cartao.bloqueio.BloqueioCartaoRetorno;
-import br.com.zup.cartaoproposta.entities.cartao.carteira.CarteiraCartaoRetorno;
-import br.com.zup.cartaoproposta.entities.cartao.parcela.ParcelaCartaoRetorno;
-import br.com.zup.cartaoproposta.entities.cartao.renegociacao.RenegociacaoCartaoRetorno;
-import br.com.zup.cartaoproposta.entities.cartao.vencimento.VencimentoCartaoRetorno;
+import br.com.zup.cartaoproposta.entities.cartao.aviso.AvisoCartaoRetornoLegado;
+import br.com.zup.cartaoproposta.entities.cartao.bloqueio.BloqueioCartaoRetornoLegado;
+import br.com.zup.cartaoproposta.entities.cartao.carteira.CarteiraCartaoRetornoLegado;
+import br.com.zup.cartaoproposta.entities.cartao.parcela.ParcelaCartaoRetornoLegado;
+import br.com.zup.cartaoproposta.entities.cartao.renegociacao.RenegociacaoCartaoRetornoLegado;
+import br.com.zup.cartaoproposta.entities.cartao.vencimento.VencimentoCartaoRetornoLegado;
 import br.com.zup.cartaoproposta.entities.proposta.Proposta;
 import br.com.zup.cartaoproposta.repositories.PropostaRepository;
 import org.springframework.util.Assert;
@@ -17,30 +17,30 @@ import java.util.List;
  * Contagem de carga intrínseca da classe: 9
  */
 
-public class DadosCartaoRetorno {
+public class DadosCartaoRetornoLegado {
 
     private String id;
     private LocalDateTime emitidoEm;
     private String titular;
     //1
-    private List<BloqueioCartaoRetorno> bloqueios;
+    private List<BloqueioCartaoRetornoLegado> bloqueios;
     //1
-    private List<AvisoCartaoRetorno> avisos;
+    private List<AvisoCartaoRetornoLegado> avisos;
     //1
-    private List<CarteiraCartaoRetorno> carteiras;
+    private List<CarteiraCartaoRetornoLegado> carteiras;
     //1
-    private List<ParcelaCartaoRetorno> parcelas;
+    private List<ParcelaCartaoRetornoLegado> parcelas;
     private int limite;
     //1
-    private RenegociacaoCartaoRetorno renegociacao;
+    private RenegociacaoCartaoRetornoLegado renegociacao;
     //1
-    private VencimentoCartaoRetorno vencimento;
+    private VencimentoCartaoRetornoLegado vencimento;
     private String idProposta;
 
     @Deprecated
-    DadosCartaoRetorno(){}
+    DadosCartaoRetornoLegado(){}
 
-    public DadosCartaoRetorno(String id, LocalDateTime emitidoEm, String titular, List<BloqueioCartaoRetorno> bloqueios, List<AvisoCartaoRetorno> avisos, List<CarteiraCartaoRetorno> carteiras, List<ParcelaCartaoRetorno> parcelas, int limite, RenegociacaoCartaoRetorno renegociacao, VencimentoCartaoRetorno vencimento, String idProposta) {
+    public DadosCartaoRetornoLegado(String id, LocalDateTime emitidoEm, String titular, List<BloqueioCartaoRetornoLegado> bloqueios, List<AvisoCartaoRetornoLegado> avisos, List<CarteiraCartaoRetornoLegado> carteiras, List<ParcelaCartaoRetornoLegado> parcelas, int limite, RenegociacaoCartaoRetornoLegado renegociacao, VencimentoCartaoRetornoLegado vencimento, String idProposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
@@ -66,19 +66,19 @@ public class DadosCartaoRetorno {
         return titular;
     }
 
-    public List<BloqueioCartaoRetorno> getBloqueios() {
+    public List<BloqueioCartaoRetornoLegado> getBloqueios() {
         return bloqueios;
     }
 
-    public List<AvisoCartaoRetorno> getAvisos() {
+    public List<AvisoCartaoRetornoLegado> getAvisos() {
         return avisos;
     }
 
-    public List<CarteiraCartaoRetorno> getCarteiras() {
+    public List<CarteiraCartaoRetornoLegado> getCarteiras() {
         return carteiras;
     }
 
-    public List<ParcelaCartaoRetorno> getParcelas() {
+    public List<ParcelaCartaoRetornoLegado> getParcelas() {
         return parcelas;
     }
 
@@ -86,11 +86,11 @@ public class DadosCartaoRetorno {
         return limite;
     }
 
-    public RenegociacaoCartaoRetorno getRenegociacao() {
+    public RenegociacaoCartaoRetornoLegado getRenegociacao() {
         return renegociacao;
     }
 
-    public VencimentoCartaoRetorno getVencimento() {
+    public VencimentoCartaoRetornoLegado getVencimento() {
         return vencimento;
     }
 
