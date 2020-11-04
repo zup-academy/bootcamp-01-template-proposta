@@ -5,6 +5,8 @@ import br.com.cartao.proposta.domain.request.Bloqueio;
 import br.com.cartao.proposta.domain.request.BloqueioRequest;
 import br.com.cartao.proposta.domain.request.InformacaoRede;
 import br.com.cartao.proposta.domain.response.BloqueioCartaoResponseDto;
+import br.com.cartao.proposta.service.BloqueioCartaoService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+/**
+ * Carga intrínseca máxima permitida - 7
+ * Carga intrínseca da classe - 7
+ */
+
 @RestController
 @RequestMapping("/v1/cartoes")
 public class BloqueioCartaoController {
@@ -26,9 +33,12 @@ public class BloqueioCartaoController {
 
     @PersistenceContext
     private final EntityManager manager;
+    // +1
+    private final BloqueioCartaoService bloqueioCartaoService;
 
-    public BloqueioCartaoController(EntityManager manager) {
+    public BloqueioCartaoController(EntityManager manager, BloqueioCartaoService bloqueioCartaoService) {
         this.manager = manager;
+        this.bloqueioCartaoService = bloqueioCartaoService;
     }
 
     @PostMapping("/{idCartao}/bloqueio")
@@ -37,13 +47,11 @@ public class BloqueioCartaoController {
     public ResponseEntity<?> bloqueioCartao(@PathVariable("idCartao") String idCartao,
                                             @RequestBody BloqueioRequest bloqueioRequest,
                                             UriComponentsBuilder uriComponentsBuilder,
-                                            HttpServletRequest httpServletRequest){
+                                            HttpServletRequest httpServletRequest) throws JsonProcessingException {
         logger.info("Requisição para bloqueio de cartao com o id: {}", idCartao);
-        // +1
         Optional<Cartao> cartao = Optional.ofNullable(manager.find(Cartao.class, idCartao));
         // +1
         if (cartao.isEmpty()){
-            //Assert.notNull(cartao,"Não foi possivel achar o cartao com o id solicitado");
             return ResponseEntity.notFound().build();
         }
         // +1
@@ -51,9 +59,10 @@ public class BloqueioCartaoController {
         // +1
         Bloqueio bloqueio = bloqueioRequest.toModel(cartao.get(), informacaoRede);
 
-        BloqueioCartaoResponseDto bloqueioCartaoResponseDto = new BloqueioCartaoResponseDto(bloqueio);
-
+        bloqueioCartaoService.avisa(bloqueio,cartao.get());
         manager.persist(bloqueio);
+        // +1
+        BloqueioCartaoResponseDto bloqueioCartaoResponseDto = new BloqueioCartaoResponseDto(bloqueio);
 
         return ResponseEntity
                 .created(uriComponentsBuilder.path("/carta/{idCartao}/bloqueio").buildAndExpand(bloqueioCartaoResponseDto.getId()).toUri())

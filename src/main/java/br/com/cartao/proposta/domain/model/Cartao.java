@@ -1,5 +1,6 @@
 package br.com.cartao.proposta.domain.model;
 
+import br.com.cartao.proposta.domain.enums.EstadoCartao;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,8 +16,13 @@ public class Cartao {
     private String id;
     @NotBlank
     private String cartaoId;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoCartao estadoCartao;
+
     @OneToOne
     private Proposta proposta;
+
     @Deprecated
     public Cartao() {
     }
@@ -24,6 +30,7 @@ public class Cartao {
     public Cartao(String cartaoId, Proposta proposta) {
         this.cartaoId = cartaoId;
         this.proposta = proposta;
+        this.estadoCartao = EstadoCartao.ATIVO;
     }
 
     public String getId() {
@@ -37,4 +44,21 @@ public class Cartao {
     public Proposta getProposta() {
         return proposta;
     }
+
+    public EstadoCartao getEstadoCartao() {
+        return estadoCartao;
+    }
+
+    public void MudaEstadoCartao(EstadoCartao estadoCartao){
+        this.estadoCartao = estadoCartao;
+    }
+
+    public void estadoCartaoBloqueado(){
+        this.estadoCartao = EstadoCartao.BLOQUEADO;
+    }
+
+    public void estadoCartaoComFalha(){
+        this.estadoCartao = EstadoCartao.FALHA;
+    }
+
 }
