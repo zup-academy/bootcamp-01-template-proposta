@@ -101,6 +101,10 @@ public class Cartao {
         return this.bloqueios;
     }
 
+	public void addBloqueios(CartaoBloqueio bloqueio) {
+        this.bloqueios.add(bloqueio);
+    }
+
     public Collection<CartaoAvisos> getAvisos() {
         return this.avisos;
     }
