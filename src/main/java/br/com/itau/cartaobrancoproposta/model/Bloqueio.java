@@ -1,25 +1,31 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Bloqueio {
 
-    private String id;
+    @JsonProperty(value = "id")
+    private String idBloqueio;
     private String bloqueadoEm;
     private String sistemaResponsavel;
     private Boolean ativo;
 
-    public Bloqueio(String id, String bloqueadoEm, String sistemaResponsavel, Boolean ativo) {
-        this.id = id;
+    public Bloqueio(String idBloqueio, String bloqueadoEm, String sistemaResponsavel, Boolean ativo) {
+        this.idBloqueio = idBloqueio;
         this.bloqueadoEm = bloqueadoEm;
         this.sistemaResponsavel = sistemaResponsavel;
         this.ativo = ativo;
     }
 
-    public String getId() {
-        return id;
+    public String getIdBloqueio() {
+        return idBloqueio;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdBloqueio(String idBloqueio) {
+        this.idBloqueio = idBloqueio;
     }
 
     public String getBloqueadoEm() {

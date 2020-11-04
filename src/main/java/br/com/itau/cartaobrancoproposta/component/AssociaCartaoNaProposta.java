@@ -37,11 +37,11 @@ public class AssociaCartaoNaProposta {
         List<Proposta> propostaLista = query.getResultList(); //1
 
         propostaLista.forEach(proposta -> { //1
-            if (proposta.getIdCartao() == null && proposta.getRestricao() == Restricao.ELEGIVEL){ //1
+            if (proposta.getCartao().getIdCartao() == null && proposta.getRestricao() == Restricao.ELEGIVEL){ //1
                 try { //1
                     proposta.verificaCartao(cartaoClient);
                     transacaoDados.atualiza(proposta);
-                    logger.info("O cartão com final {} foi atrelado ao id={}", proposta.getIdCartao().substring(24), proposta.getId());
+                    logger.info("O cartão com final {} foi atrelado ao id={}", proposta.getCartao().getIdCartao().substring(24), proposta.getId());
                 } catch (FeignException feignException) { //1
                     logger.error("Não foi possível atrelar o cartão a proposta id={}. Erro: {}", proposta.getId(), feignException.getLocalizedMessage());
                 }

@@ -36,7 +36,8 @@ public class Proposta {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Restricao restricao;
-    private String idCartao;
+    @Embedded
+    private Cartao cartao;
 
     @Deprecated
     public Proposta() {
@@ -107,12 +108,12 @@ public class Proposta {
         this.restricao = restricao;
     }
 
-    public String getIdCartao() {
-        return idCartao;
+    public Cartao getCartao() {
+        return cartao;
     }
 
-    public void setIdCartao(String idCartao) {
-        this.idCartao = idCartao;
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 
     @Override
@@ -127,29 +128,15 @@ public class Proposta {
                 Objects.equals(endereco, proposta.endereco) &&
                 Objects.equals(salario, proposta.salario) &&
                 restricao == proposta.restricao &&
-                Objects.equals(idCartao, proposta.idCartao);
+                Objects.equals(cartao, proposta.cartao);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, documento, email, nome, endereco, salario, restricao, idCartao);
+        return Objects.hash(id, documento, email, nome, endereco, salario, restricao, cartao);
     }
 
-    @Override
-    public String toString() {
-        return "Proposta{" +
-                "id='" + id + '\'' +
-                ", documento='" + documento + '\'' +
-                ", email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", salario=" + salario +
-                ", restricao=" + restricao +
-                ", idCartao='" + idCartao + '\'' +
-                '}';
-    }
-
-    public void verifica(String resultadoSolicitacao) {
+    public void validaRestricao(String resultadoSolicitacao) {
         if (resultadoSolicitacao.equals("SEM_RESTRICAO")){
             this.restricao = Restricao.ELEGIVEL;
         } else {
@@ -158,7 +145,6 @@ public class Proposta {
     }
 
     public void verificaCartao(CartaoClient cartaoClient) throws FeignException {
-        Cartao cartao = cartaoClient.buscaCartao(this.id);
-        this.idCartao = cartao.getId();
+        this.cartao = cartaoClient.buscaCartao(this.id);
     }
 }

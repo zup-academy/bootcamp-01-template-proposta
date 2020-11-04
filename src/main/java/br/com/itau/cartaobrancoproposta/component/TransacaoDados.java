@@ -25,4 +25,9 @@ public class TransacaoDados {
     public void atualiza(@Valid Proposta proposta) {
         entityManager.merge(proposta);
     }
+
+    @Transactional
+    public <T> T busca(Class<?> classe, String id) {
+        return (T) entityManager.find(classe, id);
+    }
 }

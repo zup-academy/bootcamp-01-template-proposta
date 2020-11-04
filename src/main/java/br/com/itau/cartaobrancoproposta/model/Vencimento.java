@@ -1,30 +1,40 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Vencimento {
 
-    private String id;
-    private int dia;
+    @JsonProperty("id")
+    private String idVencimento;
+    private Integer dia;
     private String dataDeCriacao;
 
-    public Vencimento(String id, int dia, String dataDeCriacao) {
-        this.id = id;
+    @Deprecated
+    public Vencimento() {
+    }
+
+    public Vencimento(String idVencimento, Integer dia, String dataDeCriacao) {
+        this.idVencimento = idVencimento;
         this.dia = dia;
         this.dataDeCriacao = dataDeCriacao;
     }
 
-    public String getId() {
-        return id;
+    public String getIdVencimento() {
+        return idVencimento;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdVencimento(String idVencimento) {
+        this.idVencimento = idVencimento;
     }
 
-    public int getDia() {
+    public Integer getDia() {
         return dia;
     }
 
-    public void setDia(int dia) {
+    public void setDia(Integer dia) {
         this.dia = dia;
     }
 

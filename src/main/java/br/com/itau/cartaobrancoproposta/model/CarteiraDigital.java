@@ -1,25 +1,31 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class CarteiraDigital {
 
-    private String id;
+    @JsonProperty(value = "id")
+    private String idCarteiraDigital;
     private String email;
     private String associadaEm;
     private String emissor;
 
-    public CarteiraDigital(String id, String email, String associadaEm, String emissor) {
-        this.id = id;
+    public CarteiraDigital(String idCarteiraDigital, String email, String associadaEm, String emissor) {
+        this.idCarteiraDigital = idCarteiraDigital;
         this.email = email;
         this.associadaEm = associadaEm;
         this.emissor = emissor;
     }
 
-    public String getId() {
-        return id;
+    public String getIdCarteiraDigital() {
+        return idCarteiraDigital;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdCarteiraDigital(String idCarteiraDigital) {
+        this.idCarteiraDigital = idCarteiraDigital;
     }
 
     public String getEmail() {

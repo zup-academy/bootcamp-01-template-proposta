@@ -1,5 +1,8 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class AvisoViagem {
 
     private String validoAte;

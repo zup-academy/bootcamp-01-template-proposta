@@ -1,34 +1,43 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
+@Embeddable
 public class Renegociacao {
 
-    private String id;
-    private int quantidade;
+    @JsonProperty(value = "id")
+    private String idRenegociacao;
+    private Integer quantidade;
     private BigDecimal valor;
-    private String dataDeCriacao;
+    private String dataDeCriacaoRenegociacao;
 
-    public Renegociacao(String id, int quantidade, BigDecimal valor, String dataDeCriacao) {
-        this.id = id;
+    @Deprecated
+    public Renegociacao() {
+    }
+
+    public Renegociacao(String idRenegociacao, Integer quantidade, BigDecimal valor, String dataDeCriacaoRenegociacao) {
+        this.idRenegociacao = idRenegociacao;
         this.quantidade = quantidade;
         this.valor = valor;
-        this.dataDeCriacao = dataDeCriacao;
+        this.dataDeCriacaoRenegociacao = dataDeCriacaoRenegociacao;
     }
 
-    public String getId() {
-        return id;
+    public String getIdRenegociacao() {
+        return idRenegociacao;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdRenegociacao(String idRenegociacao) {
+        this.idRenegociacao = idRenegociacao;
     }
 
-    public int getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 
@@ -40,11 +49,11 @@ public class Renegociacao {
         this.valor = valor;
     }
 
-    public String getDataDeCriacao() {
-        return dataDeCriacao;
+    public String getDataDeCriacaoRenegociacao() {
+        return dataDeCriacaoRenegociacao;
     }
 
-    public void setDataDeCriacao(String dataDeCriacao) {
-        this.dataDeCriacao = dataDeCriacao;
+    public void setDataDeCriacaoRenegociacao(String dataDeCriacaoRenegociacao) {
+        this.dataDeCriacaoRenegociacao = dataDeCriacaoRenegociacao;
     }
 }

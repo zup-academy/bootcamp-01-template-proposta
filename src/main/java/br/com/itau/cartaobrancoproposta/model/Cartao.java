@@ -1,21 +1,36 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Embeddable
 public class Cartao {
 
-    private String id;
+    @JsonProperty(value = "id")
+    private String idCartao;
     private String emitidoEm;
     private String titular;
+    @ElementCollection
     private List<Bloqueio> bloqueios;
+    @ElementCollection
     private List<AvisoViagem> avisos;
+    @ElementCollection
     private List<CarteiraDigital> carteiras;
+    @ElementCollection
     private List<Parcela> parcelas;
     private BigDecimal limite;
+    @Embedded
     private Renegociacao renegociacao;
+    @Embedded
     private Vencimento vencimento;
     private String idProposta;
+
+    @Deprecated
+    public Cartao() {
+    }
 
     public Cartao(String emitidoEm, String titular, List<Bloqueio> bloqueios, List<AvisoViagem> avisos, List<CarteiraDigital> carteiras, List<Parcela> parcelas, BigDecimal limite, Renegociacao renegociacao, Vencimento vencimento, String idProposta) {
         this.emitidoEm = emitidoEm;
@@ -30,12 +45,12 @@ public class Cartao {
         this.idProposta = idProposta;
     }
 
-    public String getId() {
-        return id;
+    public String getIdCartao() {
+        return idCartao;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdCartao(String idCartao) {
+        this.idCartao = idCartao;
     }
 
     public String getEmitidoEm() {
@@ -116,22 +131,5 @@ public class Cartao {
 
     public void setIdProposta(String idProposta) {
         this.idProposta = idProposta;
-    }
-
-    @Override
-    public String toString() {
-        return "Cartao{" +
-                "id='" + id + '\'' +
-                ", emitidoEm='" + emitidoEm + '\'' +
-                ", titular='" + titular + '\'' +
-                ", bloqueios=" + bloqueios +
-                ", avisos=" + avisos +
-                ", carteiras=" + carteiras +
-                ", parcelas=" + parcelas +
-                ", limite=" + limite +
-                ", renegociacao=" + renegociacao +
-                ", vencimento=" + vencimento +
-                ", idProposta='" + idProposta + '\'' +
-                '}';
     }
 }

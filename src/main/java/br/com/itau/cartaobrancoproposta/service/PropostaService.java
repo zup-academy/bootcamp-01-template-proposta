@@ -21,7 +21,7 @@ public class PropostaService {
     @Autowired
     private AnaliseClient analiseClient;
 //1
-    public void verificaRestricao(Proposta proposta) {
+    public void buscaRestricaoProposta(Proposta proposta) {
         Solicitacao solicitacao; //1
 
         try { //1
@@ -34,6 +34,6 @@ public class PropostaService {
             throw new ApiErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Ocorreu um problema na requisição da análise");
         }
 
-        proposta.verifica(solicitacao.getResultadoSolicitacao());
+        proposta.validaRestricao(solicitacao.getResultadoSolicitacao());
     }
 }

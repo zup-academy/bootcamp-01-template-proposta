@@ -1,32 +1,37 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
+@Embeddable
 public class Parcela {
 
-    private String id;
-    private int quantidade;
+    @JsonProperty(value = "id")
+    private String idParcela;
+    private Integer quantidade;
     private BigDecimal valor;
 
-    public Parcela(String id, int quantidade, BigDecimal valor) {
-        this.id = id;
+    public Parcela(String idParcela, Integer quantidade, BigDecimal valor) {
+        this.idParcela = idParcela;
         this.quantidade = quantidade;
         this.valor = valor;
     }
 
-    public String getId() {
-        return id;
+    public String getIdParcela() {
+        return idParcela;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdParcela(String idParcela) {
+        this.idParcela = idParcela;
     }
 
-    public int getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 

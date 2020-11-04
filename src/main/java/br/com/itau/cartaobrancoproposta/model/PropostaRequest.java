@@ -1,6 +1,9 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import br.com.itau.cartaobrancoproposta.error.ApiErrorException;
 import br.com.itau.cartaobrancoproposta.validator.CpfOuCnpj;
+import br.com.itau.cartaobrancoproposta.validator.VerificaPropostaMesmoSolicitante;
+import org.springframework.http.HttpStatus;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -55,5 +58,11 @@ public class PropostaRequest {
 
     public Proposta toModel() {
         return new Proposta(this.documento, this.email, this.nome, this.endereco, this.salario, Restricao.PENDENTE);
+    }
+
+    public void verificaDocumentoValido(VerificaPropostaMesmoSolicitante verificadorProposta) { //1
+        if (!verificadorProposta.estaValido(this.documento)) { //1
+            throw new ApiErrorException(HttpStatus.UNPROCESSABLE_ENTITY, "Documento (" + this.documento + ") já está cadastrado"); //1
+        }
     }
 }
