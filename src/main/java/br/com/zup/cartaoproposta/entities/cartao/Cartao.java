@@ -87,6 +87,10 @@ public class Cartao {
         return id;
     }
 
+    public String getIdLegado() {
+        return idLegado;
+    }
+
     public LocalDateTime getEmitidoEm() {
         return emitidoEm;
     }

@@ -1,12 +1,10 @@
 package br.com.zup.cartaoproposta.entities.proposta;
 
 import br.com.zup.cartaoproposta.entities.analisesolicitante.ResultadoSolicitacao;
+import br.com.zup.cartaoproposta.entities.cartao.Cartao;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,7 +12,7 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
- * Contagem de carga intrínseca da classe: 5
+ * Contagem de carga intrínseca da classe: 3
  */
 
 @Entity
@@ -40,6 +38,10 @@ public class Proposta {
     @Enumerated
     //1
     private StatusProposta statusProposta;
+
+    @OneToOne(mappedBy = "proposta")
+    //1
+    private Cartao cartao;
 
     @Deprecated
     public Proposta() {}
@@ -80,20 +82,13 @@ public class Proposta {
         return statusProposta;
     }
 
+    public Cartao getCartao() {
+        return cartao;
+    }
+
     //1
     public void defineStatusProposta(ResultadoSolicitacao resultadoSolicitacao) {
-        //1
-        switch (resultadoSolicitacao) {
-            case SEM_RESTRICAO:
-                //1
-                if (this.statusProposta != StatusProposta.ELEGIVEL) {
-                    this.statusProposta = StatusProposta.AGUARDANDO_CARTAO;
-                }
-                break;
-            case COM_RESTRICAO:
-                this.statusProposta = StatusProposta.NAO_ELEGIVEL;
-                break;
-        }
+        this.statusProposta = resultadoSolicitacao.normalizacao();
     }
 
     public void atualizaStatusProposta() {

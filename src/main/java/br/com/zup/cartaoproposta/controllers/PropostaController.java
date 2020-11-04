@@ -3,15 +3,13 @@ package br.com.zup.cartaoproposta.controllers;
 import br.com.zup.cartaoproposta.entities.analisesolicitante.AnaliseSolicitanteRetorno;
 import br.com.zup.cartaoproposta.entities.proposta.Proposta;
 import br.com.zup.cartaoproposta.entities.proposta.PropostaNovoRequest;
+import br.com.zup.cartaoproposta.entities.proposta.PropostaRetorno;
 import br.com.zup.cartaoproposta.repositories.PropostaRepository;
 import br.com.zup.cartaoproposta.services.analisesolicitnte.TratamentoRetorno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,7 +19,7 @@ import java.net.URI;
 import java.util.Optional;
 
 /**
- * Contagem de carga intrínseca da classe: 6
+ * Contagem de carga intrínseca da classe: 8
  */
 
 @RestController
@@ -64,5 +62,21 @@ public class PropostaController {
         URI link = uriComponentsBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
         return ResponseEntity.created(link).build();
+    }
+
+    @GetMapping("/{id}")
+    //1
+    public ResponseEntity<PropostaRetorno> dadosProposta(@PathVariable("id") String idProposta) {
+
+        Optional<Proposta> testeProposta = propostaRepository.findById(idProposta);
+
+        //1
+        if (testeProposta.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proposta não encontrada");
+        }
+
+        PropostaRetorno propostaRetorno = new PropostaRetorno(testeProposta.get());
+
+        return ResponseEntity.ok(propostaRetorno);
     }
 }
