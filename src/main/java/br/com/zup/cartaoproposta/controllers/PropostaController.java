@@ -72,7 +72,7 @@ public class PropostaController {
 
         //1
         if (testeProposta.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proposta não encontrada");
+            return ResponseEntity.notFound().build();
         }
 
         PropostaRetorno propostaRetorno = new PropostaRetorno(testeProposta.get());

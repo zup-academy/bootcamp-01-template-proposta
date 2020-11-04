@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class CartaoRetorno {
 
     @NotNull
-    private String numeroCartao;
+    private String idCartao;
     @NotNull
     private LocalDateTime emitidoEm;
     @NotNull
@@ -18,13 +18,13 @@ public class CartaoRetorno {
 
     //1
     public CartaoRetorno(Cartao cartao) {
-        this.numeroCartao = cartao.getIdLegado();
+        this.idCartao = cartao.getId();
         this.emitidoEm = cartao.getEmitidoEm();
         this.titular = cartao.getTitular();
     }
 
-    public String getNumeroCartao() {
-        return numeroCartao;
+    public String getIdCartao() {
+        return idCartao;
     }
 
     public LocalDateTime getEmitidoEm() {
