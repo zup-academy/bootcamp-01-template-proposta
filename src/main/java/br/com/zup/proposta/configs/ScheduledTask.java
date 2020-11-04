@@ -21,7 +21,7 @@ public class ScheduledTask {
     @Autowired
     private CartaoService cartaoService;
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRateString = "${scheduler.executa-cartao.fixed-rate}")
     public void executaCartaoAsync() throws InterruptedException {
         logger.info("Executando executaCartaoAsync() {}", dateFormat.format(new Date()));
         cartaoService.verificarCartao();

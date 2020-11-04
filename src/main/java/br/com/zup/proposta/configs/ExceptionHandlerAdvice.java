@@ -9,7 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import br.com.zup.proposta.configs.exceptions.BiometriaException;
+import br.com.zup.proposta.configs.exceptions.ApiException;
 import br.com.zup.proposta.configs.exceptions.PropostaDuplicadaException;
 
 @RestControllerAdvice
@@ -37,8 +37,8 @@ public class ExceptionHandlerAdvice {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(erroPadronizado);
     }
 
-    @ExceptionHandler(BiometriaException.class)
-    public ResponseEntity<ErroPadronizado> erroConversaoBiometria(BiometriaException exception) {
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ErroPadronizado> erroConversaoBiometria(ApiException exception) {
         Collection<String> mensagens = new ArrayList<>();
 
         mensagens.add(exception.getMessage());

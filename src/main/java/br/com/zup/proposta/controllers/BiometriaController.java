@@ -1,6 +1,7 @@
 package br.com.zup.proposta.controllers;
 
 import java.net.URI;
+import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,9 @@ public class BiometriaController {
     @Autowired
     private CartaoService service;
 
-    @PostMapping("/cartao/biometria/{id}")
+    @PostMapping("/api/cartao/biometria/{id}")
     public ResponseEntity<?> cadastrarBiometria(@PathVariable String id, @RequestBody MultipartFile file, 
-        UriComponentsBuilder uriBuilder) {
+        UriComponentsBuilder uriBuilder, Principal principal) {
         Cartao cartaoAtualizado = service.cadastrarBiometria(id, file);
 
         URI uri = uriBuilder.path("/cartao/{id}").buildAndExpand(cartaoAtualizado.getId()).toUri();
