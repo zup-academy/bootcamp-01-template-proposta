@@ -1,4 +1,4 @@
-package br.com.zup.proposta.integracao;
+package br.com.zup.proposta.integracao.analiseproposta;
 
 public class ResultadoAnaliseResponse {
     private String documento;

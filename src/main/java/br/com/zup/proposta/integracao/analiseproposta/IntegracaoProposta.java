@@ -1,10 +1,10 @@
-package br.com.zup.proposta.integracao;
+package br.com.zup.proposta.integracao.analiseproposta;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@FeignClient(url = "http://localhost:9999", name = "integracaoProposta")
+@FeignClient(url = "${feign.integracao.url.analise-proposta}", name = "integracaoProposta")
 public interface IntegracaoProposta {
     @PostMapping("/api/solicitacao")
-    public String avalia(DocumentoRequest request);
+    String avalia(DocumentoRequest request);
 }

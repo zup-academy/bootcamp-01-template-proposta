@@ -1,6 +1,6 @@
 package br.com.zup.proposta.proposta;
 
-import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
+import br.com.zup.proposta.integracao.analiseproposta.StatusAvaliacaoProposta;
 
 public class AcompanhaPropostaResponse {
     private StatusAvaliacaoProposta status;

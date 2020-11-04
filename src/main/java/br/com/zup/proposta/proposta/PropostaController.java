@@ -1,8 +1,8 @@
 package br.com.zup.proposta.proposta;
 
-import br.com.zup.proposta.integracao.AvaliaProposta;
+import br.com.zup.proposta.integracao.analiseproposta.AvaliaProposta;
 import br.com.zup.proposta.integracao.ExecutorTransacao;
-import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
+import br.com.zup.proposta.integracao.analiseproposta.StatusAvaliacaoProposta;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

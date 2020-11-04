@@ -1,6 +1,6 @@
 package br.com.zup.proposta.proposta;
 
-import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
+import br.com.zup.proposta.integracao.analiseproposta.StatusAvaliacaoProposta;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

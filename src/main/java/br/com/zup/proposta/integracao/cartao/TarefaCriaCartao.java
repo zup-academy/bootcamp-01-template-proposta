@@ -1,7 +1,7 @@
 package br.com.zup.proposta.integracao.cartao;
 
 import br.com.zup.proposta.integracao.ExecutorTransacao;
-import br.com.zup.proposta.integracao.StatusAvaliacaoProposta;
+import br.com.zup.proposta.integracao.analiseproposta.StatusAvaliacaoProposta;
 import br.com.zup.proposta.proposta.Proposta;
 import br.com.zup.proposta.proposta.PropostaRepository;
 import org.slf4j.Logger;
