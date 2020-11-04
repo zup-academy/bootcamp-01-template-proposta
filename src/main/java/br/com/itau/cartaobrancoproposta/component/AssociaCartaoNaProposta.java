@@ -30,7 +30,7 @@ public class AssociaCartaoNaProposta {
         this.entityManager = entityManager;
     }
 
-    @Scheduled(fixedDelayString = "${associa.cartao.schedule}")
+    @Scheduled(fixedDelayString = "${associa.api.cartao.schedule}")
     public void associaCartao() {
         Query query = entityManager.createQuery("SELECT u FROM Proposta u");
 
