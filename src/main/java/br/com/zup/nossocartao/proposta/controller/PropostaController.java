@@ -4,6 +4,8 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,5 +38,19 @@ public class PropostaController {
 		UriComponents uriComponents = builder.path("/propostas/{id}").buildAndExpand(propostaSalva.getId());
 
 		return ResponseEntity.created(uriComponents.toUri()).body(propostaSalva);
+	}
+
+	@GetMapping(value = "/propostas/{idProposta}")
+	public ResponseEntity<?> acompanharProposta(@PathVariable("idProposta") Long idProposta) {
+		boolean verificaId = propostaService.verificaId(idProposta);
+
+		if (!verificaId) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+
+		NovaPropostaResponse buscarPropostaPorId = propostaService.buscarPropostaPorId(idProposta);
+
+		return ResponseEntity.ok(buscarPropostaPorId);
+
 	}
 }

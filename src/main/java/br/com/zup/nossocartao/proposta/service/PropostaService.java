@@ -1,5 +1,7 @@
 package br.com.zup.nossocartao.proposta.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnalise;
@@ -68,5 +70,17 @@ public class PropostaService {
 	public boolean verificaDocumento(String cpfCnpj) {
 		boolean exiteCpfCnpj = propostaRepository.existsByCpfCnpj(cpfCnpj);
 		return exiteCpfCnpj;
+	}
+
+	public boolean verificaId(Long idProposta) {
+		boolean existeId = propostaRepository.existsById(idProposta);
+		return existeId;
+	}
+
+	public NovaPropostaResponse buscarPropostaPorId(Long idProposta) {
+		Optional<Proposta> proposta = propostaRepository.findById(idProposta);
+		NovaPropostaResponse converterDados = new NovaPropostaResponse(proposta.get());
+		return converterDados;
+
 	}
 }

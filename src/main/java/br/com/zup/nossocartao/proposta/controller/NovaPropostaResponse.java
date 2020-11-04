@@ -2,7 +2,10 @@ package br.com.zup.nossocartao.proposta.controller;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotNull;
+
 import br.com.zup.nossocartao.proposta.Proposta;
+import br.com.zup.nossocartao.proposta.StatusSolicitacao;
 
 public class NovaPropostaResponse {
 
@@ -18,6 +21,11 @@ public class NovaPropostaResponse {
 
 	private BigDecimal salario;
 
+	@NotNull
+	private StatusSolicitacao restricaoStatus;
+
+	private String numeroCartao;
+
 	public NovaPropostaResponse(Proposta dadosBanco) {
 		this.id = dadosBanco.getId();
 		this.cpfCnpj = dadosBanco.getCpfCnpj();
@@ -25,6 +33,8 @@ public class NovaPropostaResponse {
 		this.nome = dadosBanco.getNome();
 		this.endereco = dadosBanco.getEndereco();
 		this.salario = dadosBanco.getSalario();
+		this.restricaoStatus = dadosBanco.getRestricaoStatus();
+		this.numeroCartao = dadosBanco.getNumeroCartao();
 	}
 
 	public Long getId() {
@@ -49,6 +59,14 @@ public class NovaPropostaResponse {
 
 	public BigDecimal getSalario() {
 		return salario;
+	}
+
+	public StatusSolicitacao getRestricaoStatus() {
+		return restricaoStatus;
+	}
+
+	public String getNumeroCartao() {
+		return numeroCartao;
 	}
 
 }
