@@ -44,7 +44,7 @@ public class BloqueioCartaoController {
     @PostMapping("/{idCartao}/bloqueio")
     @Transactional
     // +1
-    public ResponseEntity<?> bloqueioCartao(@PathVariable("idCartao") String idCartao,
+    public ResponseEntity<?> bloqueioCartao(@PathVariable(value = "idCartao", required = true) String idCartao,
                                             @RequestBody BloqueioRequest bloqueioRequest,
                                             UriComponentsBuilder uriComponentsBuilder,
                                             HttpServletRequest httpServletRequest) throws JsonProcessingException {
