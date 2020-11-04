@@ -41,6 +41,8 @@ public class Proposta {
 	@NotNull
 	private StatusSolicitacao restricaoStatus;
 
+	private String numeroCartao;
+
 	@Deprecated
 	public Proposta() {
 
@@ -83,6 +85,46 @@ public class Proposta {
 
 	public void alterarStatusProposta(StatusSolicitacao alteracao) {
 		this.restricaoStatus = alteracao;
+	}
+
+	public StatusSolicitacao getRestricaoStatus() {
+		return restricaoStatus;
+	}
+
+	public void setRestricaoStatus(StatusSolicitacao restricaoStatus) {
+		this.restricaoStatus = restricaoStatus;
+	}
+
+	public String getNumeroCartao() {
+		return numeroCartao;
+	}
+
+	public void setNumeroCartao(String numeroCartao) {
+		this.numeroCartao = numeroCartao;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setCpfCnpj(String cpfCnpj) {
+		this.cpfCnpj = cpfCnpj;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public void setSalario(BigDecimal salario) {
+		this.salario = salario;
 	}
 
 }

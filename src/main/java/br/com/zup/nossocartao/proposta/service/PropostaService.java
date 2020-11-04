@@ -6,6 +6,7 @@ import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnalise;
 import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnaliseRequest;
 import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnaliseResponse;
 import br.com.zup.nossocartao.integracao.cartao.CartaoRequest;
+import br.com.zup.nossocartao.integracao.cartao.CartaoResponse;
 import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartao;
 import br.com.zup.nossocartao.proposta.Proposta;
 import br.com.zup.nossocartao.proposta.controller.NovaPropostaRequest;
@@ -39,6 +40,8 @@ public class PropostaService {
 
 		emitirCartao(propostaSalva);
 
+		anexarDadosCartao(propostaSalva);
+
 		return dadosPropostaResponse;
 
 	}
@@ -54,6 +57,12 @@ public class PropostaService {
 		propostaSalva.alterarStatusProposta(resultadoStatus.getResultadoSolicitacao().getStatusAvaliacao());
 		propostaRepository.save(propostaSalva);
 
+	}
+
+	private void anexarDadosCartao(Proposta dadosProposta) {
+		CartaoResponse dadosCartao = solicitacaoCartao.buscarDadosCartao(dadosProposta.getId().toString());
+		dadosProposta.setNumeroCartao(dadosCartao.getId());
+		propostaRepository.save(dadosProposta);
 	}
 
 	public boolean verificaDocumento(String cpfCnpj) {
