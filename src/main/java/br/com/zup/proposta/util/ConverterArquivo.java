@@ -11,18 +11,14 @@ public class ConverterArquivo {
 
     private byte[] digitalEmBase64;
 
-    public byte[] FileToBase64(MultipartFile file){
+    public byte[] fileToBase64(String digital){
 
-        Base64.Encoder encoder = Base64.getEncoder();
-
-        try{ //1
-            this.digitalEmBase64 = encoder.encode(file.getBytes());
-        } catch (IOException e) { //2
-                e.printStackTrace();
+        try {
+            return Base64.getDecoder().decode(digital);
+        }catch (IllegalArgumentException e){
+            throw new IllegalArgumentException();
         }
-        return digitalEmBase64;
 
     }
-
 
 }

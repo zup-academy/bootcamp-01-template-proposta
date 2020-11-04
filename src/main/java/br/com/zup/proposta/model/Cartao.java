@@ -42,7 +42,7 @@ public class Cartao {
         return biometrias;
     }
 
-    public void associaBiometria(MultipartFile digital){
+    public void associaBiometria(String digital){
         this.biometrias.add(new Biometria(digital));
     }
 

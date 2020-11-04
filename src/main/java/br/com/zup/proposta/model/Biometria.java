@@ -19,9 +19,8 @@ public class Biometria {
     @Deprecated
     public Biometria(){}
 
-    public Biometria(MultipartFile digital) {
-        //Base64.getEncoder().encode(digital.getBytes())
-        this.digital = new ConverterArquivo().FileToBase64(digital); //1
+    public Biometria(String digital) {
+        this.digital = digital.getBytes(); //1
         this.instanteCriacao = LocalDateTime.now();
     }
 

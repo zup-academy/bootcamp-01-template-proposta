@@ -56,7 +56,7 @@ public class CapturaExceptionHandler extends ResponseEntityExceptionHandler {
         List<ErrorObject> fieldErrors = List.of();
 
         return new ResponseEntity(new ErrorResponse(invalidFormatException.getValue() +
-                " não é um formato válido",
+                " Não é um formato válido",
                 status.value(), status.getReasonPhrase(), fieldErrors), status);
     }
 

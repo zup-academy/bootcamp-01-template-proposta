@@ -38,18 +38,18 @@ public class NovaBiometriaController {
     @PostMapping("/{id}/biometrias")
     @Transactional
     public ResponseEntity novaBiometria(@PathVariable("id") UUID numeroCartao,
-                                        @Valid NovaBiometriaRequest request,
+                                        @RequestBody @Valid NovaBiometriaRequest request,
                                         UriComponentsBuilder builder){ //1
 
         Optional<Cartao> possivelCartao = Optional
                 .ofNullable(entityManager.find(Cartao.class, numeroCartao)); //2
 
+        logger.info("Cartão encontrado: {}", possivelCartao.get().toString());
+
         if (possivelCartao.isEmpty()) //3
             return new ResponseEntity(HttpStatus.NOT_FOUND);
 
         Cartao novoCartao = possivelCartao.get(); //4
-
-        logger.info("Número do cartão: {}", possivelCartao.get().getNumero());
 
         novoCartao.associaBiometria(request.getDigital());
 

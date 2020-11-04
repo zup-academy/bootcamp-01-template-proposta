@@ -1,28 +1,30 @@
 package br.com.zup.proposta.dto;
 
+import br.com.zup.proposta.validations.Base64;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 public class NovaBiometriaRequest {
 
-    @NotNull
-    private MultipartFile digital;
+    @NotBlank
+    @Base64(message = "Formato inválido")
+    private String digital;
 
     @Deprecated
     public NovaBiometriaRequest(){}
 
-    public MultipartFile getDigital() {
+    public String getDigital() {
         return digital;
     }
 
-    public void setDigital(MultipartFile digital) {
+    /*public void setDigital(String digital) {
+
         this.digital = digital;
-    }
+    }*/
 
 }
