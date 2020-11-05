@@ -1,5 +1,6 @@
 package com.proposta.criacaocartao;
 
+import com.proposta.bloqueiodecartao.Bloqueios;
 import com.proposta.criacaobiometria.Biometria;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class Cartao {
     @NotBlank
     private String titular;
 
-    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Bloqueios> bloqueios;
 
     @ElementCollection
@@ -46,7 +47,7 @@ public class Cartao {
     private String idProposta;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Biometria> biometrias;
+    private Set<Biometria> biometrias;
 
     @Deprecated
     public Cartao() {}
@@ -66,6 +67,15 @@ public class Cartao {
         this.renegociacao = renegociacao;
         this.vencimento = vencimento;
         this.idProposta = idProposta;
+    }
+
+    public void ativarBloqueio(Bloqueios bloqueio) {
+        bloqueios.add(bloqueio);
+    }
+
+
+    public void adicionarBiometria(Biometria novaBiometria) {
+        biometrias.add(novaBiometria);
     }
 
     public String getId() {
@@ -156,11 +166,12 @@ public class Cartao {
         this.idProposta = idProposta;
     }
 
-    public List<Biometria> getBiometrias() {
+    public Set<Biometria> getBiometrias() {
         return biometrias;
     }
 
-    public void setBiometrias(List<Biometria> biometrias) {
+    public void setBiometrias(Set<Biometria> biometrias) {
         this.biometrias = biometrias;
     }
+
 }
