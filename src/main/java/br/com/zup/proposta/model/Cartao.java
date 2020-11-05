@@ -23,10 +23,13 @@ public class Cartao {
     private LocalDateTime emitidoEm;
 
     @OneToMany
-    private Set<Biometria> biometria;
+    private Set<Biometria> biometrias;
 
-    @OneToMany  //2
-    private Set<Bloqueio> bloqueio;
+    @OneToMany
+    private Set<Bloqueio> bloqueios;
+
+    @OneToMany
+    private Set<AvisoViagem> avisos;
 
     @Enumerated(EnumType.STRING)
     private EstadoCartao estadoCartao;
@@ -51,12 +54,17 @@ public class Cartao {
 
     public void incluirBiometriaNoCartao(Biometria biometria) {
         Assert.notNull(biometria, "A biometria não pode ser nula");
-        this.biometria.add(biometria);
+        this.biometrias.add(biometria);
     }
 
     public void incluirBloqueioDoCartao(Bloqueio bloqueio){
         Assert.notNull(bloqueio, "O bloqueio do cartão não pode ser nulo");
-        this.bloqueio.add(bloqueio);
+        this.bloqueios.add(bloqueio);
+    }
+
+    public void incluirAvisoDeViagem(AvisoViagem aviso){
+        Assert.notNull(aviso, "O aviso não pode ser nulo");
+        avisos.add(aviso);
     }
 
     public void bloquearCartao(){

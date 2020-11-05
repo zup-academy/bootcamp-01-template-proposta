@@ -13,7 +13,7 @@ import java.util.UUID;
 public class RecuperaSenha {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "uuid4")
     private UUID id;
 
     @CreationTimestamp

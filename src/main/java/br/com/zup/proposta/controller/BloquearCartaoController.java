@@ -55,7 +55,7 @@ public class BloquearCartaoController {
         cartao.incluirBloqueioDoCartao(bloqueio);
         entityManager.merge(cartao);
 
-        URI enderecoConsulta = builder.path("/bloqueios/{id}").buildAndExpand(bloqueio.getId()).toUri();
+        URI enderecoConsulta = builder.path("/bloqueios/{id}").buildAndExpand(cartaoID).toUri();
         return ResponseEntity.created(enderecoConsulta).build();
     }
 }
