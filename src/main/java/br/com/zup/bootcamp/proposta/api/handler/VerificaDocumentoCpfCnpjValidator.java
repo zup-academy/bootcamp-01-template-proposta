@@ -1,26 +1,25 @@
 package br.com.zup.bootcamp.proposta.api.handler;
 
-import br.com.zup.bootcamp.proposta.api.dto.RequestPropostaDto;
-import org.springframework.stereotype.Component;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
+import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
+import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 
-@Component
-public class VerificaDocumentoCpfCnpjValidator implements Validator {
-    @Override
-    public boolean supports(Class<?> aClass) {
-        return RequestPropostaDto.class.isAssignableFrom(aClass);
-    }
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+public class VerificaDocumentoCpfCnpjValidator implements ConstraintValidator<CPForCNPJ, CharSequence> {
 
     @Override
-    public void validate(Object target, Errors errors) {
-        if(errors.hasErrors()) {
-            return ;
+    public boolean isValid(CharSequence documento, ConstraintValidatorContext context) {
+        if (documento == null) {
+            return true;
         }
 
-        RequestPropostaDto request = (RequestPropostaDto) target;
-        if(!request.documentoValido()) {
-            errors.rejectValue("documento",null, "documento precisa ser cpf ou cnpj");
-        }
+        CPFValidator cpfValidator = new CPFValidator();
+        cpfValidator.initialize(null);
+
+        CNPJValidator cnpjValidator = new CNPJValidator();
+        cnpjValidator.initialize(null);
+
+        return cpfValidator.isValid(documento, context) || cnpjValidator.isValid(documento, context);
     }
 }
