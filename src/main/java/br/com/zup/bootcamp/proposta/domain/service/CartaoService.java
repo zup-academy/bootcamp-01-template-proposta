@@ -22,22 +22,24 @@ public class CartaoService {
     @Autowired          //1
     private CartaoRepository cartaoRepository;
 
-    @Scheduled(cron = "0 0/5 * 1/1 * ?")
+    @Scheduled(cron = "0 0/1 * 1/1 * ?")
     public void associaCartaoGeradoComProposta(){
         logger.info("Varrer todas as propostas Elegivel e associar o Cartão a mesma");
 
         var propostasSemCartoes= propostaRepository.findByStatusAndCartaoNull(StatusProposta.ELEGIVEL);
                             //1
         propostasSemCartoes.forEach(proposta -> {
+            //1
             try{
                 var response = sistemaCartao.consultaCartaoPorIdProposta(proposta.getId());
                 var cartao = response.toEntity();
                 cartaoRepository.save(cartao);
-                logger.info("cartao {} gerado com sucesso", cartao.toString());
+                logger.info("cartao do titular: {} e id: {}  gerado com sucesso", cartao.getTitular(), cartao.getId());
                 proposta.adicionarCartao(cartao);
                 propostaRepository.save(proposta);
-                logger.info("Cartão {} associado com sucesso a proposta {}", cartao.getIdCartaoEmitido(), proposta.getId());
+                logger.info("Cartão {} associado com sucesso a proposta {}", cartao.getId(), proposta.getId());
             }
+            //1
             catch (FeignException e){
                 logger.error("Falha ao associar cartao a proposta com ID: {}, Sistema de cartões: {} ", proposta.getId(),
                         e.getMessage());
