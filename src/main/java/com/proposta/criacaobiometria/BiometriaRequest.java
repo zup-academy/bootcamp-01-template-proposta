@@ -19,9 +19,7 @@ public class BiometriaRequest {
         return fingerPrint;
     }
 
-    public Biometria toModel(Cartao cartao) {
-        return new Biometria(cartao.getId(), fingerPrint);
-    }
+
 
 }
 

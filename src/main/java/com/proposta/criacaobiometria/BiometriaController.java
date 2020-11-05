@@ -25,13 +25,17 @@ public class BiometriaController {
     @Transactional
     public ResponseEntity<?> cria(@PathVariable String idCartao, @RequestBody @Valid BiometriaRequest request, UriComponentsBuilder builder){
 
+        //1
         Cartao cartao = manager.find(Cartao.class, idCartao);
         if (cartao == null) {
             return ResponseEntity.badRequest().body("Cartão inválido.");
         }
 
-        Biometria biometria = request.toModel(cartao);
+        //2
+        Biometria biometria = new Biometria(request.getFingerPrint());
         manager.persist(biometria);
+        cartao.adicionarBiometria(biometria);
+        manager.merge(cartao);
 
         URI uriCreated = builder.path("/biometrias/{id}").build(biometria.getId());
 

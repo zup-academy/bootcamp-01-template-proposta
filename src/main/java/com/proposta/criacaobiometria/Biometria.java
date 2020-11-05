@@ -15,16 +15,12 @@ public class Biometria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    private String idCartao;
-
     @NotBlank
     private String fingerPrint;
 
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
-    public Biometria(@NotNull String idCartao, @NotBlank String fingerPrint) {
-        this.idCartao = idCartao;
+    public Biometria(@NotBlank String fingerPrint) {
         this.fingerPrint = fingerPrint;
     }
 
