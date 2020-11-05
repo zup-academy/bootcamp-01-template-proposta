@@ -133,7 +133,7 @@ public class PropostaTest {
 
         proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
 
-        assertEquals(proposta.getStatusProposta(), StatusProposta.ELEGIVEL);
+        assertEquals(proposta.getStatusProposta(), StatusProposta.AGUARDANDO_CARTAO);
     }
 
     @Test
@@ -150,7 +150,7 @@ public class PropostaTest {
 
         proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
 
-        assertEquals(proposta.getStatusProposta(), StatusProposta.ELEGIVEL);
+        assertEquals(proposta.getStatusProposta(), StatusProposta.AGUARDANDO_CARTAO);
     }
 
 
