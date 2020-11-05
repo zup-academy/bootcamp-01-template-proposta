@@ -1,15 +1,12 @@
 package com.proposta.feign.response;
 
+import com.proposta.bloqueiodecartao.Bloqueios;
 import com.proposta.criacaocartao.*;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 public class CartaoResponse {
