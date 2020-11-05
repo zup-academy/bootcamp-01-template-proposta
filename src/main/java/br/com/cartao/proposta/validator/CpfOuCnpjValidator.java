@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class CpfOuCnpjValidator implements ConstraintValidator<CpfOuCnpj, CharSequence> {
+public class CpfOuCnpjValidator implements ConstraintValidator<CpfOuCnpj, String> {
 
     private static Logger logger = LoggerFactory.getLogger(CpfOuCnpjValidator.class);
 
@@ -20,7 +20,7 @@ public class CpfOuCnpjValidator implements ConstraintValidator<CpfOuCnpj, CharSe
     }
 
     @Override
-    public boolean isValid(CharSequence value, ConstraintValidatorContext context) {
+    public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null){
             return true;
         }
@@ -31,8 +31,13 @@ public class CpfOuCnpjValidator implements ConstraintValidator<CpfOuCnpj, CharSe
         cnpjValidator.initialize(null);
         cpfValidator.initialize(null);
 
-        return cnpjValidator.isValid(value,context) ||
-        cpfValidator.isValid(value, context);
+        String documento = value
+                .replace(".", "")
+                .replace("-", "")
+                .replace("/", "");
+
+        return cnpjValidator.isValid(documento,context) ||
+        cpfValidator.isValid(documento, context);
 
     }
 }

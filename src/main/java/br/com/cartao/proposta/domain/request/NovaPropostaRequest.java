@@ -27,7 +27,10 @@ public class NovaPropostaRequest implements Serializable {
     }
 
     public NovaPropostaRequest(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome, @NotBlank String endereco, @NotNull @Positive BigDecimal salario) {
-        this.documento = documento;
+        this.documento = documento
+                .replace(".","")
+                .replace("-","")
+                .replace("/","");
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
