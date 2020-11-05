@@ -36,7 +36,7 @@ public class Proposta {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Restricao restricao;
-    @Embedded
+    @OneToOne(cascade=CascadeType.ALL)
     private Cartao cartao;
 
     @Deprecated
@@ -145,6 +145,7 @@ public class Proposta {
     }
 
     public void verificaCartao(CartaoClient cartaoClient) throws FeignException {
-        this.cartao = cartaoClient.buscaCartao(this.id);
+        SolicitacaoCartao cartaoBuscado = cartaoClient.buscaCartao(this.id);
+        this.cartao = cartaoBuscado.toModel();
     }
 }

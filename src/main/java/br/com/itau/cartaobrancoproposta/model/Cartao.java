@@ -1,38 +1,54 @@
 package br.com.itau.cartaobrancoproposta.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Embeddable
+@Entity
 public class Cartao {
 
-    @JsonProperty(value = "id")
-    private String idCartao;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
+    @NotBlank
+    private String numeroCartao;
+    @NotBlank
     private String emitidoEm;
+    @NotBlank
     private String titular;
-    @ElementCollection
+    @OneToMany(mappedBy = "cartao")
     private List<Bloqueio> bloqueios;
-    @ElementCollection
+    @OneToMany(mappedBy = "cartao")
     private List<AvisoViagem> avisos;
-    @ElementCollection
+    @OneToMany(mappedBy = "cartao")
     private List<CarteiraDigital> carteiras;
-    @ElementCollection
+    @OneToMany(mappedBy = "cartao")
     private List<Parcela> parcelas;
+    @NotNull
     private BigDecimal limite;
     @Embedded
     private Renegociacao renegociacao;
     @Embedded
+    @NotNull
     private Vencimento vencimento;
-    private String idProposta;
+    @OneToOne
+    private Proposta proposta;
+    @OneToMany(mappedBy = "cartao")
+    private List<Biometria> biometrias;
 
     @Deprecated
     public Cartao() {
     }
 
-    public Cartao(String emitidoEm, String titular, List<Bloqueio> bloqueios, List<AvisoViagem> avisos, List<CarteiraDigital> carteiras, List<Parcela> parcelas, BigDecimal limite, Renegociacao renegociacao, Vencimento vencimento, String idProposta) {
+    public Cartao(@NotBlank String numeroCartao, @NotBlank String emitidoEm, @NotBlank String titular,
+                  List<Bloqueio> bloqueios, List<AvisoViagem> avisos, List<CarteiraDigital> carteiras,
+                  List<Parcela> parcelas, @NotNull BigDecimal limite, Renegociacao renegociacao, @NotNull Vencimento vencimento) {
+        this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.bloqueios = bloqueios;
@@ -42,15 +58,22 @@ public class Cartao {
         this.limite = limite;
         this.renegociacao = renegociacao;
         this.vencimento = vencimento;
-        this.idProposta = idProposta;
     }
 
-    public String getIdCartao() {
-        return idCartao;
+    public String getId() {
+        return id;
     }
 
-    public void setIdCartao(String idCartao) {
-        this.idCartao = idCartao;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
+
+    public void setNumeroCartao(String numeroCartao) {
+        this.numeroCartao = numeroCartao;
     }
 
     public String getEmitidoEm() {
@@ -123,13 +146,5 @@ public class Cartao {
 
     public void setVencimento(Vencimento vencimento) {
         this.vencimento = vencimento;
-    }
-
-    public String getIdProposta() {
-        return idProposta;
-    }
-
-    public void setIdProposta(String idProposta) {
-        this.idProposta = idProposta;
     }
 }

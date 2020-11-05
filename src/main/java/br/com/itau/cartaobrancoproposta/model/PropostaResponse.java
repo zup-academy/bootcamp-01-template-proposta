@@ -11,9 +11,10 @@ public class PropostaResponse {
     private final String endereco;
     private final BigDecimal salario;
     private final Restricao restricao;
-    private final Cartao cartao;
+    private final CartaoResponse cartaoResponse;
 
-    public PropostaResponse(String id, String documento, String email, String nome, String endereco, BigDecimal salario, Restricao restricao, Cartao cartao) {
+    public PropostaResponse(String id, String documento, String email, String nome, String endereco, BigDecimal salario,
+                            Restricao restricao, CartaoResponse cartaoResponse) {
         this.id = id;
         this.documento = documento;
         this.email = email;
@@ -21,7 +22,7 @@ public class PropostaResponse {
         this.endereco = endereco;
         this.salario = salario;
         this.restricao = restricao;
-        this.cartao = cartao;
+        this.cartaoResponse = cartaoResponse;
     }
 
     public String getId() {
@@ -52,8 +53,8 @@ public class PropostaResponse {
         return restricao;
     }
 
-    public Cartao getCartao() {
-        return cartao;
+    public CartaoResponse getCartaoResponse() {
+        return cartaoResponse;
     }
 
     public PropostaResponse(Proposta proposta) {
@@ -64,6 +65,6 @@ public class PropostaResponse {
         this.endereco = proposta.getEndereco();
         this.salario = proposta.getSalario();
         this.restricao = proposta.getRestricao();
-        this.cartao = proposta.getCartao();
+        this.cartaoResponse = new CartaoResponse(proposta.getCartao());
     }
 }

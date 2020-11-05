@@ -1,23 +1,36 @@
 package br.com.itau.cartaobrancoproposta.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
-@Embeddable
+@Entity
 public class Bloqueio {
 
-    @JsonProperty(value = "id")
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
     private String idBloqueio;
     private String bloqueadoEm;
     private String sistemaResponsavel;
     private Boolean ativo;
+    @ManyToOne
+    private Cartao cartao;
 
     public Bloqueio(String idBloqueio, String bloqueadoEm, String sistemaResponsavel, Boolean ativo) {
         this.idBloqueio = idBloqueio;
         this.bloqueadoEm = bloqueadoEm;
         this.sistemaResponsavel = sistemaResponsavel;
         this.ativo = ativo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getIdBloqueio() {

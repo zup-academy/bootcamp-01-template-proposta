@@ -1,23 +1,36 @@
 package br.com.itau.cartaobrancoproposta.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
-@Embeddable
+@Entity
 public class CarteiraDigital {
 
-    @JsonProperty(value = "id")
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
     private String idCarteiraDigital;
     private String email;
     private String associadaEm;
     private String emissor;
+    @ManyToOne
+    private Cartao cartao;
 
     public CarteiraDigital(String idCarteiraDigital, String email, String associadaEm, String emissor) {
         this.idCarteiraDigital = idCarteiraDigital;
         this.email = email;
         this.associadaEm = associadaEm;
         this.emissor = emissor;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getIdCarteiraDigital() {

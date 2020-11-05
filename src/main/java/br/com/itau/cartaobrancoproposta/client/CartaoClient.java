@@ -1,6 +1,6 @@
 package br.com.itau.cartaobrancoproposta.client;
 
-import br.com.itau.cartaobrancoproposta.model.Cartao;
+import br.com.itau.cartaobrancoproposta.model.SolicitacaoCartao;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CartaoClient {
 
     @GetMapping("/api/cartoes")
-    Cartao buscaCartao(@RequestParam("idProposta") String idProposta);
+    SolicitacaoCartao buscaCartao(@RequestParam("idProposta") String idProposta);
 }
