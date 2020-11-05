@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public class CadastraPropostaController {
 
     private final Logger logger = LoggerFactory.getLogger(CadastraPropostaController.class);
-    //1
+                    //1
     private PropostaService service;
                     //1
     private PropostaRepository repository;
@@ -28,9 +28,9 @@ public class CadastraPropostaController {
     }
 
     @PostMapping(value = "/propostas")                          //1
-    public ResponseEntity<?> adiciona(@RequestBody @Valid RequestPropostaDto request, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<?> CadastrarProposta(@RequestBody @Valid RequestPropostaDto request, UriComponentsBuilder uri) {
         var ultimosDigitosDocumento = request.getDocumento().substring(request.getDocumento().length()-5);
-        logger.info("Nova request recebida. Final do documento {} ", ultimosDigitosDocumento);
+        logger.info("Iniciando processo de cadastro de proposta do documento com final {} ", ultimosDigitosDocumento);
         //1
        if (repository.findByDocumento(request.getDocumento()).isPresent()){
            logger.warn("Documento com o final {} ja consta na base de dados", ultimosDigitosDocumento);
@@ -40,6 +40,6 @@ public class CadastraPropostaController {
         logger.info("Proposta {} e com documentocom o final {} adiciona com sucesso", propostaAvaliada.getId(),
                 propostaAvaliada.getDocumento().substring(propostaAvaliada.getDocumento().length()-5));
 
-       return ResponseEntity.created(uriComponentsBuilder.path("/proposta/{id}").buildAndExpand(propostaAvaliada.getId()).toUri()).build();
+       return ResponseEntity.created(uri.path("/propostas/{id}").buildAndExpand(propostaAvaliada.getId()).toUri()).build();
     }
 }
