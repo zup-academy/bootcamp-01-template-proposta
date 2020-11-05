@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 
-@FeignClient(name = "avisoViagem", url = "${feign.url-aviso-viagem}")
+@FeignClient(name = "avisoViagem", url = "${feign.url-cartao}")
 public interface AvisoViagemConsumer {
 
     @RequestMapping(method = RequestMethod.POST, path = "/api/cartoes/{id}/avisos")

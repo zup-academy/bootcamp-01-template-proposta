@@ -73,7 +73,7 @@ public class AvisoViagemController {
         AvisoViagemResponseDto avisoViagemResponseDto = new AvisoViagemResponseDto(avisoViagem);
 
         return ResponseEntity
-                .created(uriComponentsBuilder.path("/v1/cartoes/{idCartao}/viagens/{id}").buildAndExpand(idCartao,avisoViagem.getId()).toUri())
+                .created(uriComponentsBuilder.path("/v1/cartoes/{idCartao}/viagens/{id}").buildAndExpand(idCartao,avisoViagemResponseDto.getId()).toUri())
                 .build();
     }
 }

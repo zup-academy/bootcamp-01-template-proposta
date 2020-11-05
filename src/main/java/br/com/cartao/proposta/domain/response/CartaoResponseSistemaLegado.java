@@ -29,7 +29,7 @@ public class CartaoResponseSistemaLegado {
 
     private List<BloqueioResponseDto> bloqueios = new ArrayList<>();
     private List<AvisoViagemIntegracaoResponseDto> avisos= new ArrayList<>();
-    private List<CarteiraDigitalResponseDto> carteiras = new ArrayList<>();
+    private List<CarteiraDigitalIntegracaoResponseDto> carteiras = new ArrayList<>();
     private List<ParcelaIntegracaoResponseDto> parcelas= new ArrayList<>();
     @NotNull
     private BigDecimal limite;
@@ -43,7 +43,7 @@ public class CartaoResponseSistemaLegado {
     public CartaoResponseSistemaLegado() {
     }
 
-    public CartaoResponseSistemaLegado(@NotBlank String id, String emitidoEm, @NotBlank String titular, List<BloqueioResponseDto> bloqueios, List<AvisoViagemIntegracaoResponseDto> avisos, List<CarteiraDigitalResponseDto> carteiras, List<ParcelaIntegracaoResponseDto> parcelas, @NotNull BigDecimal limite, RenegociacaoIntegracaoResponseDto renegociacao, @NotNull VencimentoIntegracaoResponseDto vencimento, @NotBlank String idProposta) {
+    public CartaoResponseSistemaLegado(@NotBlank String id, String emitidoEm, @NotBlank String titular, List<BloqueioResponseDto> bloqueios, List<AvisoViagemIntegracaoResponseDto> avisos, List<CarteiraDigitalIntegracaoResponseDto> carteiras, List<ParcelaIntegracaoResponseDto> parcelas, @NotNull BigDecimal limite, RenegociacaoIntegracaoResponseDto renegociacao, @NotNull VencimentoIntegracaoResponseDto vencimento, @NotBlank String idProposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
@@ -77,7 +77,7 @@ public class CartaoResponseSistemaLegado {
         return avisos;
     }
 
-    public List<CarteiraDigitalResponseDto> getCarteiras() {
+    public List<CarteiraDigitalIntegracaoResponseDto> getCarteiras() {
         return carteiras;
     }
 
@@ -121,7 +121,7 @@ public class CartaoResponseSistemaLegado {
         this.avisos = avisos;
     }
 
-    public void setCarteiras(List<CarteiraDigitalResponseDto> carteiras) {
+    public void setCarteiras(List<CarteiraDigitalIntegracaoResponseDto> carteiras) {
         this.carteiras = carteiras;
     }
 

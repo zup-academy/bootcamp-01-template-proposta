@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "avisoBloqueioCartao", url = "${feign.url-bloqueio-cartao}")
+@FeignClient(name = "avisoBloqueioCartao", url = "${feign.url-cartao}")
 public interface AvisaBloqueioCartao {
 
     @RequestMapping(method = RequestMethod.POST, path = "/api/cartoes/{id}/bloqueios")

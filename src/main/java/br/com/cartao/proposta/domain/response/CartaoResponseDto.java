@@ -12,14 +12,14 @@ public class CartaoResponseDto {
     private String titular;
     private List<BloqueioResponseDto> bloqueios = new ArrayList<>();
     private List<AvisoViagemIntegracaoResponseDto> avisos= new ArrayList<>();
-    private List<CarteiraDigitalResponseDto> carteiras = new ArrayList<>();
+    private List<CarteiraDigitalIntegracaoResponseDto> carteiras = new ArrayList<>();
     private List<ParcelaIntegracaoResponseDto> parcelas= new ArrayList<>();
     private BigDecimal limite;
     private RenegociacaoIntegracaoResponseDto renegociacao;
     private VencimentoIntegracaoResponseDto vencimento;
     private String idProposta;
 
-    public CartaoResponseDto(String id, LocalDateTime emitidoEm, String titular, List<BloqueioResponseDto> bloqueios, List<AvisoViagemIntegracaoResponseDto> avisos, List<CarteiraDigitalResponseDto> carteiras, List<ParcelaIntegracaoResponseDto> parcelas, BigDecimal limite, RenegociacaoIntegracaoResponseDto renegociacao, VencimentoIntegracaoResponseDto vencimento, String idProposta) {
+    public CartaoResponseDto(String id, LocalDateTime emitidoEm, String titular, List<BloqueioResponseDto> bloqueios, List<AvisoViagemIntegracaoResponseDto> avisos, List<CarteiraDigitalIntegracaoResponseDto> carteiras, List<ParcelaIntegracaoResponseDto> parcelas, BigDecimal limite, RenegociacaoIntegracaoResponseDto renegociacao, VencimentoIntegracaoResponseDto vencimento, String idProposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
@@ -53,7 +53,7 @@ public class CartaoResponseDto {
         return avisos;
     }
 
-    public List<CarteiraDigitalResponseDto> getCarteiras() {
+    public List<CarteiraDigitalIntegracaoResponseDto> getCarteiras() {
         return carteiras;
     }
 
