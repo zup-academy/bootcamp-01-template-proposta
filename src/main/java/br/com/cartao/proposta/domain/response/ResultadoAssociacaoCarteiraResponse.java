@@ -4,8 +4,12 @@ import br.com.cartao.proposta.domain.enums.EstadoAssociacaoCarteiraIntegracao;
 
 public class ResultadoAssociacaoCarteiraResponse {
 
-    private final EstadoAssociacaoCarteiraIntegracao resultado;
-    private final String id;
+    private EstadoAssociacaoCarteiraIntegracao resultado;
+    private String id;
+
+    @Deprecated
+    public ResultadoAssociacaoCarteiraResponse() {
+    }
 
     public ResultadoAssociacaoCarteiraResponse(EstadoAssociacaoCarteiraIntegracao resultado, String id) {
         this.resultado = resultado;

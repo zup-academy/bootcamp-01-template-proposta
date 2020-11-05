@@ -13,4 +13,5 @@ public interface CarteiraDigitalRepository extends CrudRepository<CarteiraDigita
 
     Optional<CarteiraDigital> findByCartaoIdAndCarteiraAndEstadoAvisoLegado(String cartaoId, CarteiraDigitalTipo carteira, EstadoAvisoLegado estadoAvisoLegado);
 
+    Optional<CarteiraDigital> findByCartaoIdAndCarteiraAndEstadoAvisoLegadoNotLike(String cartaoId, CarteiraDigitalTipo carteira, EstadoAvisoLegado estadoAvisoLegado);
 }

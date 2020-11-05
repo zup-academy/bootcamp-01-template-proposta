@@ -20,7 +20,7 @@ public class CarteiraDigital {
     @Email @NotBlank
     private String email;
     @NotNull
-    @Column(unique = true) @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private CarteiraDigitalTipo carteira;
     @Enumerated(EnumType.STRING)
     private EstadoAvisoLegado estadoAvisoLegado;

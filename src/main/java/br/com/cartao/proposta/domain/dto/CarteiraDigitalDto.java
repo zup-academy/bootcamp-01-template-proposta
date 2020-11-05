@@ -47,4 +47,7 @@ public class CarteiraDigitalDto {
         return new CarteiraDigital(this.email,this.carteira,this.cartao);
     }
 
+    public String getCartaoId() {
+        return this.cartao.getId();
+    }
 }
