@@ -31,14 +31,4 @@ public class ResponseLegadoCartaoDto {
     public BigDecimal getLimite() {
         return limite;
     }
-
-    @Override
-    public String toString() {
-        return "ResponseLegadoCartaoDto{" +
-                "id=" + id +
-                ", emitidoEm=" + emitidoEm +
-                ", titular='" + titular + '\'' +
-                ", limite=" + limite +
-                '}';
-    }
 }
