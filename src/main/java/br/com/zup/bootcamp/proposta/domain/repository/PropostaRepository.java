@@ -1,16 +1,17 @@
 package br.com.zup.bootcamp.proposta.domain.repository;
 
 import br.com.zup.bootcamp.proposta.domain.entity.Proposta;
+import br.com.zup.bootcamp.proposta.domain.service.StatusProposta;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PropostaRepository extends JpaRepository<Proposta, Long> {
+public interface PropostaRepository extends JpaRepository<Proposta, String> {
 
-    @Query(value = "SELECT documento FROM proposta WHERE documento = ?1", nativeQuery = true)
     Optional<Proposta> findByDocumento(String documento);
+    List<Proposta> findByStatusAndCartaoNull(StatusProposta status);
 
 }
