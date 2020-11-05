@@ -7,14 +7,12 @@ public enum AnalisePropostaStatus {
         public StatusProposta toPropostaStatus() {
             return StatusProposta.NAO_ELEGIVEL;
         }
-
     },
     SEM_RESTRICAO {
         @Override
         public StatusProposta toPropostaStatus() {
             return StatusProposta.ELEGIVEL;
         }
-
     };
 
     public abstract StatusProposta toPropostaStatus();
