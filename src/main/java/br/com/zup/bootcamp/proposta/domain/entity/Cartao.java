@@ -2,9 +2,7 @@ package br.com.zup.bootcamp.proposta.domain.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -58,13 +56,6 @@ public class Cartao {
         this.estadoCartao = EstadoCartao.BLOQUEADO;
     }
 
-    @Scheduled(cron = "0 0/5 * 1/1 * ? *")
-    public static Proposta AssociaCartao(String id) {
-        //cartaoServirce
-
-        return null;
-    }
-
     public String getTitular() {
         return titular;
     }
@@ -85,6 +76,10 @@ public class Cartao {
         return idCartaoEmitido;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void adicionarBiometriaNoCartao(Biometria biometria) {
         Assert.notNull(biometria, "A biometria não pode ser nula para associação do cartão");
         biometrias.add(biometria);
@@ -103,20 +98,5 @@ public class Cartao {
     public void adicionarCarteira(Carteira carteira) {
         Assert.notNull(carteira, "A carteira não pode ser nula para associação com o cartão");
         carteiras.add(carteira);
-    }
-
-    @Override
-    public String toString() {
-        return "Cartao{" +
-                "idCartaoEmitido=" + idCartaoEmitido +
-                ", emitidoEm=" + emitidoEm +
-                ", titular='" + titular + '\'' +
-                ", bloqueios=" + bloqueios +
-                ", avisos=" + avisos +
-                ", carteiras=" + carteiras +
-                ", limite=" + limite +
-                ", biometrias=" + biometrias +
-                ", estadoCartao=" + estadoCartao +
-                '}';
     }
 }
