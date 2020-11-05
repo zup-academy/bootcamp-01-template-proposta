@@ -32,7 +32,6 @@ public class Bloqueio {
         this.ip = ip;
         this.userAgent = userAgent;
     }
-
     public Long getId() {
         return id;
     }

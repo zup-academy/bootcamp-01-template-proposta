@@ -10,39 +10,38 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/cartoes")
 public class BiometriaController {
+// 4 PCI's
 
+    @PersistenceContext
     private EntityManager manager;
 
-    private Logger logger = LoggerFactory.getLogger(Biometria.class);
-
-    public BiometriaController(EntityManager manager) {
-        this.manager = manager;
-    }
+    private final Logger logger = LoggerFactory.getLogger(Biometria.class);
 
     @Transactional
     @PostMapping("/{idCartao}/biometria")
     public ResponseEntity cadastroBiometria(@PathVariable Long idCartao,
-                                            @RequestBody @Valid BiometriaRequest request,
+                                            @RequestBody @Valid BiometriaRequest request, //PCI 1
                                             UriComponentsBuilder builder) {
 
+        //PCI 2
         Cartao cartao = manager.find(Cartao.class, idCartao);
 
+        //PCI 3
         if (cartao==null){
-            logger.info("Cartão não encontrado");
+            logger.error("Cartão não encontrado para cadastramento de biometria");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
+        //PCI 4
         Biometria biometria = request.toBiometria();
         manager.persist(biometria);
         logger.info("Biometria cadastrada");
-
 
         cartao.addBiometria(biometria);
         manager.merge(cartao);

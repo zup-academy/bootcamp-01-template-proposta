@@ -3,7 +3,6 @@ package io.github.evertocnsouza.rest.dto.request;
 import com.sun.istack.NotNull;
 import io.github.evertocnsouza.domain.entity.Proposta;
 import io.github.evertocnsouza.validation.annotation.CpfCnpj;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;

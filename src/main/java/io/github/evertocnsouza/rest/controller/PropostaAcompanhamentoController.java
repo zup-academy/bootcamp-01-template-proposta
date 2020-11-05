@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 @RestController
 @RequestMapping("propostas")
 public class PropostaAcompanhamentoController {
-
+//3 PCI's
     @PersistenceContext
     EntityManager manager;
 
@@ -24,12 +24,16 @@ public class PropostaAcompanhamentoController {
     @GetMapping("{id}")
     public ResponseEntity<?> acompanha(@PathVariable("id") Long id) {
         Proposta proposta = manager.find(Proposta.class, id);
+        //PCI 1;
+
+        //PCI 2
         if(proposta == null){
         logger.info("Esta proposta não existe");
             return ResponseEntity.notFound().build();
         }
         logger.info("Proposta  de id={} encontrada", id);
 
+        //PCI 3;
         PropostaResponse propostaResponse = new PropostaResponse(proposta);
         return ResponseEntity.ok(propostaResponse);
     }

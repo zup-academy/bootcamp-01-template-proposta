@@ -21,4 +21,5 @@ public class BiometriaRequest {
     public String getDigital() {
         return digital;
     }
+
 }

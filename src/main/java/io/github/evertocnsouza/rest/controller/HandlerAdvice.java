@@ -110,7 +110,7 @@ public class HandlerAdvice {
 //    @ExceptionHandler(FeignException.class)
 //    public String handleFeignStatusException(FeignException feign, HttpServletResponse response) {
 //        response.setStatus(feign.status());
-//        return "Esta proposta não foi aprovada";
+//        return "Erro do Feign";
 //    }
 
 }

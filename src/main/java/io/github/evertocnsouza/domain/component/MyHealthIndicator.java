@@ -9,6 +9,7 @@ import java.util.Map;
 
 @Component
    public class MyHealthIndicator implements HealthIndicator {
+    //Testando
 
         @Override
         public Health health() {

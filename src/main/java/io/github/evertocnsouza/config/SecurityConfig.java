@@ -15,9 +15,9 @@
 //        http.authorizeRequests(authorizeRequests ->
 //                authorizeRequests
 //                        .antMatchers(GET, "/actuator/**").permitAll()
-//                        .antMatchers(GET, "/propostas/**").hasAuthority("SCOPE_propostas")
-//                        .antMatchers(POST, "/propostas").hasAuthority("SCOPE_propostas")
-//                        .antMatchers(POST, "/cartoes/**").hasAuthority("SCOPE_cartoes")
+//                        .antMatchers(GET, "/propostas/**").hasAuthority("SCOPE_meu-primeiro-escopo")
+//                        .antMatchers(POST, "/propostas").hasAuthority("SCOPE_meu-primeiro-escopo")
+//                        .antMatchers(POST, "/cartoes/**").hasAuthority("SCOPE_meu-primeiro-escopo")
 //                        .anyRequest().authenticated()
 //        )
 //                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
@@ -25,13 +25,3 @@
 //
 //}
 //
-//<dependency>
-//<groupId>org.springframework.boot</groupId>
-//<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-//</dependency>
-//
-//<dependency>
-//<groupId>org.springframework.security</groupId>
-//<artifactId>spring-security-oauth2-jose</artifactId>
-//</dependency>
-//Criar o user do keycloak no final

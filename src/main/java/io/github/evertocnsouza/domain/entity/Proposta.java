@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.Base64;
 import java.util.Objects;
 
 @Entity
@@ -32,7 +33,7 @@ public class Proposta {
     @Positive
     private BigDecimal salario;
 
-    @CpfCnpj
+
     @NotBlank
     private String documento;
 
@@ -49,12 +50,12 @@ public class Proposta {
 
     public Proposta(@Email @NotBlank String email, @NotBlank String nome,
                     @NotBlank String endereco, @Positive BigDecimal salario,
-                    @CpfCnpj String documento) {
+                    String documento) {
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
-        this.documento = documento;
+        this.documento = criptografarDocumento(documento);
         this.statusAvaliacao = StatusAvaliacaoProposta.NAO_ELEGIVEL;
     }
 
@@ -83,8 +84,7 @@ public class Proposta {
     public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
         Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL),
                 "Proposta elegível! Não é possível fazer a troca");
-        this.statusAvaliacao = statusAvaliacao;
-    }
+        this.statusAvaliacao = statusAvaliacao; }
 
     public boolean verificarSeNaoExisteCartao() {
         return Objects.isNull(cartao);
@@ -92,5 +92,12 @@ public class Proposta {
 
     public void incluirCartaoNaProposta(Cartao cartao) {
         this.cartao = cartao;
+    }
+
+    public String criptografarDocumento(String documento){
+        return new String(Base64.getEncoder().encode(documento.getBytes()));
+    }
+    public String descriptografarDocumento(){
+        return new String(Base64.getDecoder().decode(documento.getBytes()));
     }
 }

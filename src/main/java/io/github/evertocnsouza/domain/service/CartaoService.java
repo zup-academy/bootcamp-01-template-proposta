@@ -18,9 +18,7 @@ import javax.persistence.TypedQuery;
 public class CartaoService {
 
     private final IntegracaoCartao integracaoCartao;
-
     private final EntityManager manager;
-
     private final Logger logger;
 
     public CartaoService(IntegracaoCartao integracaoCartao, EntityManager manager) {
