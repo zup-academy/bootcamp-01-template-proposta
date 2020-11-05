@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -18,12 +19,10 @@ public class Biometria {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     @NotBlank
-    private String idCartao;
-    @NotBlank
     private String impressaoDigital;
-    @NotBlank
+    @NotNull
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    LocalDate localDate = LocalDate.now();
+    private LocalDate localDate = LocalDate.now();
     @ManyToOne
     private Cartao cartao;
 
@@ -31,8 +30,7 @@ public class Biometria {
     public Biometria() {
     }
 
-    public Biometria(@NotBlank String idCartao, @NotBlank String impressaoDigital) {
-        this.idCartao = idCartao;
+    public Biometria(@NotBlank String impressaoDigital) {
         this.impressaoDigital = impressaoDigital;
     }
 
@@ -42,14 +40,6 @@ public class Biometria {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getIdCartao() {
-        return idCartao;
-    }
-
-    public void setIdCartao(String idCartao) {
-        this.idCartao = idCartao;
     }
 
     public String getImpressaoDigital() {

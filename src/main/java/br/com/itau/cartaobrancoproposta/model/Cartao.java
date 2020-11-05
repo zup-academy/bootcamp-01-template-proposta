@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao")
     private List<Parcela> parcelas;
     @NotNull
+    @Positive
     private BigDecimal limite;
     @Embedded
     private Renegociacao renegociacao;
@@ -38,7 +40,7 @@ public class Cartao {
     private Vencimento vencimento;
     @OneToOne
     private Proposta proposta;
-    @OneToMany(mappedBy = "cartao")
+    @OneToMany()
     private List<Biometria> biometrias;
 
     @Deprecated
@@ -146,5 +148,17 @@ public class Cartao {
 
     public void setVencimento(Vencimento vencimento) {
         this.vencimento = vencimento;
+    }
+
+    public List<Biometria> getBiometrias() {
+        return biometrias;
+    }
+
+    public void setBiometrias(List<Biometria> biometrias) {
+        this.biometrias = biometrias;
+    }
+
+    public void carregaBiometria(Biometria biometria) {
+        this.biometrias.add(biometria);
     }
 }

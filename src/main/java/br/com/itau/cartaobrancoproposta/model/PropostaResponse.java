@@ -1,5 +1,7 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class PropostaResponse {
@@ -11,6 +13,7 @@ public class PropostaResponse {
     private final String endereco;
     private final BigDecimal salario;
     private final Restricao restricao;
+    @JsonProperty(value = "cartao")
     private final CartaoResponse cartaoResponse;
 
     public PropostaResponse(String id, String documento, String email, String nome, String endereco, BigDecimal salario,

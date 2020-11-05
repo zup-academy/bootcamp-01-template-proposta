@@ -1,21 +1,19 @@
 package br.com.itau.cartaobrancoproposta.model;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Base64;
 
 public class BiometriaRequest {
 
     @NotBlank
-    private final String idCartao;
-    @NotBlank
-    private final String impressaoDigital;
+    private String impressaoDigital;
 
-    public BiometriaRequest(String idCartao, String impressaoDigital) {
-        this.idCartao = idCartao;
-        this.impressaoDigital = impressaoDigital;
+    @Deprecated
+    public BiometriaRequest() {
     }
 
-    public String getIdCartao() {
-        return idCartao;
+    public BiometriaRequest(@NotBlank String impressaoDigital) {
+        this.impressaoDigital = impressaoDigital;
     }
 
     public String getImpressaoDigital() {
@@ -23,6 +21,7 @@ public class BiometriaRequest {
     }
 
     public Biometria toModel() {
-        return new Biometria(this.idCartao, this.impressaoDigital);
+        String impressaoDigitalCodificada = Base64.getEncoder().encodeToString(this.impressaoDigital.getBytes());
+        return new Biometria(impressaoDigitalCodificada);
     }
 }

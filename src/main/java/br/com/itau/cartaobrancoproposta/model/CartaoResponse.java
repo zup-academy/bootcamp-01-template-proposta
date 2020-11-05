@@ -1,7 +1,10 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CartaoResponse {
 
@@ -15,8 +18,12 @@ public class CartaoResponse {
     private final BigDecimal limite;
     private final Renegociacao renegociacao;
     private final Vencimento vencimento;
+    @JsonProperty(value = "biometrias")
+    private final List<BiometriaResponse> biometriaResponse;
 
-    public CartaoResponse(String numeroCartao, String emitidoEm, String titular, List<Bloqueio> bloqueios, List<AvisoViagem> avisos, List<CarteiraDigital> carteiras, List<Parcela> parcelas, BigDecimal limite, Renegociacao renegociacao, Vencimento vencimento) {
+    public CartaoResponse(String numeroCartao, String emitidoEm, String titular, List<Bloqueio> bloqueios,
+                          List<AvisoViagem> avisos, List<CarteiraDigital> carteiras, List<Parcela> parcelas,
+                          BigDecimal limite, Renegociacao renegociacao, Vencimento vencimento, List<BiometriaResponse> biometriaResponse) {
         this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
@@ -27,6 +34,7 @@ public class CartaoResponse {
         this.limite = limite;
         this.renegociacao = renegociacao;
         this.vencimento = vencimento;
+        this.biometriaResponse = biometriaResponse;
     }
 
     public String getNumeroCartao() {
@@ -69,6 +77,10 @@ public class CartaoResponse {
         return vencimento;
     }
 
+    public List<BiometriaResponse> getBiometriaResponse() {
+        return biometriaResponse;
+    }
+
     public CartaoResponse(Cartao cartao) {
         this.numeroCartao = cartao.getNumeroCartao();
         this.emitidoEm = cartao.getEmitidoEm();
@@ -80,5 +92,6 @@ public class CartaoResponse {
         this.limite = cartao.getLimite();
         this.renegociacao = cartao.getRenegociacao();
         this.vencimento = cartao.getVencimento();
+        this.biometriaResponse = cartao.getBiometrias().stream().map(BiometriaResponse::new).collect(Collectors.toList());
     }
 }
