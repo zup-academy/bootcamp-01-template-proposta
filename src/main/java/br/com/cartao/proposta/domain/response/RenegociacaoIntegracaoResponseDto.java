@@ -3,7 +3,7 @@ package br.com.cartao.proposta.domain.response;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class RenegociacaoResponseDto {
+public class RenegociacaoIntegracaoResponseDto {
 
     private String id;
     private Integer quantidade;
@@ -11,10 +11,10 @@ public class RenegociacaoResponseDto {
     private LocalDateTime dataDeCriacao;
 
     @Deprecated
-    public RenegociacaoResponseDto() {
+    public RenegociacaoIntegracaoResponseDto() {
     }
 
-    public RenegociacaoResponseDto(String id, Integer quantidade, BigDecimal valor, LocalDateTime dataDeCriacao) {
+    public RenegociacaoIntegracaoResponseDto(String id, Integer quantidade, BigDecimal valor, LocalDateTime dataDeCriacao) {
         this.id = id;
         this.quantidade = quantidade;
         this.valor = valor;

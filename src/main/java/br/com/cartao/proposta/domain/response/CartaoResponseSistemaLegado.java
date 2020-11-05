@@ -28,14 +28,14 @@ public class CartaoResponseSistemaLegado {
     private String titular;
 
     private List<BloqueioResponseDto> bloqueios = new ArrayList<>();
-    private List<AvisoViagemResponseDto> avisos= new ArrayList<>();
+    private List<AvisoViagemIntegracaoResponseDto> avisos= new ArrayList<>();
     private List<CarteiraDigitalResponseDto> carteiras = new ArrayList<>();
-    private List<ParcelaResponseDto> parcelas= new ArrayList<>();
+    private List<ParcelaIntegracaoResponseDto> parcelas= new ArrayList<>();
     @NotNull
     private BigDecimal limite;
-    private RenegociacaoResponseDto renegociacao;
+    private RenegociacaoIntegracaoResponseDto renegociacao;
     @NotNull
-    private VencimentoResponseDto vencimento;
+    private VencimentoIntegracaoResponseDto vencimento;
     @NotBlank
     private String idProposta;
 
@@ -43,7 +43,7 @@ public class CartaoResponseSistemaLegado {
     public CartaoResponseSistemaLegado() {
     }
 
-    public CartaoResponseSistemaLegado(@NotBlank String id, String emitidoEm, @NotBlank String titular, List<BloqueioResponseDto> bloqueios, List<AvisoViagemResponseDto> avisos, List<CarteiraDigitalResponseDto> carteiras, List<ParcelaResponseDto> parcelas, @NotNull BigDecimal limite, RenegociacaoResponseDto renegociacao, @NotNull VencimentoResponseDto vencimento, @NotBlank String idProposta) {
+    public CartaoResponseSistemaLegado(@NotBlank String id, String emitidoEm, @NotBlank String titular, List<BloqueioResponseDto> bloqueios, List<AvisoViagemIntegracaoResponseDto> avisos, List<CarteiraDigitalResponseDto> carteiras, List<ParcelaIntegracaoResponseDto> parcelas, @NotNull BigDecimal limite, RenegociacaoIntegracaoResponseDto renegociacao, @NotNull VencimentoIntegracaoResponseDto vencimento, @NotBlank String idProposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
@@ -73,7 +73,7 @@ public class CartaoResponseSistemaLegado {
         return bloqueios;
     }
 
-    public List<AvisoViagemResponseDto> getAvisos() {
+    public List<AvisoViagemIntegracaoResponseDto> getAvisos() {
         return avisos;
     }
 
@@ -81,7 +81,7 @@ public class CartaoResponseSistemaLegado {
         return carteiras;
     }
 
-    public List<ParcelaResponseDto> getParcelas() {
+    public List<ParcelaIntegracaoResponseDto> getParcelas() {
         return parcelas;
     }
 
@@ -89,11 +89,11 @@ public class CartaoResponseSistemaLegado {
         return limite;
     }
 
-    public RenegociacaoResponseDto getRenegociacao() {
+    public RenegociacaoIntegracaoResponseDto getRenegociacao() {
         return renegociacao;
     }
 
-    public VencimentoResponseDto getVencimento() {
+    public VencimentoIntegracaoResponseDto getVencimento() {
         return vencimento;
     }
 
@@ -117,7 +117,7 @@ public class CartaoResponseSistemaLegado {
         this.bloqueios = bloqueios;
     }
 
-    public void setAvisos(List<AvisoViagemResponseDto> avisos) {
+    public void setAvisos(List<AvisoViagemIntegracaoResponseDto> avisos) {
         this.avisos = avisos;
     }
 
@@ -125,7 +125,7 @@ public class CartaoResponseSistemaLegado {
         this.carteiras = carteiras;
     }
 
-    public void setParcelas(List<ParcelaResponseDto> parcelas) {
+    public void setParcelas(List<ParcelaIntegracaoResponseDto> parcelas) {
         this.parcelas = parcelas;
     }
 
@@ -133,11 +133,11 @@ public class CartaoResponseSistemaLegado {
         this.limite = limite;
     }
 
-    public void setRenegociacao(RenegociacaoResponseDto renegociacao) {
+    public void setRenegociacao(RenegociacaoIntegracaoResponseDto renegociacao) {
         this.renegociacao = renegociacao;
     }
 
-    public void setVencimento(VencimentoResponseDto vencimento) {
+    public void setVencimento(VencimentoIntegracaoResponseDto vencimento) {
         this.vencimento = vencimento;
     }
 

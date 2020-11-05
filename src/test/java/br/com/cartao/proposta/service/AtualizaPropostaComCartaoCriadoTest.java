@@ -3,14 +3,12 @@ package br.com.cartao.proposta.service;
 import br.com.cartao.proposta.domain.enums.EstadoProposta;
 import br.com.cartao.proposta.domain.response.CartaoResponseSistemaLegado;
 import br.com.cartao.proposta.domain.model.Proposta;
-import br.com.cartao.proposta.domain.response.VencimentoResponseDto;
-import br.com.cartao.proposta.repository.CartaoRepository;
+import br.com.cartao.proposta.domain.response.VencimentoIntegracaoResponseDto;
 import br.com.cartao.proposta.repository.PropostaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +42,7 @@ class AtualizaPropostaComCartaoCriadoTest {
         PropostaRepository propostaRepository = mock(PropostaRepository.class);
         List<Proposta> propostas = List.of(proposta1, proposta2, proposta3, proposta4);
         AtualizaPropostaComCartaoCriado atualizaPropostaComCartaoCriado = new AtualizaPropostaComCartaoCriado(verificaCartaoCriadoService, propostaRepository);
-        CartaoResponseSistemaLegado cartao = new CartaoResponseSistemaLegado("123","2020-10-20T14:10:55","Teste",null,null,null,null,BigDecimal.valueOf(100),null,new VencimentoResponseDto("1",10,"2020-10-20T15:30:45"),"abc123");
+        CartaoResponseSistemaLegado cartao = new CartaoResponseSistemaLegado("123","2020-10-20T14:10:55","Teste",null,null,null,null,BigDecimal.valueOf(100),null,new VencimentoIntegracaoResponseDto("1",10,"2020-10-20T15:30:45"),"abc123");
 
         when(propostaRepository.findAllByCartaoCriadoFalseAndEstadoProposta(estadoProposta)).thenReturn(propostas);
         when(atualizaPropostaComCartaoCriado.todasPropostasElegiveisSemCartao()).thenReturn(propostas);

@@ -4,10 +4,10 @@ import br.com.cartao.proposta.domain.model.Cartao;
 import br.com.cartao.proposta.domain.model.RecuperaSenha;
 import br.com.cartao.proposta.domain.request.InformacaoRede;
 import br.com.cartao.proposta.domain.response.RecuperaSenhaResponseDto;
+import br.com.cartao.proposta.service.ColetaInformacaoRedeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +27,12 @@ public class RecuperaSenhaController {
 
     @PersistenceContext
     private final EntityManager manager;
+    // +1
+    private final ColetaInformacaoRedeService coletaInformacaoRedeService;
 
-    public RecuperaSenhaController(EntityManager manager) {
+    public RecuperaSenhaController(EntityManager manager, ColetaInformacaoRedeService coletaInformacaoRedeService) {
         this.manager = manager;
+        this.coletaInformacaoRedeService = coletaInformacaoRedeService;
     }
 
     @PostMapping("/{id}/recupera-senha")
@@ -46,7 +49,7 @@ public class RecuperaSenhaController {
             return ResponseEntity.notFound().build();
         }
         // +1
-        InformacaoRede informacaoRede = getInformacaoRede(httpServletRequest);
+        InformacaoRede informacaoRede = coletaInformacaoRedeService.getInformacaoRede(httpServletRequest);
         // +1
         RecuperaSenha recuperaSenha = new RecuperaSenha(informacaoRede,cartao);
 
@@ -60,15 +63,4 @@ public class RecuperaSenhaController {
                 .build();
     }
 
-    private InformacaoRede getInformacaoRede(HttpServletRequest httpServletRequest) {
-        String userAgent = httpServletRequest.getHeader("User-Agent");
-        String ipAddress = httpServletRequest.getHeader("X-FORWARDED-FOR");
-        // +1
-        if (StringUtils.isEmpty(ipAddress)) {
-            ipAddress = httpServletRequest.getRemoteAddr();
-        }
-
-        InformacaoRede informacaoRede = new InformacaoRede(userAgent,ipAddress);
-        return informacaoRede;
-    }
 }

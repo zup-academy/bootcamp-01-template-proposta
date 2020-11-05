@@ -2,7 +2,7 @@ package br.com.cartao.proposta.service;
 
 import br.com.cartao.proposta.consumer.CriacaoCartaoConsumer;
 import br.com.cartao.proposta.domain.response.CartaoResponseSistemaLegado;
-import br.com.cartao.proposta.domain.response.VencimentoResponseDto;
+import br.com.cartao.proposta.domain.response.VencimentoIntegracaoResponseDto;
 import feign.FeignException;
 import feign.Request;
 import org.junit.jupiter.api.Assertions;
@@ -32,7 +32,7 @@ class VerificaCartaoCriadoServiceTest {
 
         CriacaoCartaoConsumer criacaoCartaoConsumer = mock(CriacaoCartaoConsumer.class);
         VerificaCartaoCriadoService verificaCartaoCriadoService = new VerificaCartaoCriadoService(criacaoCartaoConsumer);
-        CartaoResponseSistemaLegado cartao = new CartaoResponseSistemaLegado("123","2020-10-20T14:10:55","Teste",null,null,null,null, BigDecimal.valueOf(100),null,new VencimentoResponseDto("1",10,"2020-10-20T15:30:45"),"abc123");
+        CartaoResponseSistemaLegado cartao = new CartaoResponseSistemaLegado("123","2020-10-20T14:10:55","Teste",null,null,null,null, BigDecimal.valueOf(100),null,new VencimentoIntegracaoResponseDto("1",10,"2020-10-20T15:30:45"),"abc123");
 
         when(criacaoCartaoConsumer.verificaCartaoCriado(idProposta)).thenReturn(cartao);
 

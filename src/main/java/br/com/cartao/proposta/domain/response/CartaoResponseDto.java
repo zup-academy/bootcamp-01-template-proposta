@@ -11,15 +11,15 @@ public class CartaoResponseDto {
     private LocalDateTime emitidoEm;
     private String titular;
     private List<BloqueioResponseDto> bloqueios = new ArrayList<>();
-    private List<AvisoViagemResponseDto> avisos= new ArrayList<>();
+    private List<AvisoViagemIntegracaoResponseDto> avisos= new ArrayList<>();
     private List<CarteiraDigitalResponseDto> carteiras = new ArrayList<>();
-    private List<ParcelaResponseDto> parcelas= new ArrayList<>();
+    private List<ParcelaIntegracaoResponseDto> parcelas= new ArrayList<>();
     private BigDecimal limite;
-    private RenegociacaoResponseDto renegociacao;
-    private VencimentoResponseDto vencimento;
+    private RenegociacaoIntegracaoResponseDto renegociacao;
+    private VencimentoIntegracaoResponseDto vencimento;
     private String idProposta;
 
-    public CartaoResponseDto(String id, LocalDateTime emitidoEm, String titular, List<BloqueioResponseDto> bloqueios, List<AvisoViagemResponseDto> avisos, List<CarteiraDigitalResponseDto> carteiras, List<ParcelaResponseDto> parcelas, BigDecimal limite, RenegociacaoResponseDto renegociacao, VencimentoResponseDto vencimento, String idProposta) {
+    public CartaoResponseDto(String id, LocalDateTime emitidoEm, String titular, List<BloqueioResponseDto> bloqueios, List<AvisoViagemIntegracaoResponseDto> avisos, List<CarteiraDigitalResponseDto> carteiras, List<ParcelaIntegracaoResponseDto> parcelas, BigDecimal limite, RenegociacaoIntegracaoResponseDto renegociacao, VencimentoIntegracaoResponseDto vencimento, String idProposta) {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
@@ -49,7 +49,7 @@ public class CartaoResponseDto {
         return bloqueios;
     }
 
-    public List<AvisoViagemResponseDto> getAvisos() {
+    public List<AvisoViagemIntegracaoResponseDto> getAvisos() {
         return avisos;
     }
 
@@ -57,7 +57,7 @@ public class CartaoResponseDto {
         return carteiras;
     }
 
-    public List<ParcelaResponseDto> getParcelas() {
+    public List<ParcelaIntegracaoResponseDto> getParcelas() {
         return parcelas;
     }
 
@@ -65,11 +65,11 @@ public class CartaoResponseDto {
         return limite;
     }
 
-    public RenegociacaoResponseDto getRenegociacao() {
+    public RenegociacaoIntegracaoResponseDto getRenegociacao() {
         return renegociacao;
     }
 
-    public VencimentoResponseDto getVencimento() {
+    public VencimentoIntegracaoResponseDto getVencimento() {
         return vencimento;
     }
 

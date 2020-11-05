@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
-public class VencimentoResponseDto {
+public class VencimentoIntegracaoResponseDto {
 
     private String id;
     private Integer dia;
@@ -12,10 +12,10 @@ public class VencimentoResponseDto {
     private String dataDeCriacao;
 
     @Deprecated
-    public VencimentoResponseDto() {
+    public VencimentoIntegracaoResponseDto() {
     }
 
-    public VencimentoResponseDto(String id, Integer dia, String dataDeCriacao) {
+    public VencimentoIntegracaoResponseDto(String id, Integer dia, String dataDeCriacao) {
         this.id = id;
         this.dia = dia;
         this.dataDeCriacao = dataDeCriacao;

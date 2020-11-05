@@ -2,17 +2,17 @@ package br.com.cartao.proposta.domain.response;
 
 import java.math.BigDecimal;
 
-public class ParcelaResponseDto {
+public class ParcelaIntegracaoResponseDto {
 
     private String id;
     private Integer quantidade;
     private BigDecimal parcela;
 
     @Deprecated
-    public ParcelaResponseDto() {
+    public ParcelaIntegracaoResponseDto() {
     }
 
-    public ParcelaResponseDto(String id, Integer quantidade, BigDecimal parcela) {
+    public ParcelaIntegracaoResponseDto(String id, Integer quantidade, BigDecimal parcela) {
         this.id = id;
         this.quantidade = quantidade;
         this.parcela = parcela;
