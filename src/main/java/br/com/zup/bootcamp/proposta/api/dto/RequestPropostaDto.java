@@ -1,9 +1,7 @@
 package br.com.zup.bootcamp.proposta.api.dto;
 
+import br.com.zup.bootcamp.proposta.api.handler.CPForCNPJ;
 import br.com.zup.bootcamp.proposta.domain.entity.Proposta;
-import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
-import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
-import org.springframework.util.Assert;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +10,7 @@ import java.math.BigDecimal;
 
 public class RequestPropostaDto {
 
-    @NotBlank
+    @NotBlank @CPForCNPJ
     private final String documento;
     @Email
     private final String email;
@@ -35,17 +33,6 @@ public class RequestPropostaDto {
         return new Proposta(documento, email, nome, endereco, salario);
     }
 
-    public boolean documentoValido() {
-        Assert.hasLength(documento, "documento null, não foi possível fazer a validação");
-
-        CPFValidator cpfValidator = new CPFValidator();
-        cpfValidator.initialize(null);
-
-        CNPJValidator cnpjValidator = new CNPJValidator();
-        cnpjValidator.initialize(null);
-
-        return cpfValidator.isValid(documento, null) || cnpjValidator.isValid(documento, null);
-    }
 
     public String getDocumento() {
         return documento;
