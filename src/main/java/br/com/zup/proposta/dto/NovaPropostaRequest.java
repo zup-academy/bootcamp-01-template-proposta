@@ -14,7 +14,7 @@ public class NovaPropostaRequest {
     @NotBlank
     @CpfCnpj(message = "Documento inválido")
     private String documento;
-    @NotBlank @Email
+    //@NotBlank @Email
     private String email;
     @NotBlank
     private String nome;
@@ -23,11 +23,10 @@ public class NovaPropostaRequest {
     @NotNull @Positive
     private BigDecimal salarioBruto;
 
-    public NovaPropostaRequest(@NotBlank String documento, @NotBlank @Email String email,
+    public NovaPropostaRequest(@NotBlank String documento,
                                @NotBlank String nome,
                                @NotBlank String endereco, @NotNull @Positive BigDecimal salarioBruto) {
         this.documento = documento;
-        this.email = email;
         this.nome = nome;
         this.endereco = endereco;
         this.salarioBruto = salarioBruto;
@@ -37,7 +36,8 @@ public class NovaPropostaRequest {
         return documento;
     }
 
-    public Proposta toProposta() {
+    public Proposta toProposta(@NotBlank @Email String emailAutenticado) {
+        this.email = emailAutenticado;
         return new Proposta(this.documento, this.email, this.nome,
                 this.endereco, this.salarioBruto);
     }

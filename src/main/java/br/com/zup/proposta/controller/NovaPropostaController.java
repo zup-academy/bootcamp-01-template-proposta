@@ -10,7 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/propostas")
@@ -41,13 +46,21 @@ public class NovaPropostaController {
     @PostMapping
     @Transactional
     public ResponseEntity novaProposta(@RequestBody @Valid NovaPropostaRequest request,
-                                       UriComponentsBuilder builder) { //4
+                                       UriComponentsBuilder builder,
+                                       @AuthenticationPrincipal Jwt jwt) { //4
+
+        Optional<String> emailAutenticado = Optional.ofNullable(jwt.getClaim("email"));
+
+        Assert.isTrue(emailAutenticado.isPresent(), "Para criar uma nova Proposta, " +
+                "deve-se estar logado com um email autenticado");
+
+        logger.info("Usuário autenticado (email): {}", emailAutenticado.get());
 
         if(documentoIgualValidator.existe(request)) //5
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body("Documento inválido!");
 
-        Proposta novaProposta = request.toProposta(); //6
+        Proposta novaProposta = request.toProposta(emailAutenticado.get()); //6
 
         logger.info("Proposta pendente: Nome={} , Documento={}, Status Avaliação={}",
                 novaProposta.getNome() , novaProposta.getDocumento(),

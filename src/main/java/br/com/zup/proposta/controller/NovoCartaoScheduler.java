@@ -32,7 +32,6 @@ public class NovoCartaoScheduler {
     @Scheduled(fixedDelayString = "${periodo.proposta.cartao}")
     public void verificaCartao(){
 
-
         List<Proposta> propostas = propostaRepository
                 .buscarPropostasElegiveis(StatusAvaliacaoProposta.ELEGIVEL); //4
 
@@ -52,4 +51,5 @@ public class NovoCartaoScheduler {
             }
 
     }
+
 }

@@ -60,6 +60,24 @@ public class CapturaExceptionHandler extends ResponseEntityExceptionHandler {
                 status.value(), status.getReasonPhrase(), fieldErrors), status);
     }
 
+    //não esta operando no momento
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    private ResponseEntity handleIllegalArgumentException(IllegalArgumentException ex,
+                                                          HttpHeaders headers,
+                                                          HttpStatus status,
+                                                          WebRequest request){
+
+        InvalidFormatException invalidFormatException = (InvalidFormatException) ex.getCause();
+
+        List<ErrorObject> fieldErrors = List.of();
+
+        return new ResponseEntity(new ErrorResponse(invalidFormatException.getValue() +
+                "Algum parâmetro foi informado incorretamente",
+                status.value(), status.getReasonPhrase(), fieldErrors), status);
+    }
+
+
     private ErrorResponse getErrorResponse(HttpStatus status,
                                            List<ErrorObject> errors){
         return new ErrorResponse("Requisição possui campos inválidos:",

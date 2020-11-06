@@ -20,7 +20,7 @@ public class Biometria {
     public Biometria(){}
 
     public Biometria(String digital) {
-        this.digital = digital.getBytes(); //1
+        this.digital = digital.getBytes(); //
         this.instanteCriacao = LocalDateTime.now();
     }
 

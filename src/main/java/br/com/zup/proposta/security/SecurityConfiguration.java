@@ -14,12 +14,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        /*http.csrf().disable() //desabilitando a protecao csrf
-                .authorizeRequests() //autoriza requisições
-                .anyRequest().permitAll() //permite todas as requisições
-                .and()
-                .httpBasic(); //autenticação basica http*/
-
         http.authorizeRequests(authorizeRequests ->
                 authorizeRequests
                         .antMatchers(HttpMethod.GET, "/api/propostas/**").hasAuthority("SCOPE_propostas")

@@ -26,6 +26,8 @@ public class DetalhePropostaController {
     @GetMapping("/{id}")
     public ResponseEntity buscaPropostabyId(@PathVariable("id") UUID request){
 
+        //ver propostas de outros usuários?
+
         Optional<Proposta> possivelProposta =
                 Optional.ofNullable(entityManager.find(Proposta.class, request)); //1
 
