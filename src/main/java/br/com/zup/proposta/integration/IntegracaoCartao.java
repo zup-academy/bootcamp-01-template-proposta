@@ -1,5 +1,6 @@
 package br.com.zup.proposta.integration;
 
+import br.com.zup.proposta.dto.request.AvisoViagemRequest;
 import br.com.zup.proposta.dto.response.CartaoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -16,4 +17,7 @@ public interface IntegracaoCartao {
 
     @PostMapping("/api/cartoes/{cartaoID}/bloqueios")
     ResponseEntity bloquearCartao(@PathVariable UUID cartaoID, @RequestBody Map bloqueioRequest);
+
+    @PostMapping("/api/cartoes/{cartaoID}/avisos")
+    ResponseEntity enviarAvisoDeViagem(@PathVariable UUID cartaoID, @RequestBody AvisoViagemRequest avisoViagemRequest);
 }

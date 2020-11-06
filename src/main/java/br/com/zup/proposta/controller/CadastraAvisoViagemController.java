@@ -6,6 +6,8 @@ import br.com.zup.proposta.integration.IntegracaoCartao;
 import br.com.zup.proposta.model.AvisoViagem;
 import br.com.zup.proposta.model.Cartao;
 import br.com.zup.proposta.utils.Error;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,8 +30,13 @@ public class CadastraAvisoViagemController {
 
     private EntityManager entityManager;
 
-    public CadastraAvisoViagemController(EntityManager entityManager) {
+    private IntegracaoCartao integracaoCartao;
+
+    private Logger logger = LoggerFactory.getLogger(AvisoViagem.class);
+
+    public CadastraAvisoViagemController(EntityManager entityManager, IntegracaoCartao integracaoCartao) {
         this.entityManager = entityManager;
+        this.integracaoCartao = integracaoCartao;
     }
 
     @PostMapping("/{cartaoID}/aviso_viagem")
@@ -43,6 +50,9 @@ public class CadastraAvisoViagemController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error(Arrays.asList("Cartão não encontrado")));
         }
 
+        logger.warn("[CADASTRO DE AVISO] Enviando aviso de viagem para o sistema de cartões. Cartão: {}", cartaoID);
+        integracaoCartao.enviarAvisoDeViagem(cartaoID, avisoViagemRequest);
+
         AvisoViagem avisoViagem = avisoViagemRequest.toModel(request);
         entityManager.persist(avisoViagem);
 
@@ -50,7 +60,7 @@ public class CadastraAvisoViagemController {
         cartao.incluirAvisoDeViagem(avisoViagem);
         entityManager.merge(cartao);
 
-        URI enderecoConsulta = builder.path("/avisos/{id}").buildAndExpand(cartaoID).toUri();
+        URI enderecoConsulta = builder.path("/avisos/{id}").buildAndExpand(avisoViagem.getId()).toUri();
         return ResponseEntity.created(enderecoConsulta).build();
     }
 

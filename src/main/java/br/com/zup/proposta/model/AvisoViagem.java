@@ -20,7 +20,7 @@ public class AvisoViagem {
     private UUID id;
 
     @NotBlank
-    private String destinoViagem;
+    private String destino;
 
     @NotNull @Future
     private LocalDate validoAte;
@@ -38,8 +38,8 @@ public class AvisoViagem {
     public AvisoViagem() {
     }
 
-    public AvisoViagem(@NotBlank String destinoViagem, @NotNull @Future LocalDate validoAte, @NotBlank String ip, @NotBlank String userAgent) {
-        this.destinoViagem = destinoViagem;
+    public AvisoViagem(@NotBlank String destino, @NotNull @Future LocalDate validoAte, @NotBlank String ip, @NotBlank String userAgent) {
+        this.destino = destino;
         this.validoAte = validoAte;
         this.ip = ip;
         this.userAgent = userAgent;
@@ -49,8 +49,8 @@ public class AvisoViagem {
         return id;
     }
 
-    public String getDestinoViagem() {
-        return destinoViagem;
+    public String getDestino() {
+        return destino;
     }
 
     public LocalDate getValidoAte() {

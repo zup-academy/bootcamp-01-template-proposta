@@ -11,14 +11,13 @@ import java.time.LocalDate;
 public class AvisoViagemRequest {
 
     @NotBlank
-    private String destinoViagem;
+    private String destino;
 
-    @NotNull
-    @Future
+    @NotNull @Future
     private LocalDate validoAte;
 
-    public String getDestinoViagem() {
-        return destinoViagem;
+    public String getDestino() {
+        return destino;
     }
 
     public LocalDate getValidoAte() {
@@ -26,6 +25,6 @@ public class AvisoViagemRequest {
     }
 
     public AvisoViagem toModel(HttpServletRequest request){
-        return new AvisoViagem(destinoViagem, validoAte, request.getRemoteAddr(), request.getHeader("User-Agent"));
+        return new AvisoViagem(destino, validoAte, request.getRemoteAddr(), request.getHeader("User-Agent"));
     }
 }
