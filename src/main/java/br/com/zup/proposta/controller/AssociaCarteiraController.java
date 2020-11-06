@@ -32,10 +32,15 @@ public class AssociaCarteiraController {
 
     @PostMapping("/{cartaoID}/carteiras/paypal")
     @Transactional
-    public ResponseEntity vincularCartaoComSamsungPay(@PathVariable UUID cartaoID, @RequestBody @Valid CarteiraRequest carteiraRequest, UriComponentsBuilder builder){
+    public ResponseEntity vincularCartaoPaypal(@PathVariable UUID cartaoID, @RequestBody @Valid CarteiraRequest carteiraRequest, UriComponentsBuilder builder){
         return processarAssociacao(TipoCarteira.PAYPAL, cartaoID, carteiraRequest, builder);
     }
 
+    @PostMapping("/{cartaoID}/carteiras/samsungpay")
+    @Transactional
+    public ResponseEntity vincularCartaoSamsungPay(@PathVariable UUID cartaoID, @RequestBody @Valid CarteiraRequest carteiraRequest, UriComponentsBuilder builder) {
+        return processarAssociacao(TipoCarteira.SAMSUNG_PAY, cartaoID, carteiraRequest, builder);
+    }
 
     protected ResponseEntity processarAssociacao(TipoCarteira tipoCarteira, UUID cartaoID, CarteiraRequest carteiraRequest, UriComponentsBuilder builder) {
 
