@@ -32,22 +32,33 @@ public class RecuperarSenhaController {
 
     @PostMapping("/{idCartao}/recuperarsenha")
     @Transactional
-    public ResponseEntity solicitarRecuperacaoDeSenha(@PathVariable UUID idCartao, @InformacoesObrigatoriasRequest HttpServletRequest request, UriComponentsBuilder uri){
+    public ResponseEntity solicitarRecuperacaoDeSenha(@PathVariable UUID idCartao,
+                                                      @InformacoesObrigatoriasRequest HttpServletRequest request,
+                                                      @RequestHeader(name = "Authorization") String token,
+                                                      UriComponentsBuilder uri){
 
                     //1
-        Optional<Cartao> cartao = Optional.ofNullable(entityManager.find(Cartao.class, idCartao));
+        Optional<Cartao> cartaoProcurado = Optional.ofNullable(entityManager.find(Cartao.class, idCartao));
 
         //2
-        if(cartao.isEmpty()){
+        if(cartaoProcurado.isEmpty()){
             logger.warn("[RECUPERAÇÃO DE SENHA] O número do cartão não foi encontrado. Id: {}", idCartao);
                                                                             //3
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StandardError(Arrays.asList("Cartão não encontrado")));
         }
 
-        //4
-        RecuperarSenha recuperarSenha = new RecuperarSenha(request.getRemoteAddr(), request.getHeader("User-Agent"), cartao.get());
-        entityManager.persist(recuperarSenha);
+        Cartao cartao = cartaoProcurado.get();
 
+        //4
+        if(!cartao.verificarSeOEmailDoTokenEOMesmoDoCartao(token)){
+            logger.warn("[CADASTRO DE AVISO] O email não token não corresponde ao proprietário do cartão. Id: {}", idCartao);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new StandardError(Arrays.asList("Cartão não pertencente ao solicitante")));
+        }
+
+        //5
+        RecuperarSenha recuperarSenha = new RecuperarSenha(request.getRemoteAddr(), request.getHeader("User-Agent"), cartao);
+        entityManager.persist(recuperarSenha);
         logger.warn("[RECUPERAÇÃO DE SENHA] Solicitação de recuperação de senha cadastrada. Id: {}", recuperarSenha.getId());
 
         return ResponseEntity

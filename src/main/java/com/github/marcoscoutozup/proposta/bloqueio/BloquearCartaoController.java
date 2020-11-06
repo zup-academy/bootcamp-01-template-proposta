@@ -8,10 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
@@ -29,40 +26,47 @@ public class BloquearCartaoController {
     private EntityManager entityManager;
             //1
     private BloqueioService bloqueioService;
+    private Logger log = LoggerFactory.getLogger(BloquearCartaoController.class);
 
     public BloquearCartaoController(EntityManager entityManager, BloqueioService bloqueioService) {
         this.entityManager = entityManager;
         this.bloqueioService = bloqueioService;
     }
 
-    private Logger logger = LoggerFactory.getLogger(BloquearCartaoController.class);
-
     @PostMapping("/{idCartao}/bloquear")
     @Transactional
-    public ResponseEntity bloquearCartao(@PathVariable UUID idCartao, @InformacoesObrigatoriasRequest HttpServletRequest request, UriComponentsBuilder uri){
+    public ResponseEntity bloquearCartao(@PathVariable UUID idCartao,
+                                         @InformacoesObrigatoriasRequest HttpServletRequest request,
+                                         @RequestHeader(name = "Authorization") String token,
+                                         UriComponentsBuilder uri){
 
                     //2
         Optional<Cartao> cartaoProcurado = Optional.ofNullable(entityManager.find(Cartao.class, idCartao));
 
         //3
         if(cartaoProcurado.isEmpty()){
-            logger.info("[BLOQUEIO DE CARTÃO] Cartão não encontrado. Id: {}", idCartao);
+            log.info("[BLOQUEIO DE CARTÃO] Cartão não encontrado. Id: {}", idCartao);
                                                                             //4
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StandardError(Arrays.asList("O Cartão não foi encontrado")));
         }
 
-        //5
-        Bloqueio bloqueio = new Bloqueio(request.getRemoteAddr(), request.getHeader("User-Agent"));
-        entityManager.persist(bloqueio);
-
         Cartao cartao = cartaoProcurado.get();
 
+        //5
+        if(!cartao.verificarSeOEmailDoTokenEOMesmoDoCartao(token)){
+            log.warn("[CADASTRO DE AVISO] O email não token não corresponde ao proprietário do cartão. Id: {}", idCartao);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new StandardError(Arrays.asList("Cartão não pertencente ao solicitante")));
+        }
+
+        //6
+        Bloqueio bloqueio = new Bloqueio(request.getRemoteAddr(), request.getHeader("User-Agent"));
+        entityManager.persist(bloqueio);
         bloqueioService.processarBloqueioDoCartao(cartao);
 
         cartao.incluirBloqueioDoCartao(bloqueio);
         entityManager.merge(cartao);
-
-        logger.info("[BLOQUEIO DE CARTÃO] Bloqueio cadastrado. Cartão: {}", cartao.getId());
+        log.info("[BLOQUEIO DE CARTÃO] Bloqueio cadastrado. Cartão: {}", cartao.getId());
 
         return ResponseEntity
                 .created(uri.path("/bloqueios/{id}")

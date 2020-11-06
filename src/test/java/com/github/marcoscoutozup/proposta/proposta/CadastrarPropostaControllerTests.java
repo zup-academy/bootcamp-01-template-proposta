@@ -1,6 +1,5 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraService;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
 import io.opentracing.Span;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,42 +32,44 @@ public class CadastrarPropostaControllerTests {
     private Tracer tracer;
 
     @Mock
-    private Span span;
+    private Proposta proposta;
 
-    private UriComponentsBuilder builder;
+    @Mock
+    private PropostaRequest request;
+
+    @Mock
+    private Span span;
 
     private CadastrarPropostaController cadastrarPropostaController;
 
     @BeforeEach
     public void setup(){
         initMocks(this);
-        builder = UriComponentsBuilder.newInstance();
+        cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, analiseFinanceiraService, tracer);
     }
 
     @Test
-    @DisplayName("Não deve cadastrar proposta - Status code 422")
-    public void naoDeveCadastrarProposta() throws JsonProcessingException {
-        cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, null, tracer);
+    @DisplayName("Não deve cadastrar mais de uma proposta com o mesmo documento")
+    public void naoDeveCadastrarMaisDeUmaPropostaComOMesmoDocumento() {
         when(tracer.activeSpan()).thenReturn(span);
-        when(propostaRepository.findByDocumento(any(String.class))).thenReturn(Optional.of(new Proposta()));
-        ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(propostaDtoMock(), builder);
+        when(propostaRepository.findByDocumento(any())).thenReturn(Optional.of(proposta));
+        when(request.toProposta()).thenReturn(proposta);
+        when(request.getDocumento()).thenReturn(new String());
+        ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(request, UriComponentsBuilder.newInstance());
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
         assertTrue(responseEntity.getBody() instanceof StandardError);
     }
 
     @Test
-    @DisplayName("Deve cadastrar proposta - Status code 201")
-    public void deveCadastrarProposta() throws JsonProcessingException {
-        cadastrarPropostaController = new CadastrarPropostaController(propostaRepository, analiseFinanceiraService, tracer);
+    @DisplayName("Deve cadastrar proposta")
+    public void deveCadastrarProposta() {
         when(tracer.activeSpan()).thenReturn(span);
-        when(propostaRepository.findByDocumento(any(String.class))).thenReturn(Optional.empty());
-        ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(propostaDtoMock(), builder);
+        when(propostaRepository.findByDocumento(any())).thenReturn(Optional.empty());
+        when(request.toProposta()).thenReturn(proposta);
+        when(request.getDocumento()).thenReturn(new String());
+        ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(request, UriComponentsBuilder.newInstance());
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertTrue(responseEntity.getHeaders().containsKey("Location"));
-    }
-            //5
-    public PropostaRequest propostaDtoMock(){
-        return new PropostaRequest("49258122038", "pessoa@email.com", "Pesssoa 1", "Rua um, 123", new BigDecimal(2000));
     }
 
 }

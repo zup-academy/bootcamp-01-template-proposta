@@ -6,6 +6,7 @@ import com.github.marcoscoutozup.proposta.bloqueio.Bloqueio;
 import com.github.marcoscoutozup.proposta.bloqueio.enums.EstadoCartao;
 import com.github.marcoscoutozup.proposta.carteira.Carteira;
 import com.github.marcoscoutozup.proposta.carteira.enums.TipoCarteira;
+import com.github.marcoscoutozup.proposta.proposta.Proposta;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -13,6 +14,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
+
+import static com.github.marcoscoutozup.proposta.security.JwtDecoder.retornarEmailDoToken;
 
 @Entity
 public class Cartao {
@@ -39,7 +42,10 @@ public class Cartao {
     @OneToMany //4
     private Set<Carteira> carteiras;
 
-    @Enumerated(EnumType.STRING) //5
+    @OneToOne //5
+    private Proposta proposta;
+
+    @Enumerated(EnumType.STRING) //6
     private EstadoCartao estadoCartao;
 
     @Deprecated
@@ -72,9 +78,14 @@ public class Cartao {
         carteiras.add(carteira);
     }
 
+    public void incluirPropostaNoCartao(Proposta proposta){
+        Assert.notNull(proposta, "A proposta não pode ser nula para associação com o cartão");
+        this.proposta = proposta;
+    }
+
     public boolean verificarSeJaExisteAssociacaoDaCarteiraComOCartao(TipoCarteira tipoCarteira){
         Assert.notNull(tipoCarteira, "A carteira não pode ser nula");
-                                                    //6
+                                                    //7
         return carteiras.stream().anyMatch(carteira -> carteira.verificarParidadeDeCarteira(tipoCarteira));
     }
 
@@ -84,6 +95,12 @@ public class Cartao {
 
     public boolean verificarSeOCartaoEstaBloqueado(){
         return estadoCartao.equals(EstadoCartao.BLOQUEADO);
+    }
+
+    public boolean verificarSeOEmailDoTokenEOMesmoDoCartao(String token){
+                                //8
+        String emailDoToken = retornarEmailDoToken(token);
+        return this.proposta.getEmail().equals(emailDoToken);
     }
 
     public UUID getNumeroCartao() {

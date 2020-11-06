@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -33,22 +34,34 @@ public class ConsultarPropostaControllerTests {
     }
 
     @Test
+    @DisplayName("Não deve retornar a consulta da proposta se não for encontrada")
+    public void naoDeveRetornarAConsultaDaProposta(){
+        when(repository.findById(any(UUID.class))).thenReturn(Optional.empty());
+        ResponseEntity responseEntity = controller.consultarPropostaPorId(UUID.randomUUID(), new String());
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertTrue(responseEntity.getBody() instanceof StandardError);
+    }
+
+    @Test
+    @DisplayName("Não deve retornar a consulta se a proposta não pertencer ao solicitante")
+    public void naoDeveRetornarAConsultaSeAPropostaNaoPertencerAoSolicitante(){
+        when(repository.findById(any(UUID.class))).thenReturn(Optional.of(proposta));
+        when(proposta.descriptografarDocumento()).thenReturn(new String());
+        when(proposta.verificarSeOEmailDoTokenEOMesmoDaProposta(anyString())).thenReturn(false);
+        ResponseEntity responseEntity = controller.consultarPropostaPorId(UUID.randomUUID(), new String());
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+        assertTrue(responseEntity.getBody() instanceof StandardError);
+    }
+
+    @Test
     @DisplayName("Deve retornar a consulta da proposta")
     public void deveRetornarAConsultaDaProposta(){
         when(repository.findById(any(UUID.class))).thenReturn(Optional.of(proposta));
         when(proposta.descriptografarDocumento()).thenReturn(new String());
-        ResponseEntity responseEntity = controller.consultarPropostaPorId(UUID.randomUUID());
+        when(proposta.verificarSeOEmailDoTokenEOMesmoDaProposta(anyString())).thenReturn(true);
+        ResponseEntity responseEntity = controller.consultarPropostaPorId(UUID.randomUUID(), new String());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertTrue(responseEntity.getBody() instanceof PropostaResponse);
-    }
-
-    @Test
-    @DisplayName("Não deve retornar a consulta da proposta")
-    public void naoDeveRetornarAConsultaDaProposta(){
-        when(repository.findById(any(UUID.class))).thenReturn(Optional.empty());
-        ResponseEntity responseEntity = controller.consultarPropostaPorId(UUID.randomUUID());
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        assertTrue(responseEntity.getBody() instanceof StandardError);
     }
 
 

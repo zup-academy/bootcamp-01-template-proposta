@@ -29,7 +29,10 @@ public class CadastrarBiometriaController {
 
     @PostMapping("/{idCartao}/biometria")
     @Transactional                                                                              //1
-    public ResponseEntity cadastrarBiometria(@PathVariable UUID idCartao, @RequestBody @Valid BiometriaDTO dto, UriComponentsBuilder uri){
+    public ResponseEntity cadastrarBiometria(@PathVariable UUID idCartao,
+                                             @RequestBody @Valid BiometriaRequest biometriaRequest,
+                                             @RequestHeader(name = "Authorization") String token,
+                                             UriComponentsBuilder uri){
 
                 //2
         Optional<Cartao> cartaoProcurado = Optional.ofNullable(entityManager.find(Cartao.class, idCartao));
@@ -41,17 +44,23 @@ public class CadastrarBiometriaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StandardError(Arrays.asList("Cartão não encontrado")));
         }
 
-            //5
-        Biometria biometria = dto.toBiometria();
+        Cartao cartao = cartaoProcurado.get();
+
+        //5
+        if(!cartao.verificarSeOEmailDoTokenEOMesmoDoCartao(token)){
+            logger.warn("[CADASTRO DE AVISO] O email não token não corresponde ao proprietário do cartão. Id: {}", idCartao);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new StandardError(Arrays.asList("Cartão não pertencente ao solicitante")));
+        }
+
+            //6
+        Biometria biometria = biometriaRequest.toBiometria();
         entityManager.persist(biometria);
         logger.warn("[CADASTRO DE BIOMETRIA] Biometria cadastrada: {}", biometria.getId());
 
-
-        Cartao cartao = cartaoProcurado.get();
         cartao.incluirBiometriaNoCartao(biometria);
         entityManager.merge(cartao);
         logger.warn("[CADASTRO DE BIOMETRIA] Biometria associada ao cartão: {}", cartao.getNumeroCartao());
-
 
         return ResponseEntity
                 .created(uri.path("/biometrias/{id}")

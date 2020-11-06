@@ -56,6 +56,7 @@ public class CadastroCartaoService {
 
     @Transactional
     private void cadastrarCartaoEAssociarAProposta(Proposta proposta, Cartao cartao){
+        cartao.incluirPropostaNoCartao(proposta);
         entityManager.persist(cartao);
         proposta.incluirCartaoNaProposta(cartao);
         entityManager.merge(proposta);

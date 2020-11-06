@@ -38,9 +38,10 @@ public class CadastrarAvisoController {
 
     @PostMapping("/{idCartao}/aviso")
     @Transactional
-    public ResponseEntity cadastrarBiometria(@PathVariable UUID idCartao,
+    public ResponseEntity cadastrarAvisoDeViagem(@PathVariable UUID idCartao,
                                              @RequestBody @Valid AvisoRequest avisoRequest,   //2
                                              @InformacoesObrigatoriasRequest HttpServletRequest request,
+                                             @RequestHeader(name = "Authorization") String token,
                                              UriComponentsBuilder uri){
 
                     //3
@@ -54,18 +55,26 @@ public class CadastrarAvisoController {
                     .body(new StandardError(Arrays.asList("Cartão não encontrado")));
         }
 
-       logger.warn("[CADASTRO DE AVISO] Enviando aviso de viagem para o sistema de cartões. Cartão: {}", idCartao);
+        Cartao cartao = cartaoProcurado.get();
+
+        //6
+        if(!cartao.verificarSeOEmailDoTokenEOMesmoDoCartao(token)){
+            logger.warn("[CADASTRO DE AVISO] O email não token não corresponde ao proprietário do cartão. Id: {}", idCartao);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new StandardError(Arrays.asList("Cartão não pertencente ao solicitante")));
+        }
+
+       logger.info("[CADASTRO DE AVISO] Enviando aviso de viagem para o sistema de cartões. Cartão: {}", idCartao);
        cartaoClient.enviarAvisoDeViagem(idCartao, avisoRequest);
 
-       //6
+       //7
        Aviso aviso = avisoRequest.toAviso(request);
        entityManager.persist(aviso);
-       logger.warn("[CADASTRO DE AVISO] Aviso cadastrado: {}", aviso.getId());
+       logger.info("[CADASTRO DE AVISO] Aviso cadastrado: {}", aviso.getId());
 
-       Cartao cartao = cartaoProcurado.get();
        cartao.incluirAvisoDeViagem(aviso);
        entityManager.merge(cartao);
-       logger.warn("[CADASTRO DE AVISO] Aviso associado ao cartão: {}", cartao.getNumeroCartao());
+       logger.info("[CADASTRO DE AVISO] Aviso associado ao cartão: {}", cartao.getNumeroCartao());
 
        return ResponseEntity
                .created(uri.path("/avisos/{id}")

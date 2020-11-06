@@ -34,20 +34,22 @@ public class CarteiraController {
     @Transactional
     public ResponseEntity vincularCartaoComSamsungPay(@PathVariable UUID idCartao,
                                                       @RequestBody @Valid CarteiraRequest carteiraRequest, //1
+                                                      @RequestHeader(name = "Authorization") String token,
                                                       UriComponentsBuilder uri){
                                     //2
-        return processarSolicitacao(TipoCarteira.SAMSUNG_PAY, idCartao, carteiraRequest, uri);
+        return processarSolicitacao(TipoCarteira.SAMSUNG_PAY, idCartao, carteiraRequest, token, uri);
     }
 
     @PostMapping("/{idCartao}/carteiras/paypal")
     @Transactional
     public ResponseEntity vincularCartaoComPayPal(@PathVariable UUID idCartao,
-                                                      @RequestBody @Valid CarteiraRequest carteiraRequest,
-                                                      UriComponentsBuilder uri){
-        return processarSolicitacao(TipoCarteira.PAYPAL, idCartao, carteiraRequest, uri);
+                                                  @RequestBody @Valid CarteiraRequest carteiraRequest,
+                                                  @RequestHeader(name = "Authorization") String token,
+                                                  UriComponentsBuilder uri){
+        return processarSolicitacao(TipoCarteira.PAYPAL, idCartao, carteiraRequest, token, uri);
     }
 
-    protected ResponseEntity processarSolicitacao(TipoCarteira tipoCarteira, UUID idCartao, CarteiraRequest carteiraRequest, UriComponentsBuilder uri){
+    protected ResponseEntity processarSolicitacao(TipoCarteira tipoCarteira, UUID idCartao, CarteiraRequest carteiraRequest, String token, UriComponentsBuilder uri){
                     //3
         Optional<Cartao> cartaoProcurado = Optional.ofNullable(entityManager.find(Cartao.class, idCartao));
 
@@ -61,6 +63,13 @@ public class CarteiraController {
         Cartao cartao = cartaoProcurado.get();
 
         //5
+        if(!cartao.verificarSeOEmailDoTokenEOMesmoDoCartao(token)){
+            logger.warn("[CADASTRO DE AVISO] O email não token não corresponde ao proprietário do cartão. Id: {}", idCartao);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new StandardError(Arrays.asList("Cartão não pertencente ao solicitante")));
+        }
+
+        //6
         if(cartao.verificarSeJaExisteAssociacaoDaCarteiraComOCartao(tipoCarteira)){
             logger.info("[ASSOCIAÇÃO DE CARTEIRA] Carteira já cadastrada para o cartão. Cartão: {}", cartao.getId());
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new StandardError(Arrays.asList("O cartão já está associado a carteira")));

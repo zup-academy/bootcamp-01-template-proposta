@@ -14,6 +14,8 @@ import java.util.Base64;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.github.marcoscoutozup.proposta.security.JwtDecoder.retornarEmailDoToken;
+
 @Entity
 @NamedQuery(name = "findPropostaByDocumento", query = "select p from Proposta p where p.documento = :documento")
 @NamedQuery(name = "findPropostaByStatus", query = "select p from Proposta p where p.statusDaProposta = :statusDaProposta")
@@ -39,10 +41,10 @@ public class Proposta {
     @NotNull
     private BigDecimal salario;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //1
     private StatusDaProposta statusDaProposta;
 
-    @OneToOne
+    @OneToOne //2
     private Cartao cartao;
 
     @Deprecated
@@ -109,6 +111,12 @@ public class Proposta {
 
     public AnaliseFinanceiraRequest toAnaliseFinanceiraRequest(){
         return new AnaliseFinanceiraRequest(this.descriptografarDocumento(), this.nome, this.id);
+    }
+
+    public boolean verificarSeOEmailDoTokenEOMesmoDaProposta(String token){
+                                //3
+        String emailDoToken = retornarEmailDoToken(token);
+        return this.email.equals(emailDoToken);
     }
 
 }

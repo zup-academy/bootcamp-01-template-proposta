@@ -4,7 +4,7 @@ import com.github.marcoscoutozup.proposta.validator.base64.Base64;
 
 import javax.validation.constraints.NotNull;
 
-public class BiometriaDTO {
+public class BiometriaRequest {
 
     @NotNull
     @Base64

@@ -1,16 +1,12 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraService;
 import com.github.marcoscoutozup.proposta.exception.StandardError;
 import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -52,12 +48,10 @@ public class CadastrarPropostaController {
             //6
         Proposta proposta = propostaRequest.toProposta();
         propostaRepository.save(proposta);
-
         logger.info("[CRIAÇÃO DA PROPOSTA] Proposta criada com sucesso: {}", proposta.getId());
 
         analiseFinanceiraService.processarAnaliseFinanceiraDaProposta(proposta);
         propostaRepository.save(proposta);
-
         logger.info("[ANÁLISE FINANCEIRA] Análise financeira da proposta realizada: {}", proposta.getId());
 
         return ResponseEntity
