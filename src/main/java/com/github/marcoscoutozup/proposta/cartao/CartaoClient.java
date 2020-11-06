@@ -13,7 +13,7 @@ public interface CartaoClient {
 
     //1
     @GetMapping("/api/cartoes")
-    CartaoResponse pesquisarCartaoPorIdDaProposta(@RequestParam String idProposta);
+    CartaoResponse pesquisarCartaoPorIdDaProposta(@RequestParam UUID idProposta);
 
     @PostMapping("/api/cartoes/{idCartao}/bloqueios")
     ResponseEntity bloquearCartao(@PathVariable UUID idCartao, @RequestBody Map bloqueioRequest);

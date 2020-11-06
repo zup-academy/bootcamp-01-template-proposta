@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Component
 public class CadastroCartaoService {
@@ -27,29 +28,38 @@ public class CadastroCartaoService {
     }
 
     @Scheduled(fixedDelayString = "${tempo.verificadordecartao}")
-    @Transactional
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void verificarSeExisteCartaoCadastradoNaProposta(){
         logger.info("[SCHEDULED] Verificar se existe cartão cadastrado na proposta");
 
-                //2
+                    //2
         TypedQuery<Proposta> propostas = entityManager.createNamedQuery("findPropostaByStatus", Proposta.class)
                 .setParameter("statusDaProposta", StatusDaProposta.ELEGIVEL);
 
-                            //3
-        propostas.getResultList().forEach(proposta -> {
+        //3
+        for (Proposta proposta : propostas.getResultList()) {
             //4
-            CartaoResponse cartaoResponse = cartaoClient.pesquisarCartaoPorIdDaProposta(proposta.getId().toString());
-
-            //5
             if(proposta.verificarSeNaoExisteCartao()){
+                //5
+                CartaoResponse cartaoResponse = pesquisarCartao(proposta.getId());
                 Assert.notNull(cartaoResponse, "O cartão não pode ser nulo");
+                //6
                 Cartao cartao = cartaoResponse.toCartao();
-                entityManager.persist(cartao);
-                proposta.incluirCartaoNaProposta(cartao);
-                entityManager.merge(proposta);
-                logger.info("[INCLUSÃO DE CARTÃO NA PROPOSTA] Cartão incluso na proposta {}", proposta.getId());
+                cadastrarCartaoEAssociarAProposta(proposta, cartao);
             }
-        });
+        }
+    }
+
+    private CartaoResponse pesquisarCartao(UUID id){
+        return cartaoClient.pesquisarCartaoPorIdDaProposta(id);
+    }
+
+    @Transactional
+    private void cadastrarCartaoEAssociarAProposta(Proposta proposta, Cartao cartao){
+        entityManager.persist(cartao);
+        proposta.incluirCartaoNaProposta(cartao);
+        entityManager.merge(proposta);
+        logger.info("[INCLUSÃO DE CARTÃO NA PROPOSTA] Cartão incluso na proposta {}", proposta.getId());
     }
 
 }
