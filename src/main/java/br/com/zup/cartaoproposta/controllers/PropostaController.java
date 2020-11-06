@@ -40,7 +40,7 @@ public class PropostaController {
     @PostMapping
     @Transactional
     //1
-    public ResponseEntity<String> criaProposta(@RequestBody @Valid PropostaNovoRequest novaProposta, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<String> cadastroProposta(@RequestBody @Valid PropostaNovoRequest novaProposta, UriComponentsBuilder uriComponentsBuilder) {
 
         //1
         Optional<Proposta> testeProposta = propostaRepository.findByDocumento(novaProposta.getDocumentoApenasDigitos());

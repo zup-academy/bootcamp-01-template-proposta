@@ -108,7 +108,7 @@ public class PropostaTest {
         //imitacao
         Mockito.when(propostaRepository.findByDocumento(documentoApenasNumeros)).thenReturn(Optional.of(propostaResultado));
 
-        Assertions.assertThrows(ResponseStatusException.class, () -> classeDeFluxo.criaProposta(novaProposta, builder));
+        Assertions.assertThrows(ResponseStatusException.class, () -> classeDeFluxo.cadastroProposta(novaProposta, builder));
     }
 
     @Test
