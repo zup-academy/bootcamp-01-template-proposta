@@ -30,7 +30,7 @@ public class BiometriaController {
         this.entityManager = entityManager;
     }
 
-    @PostMapping("/v1/cartao/{id}/biometria")
+    @PostMapping("/v1/cartoes/{id}/biometrias")
     @Transactional
     public ResponseEntity<?> criaBiometria(@Valid @NotBlank @PathVariable(name = "id") String id,
                                            @Valid @RequestBody BiometriaRequest biometriaRequest, UriComponentsBuilder builder) { //1
@@ -54,7 +54,7 @@ public class BiometriaController {
         entityManager.merge(cartao);
         logger.info("Biometria id={} foi atrelado ao cartão com final {}", biometria.getId(), cartao.getNumeroCartao().substring(24));
 
-        URI endereco = builder.path("/v1/biometria/{id}").buildAndExpand(biometria.getId()).toUri();
+        URI endereco = builder.path("/v1/biometrias/{id}").buildAndExpand(biometria.getId()).toUri();
 
         return ResponseEntity.created(endereco).build();
     }

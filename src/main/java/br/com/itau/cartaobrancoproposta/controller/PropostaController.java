@@ -34,7 +34,7 @@ public class PropostaController {
         this.verificadorProposta = verificaPropostaMesmoSolicitante;
     }
 
-    @PostMapping("/v1/proposta")
+    @PostMapping("/v1/propostas")
     public ResponseEntity<?> criaProposta(@RequestBody @Valid PropostaRequest novaPropostaRequest, UriComponentsBuilder builder) { //1
         novaPropostaRequest.verificaDocumentoValido(verificadorProposta);
 
@@ -46,12 +46,12 @@ public class PropostaController {
         transacaoDados.atualiza(proposta);
         logger.info("Proposta id={} documento={} restrição={} atualizada com sucesso!", proposta.getId(), proposta.getDocumento(), proposta.getRestricao());
 
-        URI enderecoConsulta = builder.path("/v1/proposta/{id}").buildAndExpand(proposta.getId()).toUri();
+        URI enderecoConsulta = builder.path("/v1/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
         return ResponseEntity.created(enderecoConsulta).build();
     }
 
-    @GetMapping("/v1/proposta/{id}")
+    @GetMapping("/v1/propostas/{id}")
     public ResponseEntity<PropostaResponse> exibeProposta(@PathVariable("id") String idProposta) { //1
         proposta = transacaoDados.busca(Proposta.class, idProposta);
         if (proposta != null) { //1

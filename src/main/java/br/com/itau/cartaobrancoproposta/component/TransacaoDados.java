@@ -1,6 +1,5 @@
 package br.com.itau.cartaobrancoproposta.component;
 
-import br.com.itau.cartaobrancoproposta.model.Proposta;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +16,13 @@ public class TransacaoDados {
     }
 
     @Transactional
-    public void salva(@Valid Proposta proposta) {
-        entityManager.persist(proposta);
+    public <T> void salva(@Valid T objeto) {
+        entityManager.persist(objeto);
     }
 
     @Transactional
-    public void atualiza(@Valid Proposta proposta) {
-        entityManager.merge(proposta);
+    public <T> void atualiza(@Valid T objeto) {
+        entityManager.merge(objeto);
     }
 
     @Transactional

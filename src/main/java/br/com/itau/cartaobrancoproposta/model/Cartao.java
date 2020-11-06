@@ -22,7 +22,7 @@ public class Cartao {
     private String emitidoEm;
     @NotBlank
     private String titular;
-    @OneToMany(mappedBy = "cartao")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Bloqueio> bloqueios;
     @OneToMany(mappedBy = "cartao")
     private List<AvisoViagem> avisos;
@@ -40,7 +40,7 @@ public class Cartao {
     private Vencimento vencimento;
     @OneToOne
     private Proposta proposta;
-    @OneToMany()
+    @OneToMany
     private List<Biometria> biometrias;
 
     @Deprecated
@@ -160,5 +160,9 @@ public class Cartao {
 
     public void carregaBiometria(Biometria biometria) {
         this.biometrias.add(biometria);
+    }
+
+    public void carregaBloqueio(Bloqueio bloqueio) {
+        this.bloqueios.add(bloqueio);
     }
 }

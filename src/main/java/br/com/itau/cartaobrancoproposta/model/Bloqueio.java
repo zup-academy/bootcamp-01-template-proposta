@@ -1,11 +1,15 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 public class Bloqueio {
@@ -14,18 +18,23 @@ public class Bloqueio {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    private String idBloqueio;
-    private String bloqueadoEm;
-    private String sistemaResponsavel;
-    private Boolean ativo;
+    @NotBlank
+    private String ipCliente;
+    @NotBlank
+    private String userAgent;
+    @NotNull
+    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
+    private LocalDateTime localDateTime = LocalDateTime.now();
     @ManyToOne
     private Cartao cartao;
 
-    public Bloqueio(String idBloqueio, String bloqueadoEm, String sistemaResponsavel, Boolean ativo) {
-        this.idBloqueio = idBloqueio;
-        this.bloqueadoEm = bloqueadoEm;
-        this.sistemaResponsavel = sistemaResponsavel;
-        this.ativo = ativo;
+    @Deprecated
+    public Bloqueio() {
+    }
+
+    public Bloqueio(@NotBlank String ipCliente, @NotBlank String userAgent) {
+        this.ipCliente = ipCliente;
+        this.userAgent = userAgent;
     }
 
     public String getId() {
@@ -36,35 +45,27 @@ public class Bloqueio {
         this.id = id;
     }
 
-    public String getIdBloqueio() {
-        return idBloqueio;
+    public String getIpCliente() {
+        return ipCliente;
     }
 
-    public void setIdBloqueio(String idBloqueio) {
-        this.idBloqueio = idBloqueio;
+    public void setIpCliente(String ipCliente) {
+        this.ipCliente = ipCliente;
     }
 
-    public String getBloqueadoEm() {
-        return bloqueadoEm;
+    public String getUserAgent() {
+        return userAgent;
     }
 
-    public void setBloqueadoEm(String bloqueadoEm) {
-        this.bloqueadoEm = bloqueadoEm;
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
     }
 
-    public String getSistemaResponsavel() {
-        return sistemaResponsavel;
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
     }
 
-    public void setSistemaResponsavel(String sistemaResponsavel) {
-        this.sistemaResponsavel = sistemaResponsavel;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
     }
 }
