@@ -1,6 +1,7 @@
 package br.com.zup.proposta.model;
 
 import br.com.zup.proposta.enums.EstadoCartao;
+import br.com.zup.proposta.enums.TipoCarteira;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -30,6 +31,9 @@ public class Cartao {
 
     @OneToMany
     private Set<AvisoViagem> avisos;
+
+    @OneToMany
+    private Set<Carteira> carteiras;
 
     @Enumerated(EnumType.STRING)
     private EstadoCartao estadoCartao;
@@ -73,5 +77,15 @@ public class Cartao {
 
     public boolean verificarSeOCartaoEstaBloqueado(){
         return estadoCartao.equals(EstadoCartao.BLOQUEADO);
+    }
+
+    public void incluirCarteira(Carteira carteira){
+        Assert.notNull(carteira, "A carteira não pode ser nula");
+        carteiras.add(carteira);
+    }
+
+    public boolean associacaoJaExisteComCartao(TipoCarteira tipoCarteira){
+        Assert.notNull(tipoCarteira, "A carteira não pode ser nula");
+        return carteiras.stream().anyMatch(carteira1 -> carteira1.verificarParidadeDeCarteira(tipoCarteira));
     }
 }
