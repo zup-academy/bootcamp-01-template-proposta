@@ -9,7 +9,7 @@ import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnaliseRequest;
 import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnaliseResponse;
 import br.com.zup.nossocartao.integracao.cartao.CartaoRequest;
 import br.com.zup.nossocartao.integracao.cartao.CartaoResponse;
-import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartao;
+import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartaoFeignClient;
 import br.com.zup.nossocartao.proposta.Proposta;
 import br.com.zup.nossocartao.proposta.controller.NovaPropostaRequest;
 import br.com.zup.nossocartao.proposta.controller.NovaPropostaResponse;
@@ -22,10 +22,10 @@ public class PropostaService {
 
 	private SolicitacaoAnalise solicitacaoAnalise;
 
-	private SolicitacaoCartao solicitacaoCartao;
+	private SolicitacaoCartaoFeignClient solicitacaoCartao;
 
 	public PropostaService(PropostaRepository propostaRepository, SolicitacaoAnalise solicitacaoAnalise,
-			SolicitacaoCartao solicitacaoCartao) {
+			SolicitacaoCartaoFeignClient solicitacaoCartao) {
 		this.propostaRepository = propostaRepository;
 		this.solicitacaoAnalise = solicitacaoAnalise;
 		this.solicitacaoCartao = solicitacaoCartao;
@@ -38,11 +38,11 @@ public class PropostaService {
 
 		avaliacaoFinanceira(propostaSalva);
 
-		NovaPropostaResponse dadosPropostaResponse = new NovaPropostaResponse(propostaSalva);
-
 		emitirCartao(propostaSalva);
 
-		anexarDadosCartao(propostaSalva);
+		Proposta anexarDadosCartao = anexarDadosCartao(propostaSalva);
+
+		NovaPropostaResponse dadosPropostaResponse = new NovaPropostaResponse(anexarDadosCartao);
 
 		return dadosPropostaResponse;
 
@@ -61,10 +61,10 @@ public class PropostaService {
 
 	}
 
-	private void anexarDadosCartao(Proposta dadosProposta) {
+	private Proposta anexarDadosCartao(Proposta dadosProposta) {
 		CartaoResponse dadosCartao = solicitacaoCartao.buscarDadosCartao(dadosProposta.getId().toString());
 		dadosProposta.setNumeroCartao(dadosCartao.getId());
-		propostaRepository.save(dadosProposta);
+		return propostaRepository.save(dadosProposta);
 	}
 
 	public boolean verificaDocumento(String cpfCnpj) {

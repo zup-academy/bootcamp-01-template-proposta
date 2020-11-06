@@ -9,4 +9,6 @@ public interface PropostaRepository extends CrudRepository<Proposta, Long> {
 	boolean existsByCpfCnpj(String cpfCnpj);
 
 	boolean existsById(Long idProposta);
+
+	boolean existsByNumeroCartao(String idCartao);
 }

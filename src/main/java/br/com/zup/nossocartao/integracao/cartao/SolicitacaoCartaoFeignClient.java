@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(value = "solicitacaoCartao", url = "${api.cartoes}")
-public interface SolicitacaoCartao {
+public interface SolicitacaoCartaoFeignClient {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/cartoes")
 	void emitirCartao(CartaoRequest request);
