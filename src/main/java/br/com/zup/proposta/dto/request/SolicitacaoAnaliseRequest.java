@@ -28,7 +28,7 @@ public class SolicitacaoAnaliseRequest {
     }
 
     public SolicitacaoAnaliseRequest(Proposta proposta) {
-        this.documento = proposta.getDocumento();
+        this.documento = proposta.descriptografarDocumento();
         this.nome = proposta.getNome();
         this.idProposta = proposta.getId();
     }
