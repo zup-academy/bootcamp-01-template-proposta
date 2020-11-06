@@ -1,15 +1,16 @@
 package com.github.marcoscoutozup.proposta.carteira;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CarteiraTests {
 
     private Carteira carteira;
 
-    @Before
+    @BeforeEach
     public void setup(){
         carteira = new Carteira();
     }
@@ -17,7 +18,8 @@ public class CarteiraTests {
     @Test
     @DisplayName("Não deve verificar carteira se for nula")
     public void naoDeveVerificarCarteiraSeForNula() {
-        Assert.assertThrows(IllegalArgumentException.class, () -> carteira.verificarParidadeDeCarteira(null));
+        assertThrows(IllegalArgumentException.class,
+                () -> carteira.verificarParidadeDeCarteira(null));
     }
 
 }

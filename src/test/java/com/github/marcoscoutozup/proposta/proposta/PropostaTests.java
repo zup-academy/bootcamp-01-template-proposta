@@ -1,15 +1,16 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PropostaTests {
 
     private Proposta proposta;
 
-    @Before
+    @BeforeEach
     public void setup(){
         proposta = new Proposta();
     }
@@ -17,6 +18,6 @@ public class PropostaTests {
     @Test
     @DisplayName("Não deve modificar status da proposta se ela for nula")
     public void naoDeveModificarStatusDaPropostaSeElaForNula() {
-        Assert.assertThrows(IllegalArgumentException.class, () -> proposta.modificarStatusDaProposta(null));
+        assertThrows(IllegalArgumentException.class, () -> proposta.modificarStatusDaProposta(null));
     }
 }

@@ -1,20 +1,20 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
 import com.github.marcoscoutozup.proposta.exception.StandardError;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ConsultarPropostaControllerTests {
 
@@ -23,19 +23,23 @@ public class ConsultarPropostaControllerTests {
     @Mock
     private PropostaRepository repository;
 
-    @Before
+    @Mock
+    private Proposta proposta;
+
+    @BeforeEach
     public void setup(){
-        MockitoAnnotations.initMocks(this);
+        initMocks(this);
         controller = new ConsultarPropostaController(repository);
     }
 
     @Test
     @DisplayName("Deve retornar a consulta da proposta")
     public void deveRetornarAConsultaDaProposta(){
-        when(repository.findById(any(UUID.class))).thenReturn(Optional.of(new Proposta()));
+        when(repository.findById(any(UUID.class))).thenReturn(Optional.of(proposta));
+        when(proposta.descriptografarDocumento()).thenReturn(new String());
         ResponseEntity responseEntity = controller.consultarPropostaPorId(UUID.randomUUID());
-        Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        Assert.assertTrue(responseEntity.getBody() instanceof PropostaResponse);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertTrue(responseEntity.getBody() instanceof PropostaResponse);
     }
 
     @Test
@@ -43,8 +47,8 @@ public class ConsultarPropostaControllerTests {
     public void naoDeveRetornarAConsultaDaProposta(){
         when(repository.findById(any(UUID.class))).thenReturn(Optional.empty());
         ResponseEntity responseEntity = controller.consultarPropostaPorId(UUID.randomUUID());
-        Assert.assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        Assert.assertTrue(responseEntity.getBody() instanceof StandardError);
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertTrue(responseEntity.getBody() instanceof StandardError);
     }
 
 
