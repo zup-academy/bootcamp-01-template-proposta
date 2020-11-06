@@ -65,7 +65,7 @@ public class CadastrarAvisoController {
         }
 
        logger.info("[CADASTRO DE AVISO] Enviando aviso de viagem para o sistema de cartões. Cartão: {}", idCartao);
-       cartaoClient.enviarAvisoDeViagem(idCartao, avisoRequest);
+       cartaoClient.enviarAvisoDeViagem(cartao.getNumeroCartao(), avisoRequest);
 
        //7
        Aviso aviso = avisoRequest.toAviso(request);
