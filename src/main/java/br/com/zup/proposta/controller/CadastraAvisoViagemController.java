@@ -50,7 +50,6 @@ public class CadastraAvisoViagemController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error(Arrays.asList("Cartão não encontrado")));
         }
 
-        logger.warn("[CADASTRO DE AVISO] Enviando aviso de viagem para o sistema de cartões. Cartão: {}", cartaoID);
         integracaoCartao.enviarAvisoDeViagem(cartaoID, avisoViagemRequest);
 
         AvisoViagem avisoViagem = avisoViagemRequest.toModel(request);
