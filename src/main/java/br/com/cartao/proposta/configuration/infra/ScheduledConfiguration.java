@@ -1,5 +1,6 @@
 package br.com.cartao.proposta.configuration.infra;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
@@ -8,19 +9,16 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 @EnableScheduling
 @Configuration
-public class ScheduledConfiguration implements SchedulingConfigurer {
+public class ScheduledConfiguration{
 
-    private final int POOL_SIZE = 10;
 
-    @Override
-    public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
-
-        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-
-        scheduler.setPoolSize(POOL_SIZE);
-        scheduler.setThreadNamePrefix("taskExecutor");
-        scheduler.initialize();
-
-        scheduledTaskRegistrar.setTaskScheduler(scheduler);
+    @Bean
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler(){
+        ThreadPoolTaskScheduler threadPoolTaskScheduler
+                = new ThreadPoolTaskScheduler();
+        threadPoolTaskScheduler.setPoolSize(5);
+        threadPoolTaskScheduler.setThreadNamePrefix(
+                "ThreadPoolTaskScheduler");
+        return threadPoolTaskScheduler;
     }
 }
