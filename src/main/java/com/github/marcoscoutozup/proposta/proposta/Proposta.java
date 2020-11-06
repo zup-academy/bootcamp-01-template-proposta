@@ -1,11 +1,8 @@
 package com.github.marcoscoutozup.proposta.proposta;
 
+import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraRequest;
 import com.github.marcoscoutozup.proposta.cartao.Cartao;
 import com.github.marcoscoutozup.proposta.proposta.enums.StatusDaProposta;
-import com.github.marcoscoutozup.proposta.validator.cpfoucnpj.CpfOuCnpj;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.encrypt.Encryptors;
-import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -108,6 +105,10 @@ public class Proposta {
 
     public boolean verificarSeNaoExisteCartao(){
        return Objects.isNull(cartao);
+    }
+
+    public AnaliseFinanceiraRequest toAnaliseFinanceiraRequest(){
+        return new AnaliseFinanceiraRequest(this.descriptografarDocumento(), this.nome, this.id);
     }
 
 }
