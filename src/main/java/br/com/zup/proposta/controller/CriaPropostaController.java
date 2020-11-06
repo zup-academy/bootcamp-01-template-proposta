@@ -7,6 +7,7 @@ import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.service.AvaliaPropostaService;
 import br.com.zup.proposta.validator.BloqueiaDocIgualValidator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,20 +33,27 @@ public class CriaPropostaController {
     @Autowired
     private AvaliaPropostaService avaliaProposta;
 
+    private Tracer tracer;
+
     @Autowired
     private BloqueiaDocIgualValidator bloqueiaDocIgualValidator;
 
     public CriaPropostaController(BloqueiaDocIgualValidator bloqueiaDocIgualValidator,
-                                  ExecutorTransacao executorTransacao, AvaliaPropostaService avaliaProposta) {
+                                  ExecutorTransacao executorTransacao, AvaliaPropostaService avaliaProposta, Tracer tracer) {
         super();
         this.bloqueiaDocIgualValidator = bloqueiaDocIgualValidator;
         this.executorTransacao = executorTransacao;
         this.avaliaProposta = avaliaProposta;
+        this.tracer = tracer;
     }
 
     @PostMapping
     @Transactional
     public ResponseEntity<?> criaProposta (@RequestBody @Valid NovaPropostaRequest request, UriComponentsBuilder builder) throws JsonProcessingException {
+
+        tracer.activeSpan().setTag("usuario.email", request.getEmail());
+        tracer.activeSpan().setBaggageItem("usuario.email", request.getEmail());
+        tracer.activeSpan().log("Cadastrando a proposta do usuário");
 
         if(!bloqueiaDocIgualValidator.validaDocumento(request)) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "proposta já cadastrada para o cpf_cnpj");
