@@ -1,6 +1,5 @@
-package br.com.zup.proposta.integracao.cartao.biometria;
+package br.com.zup.proposta.integracao.biometria;
 
-import br.com.zup.proposta.integracao.ExecutorTransacao;
 import br.com.zup.proposta.integracao.cartao.Cartao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,7 @@ public class BiometriaController {
 
         cartao.addBiometria(biometria);
         manager.merge(cartao);
-        logger.info("Biometria associada ao cartão = {}", cartao.getNumeroCartao());
+        logger.info("Biometria associada ao cartão de id = {}", cartao.getNumeroCartao());
 
         return ResponseEntity.created(builder.path("/biometrias/{id}")
                 .buildAndExpand(idCartao).toUri()).build();

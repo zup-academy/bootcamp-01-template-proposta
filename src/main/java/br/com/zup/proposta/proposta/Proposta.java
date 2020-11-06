@@ -3,6 +3,7 @@ package br.com.zup.proposta.proposta;
 import br.com.zup.proposta.integracao.analiseproposta.StatusAvaliacaoProposta;
 import br.com.zup.proposta.integracao.cartao.Cartao;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -38,7 +39,7 @@ public class Proposta {
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
-        this.statusAvaliacao = StatusAvaliacaoProposta.NAO_ELEGIVEL;
+        this.statusAvaliacao = StatusAvaliacaoProposta.PENDENTE;
     }
 
     @Override
@@ -71,8 +72,6 @@ public class Proposta {
     }
 
     public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
-//        Assert.isTrue(this.statusAvaliacao.equals(StatusAvaliacaoProposta.NAO_ELEGIVEL),
-//                "Uma vez que a proposta é elegível, não é possível trocar");
         this.statusAvaliacao = statusAvaliacao;
     }
 

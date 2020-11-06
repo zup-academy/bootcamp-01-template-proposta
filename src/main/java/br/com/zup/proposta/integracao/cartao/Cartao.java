@@ -1,8 +1,10 @@
 package br.com.zup.proposta.integracao.cartao;
 
-import br.com.zup.proposta.integracao.cartao.biometria.Biometria;
+import br.com.zup.proposta.integracao.biometria.Biometria;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +16,9 @@ import java.util.Set;
 @Entity
 public class Cartao {
     @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
     private @NotBlank String numeroCartao;
     private @NotNull LocalDateTime emitidoEm;
     private @NotBlank String titular;

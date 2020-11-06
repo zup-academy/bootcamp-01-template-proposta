@@ -1,4 +1,4 @@
-package br.com.zup.proposta.integracao.cartao.biometria;
+package br.com.zup.proposta.integracao.biometria;
 
 import org.hibernate.annotations.GenericGenerator;
 
