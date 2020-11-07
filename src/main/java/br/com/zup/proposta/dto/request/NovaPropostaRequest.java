@@ -48,6 +48,10 @@ public class NovaPropostaRequest {
         return documento;
     }
 
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
+
     public String getEmail() {
         return email;
     }

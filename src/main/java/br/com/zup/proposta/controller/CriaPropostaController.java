@@ -8,6 +8,8 @@ import br.com.zup.proposta.service.AvaliaPropostaService;
 import br.com.zup.proposta.validator.BloqueiaDocIgualValidator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.opentracing.Tracer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,8 @@ public class CriaPropostaController {
     @Autowired
     private AvaliaPropostaService avaliaProposta;
 
+    private Logger logger = LoggerFactory.getLogger(CriaPropostaController.class);
+
     private Tracer tracer;
 
     @Autowired
@@ -56,14 +60,20 @@ public class CriaPropostaController {
         tracer.activeSpan().log("Cadastrando a proposta do usuário");
 
         if(!bloqueiaDocIgualValidator.validaDocumento(request)) {
+            logger.warn("[CRIAÇÃO DA PROPOSTA] Criacao de proposta com o mesmo documento: {}", request.getDocumento());
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "proposta já cadastrada para o cpf_cnpj");
         }
 
         Proposta novaProposta = request.toModel();
         executorTransacao.salva(novaProposta);
 
-        StatusAvaliacaoProposta avaliacao = avaliaProposta.executa(novaProposta);
+        logger.info("[CRIAÇÃO DA PROPOSTA] Proposta criada com sucesso: {}", novaProposta.getId());
+
+        StatusAvaliacaoProposta avaliacao = avaliaProposta.executa
+                (novaProposta);
         novaProposta.atualizaStatus(avaliacao);
+
+        logger.info("[ANÁLISE FINANCEIRA] Analise financeira realizada na proposta: {}", novaProposta.getId());
 
         executorTransacao.atualiza(novaProposta);
 
