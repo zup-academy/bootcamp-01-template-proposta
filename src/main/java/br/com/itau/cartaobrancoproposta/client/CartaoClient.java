@@ -1,6 +1,6 @@
 package br.com.itau.cartaobrancoproposta.client;
 
-import br.com.itau.cartaobrancoproposta.model.BloqueioCartao;
+import br.com.itau.cartaobrancoproposta.model.SolicitacaoBloqueioCartao;
 import br.com.itau.cartaobrancoproposta.model.SolicitacaoCartao;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -14,5 +14,5 @@ public interface CartaoClient {
     SolicitacaoCartao buscaCartao(@RequestParam("idProposta") String idProposta);
 
     @PostMapping("/api/cartoes/{id}/bloqueios")
-    BloqueioCartao bloqueiaCartao(@PathVariable("id") String idCartao, @RequestBody Map<String, String> sistemaResponsavelBody);
+    SolicitacaoBloqueioCartao bloqueiaCartao(@PathVariable("id") String idCartao, @RequestBody Map<String, String> sistemaResponsavelBody);
 }

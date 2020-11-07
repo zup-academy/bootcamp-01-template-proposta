@@ -1,25 +1,22 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 
 public class BiometriaResponse {
 
     private final String id;
-    private final String impressaoDigital;
+    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     private final LocalDate localDate;
 
-    public BiometriaResponse(String id, String impressaoDigital, LocalDate localDate) {
+    public BiometriaResponse(String id, LocalDate localDate) {
         this.id = id;
-        this.impressaoDigital = impressaoDigital;
         this.localDate = localDate;
     }
 
     public String getId() {
         return id;
-    }
-
-    public String getImpressaoDigital() {
-        return impressaoDigital;
     }
 
     public LocalDate getLocalDate() {
@@ -28,7 +25,6 @@ public class BiometriaResponse {
 
     public BiometriaResponse(Biometria biometria) {
         this.id = biometria.getId();
-        this.impressaoDigital = biometria.getImpressaoDigital();
         this.localDate = biometria.getLocalDate();
     }
 }

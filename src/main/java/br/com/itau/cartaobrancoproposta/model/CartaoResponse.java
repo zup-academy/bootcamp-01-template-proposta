@@ -11,7 +11,8 @@ public class CartaoResponse {
     private final String numeroCartao;
     private final String emitidoEm;
     private final String titular;
-    private final List<Bloqueio> bloqueios;
+    @JsonProperty(value = "bloqueios")
+    private final List<BloqueioResponse> bloqueiosResponse;
     private final List<AvisoViagem> avisos;
     private final List<CarteiraDigital> carteiras;
     private final List<Parcela> parcelas;
@@ -21,13 +22,13 @@ public class CartaoResponse {
     @JsonProperty(value = "biometrias")
     private final List<BiometriaResponse> biometriaResponse;
 
-    public CartaoResponse(String numeroCartao, String emitidoEm, String titular, List<Bloqueio> bloqueios,
+    public CartaoResponse(String numeroCartao, String emitidoEm, String titular, List<BloqueioResponse> bloqueiosResponse,
                           List<AvisoViagem> avisos, List<CarteiraDigital> carteiras, List<Parcela> parcelas,
                           BigDecimal limite, Renegociacao renegociacao, Vencimento vencimento, List<BiometriaResponse> biometriaResponse) {
         this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
-        this.bloqueios = bloqueios;
+        this.bloqueiosResponse = bloqueiosResponse;
         this.avisos = avisos;
         this.carteiras = carteiras;
         this.parcelas = parcelas;
@@ -49,8 +50,8 @@ public class CartaoResponse {
         return titular;
     }
 
-    public List<Bloqueio> getBloqueios() {
-        return bloqueios;
+    public List<BloqueioResponse> getBloqueiosResponse() {
+        return bloqueiosResponse;
     }
 
     public List<AvisoViagem> getAvisos() {
@@ -85,7 +86,7 @@ public class CartaoResponse {
         this.numeroCartao = cartao.getNumeroCartao();
         this.emitidoEm = cartao.getEmitidoEm();
         this.titular = cartao.getTitular();
-        this.bloqueios = cartao.getBloqueios();
+        this.bloqueiosResponse = cartao.getBloqueios().stream().map(bloqueio -> new BloqueioResponse(bloqueio.getLocalDateTime(), bloqueio.getEstadoBloqueio())).collect(Collectors.toList());
         this.avisos = cartao.getAvisos();
         this.carteiras = cartao.getCarteiras();
         this.parcelas = cartao.getParcelas();

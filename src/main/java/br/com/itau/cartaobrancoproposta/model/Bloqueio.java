@@ -3,10 +3,7 @@ package br.com.itau.cartaobrancoproposta.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -23,8 +20,11 @@ public class Bloqueio {
     @NotBlank
     private String userAgent;
     @NotNull
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalDateTime localDateTime = LocalDateTime.now();
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoBloqueio estadoBloqueio;
     @ManyToOne
     private Cartao cartao;
 
@@ -32,9 +32,10 @@ public class Bloqueio {
     public Bloqueio() {
     }
 
-    public Bloqueio(@NotBlank String ipCliente, @NotBlank String userAgent) {
+    public Bloqueio(@NotBlank String ipCliente, @NotBlank String userAgent, @NotNull EstadoBloqueio estadoBloqueio) {
         this.ipCliente = ipCliente;
         this.userAgent = userAgent;
+        this.estadoBloqueio = estadoBloqueio;
     }
 
     public String getId() {
@@ -67,5 +68,17 @@ public class Bloqueio {
 
     public void setLocalDateTime(LocalDateTime localDateTime) {
         this.localDateTime = localDateTime;
+    }
+
+    public EstadoBloqueio getEstadoBloqueio() {
+        return estadoBloqueio;
+    }
+
+    public void setEstadoBloqueio(EstadoBloqueio estadoBloqueio) {
+        this.estadoBloqueio = estadoBloqueio;
+    }
+
+    public void statusBloqueado() {
+        this.estadoBloqueio = EstadoBloqueio.BLOQUEADO;
     }
 }

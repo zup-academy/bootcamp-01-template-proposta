@@ -41,7 +41,7 @@ public class AssociaCartaoNaProposta {
                 try { //1
                     proposta.verificaCartao(cartaoClient);
                     transacaoDados.atualiza(proposta);
-                    logger.info("O cartão com final {} foi atrelado ao id={}", proposta.getCartao().getNumeroCartao().substring(24), proposta.getId());
+                    logger.info("Cartão com final {} foi atrelado ao id={} com sucesso!", proposta.getCartao().getNumeroCartao().substring(24), proposta.getId());
                 } catch (FeignException feignException) { //1
                     logger.error("Não foi possível atrelar o cartão a proposta id={}. Erro: {}", proposta.getId(), feignException.getLocalizedMessage());
                 }

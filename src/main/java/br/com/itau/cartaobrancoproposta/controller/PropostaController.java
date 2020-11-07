@@ -55,7 +55,7 @@ public class PropostaController {
     public ResponseEntity<PropostaResponse> exibeProposta(@PathVariable("id") String idProposta) { //1
         proposta = transacaoDados.busca(Proposta.class, idProposta);
         if (proposta != null) { //1
-            logger.info("Proposta id={} documento={} foi encontrada com sucesso.", proposta.getId(), proposta.getDocumento());
+            logger.info("Proposta id={} documento={} foi encontrada com sucesso!", proposta.getId(), proposta.getDocumento());
             return ResponseEntity.ok(new PropostaResponse(proposta));
         }
 

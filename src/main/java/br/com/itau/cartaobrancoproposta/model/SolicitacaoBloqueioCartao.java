@@ -1,14 +1,14 @@
 package br.com.itau.cartaobrancoproposta.model;
 
-public class BloqueioCartao {
+public class SolicitacaoBloqueioCartao {
 
     private String resultado;
 
     @Deprecated
-    public BloqueioCartao() {
+    public SolicitacaoBloqueioCartao() {
     }
 
-    public BloqueioCartao(String resultado) {
+    public SolicitacaoBloqueioCartao(String resultado) {
         this.resultado = resultado;
     }
 

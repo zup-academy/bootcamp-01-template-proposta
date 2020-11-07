@@ -48,11 +48,11 @@ public class BiometriaController {
         Biometria biometria = biometriaRequest.toModel(); //1
 
         entityManager.persist(biometria);
-        logger.info("Biometria id={} foi criada com sucesso.", biometria.getId());
+        logger.info("Biometria id={} foi criada com sucesso!", biometria.getId());
 
         cartao.carregaBiometria(biometria);
         entityManager.merge(cartao);
-        logger.info("Biometria id={} foi atrelado ao cartão com final {}", biometria.getId(), cartao.getNumeroCartao().substring(24));
+        logger.info("Biometria id={} foi atrelado ao cartão com final {} com sucesso!", biometria.getId(), cartao.getNumeroCartao().substring(24));
 
         URI endereco = builder.path("/v1/biometrias/{id}").buildAndExpand(biometria.getId()).toUri();
 
