@@ -4,6 +4,8 @@ import br.com.zup.proposta.annotations.InformacoesObrigatorias;
 import br.com.zup.proposta.model.Cartao;
 import br.com.zup.proposta.model.RecuperaSenha;
 import br.com.zup.proposta.utils.Error;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,6 +30,8 @@ public class RecuperarSenhaController {
 
     private EntityManager entityManager;
 
+    private Logger logger = LoggerFactory.getLogger(RecuperarSenhaController.class);
+
     public RecuperarSenhaController(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -39,11 +43,13 @@ public class RecuperarSenhaController {
         Optional<Cartao> cartao = Optional.ofNullable(entityManager.find(Cartao.class, cartaoID));
 
         if(cartao.isEmpty()){
+            logger.warn("[RECUPERAÇÃO DE SENHA] O número do cartão não foi encontrado {}", cartaoID);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error(Arrays.asList("Cartão não encontrado")));
         }
 
         RecuperaSenha recuperarSenha = new RecuperaSenha(request.getRemoteAddr(), request.getHeader("User-Agent"), cartao.get());
         entityManager.persist(recuperarSenha);
+        logger.warn("[RECUPERAÇÃO DE SENHA] Solicitação de recuperação de senha cadastrada. {}", recuperarSenha.getId());
 
         URI enderecoConsulta = builder.path("/recuperar_senha/{id}").buildAndExpand(recuperarSenha.getId()).toUri();
         return ResponseEntity.created(enderecoConsulta).build();

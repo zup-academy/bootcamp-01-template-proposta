@@ -32,7 +32,7 @@ public class CadastraAvisoViagemController {
 
     private IntegracaoCartao integracaoCartao;
 
-    private Logger logger = LoggerFactory.getLogger(AvisoViagem.class);
+    private Logger logger = LoggerFactory.getLogger(CadastraAvisoViagemController.class);
 
     public CadastraAvisoViagemController(EntityManager entityManager, IntegracaoCartao integracaoCartao) {
         this.entityManager = entityManager;
@@ -47,17 +47,21 @@ public class CadastraAvisoViagemController {
         Optional<Cartao> cartaoProcurado = Optional.ofNullable(entityManager.find(Cartao.class, cartaoID));
 
         if(cartaoProcurado.isEmpty()) {
+            logger.warn("[CADASTRO DE AVISO] O cartão não foi encontrado. Id: {}", cartaoID);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error(Arrays.asList("Cartão não encontrado")));
         }
 
+        logger.warn("[CADASTRO DE AVISO] Enviando aviso de viagem para o sistema de cartões. {}", cartaoID);
         integracaoCartao.enviarAvisoDeViagem(cartaoID, avisoViagemRequest);
 
         AvisoViagem avisoViagem = avisoViagemRequest.toModel(request);
         entityManager.persist(avisoViagem);
+        logger.warn("[CADASTRO DE AVISO] Aviso cadastrado: {}", avisoViagem.getId());
 
         Cartao cartao = cartaoProcurado.get();
         cartao.incluirAvisoDeViagem(avisoViagem);
         entityManager.merge(cartao);
+        logger.warn("[CADASTRO DE AVISO] Aviso associado ao cartão: {}", cartao.getNumeroCartao());
 
         URI enderecoConsulta = builder.path("/avisos/{id}").buildAndExpand(avisoViagem.getId()).toUri();
         return ResponseEntity.created(enderecoConsulta).build();
