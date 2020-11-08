@@ -2,8 +2,10 @@ package br.com.zup.proposta.controller;
 
 import br.com.zup.proposta.model.Bloqueio;
 import br.com.zup.proposta.model.Cartao;
+import br.com.zup.proposta.services.SolicitarBloqueio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,7 +29,11 @@ public class BloqueioCartaoController {
 
     private EntityManager entityManager;
 
-    public BloqueioCartaoController(EntityManager entityManager) {
+    @Autowired
+    private SolicitarBloqueio solicitarBloqueio; //1
+
+    public BloqueioCartaoController(SolicitarBloqueio solicitarBloqueio, EntityManager entityManager) {
+        this.solicitarBloqueio = solicitarBloqueio;
         this.entityManager = entityManager;
     }
 
@@ -43,7 +50,7 @@ public class BloqueioCartaoController {
                 "deve-se estar logado com um email autorizado");
 
         Optional<Cartao> possivelCartao = Optional
-                .ofNullable(entityManager.find(Cartao.class, idCartao)); //1
+                .ofNullable(entityManager.find(Cartao.class, idCartao)); //2
 
         if (possivelCartao.isEmpty()){ //2
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -67,10 +74,19 @@ public class BloqueioCartaoController {
 
         logger.info("Capturando infomações do header da requisição: {}", novoBloqueio.toString());
 
+        Map<String, String>  resultado = solicitarBloqueio.bloquear(novoBloqueio.numeroCartao());
+
+        logger.info("Cartao bloqueado? {}", resultado);
+
+        possivelCartao.get().bloquearCartao();
+
+        logger.info("Infos do cartão: {}", possivelCartao.get().toString());
+
         entityManager.persist(novoBloqueio);
 
         return ResponseEntity.created(builder.path("/api/cartoes/{id}/bloqueios/{id}")
-                .buildAndExpand(possivelCartao.get().getId(), novoBloqueio.getId()).toUri()).build();
+                .buildAndExpand(possivelCartao.get().getId(), novoBloqueio.getId())
+                .toUri()).build();
     }
 
 }

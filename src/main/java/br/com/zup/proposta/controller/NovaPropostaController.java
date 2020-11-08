@@ -1,7 +1,8 @@
 package br.com.zup.proposta.controller;
 
 import br.com.zup.proposta.dao.ExecutorTransacao;
-import br.com.zup.proposta.dto.AvaliaProposta;
+import br.com.zup.proposta.metrics.MinhasMetricas;
+import br.com.zup.proposta.services.AvaliaProposta;
 import br.com.zup.proposta.dto.NovaPropostaRequest;
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;
@@ -14,7 +15,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,18 +29,20 @@ import java.util.Optional;
 public class NovaPropostaController {
 
     private DocumentoIgualValidator documentoIgualValidator; //1
-
     private AvaliaProposta avaliaProposta; //2
-
     private ExecutorTransacao executorTransacao; //3
+
+    private MinhasMetricas minhasMetricas;
 
     private final Logger logger = LoggerFactory.getLogger(NovaPropostaController.class);
 
     public NovaPropostaController(DocumentoIgualValidator documentoIgualValidator,
-                                  AvaliaProposta avaliaProposta, ExecutorTransacao executorTransacao) {
+                                  AvaliaProposta avaliaProposta, ExecutorTransacao executorTransacao,
+                                  MinhasMetricas minhasMetricas) {
         this.documentoIgualValidator = documentoIgualValidator;
         this.avaliaProposta = avaliaProposta;
         this.executorTransacao = executorTransacao;
+        this.minhasMetricas = minhasMetricas;
     }
 
     @PostMapping
@@ -78,6 +80,8 @@ public class NovaPropostaController {
                 novaProposta.getStatusAvaliacaoProposta());
 
         executorTransacao.atualizaEComita(novaProposta);
+
+        minhasMetricas.meuContador();
 
         return ResponseEntity.created(builder.path("/api/propostas/{id}")
                 .buildAndExpand(novaProposta.getId()).toUri()).build();

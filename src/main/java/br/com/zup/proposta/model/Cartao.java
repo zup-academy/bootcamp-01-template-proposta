@@ -1,5 +1,6 @@
 package br.com.zup.proposta.model;
 
+import br.com.zup.proposta.model.enums.StatusCartao;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,10 +23,10 @@ public class Cartao {
     @NotNull
     @Valid
     private Proposta proposta; //1
-
+    @Enumerated(EnumType.STRING)
+    private StatusCartao statusCartao;
     @ElementCollection
     private Set<Biometria> biometrias = new HashSet<>(); //2
-
     @OneToMany(mappedBy = "cartao")
     private List<Bloqueio> bloqueios = new ArrayList<>();
 
@@ -35,6 +36,7 @@ public class Cartao {
     public Cartao(@NotBlank String numero, @NotNull @Valid Proposta proposta) {
         this.numero = numero;
         this.proposta = proposta;
+        this.statusCartao = StatusCartao.ATIVO;
     }
 
     public UUID getId() {
@@ -45,8 +47,8 @@ public class Cartao {
         return numero;
     }
 
-    public Set<Biometria> getBiometrias() {
-        return biometrias;
+    public void bloquearCartao(){
+        this.statusCartao = StatusCartao.BLOQUEADO;
     }
 
     public String emailDonocartao(){
@@ -61,6 +63,9 @@ public class Cartao {
     public String toString() {
         return "Cartao{" +
                 "numero='" + numero + '\'' +
+                ", statusCartao=" + statusCartao +
+                ", biometrias=" + biometrias +
+                ", bloqueios=" + bloqueios +
                 '}';
     }
 

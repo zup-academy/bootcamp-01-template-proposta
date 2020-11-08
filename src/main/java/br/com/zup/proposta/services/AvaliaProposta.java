@@ -1,5 +1,6 @@
-package br.com.zup.proposta.dto;
+package br.com.zup.proposta.services;
 
+import br.com.zup.proposta.dto.AvaliacaoPropostaRequest;
 import br.com.zup.proposta.dto.integration.IntegracoesAnaliseFinanceira;
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;

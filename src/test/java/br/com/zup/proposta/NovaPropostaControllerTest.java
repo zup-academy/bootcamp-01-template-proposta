@@ -1,20 +1,12 @@
 package br.com.zup.proposta;
 
 import br.com.zup.proposta.dao.ExecutorTransacao;
-import br.com.zup.proposta.dto.AvaliaProposta;
+import br.com.zup.proposta.services.AvaliaProposta;
 import br.com.zup.proposta.controller.NovaPropostaController;
-import br.com.zup.proposta.dto.NovaPropostaRequest;
-import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.validations.DocumentoIgualValidator;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.math.BigDecimal;
 
 public class NovaPropostaControllerTest {
 
@@ -22,8 +14,8 @@ public class NovaPropostaControllerTest {
             Mockito.mock(DocumentoIgualValidator.class);
     private AvaliaProposta avaliaProposta = Mockito.mock(AvaliaProposta.class);
     private ExecutorTransacao executorTransacao = Mockito.mock(ExecutorTransacao.class);
-    private NovaPropostaController controller =
-            new NovaPropostaController(documentoIgualValidator, avaliaProposta,executorTransacao);
+    //private NovaPropostaController controller =
+    //        new NovaPropostaController(documentoIgualValidator, avaliaProposta,executorTransacao);
 
     @Test
     @DisplayName("nao pode processar proposta com documento igual")

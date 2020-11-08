@@ -1,4 +1,4 @@
-package br.com.zup.proposta.controller;
+package br.com.zup.proposta.scheduler;
 
 import br.com.zup.proposta.dao.ExecutorTransacao;
 import br.com.zup.proposta.dao.repository.PropostaRepository;

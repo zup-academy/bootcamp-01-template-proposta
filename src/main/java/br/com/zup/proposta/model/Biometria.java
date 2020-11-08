@@ -1,13 +1,9 @@
 package br.com.zup.proposta.model;
 
-import br.com.zup.proposta.util.ConverterArquivo;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Base64;
 
 @Embeddable
 public class Biometria {

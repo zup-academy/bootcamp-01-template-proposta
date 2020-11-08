@@ -1,6 +1,5 @@
 package br.com.zup.proposta.model;
 
-import br.com.zup.proposta.model.enums.StatusCartao;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-public class Bloqueio {
+public class RecuperacaoSenha {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -24,39 +23,28 @@ public class Bloqueio {
     @NotNull
     @Valid
     private Cartao cartao;
-    @NotBlank
-    private String userAgent;
-    @NotBlank
-    private String ipCliente;
-    private LocalDateTime instanteBloqueio;
+    private @NotBlank String userAgent;
+    private @NotBlank  String ipClient;
+    private LocalDateTime instanteCriacao;
 
-    @Deprecated
-    public Bloqueio(){}
-
-    public Bloqueio(@NotNull @Valid Cartao cartao, @NotBlank String userAgent,
-                    @NotBlank String ipCliente) {
+    public RecuperacaoSenha(Cartao cartao, String userAgent, String ipClient) {
         this.cartao = cartao;
         this.userAgent = userAgent;
-        this.ipCliente = ipCliente;
-        this.instanteBloqueio = LocalDateTime.now();
+        this.ipClient = ipClient;
+        this.instanteCriacao = LocalDateTime.now();
     }
 
     public UUID getId() {
         return id;
     }
 
-    public void bloquearCartao(){
-    }
-
-    public String numeroCartao(){
-        return this.cartao.getNumero();
-    }
-
     @Override
     public String toString() {
-        return "Bloqueio{" +
-                "userAgent='" + userAgent + '\'' +
-                ", ipClient='" + ipCliente + '\'' +
+        return "RecuperacaoSenha{" +
+                "cartao=" + cartao.getNumero() +
+                ", userAgent='" + userAgent + '\'' +
+                ", ipClient='" + ipClient + '\'' +
+                ", instanteCriacao=" + instanteCriacao +
                 '}';
     }
 

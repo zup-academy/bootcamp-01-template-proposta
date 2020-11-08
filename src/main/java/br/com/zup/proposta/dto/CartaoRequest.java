@@ -26,4 +26,12 @@ public class CartaoRequest {
         return idProposta;
     }
 
+    @Override
+    public String toString() {
+        return "CartaoRequest{" +
+                "idProposta='" + idProposta + '\'' +
+                ", numero='" + numero + '\'' +
+                '}';
+    }
+
 }
