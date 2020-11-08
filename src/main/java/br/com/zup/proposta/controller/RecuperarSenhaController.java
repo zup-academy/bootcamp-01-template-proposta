@@ -50,9 +50,9 @@ public class RecuperarSenhaController {
 
         //ver se o cartão existe
         Optional<Cartao> possivelCartao = Optional.ofNullable(
-                entityManager.find(Cartao.class, idCartao));
+                entityManager.find(Cartao.class, idCartao)); //1
 
-        if (possivelCartao.isEmpty())
+        if (possivelCartao.isEmpty()) //2
             return new ResponseEntity(HttpStatus.NOT_FOUND);
 
         logger.info("Cartao encontrado: {}", possivelCartao.get().toString());
@@ -60,14 +60,14 @@ public class RecuperarSenhaController {
         //ver se a pessoa pode recuperar senha
         String emailDonoCartao = possivelCartao.get().emailDonocartao();
 
-        if(!emailDonoCartao.equals(emailLogado.get()))
+        if(!emailDonoCartao.equals(emailLogado.get())) //3
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         String userAgent = request.getHeader("user-agent");
         String ipClient = request.getRemoteAddr();
 
         RecuperacaoSenha novaRecuperacaoSenha = new RecuperacaoSenha(possivelCartao.get(),
-                userAgent, ipClient);
+                userAgent, ipClient); //4
 
         logger.info("Solicitação recuperar senha: {}", novaRecuperacaoSenha.toString());
 
