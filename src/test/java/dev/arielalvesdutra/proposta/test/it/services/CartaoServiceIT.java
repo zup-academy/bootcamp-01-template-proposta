@@ -1,11 +1,17 @@
 package dev.arielalvesdutra.proposta.test.it.services;
 
+import dev.arielalvesdutra.proposta.entities.Cartao;
 import dev.arielalvesdutra.proposta.entities.Proposta;
+import dev.arielalvesdutra.proposta.entities.enums.CartaoStatus;
 import dev.arielalvesdutra.proposta.http_clients.AnaliseHttpClient;
 import dev.arielalvesdutra.proposta.http_clients.CartaoHttpClient;
 import dev.arielalvesdutra.proposta.http_clients.dtos.SolicitacaoAnaliseDTO;
+import dev.arielalvesdutra.proposta.http_clients.dtos.SolicitacaoBloqueioDTO;
+import dev.arielalvesdutra.proposta.repositories.CartaoBloqueioRepository;
+import dev.arielalvesdutra.proposta.repositories.CartaoRepository;
 import dev.arielalvesdutra.proposta.services.CartaoService;
 import dev.arielalvesdutra.proposta.services.PropostaService;
+import dev.arielalvesdutra.proposta.services.dtos.CadastrarBloqueioDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +22,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import static dev.arielalvesdutra.proposta.test.factories.controllers.dtos.CadastrarPropostaDTOFactory.propostaValida;
+import static dev.arielalvesdutra.proposta.test.factories.entities.CartaoFactory.cartaoValido;
 import static dev.arielalvesdutra.proposta.test.factories.http_clients.dtos.CartaoRetornoDTOFactory.cartaoCadastrado;
 import static dev.arielalvesdutra.proposta.test.factories.http_clients.dtos.ResultadoAnaliseDTOFactory.resultadoAnaliseSemRestricao;
+import static dev.arielalvesdutra.proposta.test.factories.http_clients.dtos.ResultadoBloqueioDTOFactory.resultadoBlequeioSucesso;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -38,6 +46,12 @@ public class CartaoServiceIT {
 
     @Autowired
     private CartaoService cartaoService;
+
+    @Autowired
+    private CartaoRepository cartaoRepository;
+
+    @Autowired
+    private CartaoBloqueioRepository cartaoBloqueioRepository;
 
     private Proposta proposta;
 
@@ -73,5 +87,42 @@ public class CartaoServiceIT {
 
         assertThat(propostaBuscada).isNotNull();
         assertThat(propostaBuscada.getCartao()).isEqualTo(cartaoBuscado);
+    }
+
+    @Test
+    public void bloquear_deveBloquearCartaoERetornarNovoRegistroDeBloqueio() {
+        var cartaoCadastrado = cadastraCartaoValido();
+
+        assertThat(cartaoCadastrado.getStatus()).isEqualTo(CartaoStatus.ATIVO);
+
+        var dto = new CadastrarBloqueioDTO()
+                .setIp("0.0.0.0")
+                .setUserAgent("Postman/3030");
+        when(cartaoHttpClientMock.bloqueiaCartao(any(String.class), any(SolicitacaoBloqueioDTO.class)))
+                .thenReturn(resultadoBlequeioSucesso());
+
+        var bloqueioCadastrado = cartaoService.bloquear(cartaoCadastrado.getId(), dto);
+
+        assertThat(bloqueioCadastrado).isNotNull();
+        assertThat(bloqueioCadastrado.getId()).isNotNull();
+
+        var bloqueioBuscado = cartaoBloqueioRepository.findById(bloqueioCadastrado.getId()).get();
+
+        assertThat(bloqueioBuscado).isNotNull();
+        assertThat(bloqueioBuscado.getId()).isNotNull();
+        assertThat(bloqueioBuscado.getIp()).isEqualTo(dto.getIp());
+        assertThat(bloqueioBuscado.getUserAgent()).isEqualTo(dto.getUserAgent());
+        assertThat(bloqueioBuscado.getCartao()).isEqualTo(cartaoCadastrado);
+        assertThat(bloqueioBuscado.getCadastradoEm()).isNotNull();
+
+        var cartaoBuscado = cartaoService.buscaPeloId(cartaoCadastrado.getId());
+
+        assertThat(cartaoBuscado).isNotNull();
+        assertThat(cartaoBuscado.getStatus()).isEqualTo(CartaoStatus.BLOQUEADO);
+    }
+
+    private Cartao cadastraCartaoValido() {
+        var cartaoParaCadastrar = cartaoValido(proposta);
+        return cartaoRepository.save(cartaoParaCadastrar);
     }
 }

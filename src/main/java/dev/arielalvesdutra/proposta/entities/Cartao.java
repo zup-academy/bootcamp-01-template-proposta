@@ -1,5 +1,6 @@
 package dev.arielalvesdutra.proposta.entities;
 
+import dev.arielalvesdutra.proposta.entities.enums.CartaoStatus;
 import dev.arielalvesdutra.proposta.entities.interfaces.Timestamper;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
@@ -27,6 +28,9 @@ public class Cartao implements Timestamper {
     private String titular;
     @NotNull(message = "{limite.obrigatorio}")
     private BigDecimal limite;
+    @NotNull(message = "Status é obrigatório!")
+    @Enumerated(EnumType.STRING)
+    private CartaoStatus status = CartaoStatus.ATIVO;
     /**
      * ID do cartão gerado no legado (Serviço de Cartões).
      *
@@ -44,6 +48,22 @@ public class Cartao implements Timestamper {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "cartao", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Biometria> biometrias;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "cartao", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<CartaoBloqueio> bloqueios;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "cartao", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<SolicitacaoRecuperacaoSenha> solicitacoesRecuperacaoSenha;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "cartao", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<AvisoViagem> avisosViagem;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "cartao", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<Carteira> carteiras;
 
     public String getId() {
         return id;
@@ -105,12 +125,63 @@ public class Cartao implements Timestamper {
         return this;
     }
 
+    public Set<CartaoBloqueio> getBloqueios() {
+        return bloqueios;
+    }
+
+    public Cartao setBloqueios(Set<CartaoBloqueio> bloqueios) {
+        this.bloqueios = bloqueios;
+        return this;
+    }
+
+    public Cartao addBloqueio(CartaoBloqueio bloqueio) {
+        this.bloqueios.add(bloqueio);
+        bloqueio.setCartao(this);
+        return this;
+    }
+
+    public Set<AvisoViagem> getAvisosViagem() {
+        return avisosViagem;
+    }
+
+    public Cartao setAvisosViagem(Set<AvisoViagem> avisosViagem) {
+        this.avisosViagem = avisosViagem;
+        return this;
+    }
+
     public String getLegadoId() {
         return legadoId;
     }
 
     public Cartao setLegadoId(String legadoId) {
         this.legadoId = legadoId;
+        return this;
+    }
+
+    public CartaoStatus getStatus() {
+        return status;
+    }
+
+    public Cartao setStatus(CartaoStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public Set<SolicitacaoRecuperacaoSenha> getSolicitacoesRecuperacaoSenha() {
+        return solicitacoesRecuperacaoSenha;
+    }
+
+    public Cartao setSolicitacoesRecuperacaoSenha(Set<SolicitacaoRecuperacaoSenha> solicitacoesRecuperacaoSenha) {
+        this.solicitacoesRecuperacaoSenha = solicitacoesRecuperacaoSenha;
+        return this;
+    }
+
+    public Set<Carteira> getCarteiras() {
+        return carteiras;
+    }
+
+    public Cartao setCarteiras(Set<Carteira> carteiras) {
+        this.carteiras = carteiras;
         return this;
     }
 
@@ -132,6 +203,10 @@ public class Cartao implements Timestamper {
     public Cartao setAtualizadoEm(OffsetDateTime atualizadoEm) {
         this.atualizadoEm = atualizadoEm;
         return this;
+    }
+
+    public boolean estaBloqueado() {
+        return status == CartaoStatus.BLOQUEADO;
     }
 
     @Override
