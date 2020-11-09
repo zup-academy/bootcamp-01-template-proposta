@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,16 +32,16 @@ public class Cartao {
     private LocalDateTime emitidoEm;
     @NotBlank
     private String titular;
-    @OneToMany
-    private Set<Bloqueio> bloqueios;
+    @OneToMany(mappedBy = "cartao",cascade = CascadeType.MERGE)
+    private final List<Bloqueio> bloqueios = new ArrayList<>();
     @OneToMany
     private Set<Aviso> avisos;
     @OneToMany
     private Set<Carteira> carteiras;
     @Positive
     private BigDecimal limite;
-    @OneToMany
-    private Set<Biometria> biometrias;
+    @OneToMany(mappedBy = "cartao",cascade = CascadeType.MERGE)
+    private final List<Biometria> biometrias = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private EstadoCartao estadoCartao;
@@ -53,7 +55,7 @@ public class Cartao {
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.limite = limite;
-        this.estadoCartao = EstadoCartao.BLOQUEADO;
+        this.estadoCartao = EstadoCartao.DESBLOQUEADO;
     }
 
     public String getTitular() {
@@ -80,14 +82,21 @@ public class Cartao {
         return id;
     }
 
-    public void adicionarBiometriaNoCartao(Biometria biometria) {
-        Assert.notNull(biometria, "A biometria não pode ser nula para associação do cartão");
-        biometrias.add(biometria);
+    public EstadoCartao getEstadoCartao() {
+        return estadoCartao;
     }
 
-    public void adicionarBloqueioDoCartao(Bloqueio bloqueio) {
-        Assert.notNull(bloqueio, "O bloqueio do cartão não pode ser nulo");
-        bloqueios.add(bloqueio);
+    public void setEstadoCartao(EstadoCartao estadoCartao) {
+        this.estadoCartao = estadoCartao;
+    }
+
+    public void adicionarBiometriaNoCartao(@NotNull byte[] fingerprint) {
+        this.biometrias.add(new Biometria(fingerprint, this));
+    }
+
+    public void adicionarBloqueioDoCartao(@NotBlank String ip, @NotBlank String sistemaResponsavel  ) {
+        setEstadoCartao(EstadoCartao.BLOQUEADO);
+        this.bloqueios.add(new Bloqueio(ip, sistemaResponsavel, this));
     }
 
     public void adicionarAvisoDeViagem(Aviso aviso) {
