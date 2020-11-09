@@ -1,11 +1,15 @@
 package br.com.zup.bootcamp.proposta.domain.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,40 +21,38 @@ public class Bloqueio {
     private String id;
 
     @NotBlank
-    private LocalDateTime bloqueadoEm;
+    private String ip;
 
     @NotBlank
     private String sistemaResponsavel;
 
-    private Boolean ativo;
+    @CreationTimestamp
+    private LocalDateTime bloqueadoEm;
 
-    public Bloqueio(@NotBlank LocalDateTime bloqueadoEm, @NotBlank String sistemaResponsavel, Boolean ativo) {
-        this.bloqueadoEm = bloqueadoEm;
+    @ManyToOne
+    @Valid @NotNull
+    private Cartao cartao;
+
+    @Deprecated
+    public Bloqueio() {
+    }
+
+    public Bloqueio(@NotBlank String ip, @NotBlank String sistemaResponsavel, Cartao cartao) {
+        this.ip = ip;
         this.sistemaResponsavel = sistemaResponsavel;
-        this.ativo = ativo;
+        this.cartao = cartao;
     }
 
-    public LocalDateTime getBloqueadoEm() {
-        return bloqueadoEm;
+    public String getId() {
+        return id;
     }
 
-    public void setBloqueadoEm(LocalDateTime bloqueadoEm) {
-        this.bloqueadoEm = bloqueadoEm;
+    public String getIp() {
+        return ip;
     }
 
     public String getSistemaResponsavel() {
         return sistemaResponsavel;
     }
 
-    public void setSistemaResponsavel(String sistemaResponsavel) {
-        this.sistemaResponsavel = sistemaResponsavel;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
 }
