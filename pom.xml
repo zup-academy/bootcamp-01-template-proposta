@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.com.zup</groupId>
 	<artifactId>proposta</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>proposta</name>
 	<description>Projeto cartão de crédito ZUP - Proposta</description>
 
@@ -100,6 +100,20 @@
 		</dependency>
 
 		<dependency>
+    		<groupId>io.micrometer</groupId>
+    		<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>io.github.openfeign.form</groupId>
+    		<artifactId>feign-form</artifactId>
+    		<version>3.8.0</version>
+  		</dependency>
+
+		<!-- Test dependencies -->
+
+		<dependency>
     		<groupId>io.rest-assured</groupId>
     		<artifactId>spring-mock-mvc</artifactId>
     		<version>4.3.1</version>
@@ -145,6 +159,21 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+                	<execution>
+                    	<goals>
+                        	<goal>repackage</goal>
+                    	</goals>
+                	</execution>
+            	</executions>
+			</plugin>
+			<plugin>
+    			<groupId>com.spotify</groupId>
+    			<artifactId>dockerfile-maven-plugin</artifactId>
+    			<version>1.4.13</version>
+        		<configuration>
+            		<repository>matheus/${project.artifactId}-app</repository>
+        		</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -25,9 +25,9 @@ public class CartaoBloqueioController {
     public ResponseEntity<?> solicitaBloqueio(@PathVariable String id, HttpServletRequest request, 
             UriComponentsBuilder uriBuilder) {
 
-        Cartao cartao = service.solicitaBloqueio(id, request);
+        final Cartao cartao = service.solicitaBloqueio(id, request);
 
-        URI uri = uriBuilder.path("/api/cartao/{id}").buildAndExpand(cartao.getId()).toUri();
+        final URI uri = uriBuilder.path("/api/cartao/{id}").buildAndExpand(cartao.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 }

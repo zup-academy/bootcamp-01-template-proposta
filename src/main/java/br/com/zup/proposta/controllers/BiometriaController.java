@@ -24,9 +24,9 @@ public class BiometriaController {
     @PostMapping("/api/cartao/biometria/{id}")
     public ResponseEntity<?> cadastrarBiometria(@PathVariable String id, @RequestBody MultipartFile file, 
         UriComponentsBuilder uriBuilder, Principal principal) {
-        Cartao cartaoAtualizado = service.cadastrarBiometria(id, file);
+        final Cartao cartaoAtualizado = service.cadastrarBiometria(id, file);
 
-        URI uri = uriBuilder.path("/cartao/{id}").buildAndExpand(cartaoAtualizado.getId()).toUri();
+        final URI uri = uriBuilder.path("/cartao/{id}").buildAndExpand(cartaoAtualizado.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 }

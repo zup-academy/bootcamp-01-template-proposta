@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import br.com.zup.proposta.configs.ScheduledTask;
 import br.com.zup.proposta.controllers.dto.PropostaDto;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import org.awaitility.Awaitility;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ActiveProfiles(value = "test")
 public class SolicitacaoControllerTest {
     
     @Autowired
@@ -41,8 +43,8 @@ public class SolicitacaoControllerTest {
         propostaService.removeTudo();
 
         SolicitacaoForm form = novaSolicitacaoValidaElegivel();
-
-        ResponseEntity<PropostaDto> response = restTemplate.postForEntity("/propostas", form, PropostaDto.class);
+        
+        ResponseEntity<PropostaDto> response = restTemplate.postForEntity("/api/propostas", form, PropostaDto.class);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -63,7 +65,7 @@ public class SolicitacaoControllerTest {
         assertThat(proposta.getEstadoProposta()).isEqualTo(EstadoProposta.ELEGIVEL);
 
         assertThat(response.getHeaders()).isNotNull();
-        assertThat(response.getHeaders().getLocation().getRawPath()).isEqualTo("/propostas/" + proposta.getId());
+        assertThat(response.getHeaders().getLocation().getRawPath()).isEqualTo("/api/propostas/" + proposta.getId());
     }
 
     @Test
@@ -72,7 +74,7 @@ public class SolicitacaoControllerTest {
 
         SolicitacaoForm form = novaSolicitacaoValidaNaoElegivel();
 
-        ResponseEntity<PropostaDto> response = restTemplate.postForEntity("/propostas", form, PropostaDto.class);
+        ResponseEntity<PropostaDto> response = restTemplate.postForEntity("/api/propostas", form, PropostaDto.class);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -93,7 +95,7 @@ public class SolicitacaoControllerTest {
         assertThat(proposta.getEstadoProposta()).isEqualTo(EstadoProposta.NAO_ELEGIVEL);
 
         assertThat(response.getHeaders()).isNotNull();
-        assertThat(response.getHeaders().getLocation().getRawPath()).isEqualTo("/propostas/" + proposta.getId());
+        assertThat(response.getHeaders().getLocation().getRawPath()).isEqualTo("/api/propostas/" + proposta.getId());
     }
 
     @Test
@@ -102,8 +104,8 @@ public class SolicitacaoControllerTest {
 
         SolicitacaoForm form = novaSolicitacaoValidaElegivel();
 
-        ResponseEntity<?> response = restTemplate.postForEntity("/propostas", form, PropostaDto.class);
-        ResponseEntity<?> responseDuplicada = restTemplate.postForEntity("/propostas", form, PropostaDto.class);
+        ResponseEntity<?> response = restTemplate.postForEntity("/api/propostas", form, PropostaDto.class);
+        ResponseEntity<?> responseDuplicada = restTemplate.postForEntity("/api/propostas", form, PropostaDto.class);
 
         assertThat(response).isNotNull();
         assertThat(responseDuplicada).isNotNull();
@@ -118,9 +120,9 @@ public class SolicitacaoControllerTest {
         SolicitacaoForm solicitacaoElegivel = novaSolicitacaoValidaElegivel();
         SolicitacaoForm solicitacaoNaoElegivel = novaSolicitacaoValidaNaoElegivel();
 
-        ResponseEntity<PropostaDto> responseElegivel = restTemplate.postForEntity("/propostas", 
+        ResponseEntity<PropostaDto> responseElegivel = restTemplate.postForEntity("/api/propostas", 
             solicitacaoElegivel, PropostaDto.class);
-        ResponseEntity<PropostaDto> responseNaoElegivel = restTemplate.postForEntity("/propostas", 
+        ResponseEntity<PropostaDto> responseNaoElegivel = restTemplate.postForEntity("/api/propostas", 
             solicitacaoNaoElegivel, PropostaDto.class);
 
         assertThat(responseElegivel.getBody().getId()).isNotNull();
