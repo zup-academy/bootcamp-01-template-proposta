@@ -3,6 +3,7 @@ package com.proposta.criacaocartao;
 import com.proposta.bloqueiodecartao.Bloqueios;
 import com.proposta.bloqueiodecartao.StatusCartao;
 import com.proposta.criacaobiometria.Biometria;
+import com.proposta.solicitacaoderecuperacaodesenha.RecuperarSenha;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -51,6 +52,9 @@ public class Cartao {
 
     private StatusCartao status = StatusCartao.DESBLOQUEADO;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<RecuperarSenha> recuperarSenha;
+
     @Deprecated
     public Cartao() {}
 
@@ -73,6 +77,10 @@ public class Cartao {
 
     public void ativarBloqueio(Bloqueios bloqueio) {
         bloqueios.add(bloqueio);
+    }
+
+    public void recuperarSenha(RecuperarSenha solicitaRecuperacao) {
+        recuperarSenha.add(solicitaRecuperacao);
     }
 
 
@@ -183,4 +191,5 @@ public class Cartao {
     public void setStatus(StatusCartao status) {
         this.status = status;
     }
+
 }
