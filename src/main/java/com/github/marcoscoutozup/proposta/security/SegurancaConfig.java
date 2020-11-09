@@ -20,13 +20,14 @@ public class SegurancaConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(GET, "/propostas/**").hasAuthority("SCOPE_propostas")
                 .antMatchers(POST, "/propostas").hasAuthority("SCOPE_propostas")
                 .antMatchers(POST, "/cartoes/**").hasAuthority("SCOPE_cartoes")
+                .antMatchers(GET, "/cartoes/**").hasAuthority("SCOPE_cartoes")
                 .anyRequest().hasAuthority("SCOPE_admin")
                 .and()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/h2-console", "/h2-console/**");
     }
 }
