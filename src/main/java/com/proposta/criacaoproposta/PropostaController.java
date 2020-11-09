@@ -1,6 +1,7 @@
 package com.proposta.criacaoproposta;
 
 import com.proposta.feign.AnalisePropostaCliente;
+import com.proposta.metrics.MinhasMetricas;
 import com.proposta.validator.ValidarDocumentoIgual;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,9 @@ public class PropostaController {
     @Autowired
     private PropostaService propostaService;
 
+    @Autowired
+    private MinhasMetricas minhasMetricas;
+
     @PostMapping
     @Transactional
     //1 PropostaRequest
@@ -46,6 +50,9 @@ public class PropostaController {
 
         //6 PropostaResponse // 7 Proposta service
         PropostaResponse propostaResponse = propostaService.cria(proposta);
+
+        minhasMetricas.meuContador();
+
         URI uriCreated = builder.path("/propostas/{id}").build(propostaResponse.getId());
         return ResponseEntity.created(uriCreated).build();
     }

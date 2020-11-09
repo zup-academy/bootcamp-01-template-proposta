@@ -13,6 +13,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorizeRequests ->
                 authorizeRequests
+                        .antMatchers(HttpMethod.GET, "/actuator/prometheus").permitAll()
                         .antMatchers(HttpMethod.GET, "/actuator/health").permitAll()
                         .antMatchers(HttpMethod.GET, "/api/propostas/**").hasAuthority("SCOPE_meu-primeiro-escopo")
                         .antMatchers(HttpMethod.GET, "/api/cartoes/**").hasAuthority("SCOPE_meu-primeiro-escopo")
