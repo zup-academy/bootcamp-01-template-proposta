@@ -1,14 +1,12 @@
 package br.com.zup.proposta.service;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -20,16 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.zup.proposta.configs.exceptions.ApiException;
 import br.com.zup.proposta.controllers.apiResponses.cartao.CartaoResponse;
-import br.com.zup.proposta.controllers.apiResponses.cartao.SolicitaBloqueioResponse;
-import br.com.zup.proposta.controllers.form.SolicitaBloqueioForm;
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.model.cartao.Biometria;
 import br.com.zup.proposta.model.cartao.Cartao;
-import br.com.zup.proposta.model.cartao.CartaoBloqueio;
 import br.com.zup.proposta.repositories.CartaoRepository;
 import br.com.zup.proposta.repositories.PropostaRepository;
 import br.com.zup.proposta.service.feign.CartaoClient;
-import feign.FeignException.UnprocessableEntity;
 
 @Service
 public class CartaoService {
@@ -104,7 +98,7 @@ public class CartaoService {
             logger.info("Cartão atualizado com sucesso");
         } catch (IOException e) {
             logger.warn("Erro ao converter arquivo para Base64. {}", e.getMessage());
-            throw new ApiException(String.format("Erro ao converter arquivo para Base64 em cartão de id {}", 
+            throw new ApiException(String.format("Erro ao converter arquivo para Base64 em cartão de id %s", 
                 cartao.getId()));
         }
 
@@ -112,43 +106,4 @@ public class CartaoService {
         return cartao;
     }
 
-    @Transactional
-	public Cartao solicitaBloqueio(String id, HttpServletRequest request) {
-        logger.info("Solicitando cartao do banco de dados.");
-
-		Cartao cartao = cartaoRepository.findById(id).orElseThrow(
-            () -> new IllegalStateException(String.format("Cartão de id {} não encontrado", id)));
-
-        logger.info("Cartao de id {} encontrado", id);
-        logger.info("Coletando informacoes de usuario logado.");
-
-        Principal principal = request.getUserPrincipal();
-        CartaoBloqueio bloqueio = new CartaoBloqueio(request.getRemoteAddr(), principal.getName(), cartao);
-        cartao.addBloqueios(bloqueio);
-
-        logger.info("Solicitacao de bloqueio adicionada ao cartao.");
-
-        
-        try {
-            logger.info("Solicitando bloqueio para o sistema legado.");
-            SolicitaBloqueioResponse response = cartaoClient.solicitaBloqueio(id, new SolicitaBloqueioForm("proposta"));
-            
-            if (response.isBloqueado()) {
-                logger.info("Cartao bloqueado com sucesso.");
-                logger.info("Atualizando cartao no banco de dados.");
-    
-                manager.merge(cartao);
-            } 
-            
-        } catch (UnprocessableEntity e) {
-            if (e.status() == 422) {
-                logger.warn("Nao foi possivel bloquear cartao no sistema legado. Cartao pode ja estar bloqueado.");
-                throw new ApiException("Nao foi possivel bloquear cartao no sistema legado. Cartao pode ja estar bloqueado");    
-            }
-        }
-
-        logger.info("Retornando cartao.");
-
-        return cartao;
-	}
 }
