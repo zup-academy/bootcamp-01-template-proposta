@@ -1,9 +1,8 @@
 package br.com.zup.bootcamp.proposta.domain.entity;
 
 import br.com.zup.bootcamp.proposta.api.externalsystem.RequestAvaliacaoFinanceiraDto;
-import br.com.zup.bootcamp.proposta.domain.service.StatusProposta;
+import br.com.zup.bootcamp.proposta.domain.service.enums.StatusProposta;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.scheduling.annotation.Async;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
