@@ -1,6 +1,7 @@
 package com.proposta.criacaocartao;
 
 import com.proposta.bloqueiodecartao.Bloqueios;
+import com.proposta.bloqueiodecartao.StatusCartao;
 import com.proposta.criacaobiometria.Biometria;
 
 import javax.persistence.*;
@@ -8,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -48,6 +48,8 @@ public class Cartao {
 
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Biometria> biometrias;
+
+    private StatusCartao status = StatusCartao.DESBLOQUEADO;
 
     @Deprecated
     public Cartao() {}
@@ -174,4 +176,11 @@ public class Cartao {
         this.biometrias = biometrias;
     }
 
+    public StatusCartao getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusCartao status) {
+        this.status = status;
+    }
 }

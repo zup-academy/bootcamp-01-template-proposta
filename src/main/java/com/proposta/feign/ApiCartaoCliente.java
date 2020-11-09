@@ -1,6 +1,7 @@
 package com.proposta.feign;
 
-import com.proposta.criacaocartao.Cartao;
+import com.proposta.bloqueiodecartao.BloqueioRequest;
+import com.proposta.bloqueiodecartao.BloqueioResponse;
 import com.proposta.feign.request.SolicitacaoCriarCartao;
 import com.proposta.feign.response.CartaoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -18,4 +19,8 @@ public interface ApiCartaoCliente {
     @GetMapping("/api/cartoes")
     @ResponseBody
     ResponseEntity<CartaoResponse> verificarCriacaoCartao(@RequestParam Long idProposta);
+
+//    @Async
+    @PostMapping("/api/cartoes/{idCartao}/bloqueios")
+    BloqueioResponse bloquearCartao(@PathVariable String idCartao, @RequestBody BloqueioRequest bloqueioRequest);
 }
