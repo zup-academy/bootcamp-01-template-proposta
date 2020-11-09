@@ -15,13 +15,13 @@ import java.util.Optional;
  */
 
 @Service
-public class VerificaCartaoCriadoService {
+public class VerificaCartaoCriadoIntegracaoService {
 
-    private static Logger logger = LoggerFactory.getLogger(VerificaCartaoCriadoService.class);
+    private static Logger logger = LoggerFactory.getLogger(VerificaCartaoCriadoIntegracaoService.class);
     // +1
     private final CriacaoCartaoConsumer criacaoCartaoConsumer;
 
-    public VerificaCartaoCriadoService(CriacaoCartaoConsumer criacaoCartaoConsumer) {
+    public VerificaCartaoCriadoIntegracaoService(CriacaoCartaoConsumer criacaoCartaoConsumer) {
         this.criacaoCartaoConsumer = criacaoCartaoConsumer;
     }
     // +1

@@ -16,14 +16,16 @@ import javax.validation.constraints.NotNull;
 public class PaypalAssociacaoRequest {
 
     @Email @NotBlank
-    private final String email;
-    @NotNull
+    private String email;
     // +1
-    private final CarteiraDigitalTipo carteira;
+    private CarteiraDigitalTipo carteira = CarteiraDigitalTipo.PAYPAL;
+
+    @Deprecated
+    public PaypalAssociacaoRequest() {
+    }
 
     public PaypalAssociacaoRequest(String email) {
         this.email = email;
-        this.carteira = CarteiraDigitalTipo.PAYPAL;
     }
 
     public String getEmail() {

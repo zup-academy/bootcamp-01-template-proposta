@@ -52,7 +52,7 @@ public class CarteiraDigitalServiceImpl implements AssociacaoCarteiraCartao {
                 .orElse(carteiraDigitalDto.toModel());
 
         // +1
-        if (EstadoAssociacaoCarteiraIntegracao.FALHA.equals(resultadoAssociacaoCarteiraResponse.get().getResultado()) || resultadoAssociacaoCarteiraResponse.isEmpty()){
+        if (resultadoAssociacaoCarteiraResponse.isEmpty() || EstadoAssociacaoCarteiraIntegracao.FALHA.equals(resultadoAssociacaoCarteiraResponse.get().getResultado())){
             carteiraDigital.associacaoFalhaCarteira();
         }
         // +1

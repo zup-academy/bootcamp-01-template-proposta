@@ -1,6 +1,7 @@
 package br.com.cartao.proposta.domain.model;
 
 import br.com.cartao.proposta.domain.enums.EstadoCartao;
+import br.com.cartao.proposta.service.EncodeValor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -35,7 +36,7 @@ public class Cartao {
     }
 
     public Cartao(String cartaoId, Proposta proposta) {
-        this.cartaoId = cartaoId;
+        this.cartaoId = EncodeValor.encode(cartaoId);
         this.proposta = proposta;
         this.estadoCartao = EstadoCartao.ATIVO;
     }

@@ -16,14 +16,17 @@ import javax.validation.constraints.NotNull;
 public class SamsungPayAssociacaoRequest {
 
     @Email @NotBlank
-    private final String email;
+    private String email;
     @NotNull
     // +1
-    private final CarteiraDigitalTipo carteira;
+    private CarteiraDigitalTipo carteira = CarteiraDigitalTipo.SAMSUNG_PAY;
+
+    @Deprecated
+    public SamsungPayAssociacaoRequest() {
+    }
 
     public SamsungPayAssociacaoRequest(String email) {
         this.email = email;
-        this.carteira = CarteiraDigitalTipo.SAMSUNG_PAY;
     }
 
     public String getEmail() {

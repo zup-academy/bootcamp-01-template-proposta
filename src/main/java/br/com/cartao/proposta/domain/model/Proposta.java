@@ -4,7 +4,10 @@ import br.com.cartao.proposta.annotation.CpfOuCnpj;
 import br.com.cartao.proposta.domain.enums.EstadoProposta;
 import br.com.cartao.proposta.domain.request.AnalisePropostaRequest;
 import br.com.cartao.proposta.domain.response.AnalisePropostaResponse;
+import br.com.cartao.proposta.service.EncodeValor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -26,7 +29,7 @@ public class Proposta {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    @NotBlank @CpfOuCnpj @Column(unique = true)
+    @NotBlank @Column(unique = true)
     private String documento;
     @NotBlank @Email
     private String email;
@@ -51,7 +54,7 @@ public class Proposta {
     }
 
     public Proposta(@NotBlank String documento, @NotBlank String email, @NotBlank String endereco, @NotBlank String nome, @Positive @NotBlank BigDecimal salario) {
-        this.documento = documento;
+        this.documento = EncodeValor.encode(documento);
         this.email = email;
         this.endereco = endereco;
         this.nome = nome;

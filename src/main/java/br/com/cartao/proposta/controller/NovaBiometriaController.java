@@ -53,7 +53,7 @@ public class NovaBiometriaController {
                                            UriComponentsBuilder uriComponentsBuilder){
         logger.info("Requisição para nova biometria recebida: {}", novaBiometriaRequest);
         // +1
-        Optional<Cartao> cartaoBuscado = cartaoRepository.findByCartaoId(cartaoId);
+        Optional<Cartao> cartaoBuscado = Optional.of(manager.find(Cartao.class,cartaoId));
         // +1
         if (cartaoBuscado.isEmpty()){
             logger.info("ipProposta não encontrado: {}", cartaoId);

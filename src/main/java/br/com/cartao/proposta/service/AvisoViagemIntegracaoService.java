@@ -40,7 +40,7 @@ public class AvisoViagemIntegracaoService {
             // +1
             AvisoViagemIntegracaoRequest avisoViagemIntegracaoRequest = new AvisoViagemIntegracaoRequest(avisoViagem.getDestinoViagem(), avisoViagem.getTerminaEm());
 
-            ResultadoAvisoViagemIntegracao resultadoAvisoViagemIntegracao = avisoViagemConsumer.avisa(cartao.getCartaoId(), avisoViagemIntegracaoRequest);
+            ResultadoAvisoViagemIntegracao resultadoAvisoViagemIntegracao = avisoViagemConsumer.avisa(EncodeValor.decode(cartao.getCartaoId()), avisoViagemIntegracaoRequest);
             logger.info("Aviso feito com sucesso. Resposta: {}", resultadoAvisoViagemIntegracao.getResultado());
             return Optional.ofNullable(resultadoAvisoViagemIntegracao);
         }

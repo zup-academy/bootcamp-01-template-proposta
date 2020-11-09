@@ -36,7 +36,7 @@ public class AvisoBloqueioIntegracaoService {
         // +1
         try{
             // +1
-            SolicitacaoBloqueioIntegracaoResponse solicitacaoBloqueioIntegracaoResponse = avisaBloqueioCartao.avisaBloqueioCartao(cartao.getCartaoId(), solicitacaoBloqueioRequest);
+            SolicitacaoBloqueioIntegracaoResponse solicitacaoBloqueioIntegracaoResponse = avisaBloqueioCartao.avisaBloqueioCartao(EncodeValor.decode(cartao.getCartaoId()), solicitacaoBloqueioRequest);
             return Optional.of(solicitacaoBloqueioIntegracaoResponse);
         }
         // +1

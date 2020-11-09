@@ -21,7 +21,7 @@ public class CartaoResponseSistemaLegado {
 
     @NotBlank
     @JsonProperty(value = "id")
-    private String id;
+    private String cartaoId;
     @JsonFormat(pattern = "yyyy-MM-ddTHH:mm:ss", shape = JsonFormat.Shape.STRING)
     private String emitidoEm;
     @NotBlank
@@ -44,7 +44,7 @@ public class CartaoResponseSistemaLegado {
     }
 
     public CartaoResponseSistemaLegado(@NotBlank String id, String emitidoEm, @NotBlank String titular, List<BloqueioResponseDto> bloqueios, List<AvisoViagemIntegracaoResponseDto> avisos, List<CarteiraDigitalIntegracaoResponseDto> carteiras, List<ParcelaIntegracaoResponseDto> parcelas, @NotNull BigDecimal limite, RenegociacaoIntegracaoResponseDto renegociacao, @NotNull VencimentoIntegracaoResponseDto vencimento, @NotBlank String idProposta) {
-        this.id = id;
+        this.cartaoId = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.bloqueios = bloqueios;
@@ -57,8 +57,8 @@ public class CartaoResponseSistemaLegado {
         this.idProposta = idProposta;
     }
 
-    public String getId() {
-        return id;
+    public String getCartaoId() {
+        return cartaoId;
     }
 
     public String getEmitidoEm() {
@@ -101,8 +101,8 @@ public class CartaoResponseSistemaLegado {
         return idProposta;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCartaoId(String cartaoId) {
+        this.cartaoId = cartaoId;
     }
 
     public void setEmitidoEm(String emitidoEm) {
@@ -148,7 +148,7 @@ public class CartaoResponseSistemaLegado {
     @Override
     public String toString() {
         return "Cartao{" +
-                "id='" + id + '\'' +
+                "id='" + cartaoId + '\'' +
                 ", idCartao='" + idCartao + '\'' +
                 ", emitidoEm=" + emitidoEm +
                 ", titular='" + titular + '\'' +

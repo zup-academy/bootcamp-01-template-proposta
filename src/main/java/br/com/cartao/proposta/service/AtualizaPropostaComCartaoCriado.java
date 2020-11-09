@@ -4,15 +4,12 @@ import br.com.cartao.proposta.domain.enums.EstadoProposta;
 import br.com.cartao.proposta.domain.model.Cartao;
 import br.com.cartao.proposta.domain.response.CartaoResponseSistemaLegado;
 import br.com.cartao.proposta.domain.model.Proposta;
-import br.com.cartao.proposta.repository.CartaoRepository;
 import br.com.cartao.proposta.repository.PropostaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -29,11 +26,11 @@ public class AtualizaPropostaComCartaoCriado {
     // +1
     private final EstadoProposta estadoProposta = EstadoProposta.ELEGIVEL;
     // +1
-    private final VerificaCartaoCriadoService verificaCartaoCriadoService;
+    private final VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService;
     // +1
     private final PropostaRepository propostaRepository;
 
-    public AtualizaPropostaComCartaoCriado(VerificaCartaoCriadoService verificaCartaoCriadoService, PropostaRepository propostaRepository) {
+    public AtualizaPropostaComCartaoCriado(VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService, PropostaRepository propostaRepository) {
         this.verificaCartaoCriadoService = verificaCartaoCriadoService;
         this.propostaRepository = propostaRepository;
     }
@@ -73,7 +70,7 @@ public class AtualizaPropostaComCartaoCriado {
         logger.info("Alterando status do cartão para o idProposta: {}", proposta.getId());
         proposta.alteraStatusCartaoCriado(Boolean.TRUE);
         // +1
-        Cartao cartao = new Cartao(cartaoResponseSistemaLegado.getId(), proposta);
+        Cartao cartao = new Cartao(cartaoResponseSistemaLegado.getCartaoId(), proposta);
         proposta.adicionaNumeroCartao(cartao);
         propostaRepository.save(proposta);
     }

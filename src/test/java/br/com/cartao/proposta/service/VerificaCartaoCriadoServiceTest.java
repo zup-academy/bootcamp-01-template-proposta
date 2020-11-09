@@ -31,7 +31,7 @@ class VerificaCartaoCriadoServiceTest {
     void deveRetornarCartaoCriado(){
 
         CriacaoCartaoConsumer criacaoCartaoConsumer = mock(CriacaoCartaoConsumer.class);
-        VerificaCartaoCriadoService verificaCartaoCriadoService = new VerificaCartaoCriadoService(criacaoCartaoConsumer);
+        VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService = new VerificaCartaoCriadoIntegracaoService(criacaoCartaoConsumer);
         CartaoResponseSistemaLegado cartao = new CartaoResponseSistemaLegado("123","2020-10-20T14:10:55","Teste",null,null,null,null, BigDecimal.valueOf(100),null,new VencimentoIntegracaoResponseDto("1",10,"2020-10-20T15:30:45"),"abc123");
 
         when(criacaoCartaoConsumer.verificaCartaoCriado(idProposta)).thenReturn(cartao);
@@ -48,7 +48,7 @@ class VerificaCartaoCriadoServiceTest {
     void naoDeveRetornarCartaoCriado(){
 
         CriacaoCartaoConsumer criacaoCartaoConsumer = mock(CriacaoCartaoConsumer.class);
-        VerificaCartaoCriadoService verificaCartaoCriadoService = new VerificaCartaoCriadoService(criacaoCartaoConsumer);
+        VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService = new VerificaCartaoCriadoIntegracaoService(criacaoCartaoConsumer);
 
         Request request = Request.create(Request.HttpMethod.POST, "/api/cartoes", Map.of("content-type", List.of("Application/json")), (byte[]) null,null);
 

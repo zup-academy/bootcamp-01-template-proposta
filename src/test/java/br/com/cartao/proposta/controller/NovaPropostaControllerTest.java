@@ -58,7 +58,7 @@ public class NovaPropostaControllerTest {
         NovaPropostaRequest novaPropostaRequest = new NovaPropostaRequest("83794884078","teste@gmail.com","Administrador","Rua governador", BigDecimal.valueOf(800));
         Proposta proposta = novaPropostaRequest.toModel();
         NovaPropostaResponseDto novaPropostaResponseDto = new NovaPropostaResponseDto(proposta);
-        NovaPropostaController novaPropostaController = new NovaPropostaController(propostaRepository, novaPropostaService);
+        NovaPropostaController novaPropostaController = new NovaPropostaController( propostaRepository, novaPropostaService);
 
         when(propostaRepository.findByDocumento(novaPropostaRequest.getDocumento()))
                 .thenReturn(Optional.empty());
@@ -79,7 +79,7 @@ public class NovaPropostaControllerTest {
 
         NovaPropostaRequest novaPropostaRequest = new NovaPropostaRequest("274.847.130-07","teste@gmail.com","Administrador","Rua governador", BigDecimal.valueOf(800));
         Proposta proposta = novaPropostaRequest.toModel();
-        NovaPropostaController novaPropostaController = new NovaPropostaController(propostaRepository, novaPropostaService);
+        NovaPropostaController novaPropostaController = new NovaPropostaController( propostaRepository, novaPropostaService);
 
         when(propostaRepository.findByDocumento(novaPropostaRequest.getDocumento()))
                 .thenReturn(Optional.ofNullable(proposta));
@@ -104,7 +104,7 @@ public class NovaPropostaControllerTest {
         AnalisePropostaResponse analisePropostaResponse = new AnalisePropostaResponse("83794884078","Administrador","123456", EstadoAnaliseProposta.SEM_RESTRICAO);
         proposta.adicionaEstadoProposta(analisePropostaResponse);
 
-        NovaPropostaController novaPropostaController = new NovaPropostaController(propostaRepository,novaPropostaService);
+        NovaPropostaController novaPropostaController = new NovaPropostaController( propostaRepository,novaPropostaService);
 
         when(propostaRepository.findById(id)).thenReturn(Optional.of(proposta));
 
@@ -123,7 +123,7 @@ public class NovaPropostaControllerTest {
         PropostaRepository propostaRepository = mock(PropostaRepository.class);
         NovaPropostaService novaPropostaService = mock(NovaPropostaService.class);
 
-        NovaPropostaController novaPropostaController = new NovaPropostaController(propostaRepository,novaPropostaService);
+        NovaPropostaController novaPropostaController = new NovaPropostaController( propostaRepository,novaPropostaService);
 
         when(propostaRepository.findById(id)).thenReturn(Optional.empty());
 

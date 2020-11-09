@@ -38,7 +38,7 @@ class AtualizaPropostaComCartaoCriadoTest {
     @DisplayName("Deve adicionar o numero do cartao a proposta")
     void deveAdicionarNumeroCartao() {
 
-        VerificaCartaoCriadoService verificaCartaoCriadoService = mock(VerificaCartaoCriadoService.class);
+        VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService = mock(VerificaCartaoCriadoIntegracaoService.class);
         PropostaRepository propostaRepository = mock(PropostaRepository.class);
         List<Proposta> propostas = List.of(proposta1, proposta2, proposta3, proposta4);
         AtualizaPropostaComCartaoCriado atualizaPropostaComCartaoCriado = new AtualizaPropostaComCartaoCriado(verificaCartaoCriadoService, propostaRepository);
@@ -57,7 +57,7 @@ class AtualizaPropostaComCartaoCriadoTest {
     @DisplayName("Não deve adicionar o numero do cartao a proposta")
     void naoDeveAdicionarNumeroCartao() {
 
-        VerificaCartaoCriadoService verificaCartaoCriadoService = mock(VerificaCartaoCriadoService.class);
+        VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService = mock(VerificaCartaoCriadoIntegracaoService.class);
         PropostaRepository propostaRepository = mock(PropostaRepository.class);
         List<Proposta> propostas = List.of(proposta1, proposta2, proposta3, proposta4);
         AtualizaPropostaComCartaoCriado atualizaPropostaComCartaoCriado = new AtualizaPropostaComCartaoCriado(verificaCartaoCriadoService, propostaRepository);
@@ -75,7 +75,7 @@ class AtualizaPropostaComCartaoCriadoTest {
     @DisplayName("Não deve percorrer lista vazia de propostas")
     void naoDevePercorrerListaDePropostasAguardandoCartao() {
 
-        VerificaCartaoCriadoService verificaCartaoCriadoService = mock(VerificaCartaoCriadoService.class);
+        VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService = mock(VerificaCartaoCriadoIntegracaoService.class);
         PropostaRepository propostaRepository = mock(PropostaRepository.class);
         List<Proposta> propostas = List.of();
         AtualizaPropostaComCartaoCriado atualizaPropostaComCartaoCriado = new AtualizaPropostaComCartaoCriado(verificaCartaoCriadoService, propostaRepository);

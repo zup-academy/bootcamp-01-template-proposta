@@ -40,7 +40,7 @@ public class CarteiraDigitalIntegracaoService {
             SolicitacaoInclusaoCarteiraRequest solicitacaoInclusaoCarteiraRequest = new
                     SolicitacaoInclusaoCarteiraRequest(carteiraDigitalDto.getEmail(), carteiraDigitalDto.getCarteira());
 
-            ResultadoAssociacaoCarteiraResponse resultadoAssociacaoCarteiraResponse = associarCarteiraDigitalConsumer.associaCarteiraDigital(carteiraDigitalDto.numeroCartao(), solicitacaoInclusaoCarteiraRequest);
+            ResultadoAssociacaoCarteiraResponse resultadoAssociacaoCarteiraResponse = associarCarteiraDigitalConsumer.associaCarteiraDigital(EncodeValor.decode(carteiraDigitalDto.numeroCartao()), solicitacaoInclusaoCarteiraRequest);
             logger.info("Associação feita com sucesso. Resposta: {}", resultadoAssociacaoCarteiraResponse.getResultado());
             return Optional.ofNullable(resultadoAssociacaoCarteiraResponse);
         }
