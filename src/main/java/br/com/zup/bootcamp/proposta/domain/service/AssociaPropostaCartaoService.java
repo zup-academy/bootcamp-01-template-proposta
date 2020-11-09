@@ -3,6 +3,7 @@ package br.com.zup.bootcamp.proposta.domain.service;
 import br.com.zup.bootcamp.proposta.api.externalsystem.LegadoSistemaCartao;
 import br.com.zup.bootcamp.proposta.domain.repository.CartaoRepository;
 import br.com.zup.bootcamp.proposta.domain.repository.PropostaRepository;
+import br.com.zup.bootcamp.proposta.domain.service.enums.StatusProposta;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +13,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service @EnableScheduling
-public class CartaoService {
+public class AssociaPropostaCartaoService {
 
-    private final Logger logger = LoggerFactory.getLogger(CartaoService.class);
+    private final Logger logger = LoggerFactory.getLogger(AssociaPropostaCartaoService.class);
     @Autowired          //1
     private LegadoSistemaCartao sistemaCartao;
     @Autowired          //1
