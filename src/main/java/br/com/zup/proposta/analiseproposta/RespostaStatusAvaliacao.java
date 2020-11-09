@@ -1,4 +1,4 @@
-package br.com.zup.proposta.integracao.analiseproposta;
+package br.com.zup.proposta.analiseproposta;
 
 public enum RespostaStatusAvaliacao {
     COM_RESTRICAO(StatusAvaliacaoProposta.NAO_ELEGIVEL), SEM_RESTRICAO(StatusAvaliacaoProposta.ELEGIVEL);

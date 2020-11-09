@@ -1,9 +1,8 @@
 package br.com.zup.proposta.proposta;
 
-import br.com.zup.proposta.integracao.analiseproposta.StatusAvaliacaoProposta;
-import br.com.zup.proposta.integracao.cartao.Cartao;
+import br.com.zup.proposta.analiseproposta.StatusAvaliacaoProposta;
+import br.com.zup.proposta.cartao.Cartao;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

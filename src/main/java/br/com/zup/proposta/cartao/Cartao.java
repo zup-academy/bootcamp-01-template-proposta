@@ -1,12 +1,9 @@
-package br.com.zup.proposta.integracao.cartao;
+package br.com.zup.proposta.cartao;
 
-import br.com.zup.proposta.integracao.biometria.Biometria;
+import br.com.zup.proposta.biometria.Biometria;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -23,6 +20,7 @@ public class Cartao {
     private @NotNull LocalDateTime emitidoEm;
     private @NotBlank String titular;
     private @OneToMany Set<Biometria> biometrias = new HashSet<>();
+    private @Enumerated(EnumType.STRING) StatusCartao status;
 
     @Deprecated
     public Cartao() {
@@ -32,13 +30,26 @@ public class Cartao {
         this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
+        this.status = StatusCartao.ATIVO;
     }
 
     public void addBiometria(Biometria biometria) {
         biometrias.add(biometria);
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getNumeroCartao() {
         return numeroCartao;
+    }
+
+    public void setStatus(StatusCartao status) {
+        this.status = status;
+    }
+
+    public void bloquearCartao() {
+        this.status = StatusCartao.BLOQUEADO;
     }
 }

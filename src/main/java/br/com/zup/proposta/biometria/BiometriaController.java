@@ -1,6 +1,6 @@
-package br.com.zup.proposta.integracao.biometria;
+package br.com.zup.proposta.biometria;
 
-import br.com.zup.proposta.integracao.cartao.Cartao;
+import br.com.zup.proposta.cartao.Cartao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

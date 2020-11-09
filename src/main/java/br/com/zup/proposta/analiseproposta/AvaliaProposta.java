@@ -1,4 +1,4 @@
-package br.com.zup.proposta.integracao.analiseproposta;
+package br.com.zup.proposta.analiseproposta;
 
 import br.com.zup.proposta.proposta.Proposta;
 import com.google.gson.Gson;
