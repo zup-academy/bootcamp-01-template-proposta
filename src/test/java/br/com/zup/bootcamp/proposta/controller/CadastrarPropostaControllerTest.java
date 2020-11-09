@@ -7,12 +7,13 @@ import br.com.zup.bootcamp.proposta.api.externalsystem.RequestAvaliacaoFinanceir
 import br.com.zup.bootcamp.proposta.api.externalsystem.ResponseAvaliacaoFiananceiraDto;
 import br.com.zup.bootcamp.proposta.domain.entity.Proposta;
 import br.com.zup.bootcamp.proposta.domain.repository.PropostaRepository;
-import br.com.zup.bootcamp.proposta.domain.service.AnalisePropostaStatus;
-import br.com.zup.bootcamp.proposta.domain.service.PropostaService;
+import br.com.zup.bootcamp.proposta.domain.service.enums.AnalisePropostaStatus;
+import br.com.zup.bootcamp.proposta.domain.service.CadastrarPropostaService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,7 +35,7 @@ public class CadastrarPropostaControllerTest {
 
     //classes principais
     protected static Proposta proposta;
-    protected static PropostaService service;
+    protected static CadastrarPropostaService service;
     protected static CadastraPropostaController controller;
     protected static PropostaRepository repository = mock(PropostaRepository.class);
     protected static RequestPropostaDto requestProposta = mock(RequestPropostaDto.class);
@@ -44,23 +45,28 @@ public class CadastrarPropostaControllerTest {
     protected static RequestAvaliacaoFinanceiraDto requestAvaliacao;
     protected static ResponseAvaliacaoFiananceiraDto responseAvaliacao;
 
+    //logger
+    protected static Logger logger = mock(Logger.class);
 
     @BeforeAll
     public static void setUp() {
         proposta = new Proposta(DOCUMENTO, EMAIL, NOME, ENDERECO,SALARAIO);
-        service = new PropostaService(repository, analiseFinaceira);
+        service = new CadastrarPropostaService(repository, analiseFinaceira);
         controller = new CadastraPropostaController(service, repository);
         when(repository.findByDocumento(DOCUMENTO)).thenReturn(Optional.empty());
         when(requestProposta.toEntity()).thenReturn(proposta);
+
     }
 
     @Test
     @DisplayName("Deve salvar um proposta e retornar 201")
     public void teste1(){
+        doNothing().when(logger).debug(any());
+//        requestProposta = new RequestPropostaDto(DOCUMENTO, EMAIL, NOME, ENDERECO,SALARAIO);
         when(analiseFinaceira.SolicitaAnalise(any(RequestAvaliacaoFinanceiraDto.class)))
                 .thenReturn(new ResponseAvaliacaoFiananceiraDto(AnalisePropostaStatus.SEM_RESTRICAO));
         when(repository.save(proposta)).thenReturn(proposta);
-        ResponseEntity<?> response = controller.adiciona(requestProposta, UriComponentsBuilder.newInstance());
+        ResponseEntity<?> response = controller.cadastrarProposta(requestProposta, UriComponentsBuilder.newInstance());
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
@@ -69,7 +75,7 @@ public class CadastrarPropostaControllerTest {
     @DisplayName("Nao Deve salvar um proposta com documentos iguais e deve retornar 422")
     public void teste2(){
         when(repository.findByDocumento(DOCUMENTO)).thenReturn(Optional.of(proposta));
-        ResponseEntity<?> response = controller.adiciona(requestProposta, UriComponentsBuilder.newInstance());
+        ResponseEntity<?> response = controller.cadastrarProposta(requestProposta, UriComponentsBuilder.newInstance());
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
     }
 }
