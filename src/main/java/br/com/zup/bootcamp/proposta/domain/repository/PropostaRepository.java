@@ -1,7 +1,7 @@
 package br.com.zup.bootcamp.proposta.domain.repository;
 
 import br.com.zup.bootcamp.proposta.domain.entity.Proposta;
-import br.com.zup.bootcamp.proposta.domain.service.StatusProposta;
+import br.com.zup.bootcamp.proposta.domain.service.enums.StatusProposta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
