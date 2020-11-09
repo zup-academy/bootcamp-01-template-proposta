@@ -2,6 +2,7 @@ package com.proposta.criacaocartao;
 
 import com.proposta.bloqueiodecartao.Bloqueios;
 import com.proposta.bloqueiodecartao.StatusCartao;
+import com.proposta.cadastraravisoviagem.AvisoViagem;
 import com.proposta.criacaobiometria.Biometria;
 import com.proposta.solicitacaoderecuperacaodesenha.RecuperarSenha;
 
@@ -28,8 +29,8 @@ public class Cartao {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Bloqueios> bloqueios;
 
-    @ElementCollection
-    private Set<Avisos> avisos;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<AvisoViagem> avisos;
 
     @ElementCollection
     private Set<Carteiras> carteiras;
@@ -59,7 +60,7 @@ public class Cartao {
     public Cartao() {}
 
     public Cartao(String id, @NotBlank LocalDateTime emitidoEm, @NotBlank String titular,
-                  Set<Bloqueios> bloqueios, Set<Avisos> avisos, Set<Carteiras> carteiras,
+                  Set<Bloqueios> bloqueios, Set<AvisoViagem> avisos, Set<Carteiras> carteiras,
                   Set<Parcelas> parcelas, BigDecimal limite, Set<Renegociacao> renegociacao,
                   Set<Vencimento> vencimento, String idProposta) {
         this.id = id;
@@ -83,6 +84,9 @@ public class Cartao {
         recuperarSenha.add(solicitaRecuperacao);
     }
 
+    public void adicionarAvisos(AvisoViagem avisoViagem) {
+        avisos.add(avisoViagem);
+    }
 
     public void adicionarBiometria(Biometria novaBiometria) {
         biometrias.add(novaBiometria);
@@ -120,12 +124,20 @@ public class Cartao {
         this.bloqueios = bloqueios;
     }
 
-    public Set<Avisos> getAvisos() {
+    public Set<AvisoViagem> getAvisos() {
         return avisos;
     }
 
-    public void setAvisos(Set<Avisos> avisos) {
+    public void setAvisos(Set<AvisoViagem> avisos) {
         this.avisos = avisos;
+    }
+
+    public Set<RecuperarSenha> getRecuperarSenha() {
+        return recuperarSenha;
+    }
+
+    public void setRecuperarSenha(Set<RecuperarSenha> recuperarSenha) {
+        this.recuperarSenha = recuperarSenha;
     }
 
     public Set<Carteiras> getCarteiras() {

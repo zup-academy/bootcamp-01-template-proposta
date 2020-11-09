@@ -1,6 +1,7 @@
 package com.proposta.feign.response;
 
 import com.proposta.bloqueiodecartao.Bloqueios;
+import com.proposta.cadastraravisoviagem.AvisoViagem;
 import com.proposta.criacaocartao.*;
 
 import javax.validation.constraints.NotBlank;
@@ -22,7 +23,7 @@ public class CartaoResponse {
 
     private Set<Bloqueios> bloqueios;
 
-    private Set<Avisos> avisos;
+    private Set<AvisoViagem> avisos;
 
     private Set<Carteiras> carteiras;
 
@@ -80,11 +81,11 @@ public class CartaoResponse {
         this.bloqueios = bloqueios;
     }
 
-    public Set<Avisos> getAvisos() {
+    public Set<AvisoViagem> getAvisos() {
         return avisos;
     }
 
-    public void setAvisos(Set<Avisos> avisos) {
+    public void setAvisos(Set<AvisoViagem> avisos) {
         this.avisos = avisos;
     }
 

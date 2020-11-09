@@ -1,4 +1,4 @@
-package com.proposta.solicitacaoderecuperacaodesenha;
+package com.proposta.cadastraravisoviagem;
 
 import com.proposta.criacaocartao.Cartao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +13,16 @@ import javax.transaction.Transactional;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/recuperarsenha")
-public class RecuperacaoSenhaController {
+@RequestMapping("/avisoviagens")
+public class AvisoViagemController {
 
     @Autowired
     EntityManager manager;
 
     @PostMapping("/{idCartao}")
     @Transactional
-    public ResponseEntity<?> recuperarSenha(@PathVariable String idCartao, @RequestHeader(name = "User-Agent") String user,
-                                      UriComponentsBuilder builder) {
+    public ResponseEntity<?> avisoViagem(@PathVariable String idCartao, @RequestHeader(name = "User-Agent") String user,
+                                         @RequestBody AvisoViagemRequest request , UriComponentsBuilder builder) {
 
         //1
         Cartao cartao = manager.find(Cartao.class, idCartao);
@@ -32,13 +32,12 @@ public class RecuperacaoSenhaController {
 
         String ip = ((WebAuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails()).getRemoteAddress();
 
-        //2
-        RecuperarSenha recuperarSenha = new RecuperarSenha(user, ip);
-        manager.persist(recuperarSenha);
-        cartao.recuperarSenha(recuperarSenha);
+        AvisoViagem avisoViagem = request.toModel(user, ip);
+        manager.persist(avisoViagem);
+        cartao.adicionarAvisos(avisoViagem);
         manager.merge(cartao);
 
-        URI uriCreated = builder.path("/recuperarsenha/{id}").build(recuperarSenha.getId());
+        URI uriCreated = builder.path("/avisoviagens/{id}").build(avisoViagem.getId());
         return ResponseEntity.created(uriCreated).build();
     }
 }
