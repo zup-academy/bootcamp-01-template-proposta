@@ -149,6 +149,9 @@ public class Cartao {
         this.recuperacaoSenha.add(recuperacaoSenha);
     }
 
+	public void addAvisos(CartaoAvisos aviso) {
+        this.avisos.add(aviso);
+    }
 
     public Proposta getProposta() {
         return this.proposta;
