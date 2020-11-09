@@ -100,7 +100,6 @@ public class Proposta {
                 ", endereco='" + endereco + '\'' +
                 ", salarioBruto=" + salarioBruto +
                 ", statusAvaliacaoProposta=" + statusAvaliacaoProposta +
-                ", cartao=" + cartao +
                 '}';
     }
 

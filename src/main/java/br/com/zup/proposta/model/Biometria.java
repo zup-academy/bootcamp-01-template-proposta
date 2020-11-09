@@ -33,4 +33,11 @@ public class Biometria {
         return Arrays.hashCode(digital);
     }
 
+    @Override
+    public String toString() {
+        return "Biometria{" +
+                "digital=" + Arrays.toString(digital) +
+                '}';
+    }
+
 }

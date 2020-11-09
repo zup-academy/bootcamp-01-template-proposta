@@ -1,9 +1,11 @@
 package br.com.zup.proposta.dto;
 
+import br.com.zup.proposta.model.Cartao;
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 public class DetalhePropostaResponse {
 
@@ -18,14 +20,15 @@ public class DetalhePropostaResponse {
     @Deprecated
     public DetalhePropostaResponse(){}
 
-    public DetalhePropostaResponse(Proposta proposta) {
+    public DetalhePropostaResponse(Proposta proposta) { //1
         this.documento = proposta.getDocumento();
         this.nome = proposta.getNome();
         this.email = proposta.getEmail();
         this.endereco = proposta.getEndereco();
         this.salarioBruto = proposta.getSalarioBruto();
         this.statusAvaliacaoProposta = proposta.getStatusAvaliacaoProposta();
-        this.numeroCartao = proposta.getCartao().getNumero();
+        this.numeroCartao = propostaElegivel(
+                Optional.ofNullable(proposta.getCartao()));
     }
 
     public String getNome() {
@@ -54,6 +57,12 @@ public class DetalhePropostaResponse {
 
     public String getNumeroCartao() {
         return numeroCartao;
+    }
+
+    public String propostaElegivel(Optional<Cartao> possivelCartao){ //2
+        if (possivelCartao.isEmpty())
+            return "";
+        return possivelCartao.get().getNumero();
     }
 
 }

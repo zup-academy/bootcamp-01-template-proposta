@@ -1,6 +1,7 @@
 package br.com.zup.proposta.model;
 
 import br.com.zup.proposta.model.enums.StatusCartao;
+import br.com.zup.proposta.model.enums.TipoCarteira;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,18 +18,20 @@ public class Cartao {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    @NotBlank
-    private String numero;
-    @OneToOne
-    @NotNull
+    private @NotBlank String numero;
     @Valid
-    private Proposta proposta; //1
+    private @OneToOne @NotNull Proposta proposta; //1
     @Enumerated(EnumType.STRING)
     private StatusCartao statusCartao;
     @ElementCollection
     private Set<Biometria> biometrias = new HashSet<>(); //2
     @OneToMany(mappedBy = "cartao")
-    private List<Bloqueio> bloqueios = new ArrayList<>();
+    private List<Bloqueio> bloqueios = new ArrayList<>(); //3
+    @OneToMany(mappedBy = "cartao")
+    //preciso colocar? não foi solicitado endpoint do cartão
+    private List<AvisoViagem> avisoViagems = new ArrayList<>(); //4
+    @OneToMany(mappedBy = "cartao")
+    private List<Carteira> carteiras = new ArrayList<>(); //5
 
     @Deprecated
     public Cartao() {}
@@ -59,6 +62,11 @@ public class Cartao {
         this.biometrias.add(new Biometria(digital));
     }
 
+    public boolean verificaAssociacaoCarteira(TipoCarteira tipoCarteira){
+        return this.carteiras.stream()
+                .anyMatch(c -> c.tipoDeCarteiraJaAssociada(tipoCarteira)); //6
+    }
+
     @Override
     public String toString() {
         return "Cartao{" +
@@ -66,6 +74,7 @@ public class Cartao {
                 ", statusCartao=" + statusCartao +
                 ", biometrias=" + biometrias +
                 ", bloqueios=" + bloqueios +
+                ", avisoViagems=" + avisoViagems +
                 '}';
     }
 

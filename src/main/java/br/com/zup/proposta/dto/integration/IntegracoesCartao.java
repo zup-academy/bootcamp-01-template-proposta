@@ -6,6 +6,7 @@ import feign.Body;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -24,5 +25,9 @@ public interface IntegracoesCartao {
     @PostMapping("/api/cartoes/{id}/avisos")
     public Map<String, String> notificarAvisoViagem(@PathVariable("id") String numeroCartao,
                                                     Map<String, String> dadosViagem);
+
+    @PostMapping("/api/cartoes/{id}/carteiras")
+    public void associarCarteira(@PathVariable("id") String numeroCartao,
+                                           Map<String, String> dadosCarteira);
 
 }

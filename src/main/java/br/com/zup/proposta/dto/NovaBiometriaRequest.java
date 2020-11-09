@@ -22,9 +22,4 @@ public class NovaBiometriaRequest {
         return digital;
     }
 
-    /*public void setDigital(String digital) {
-
-        this.digital = digital;
-    }*/
-
 }
