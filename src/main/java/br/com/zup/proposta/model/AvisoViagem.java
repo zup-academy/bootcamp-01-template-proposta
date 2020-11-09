@@ -1,11 +1,9 @@
 package br.com.zup.proposta.model;
 
+import br.com.zup.proposta.model.enums.StatusAvisoViagem;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
@@ -30,6 +28,8 @@ public class AvisoViagem {
     private @NotBlank String userAgent;
     private @NotBlank String ipClient;
     private LocalDateTime instanteAviso;
+    @Enumerated(EnumType.STRING)
+    private StatusAvisoViagem statusAvisoViagem;
 
     @Deprecated
     public AvisoViagem(){}
@@ -49,16 +49,17 @@ public class AvisoViagem {
         return id;
     }
 
+    public void atualizarStatusViagem() {
+        this.statusAvisoViagem = StatusAvisoViagem.CRIADO;
+    }
+
     @Override
     public String toString() {
         return "AvisoViagem{" +
-                "cartao=" + cartao.getNumero() +
                 ", destinoViagem='" + destinoViagem + '\'' +
                 ", dataTerminoViagem=" + dataTerminoViagem +
-                ", userAgent='" + userAgent + '\'' +
-                ", ipClient='" + ipClient + '\'' +
-                ", instanteAviso=" + instanteAviso +
                 '}';
     }
+
 
 }

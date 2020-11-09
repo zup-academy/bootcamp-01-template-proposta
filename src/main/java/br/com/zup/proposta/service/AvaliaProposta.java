@@ -1,4 +1,4 @@
-package br.com.zup.proposta.services;
+package br.com.zup.proposta.service;
 
 import br.com.zup.proposta.dto.AvaliacaoPropostaRequest;
 import br.com.zup.proposta.dto.integration.IntegracoesAnaliseFinanceira;

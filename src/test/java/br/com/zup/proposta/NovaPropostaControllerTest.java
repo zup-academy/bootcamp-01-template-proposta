@@ -1,8 +1,7 @@
 package br.com.zup.proposta;
 
 import br.com.zup.proposta.dao.ExecutorTransacao;
-import br.com.zup.proposta.services.AvaliaProposta;
-import br.com.zup.proposta.controller.NovaPropostaController;
+import br.com.zup.proposta.service.AvaliaProposta;
 import br.com.zup.proposta.validations.DocumentoIgualValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

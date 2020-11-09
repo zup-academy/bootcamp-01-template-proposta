@@ -2,7 +2,7 @@ package br.com.zup.proposta.controller;
 
 import br.com.zup.proposta.dao.ExecutorTransacao;
 import br.com.zup.proposta.metrics.MinhasMetricas;
-import br.com.zup.proposta.services.AvaliaProposta;
+import br.com.zup.proposta.service.AvaliaProposta;
 import br.com.zup.proposta.dto.NovaPropostaRequest;
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;

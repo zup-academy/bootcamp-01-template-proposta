@@ -17,8 +17,12 @@ public interface IntegracoesCartao {
     @GetMapping("/api/cartoes")
     public CartaoRequest buscarCartaoPorIdProposta(@RequestParam String idProposta);
 
-    @PostMapping(value = "/api/cartoes/{id}/bloqueios")
+    @PostMapping("/api/cartoes/{id}/bloqueios")
     public Map<String, String> bloquearCartao(@PathVariable("id") String numeroCartao,
                                  Map<String, String> sistemaResponsavel);
+
+    @PostMapping("/api/cartoes/{id}/avisos")
+    public Map<String, String> notificarAvisoViagem(@PathVariable("id") String numeroCartao,
+                                                    Map<String, String> dadosViagem);
 
 }

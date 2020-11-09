@@ -2,7 +2,7 @@ package br.com.zup.proposta.controller;
 
 import br.com.zup.proposta.model.Bloqueio;
 import br.com.zup.proposta.model.Cartao;
-import br.com.zup.proposta.services.SolicitarBloqueio;
+import br.com.zup.proposta.service.SolicitarBloqueio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
-package br.com.zup.proposta.services;
+package br.com.zup.proposta.service;
 
 import br.com.zup.proposta.dto.integration.IntegracoesCartao;
-import br.com.zup.proposta.model.enums.StatusCartao;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
