@@ -1,7 +1,7 @@
 package br.com.zup.bootcamp.proposta.api.dto;
 
 import br.com.zup.bootcamp.proposta.domain.entity.Proposta;
-import br.com.zup.bootcamp.proposta.domain.service.StatusProposta;
+import br.com.zup.bootcamp.proposta.domain.service.enums.StatusProposta;
 
 public class ResponsePropostaDto {
 
