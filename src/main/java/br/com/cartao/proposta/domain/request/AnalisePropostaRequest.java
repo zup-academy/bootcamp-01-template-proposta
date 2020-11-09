@@ -2,6 +2,12 @@ package br.com.cartao.proposta.domain.request;
 
 import javax.validation.constraints.NotBlank;
 
+
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 0
+ */
+
 public class AnalisePropostaRequest {
 
     @NotBlank

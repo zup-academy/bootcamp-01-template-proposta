@@ -3,6 +3,11 @@ package br.com.cartao.proposta.handler;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 0
+ */
+
 public class ErroPadraoApi {
 
     private LocalDateTime instante;

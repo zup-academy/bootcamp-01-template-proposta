@@ -8,10 +8,16 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 5
+ */
+
 public class NovaBiometriaRequest {
 
     @NotNull
     @Size(min = 1)
+    // +1
     private List<PrintfingerRequest> biometrias;
 
     @Deprecated
@@ -32,10 +38,11 @@ public class NovaBiometriaRequest {
                 "fingerprint=" + biometrias +
                 '}';
     }
-
+    // +1
     public Biometria toModel(String idCartao){
-
+        // +1
         List<FingerPrint> printFinger = this.biometrias.stream()
+                // +1
                 .map(printfingerRequest -> {
                     return printfingerRequest.toModel();
                 })

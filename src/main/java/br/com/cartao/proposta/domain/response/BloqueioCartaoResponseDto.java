@@ -1,7 +1,7 @@
 package br.com.cartao.proposta.domain.response;
 
 import br.com.cartao.proposta.domain.model.Cartao;
-import br.com.cartao.proposta.domain.request.Bloqueio;
+import br.com.cartao.proposta.domain.model.Bloqueio;
 
 import java.time.LocalDateTime;
 

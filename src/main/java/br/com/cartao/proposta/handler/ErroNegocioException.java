@@ -2,6 +2,11 @@ package br.com.cartao.proposta.handler;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Carga intrínseca máxima permitida - 7
+ * Carga intrínseca da classe - 0
+ */
+
 public class ErroNegocioException extends RuntimeException{
 
     private HttpStatus httpStatus;

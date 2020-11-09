@@ -6,6 +6,11 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 2
+ */
+
 @Entity
 @Table(name = "recuperaSenha")
 public class RecuperaSenha {
@@ -19,8 +24,9 @@ public class RecuperaSenha {
     private final String ipAddressCliente;
     private final String userAgent;
     @ManyToOne
+    // +1
     private final Cartao cartao;
-
+    // +1
     public RecuperaSenha(InformacaoRede informacaoRede, Cartao cartao) {
         this.instante = LocalDateTime.now();
         this.ipAddressCliente = informacaoRede.getIpAddress();

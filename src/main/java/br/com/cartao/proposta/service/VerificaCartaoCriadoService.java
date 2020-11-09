@@ -11,7 +11,7 @@ import java.util.Optional;
 
 /**
  * Carga intrínseca máxima perimitida - 7
- * Cargaintrínseca da classe - 3
+ * Cargaintrínseca da classe - 4
  */
 
 @Service
@@ -24,7 +24,7 @@ public class VerificaCartaoCriadoService {
     public VerificaCartaoCriadoService(CriacaoCartaoConsumer criacaoCartaoConsumer) {
         this.criacaoCartaoConsumer = criacaoCartaoConsumer;
     }
-
+    // +1
     public Optional<CartaoResponseSistemaLegado> verificaSeCartaoCriado(String idProposta){
         // +1
         try{

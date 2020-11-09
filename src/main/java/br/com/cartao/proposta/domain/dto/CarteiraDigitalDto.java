@@ -8,13 +8,20 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 3
+ */
+
 public class CarteiraDigitalDto {
 
     @Email
     @NotBlank
     private String email;
     @NotNull
+    // +1
     private CarteiraDigitalTipo carteira;
+    // +1
     private Cartao cartao;
 
     @Deprecated
@@ -42,7 +49,7 @@ public class CarteiraDigitalDto {
     public String numeroCartao(){
         return this.cartao.getCartaoId();
     }
-
+    // +1
     public CarteiraDigital toModel(){
         return new CarteiraDigital(this.email,this.carteira,this.cartao);
     }

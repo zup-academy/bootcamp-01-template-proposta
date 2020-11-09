@@ -4,7 +4,7 @@ import br.com.cartao.proposta.domain.enums.EstadoBloqueioCartaoIntegracao;
 import br.com.cartao.proposta.domain.enums.EstadoCartao;
 import br.com.cartao.proposta.domain.enums.SolicitacaoBloqueioIntegracaoResponse;
 import br.com.cartao.proposta.domain.model.Cartao;
-import br.com.cartao.proposta.domain.request.Bloqueio;
+import br.com.cartao.proposta.domain.model.Bloqueio;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,6 @@ public class BloqueioCartaoService {
     private final EntityManager manager;
     // +1
     private final AvisoBloqueioIntegracaoService avisoBloqueioIntegracaoService;
-
 
     public BloqueioCartaoService(EntityManager manager, AvisoBloqueioIntegracaoService avisoBloqueioIntegracaoService) {
         this.manager = manager;

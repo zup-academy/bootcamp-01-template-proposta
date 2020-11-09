@@ -15,29 +15,38 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Carga intrínseca máxima permitida - 7
+ * Carga intrínseca da classe - 7
+ */
+
 @Service
 public class CarteiraDigitalIntegracaoService {
 
     private static Logger logger = LoggerFactory.getLogger(CarteiraDigitalIntegracaoService.class);
-
+    // +1
     private final AssociarCarteiraDigitalConsumer associarCarteiraDigitalConsumer;
 
     public CarteiraDigitalIntegracaoService(AssociarCarteiraDigitalConsumer associarCarteiraDigitalConsumer) {
         this.associarCarteiraDigitalConsumer = associarCarteiraDigitalConsumer;
     }
-
+    // 2
     public Optional<ResultadoAssociacaoCarteiraResponse> associar(CarteiraDigitalDto carteiraDigitalDto) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
+        // +1
         try{
             logger.info("Inicio da tentativa de avisar sistema legado sobre associação de carteira");
+            // +1
             SolicitacaoInclusaoCarteiraRequest solicitacaoInclusaoCarteiraRequest = new
                     SolicitacaoInclusaoCarteiraRequest(carteiraDigitalDto.getEmail(), carteiraDigitalDto.getCarteira());
 
             ResultadoAssociacaoCarteiraResponse resultadoAssociacaoCarteiraResponse = associarCarteiraDigitalConsumer.associaCarteiraDigital(carteiraDigitalDto.numeroCartao(), solicitacaoInclusaoCarteiraRequest);
             logger.info("Associação feita com sucesso. Resposta: {}", resultadoAssociacaoCarteiraResponse.getResultado());
             return Optional.ofNullable(resultadoAssociacaoCarteiraResponse);
-        }catch (FeignException exception){
-
+        }
+        // +1
+        catch (FeignException exception){
+            // +1
             if (HttpStatus.UNPROCESSABLE_ENTITY.value() == exception.status()){
 
                 ResultadoAssociacaoCarteiraResponse resultadoAssociacaoCarteiraResponse =

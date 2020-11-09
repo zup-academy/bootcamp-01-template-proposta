@@ -17,7 +17,7 @@ import java.util.Optional;
 
 /**
  * Carga intrínseca máxima permitida - 7
- * Carga intrínseca da classe - 6
+ * Carga intrínseca da classe - 8
  */
 
 @Service
@@ -31,6 +31,7 @@ public class AvisoViagemIntegracaoService {
         this.avisoViagemConsumer = avisoViagemConsumer;
     }
 
+    // +3
     public Optional<ResultadoAvisoViagemIntegracao> avisaViagem(Cartao cartao, AvisoViagem avisoViagem) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         // +1
@@ -38,7 +39,7 @@ public class AvisoViagemIntegracaoService {
             logger.info("Inicio da tentativa de avisar sistema legado sobre viagem");
             // +1
             AvisoViagemIntegracaoRequest avisoViagemIntegracaoRequest = new AvisoViagemIntegracaoRequest(avisoViagem.getDestinoViagem(), avisoViagem.getTerminaEm());
-            // +1
+
             ResultadoAvisoViagemIntegracao resultadoAvisoViagemIntegracao = avisoViagemConsumer.avisa(cartao.getCartaoId(), avisoViagemIntegracaoRequest);
             logger.info("Aviso feito com sucesso. Resposta: {}", resultadoAvisoViagemIntegracao.getResultado());
             return Optional.ofNullable(resultadoAvisoViagemIntegracao);

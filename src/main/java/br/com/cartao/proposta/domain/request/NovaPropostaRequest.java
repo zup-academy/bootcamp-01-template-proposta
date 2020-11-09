@@ -10,6 +10,11 @@ import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 1
+ */
+
 public class NovaPropostaRequest implements Serializable {
 
     @NotBlank @CpfOuCnpj
@@ -87,7 +92,7 @@ public class NovaPropostaRequest implements Serializable {
                 ", salario=" + salario +
                 '}';
     }
-
+    // +1
     public Proposta toModel(){
         return new Proposta(this.documento, this.email,this.endereco, this.nome, this.salario);
     }

@@ -4,6 +4,11 @@ import br.com.cartao.proposta.domain.model.FingerPrint;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 1
+ */
+
 public class PrintfingerRequest {
 
     @NotBlank
@@ -23,7 +28,7 @@ public class PrintfingerRequest {
     public String getDigital() {
         return digital;
     }
-
+    // +1
     public FingerPrint toModel(){
         return new FingerPrint(this.dedo, this.digital);
     }

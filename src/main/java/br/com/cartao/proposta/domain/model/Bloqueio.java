@@ -1,11 +1,15 @@
-package br.com.cartao.proposta.domain.request;
+package br.com.cartao.proposta.domain.model;
 
 
-import br.com.cartao.proposta.domain.model.Cartao;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 1
+ */
 
 @Entity
 @Table(name = "bloqueioCartao")
@@ -22,6 +26,7 @@ public class Bloqueio {
 
     private LocalDateTime instanteBloqueio;
     @ManyToOne
+    // +1
     private Cartao cartao;
     @Deprecated
     public Bloqueio() {

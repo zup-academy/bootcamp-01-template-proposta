@@ -13,7 +13,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 4
+ */
+
 @Entity
+@Table(name = "proposta")
 public class Proposta {
 
     @Id
@@ -37,6 +43,7 @@ public class Proposta {
     private Boolean cartaoCriado;
 
     @OneToOne(mappedBy = "proposta", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    // +1
     private Cartao cartao;
 
     @Deprecated
@@ -100,6 +107,7 @@ public class Proposta {
                 '}';
     }
 
+    // +1
     public AnalisePropostaRequest toAnalisePropostaRequest(){
         return new AnalisePropostaRequest(this.documento,this.nome,this.id);
     }
@@ -112,6 +120,7 @@ public class Proposta {
     }
 
     public void alteraStatusCartaoCriado(boolean cartaoCriado) {
+        // +1
         if (cartaoCriado){
             this.cartaoCriado = cartaoCriado;
         }

@@ -1,6 +1,5 @@
 package br.com.cartao.proposta.domain.model;
 
-import br.com.cartao.proposta.domain.enums.EstadoAvisoViagem;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,6 +8,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 1
+ */
 
 @Entity
 @Table(name = "avisoViagem")
@@ -27,8 +31,9 @@ public class AvisoViagem {
     private LocalDateTime instante;
     private Boolean avisoSistemaLegado;
     @ManyToOne
+    // +1
     private Cartao cartao;
-
+    @Deprecated
     public AvisoViagem() {
     }
 

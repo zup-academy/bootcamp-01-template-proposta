@@ -1,11 +1,14 @@
 package br.com.cartao.proposta.domain.request;
 
-import br.com.cartao.proposta.domain.model.AvisoViagem;
-
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 0
+ */
 
 public class AvisoViagemIntegracaoRequest {
 

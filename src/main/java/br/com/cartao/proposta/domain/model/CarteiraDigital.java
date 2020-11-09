@@ -9,6 +9,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 3
+ */
+
 @Entity
 @Table(name = "carteiraDigital")
 public class CarteiraDigital {
@@ -21,10 +26,13 @@ public class CarteiraDigital {
     private String email;
     @NotNull
     @Enumerated(EnumType.STRING)
+    // +1
     private CarteiraDigitalTipo carteira;
     @Enumerated(EnumType.STRING)
+    // +1
     private EstadoAvisoLegado estadoAvisoLegado;
     @ManyToOne
+    // +1
     private Cartao cartao;
 
     @Deprecated

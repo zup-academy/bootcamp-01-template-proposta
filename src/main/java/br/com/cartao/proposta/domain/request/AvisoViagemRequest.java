@@ -9,6 +9,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 3
+ */
+
 public class AvisoViagemRequest {
 
     @NotBlank
@@ -21,7 +26,7 @@ public class AvisoViagemRequest {
         this.destinoViagem = destinoViagem;
         this.terminaEm = terminaEm;
     }
-
+    // +3
     public AvisoViagem toModel(Cartao cartao, InformacaoRede informacaoRede) {
         return new AvisoViagem(this.destinoViagem, this.terminaEm, informacaoRede.getIpAddress(), informacaoRede.getUserAgent(), cartao);
     }

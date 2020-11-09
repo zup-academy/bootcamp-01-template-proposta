@@ -17,6 +17,11 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Carga intrínseca máxima permitida - 7
+ * Carga intrínseca da classe - 9
+ */
+
 @Service
 public class AtualizaPropostaComCartaoCriado {
 
@@ -46,10 +51,11 @@ public class AtualizaPropostaComCartaoCriado {
     }
     @Transactional
     protected void percorreLista(List<Proposta> propostasAguardandoCartao) {
-
+        // +1
         propostasAguardandoCartao.forEach(proposta -> {
             Optional<CartaoResponseSistemaLegado> cartao = verificaCartaoCriadoService.verificaSeCartaoCriado(proposta.getId());
             logger.info("Cartão: {}", cartao);
+            // +1
             if (cartao.isPresent()){
                 alteraStatusESalva(proposta, cartao.get());
             }
@@ -62,6 +68,7 @@ public class AtualizaPropostaComCartaoCriado {
     }
 
     @Transactional
+    // +1
     protected void alteraStatusESalva(Proposta proposta, CartaoResponseSistemaLegado cartaoResponseSistemaLegado) {
         logger.info("Alterando status do cartão para o idProposta: {}", proposta.getId());
         proposta.alteraStatusCartaoCriado(Boolean.TRUE);

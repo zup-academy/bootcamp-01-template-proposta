@@ -8,14 +8,20 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 4
+ */
+
 public class SamsungPayAssociacaoRequest {
 
     @Email @NotBlank
     private final String email;
     @NotNull
+    // +1
     private final CarteiraDigitalTipo carteira;
 
-    public SamsungPayAssociacaoRequest(String email, String carteira) {
+    public SamsungPayAssociacaoRequest(String email) {
         this.email = email;
         this.carteira = CarteiraDigitalTipo.SAMSUNG_PAY;
     }
@@ -27,11 +33,11 @@ public class SamsungPayAssociacaoRequest {
     public CarteiraDigitalTipo getCarteira() {
         return carteira;
     }
-
+    // +1
     public SolicitacaoInclusaoCarteiraRequest toIntegracao(){
         return new SolicitacaoInclusaoCarteiraRequest(this.email, this.carteira);
     }
-
+    // +2
     public CarteiraDigitalDto toDto(Cartao cartao){
         return new CarteiraDigitalDto(this.email,this.carteira, cartao);
     }

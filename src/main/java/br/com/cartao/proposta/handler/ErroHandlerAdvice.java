@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Carga intrínseca máxima permitida -
+ * Carga intrínseca da classe - 3
+ */
+
 @RestControllerAdvice
 public class ErroHandlerAdvice {
 
@@ -22,12 +27,12 @@ public class ErroHandlerAdvice {
     public ResponseEntity<?> erroValidacao(MethodArgumentNotValidException exception){
         List<String> todosErrosValidacao = new ArrayList<>();
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
-
+        // +1
         fieldErrors.forEach(fieldError -> {
             String mensagem = fieldError.getField() + " "+ fieldError.getDefaultMessage();
             todosErrosValidacao.add(mensagem);
         });
-
+        // +1
         ErroPadraoApi erroPadraoApi = new ErroPadraoApi(HttpStatus.BAD_REQUEST.toString(), todosErrosValidacao, exception.getMessage());
 
         logger.warn("Erro de validação!!");
@@ -36,6 +41,7 @@ public class ErroHandlerAdvice {
     }
 
     @ExceptionHandler(ErroNegocioException.class)
+    // +1
     public ResponseEntity<ErroPadraoApi> handlerErroDeNegocio(ErroNegocioException exception){
         List<String> todosErros = new ArrayList<>();
 

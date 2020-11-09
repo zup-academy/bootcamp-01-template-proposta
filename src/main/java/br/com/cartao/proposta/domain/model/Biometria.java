@@ -8,6 +8,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+/**
+ * Carga intrínseca máxima permitida - 9
+ * Carga intrínseca da classe - 1
+ */
+
 @Entity
 @Table(name = "biometria")
 public class Biometria {
@@ -19,6 +24,7 @@ public class Biometria {
 
     @NotNull
     @OneToMany(cascade = CascadeType.PERSIST)
+    // +1
     private List<FingerPrint> fingerprint;
     @NotBlank
     private String idCartao;

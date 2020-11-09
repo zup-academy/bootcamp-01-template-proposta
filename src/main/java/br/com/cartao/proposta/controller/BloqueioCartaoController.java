@@ -1,7 +1,7 @@
 package br.com.cartao.proposta.controller;
 
 import br.com.cartao.proposta.domain.model.Cartao;
-import br.com.cartao.proposta.domain.request.Bloqueio;
+import br.com.cartao.proposta.domain.model.Bloqueio;
 import br.com.cartao.proposta.domain.request.BloqueioRequest;
 import br.com.cartao.proposta.domain.request.InformacaoRede;
 import br.com.cartao.proposta.domain.response.BloqueioCartaoResponseDto;

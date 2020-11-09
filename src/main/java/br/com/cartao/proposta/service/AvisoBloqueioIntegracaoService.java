@@ -14,7 +14,7 @@ import java.util.Optional;
 
 /**
  * Carga intrínseca máxima permitida - 7
- * Carga intrínseca da classe - 6
+ * Carga intrínseca da classe - 8
  */
 
 @Service
@@ -27,7 +27,7 @@ public class AvisoBloqueioIntegracaoService {
     public AvisoBloqueioIntegracaoService(AvisaBloqueioCartao avisaBloqueioCartao) {
         this.avisaBloqueioCartao = avisaBloqueioCartao;
     }
-
+    // +2
     public Optional<SolicitacaoBloqueioIntegracaoResponse> avisaSistema(Cartao cartao) throws JsonProcessingException {
         // +1
         SolicitacaoBloqueioRequest solicitacaoBloqueioRequest = new SolicitacaoBloqueioRequest(sistemaReferencia);

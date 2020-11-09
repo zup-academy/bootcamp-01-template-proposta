@@ -1,5 +1,6 @@
 package br.com.cartao.proposta.domain.request;
 
+import br.com.cartao.proposta.domain.model.Bloqueio;
 import br.com.cartao.proposta.domain.model.Cartao;
 
 public class BloqueioRequest {
