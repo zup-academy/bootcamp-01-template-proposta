@@ -33,6 +33,9 @@ public class Biometria {
 
     private LocalDateTime dataCadastro = LocalDateTime.now();
 
+    @Deprecated
+    public Biometria(){}
+
     public Biometria(@NotEmpty String biometria, Cartao cartao) {
         this.biometria = biometria;
         this.cartao = cartao;
@@ -44,5 +47,13 @@ public class Biometria {
 
     public String getBiometria() {
         return biometria;
+    }
+
+    @Override
+    public String toString() {
+        return "Biometria{" +
+                "id='" + id + '\'' +
+                ", biometria='" + biometria + '\'' +
+                '}';
     }
 }
