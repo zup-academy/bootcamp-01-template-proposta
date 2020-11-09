@@ -1,6 +1,7 @@
 package br.com.zup.proposta.cartao;
 
 import br.com.zup.proposta.biometria.Biometria;
+import br.com.zup.proposta.bloqueio.Bloqueio;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Cartao {
     private @NotNull LocalDateTime emitidoEm;
     private @NotBlank String titular;
     private @OneToMany Set<Biometria> biometrias = new HashSet<>();
+    private @OneToMany Set<Bloqueio> bloqueios = new HashSet<>();
     private @Enumerated(EnumType.STRING) StatusCartao status;
 
     @Deprecated
@@ -37,16 +39,16 @@ public class Cartao {
         biometrias.add(biometria);
     }
 
+    public void addBloqueio(Bloqueio bloqueio) {
+        bloqueios.add(bloqueio);
+    }
+
     public String getId() {
         return id;
     }
 
     public String getNumeroCartao() {
         return numeroCartao;
-    }
-
-    public void setStatus(StatusCartao status) {
-        this.status = status;
     }
 
     public void bloquearCartao() {
