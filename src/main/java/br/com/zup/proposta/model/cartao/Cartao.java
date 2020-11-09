@@ -59,6 +59,10 @@ public class Cartao {
     private Collection<Biometria> biometria = new ArrayList<>();
 
     @NotNull
+    @OneToMany(mappedBy = "cartao", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private Collection<RecuperacaoSenha> recuperacaoSenha = new ArrayList<>();
+
+    @NotNull
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private Proposta proposta;
 
@@ -135,6 +139,18 @@ public class Cartao {
 
     public void addBiometria(Biometria biometria) {
         this.biometria.add(biometria);
+    }
+
+    public Collection<RecuperacaoSenha> getRecuperacaoSenha() {
+        return this.recuperacaoSenha;
+    }
+
+    public void addRecuperacaoSenha(RecuperacaoSenha recuperacaoSenha) {
+        this.recuperacaoSenha.add(recuperacaoSenha);
+    }
+
+	public void addAvisos(CartaoAvisos aviso) {
+        this.avisos.add(aviso);
     }
 
     public Proposta getProposta() {

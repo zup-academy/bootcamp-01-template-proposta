@@ -37,3 +37,4 @@ docker-compose.yaml
 
 ### Config files ###
 /src/main/resources/config.properties
+Dockerfile

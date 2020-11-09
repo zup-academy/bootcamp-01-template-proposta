@@ -24,6 +24,6 @@ public class CartaoAvisosResponse {
     }
 
     public CartaoAvisos toCartaoAviso(Cartao cartao) {
-        return new CartaoAvisos(this, cartao);
+        return new CartaoAvisos(validoAte, destino, "", "", cartao);
     }
 }
