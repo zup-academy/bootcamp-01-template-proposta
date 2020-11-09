@@ -3,19 +3,20 @@ package br.com.zup.bootcamp.proposta.domain.service;
 import br.com.zup.bootcamp.proposta.api.externalsystem.LegadoAnaliseFinaceira;
 import br.com.zup.bootcamp.proposta.domain.entity.Proposta;
 import br.com.zup.bootcamp.proposta.domain.repository.PropostaRepository;
+import br.com.zup.bootcamp.proposta.domain.service.enums.StatusProposta;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PropostaService {
+public class CadastrarPropostaService {
 
     private final PropostaRepository repository;
     private final LegadoAnaliseFinaceira analiseFinaceira;
-    private final Logger logger = LoggerFactory.getLogger(PropostaService.class);
+    private final Logger logger = LoggerFactory.getLogger(CadastrarPropostaService.class);
 
-    public PropostaService(PropostaRepository repository, LegadoAnaliseFinaceira analiseFinaceira) {
+    public CadastrarPropostaService(PropostaRepository repository, LegadoAnaliseFinaceira analiseFinaceira) {
         this.repository = repository;
         this.analiseFinaceira = analiseFinaceira;
     }
