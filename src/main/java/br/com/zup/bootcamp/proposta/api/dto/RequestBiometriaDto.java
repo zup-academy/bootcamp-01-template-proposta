@@ -8,13 +8,16 @@ import javax.validation.constraints.NotNull;
 public class RequestBiometriaDto {
 
     @Base64 @NotNull
-    private final String fingerPrint;
+    private byte[] fingerPrint;
 
-    public RequestBiometriaDto(String fingerPrint) {
+    @Deprecated
+    public RequestBiometriaDto(){}
+
+    public RequestBiometriaDto(byte[] fingerPrint) {
         this.fingerPrint = fingerPrint;
     }
 
-    public String getFingerPrint() {
+    public byte[] getFingerPrint() {
         return fingerPrint;
     }
 
