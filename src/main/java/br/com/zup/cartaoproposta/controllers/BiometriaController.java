@@ -5,10 +5,7 @@ import br.com.zup.cartaoproposta.entities.cartao.biometria.Biometria;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -18,7 +15,7 @@ import javax.transaction.Transactional;
 import java.net.URI;
 
 /**
- * Contagem de carga intrínseca da classe: 5
+ * Contagem de carga intrínseca da classe: 7
  */
 
 @RestController
@@ -50,7 +47,20 @@ public class BiometriaController {
 
         manager.persist(biometriaP);
 
-        URI link = uriComponentsBuilder.path("/biometria/{id}").buildAndExpand(biometriaP.getId()).toUri();
+        URI link = uriComponentsBuilder.path("/cartoes/biometria/{id}").buildAndExpand(biometriaP.getId()).toUri();
         return ResponseEntity.created(link).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<String> dadosBiometria(@PathVariable("id") String idBiometria) {
+        //1
+        Biometria biometria = manager.find(Biometria.class, idBiometria);
+
+        //1
+        if(biometria == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(biometria.toString());
     }
 }
