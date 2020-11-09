@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -22,20 +21,29 @@ public class Biometria {
     private String id;
 
     @NotNull @Base64
-    private String fingerprint;
+    private byte[] fingerprint;
 
     @CreationTimestamp
     private LocalDateTime criadoEm;
+
+    @Valid
+    @ManyToOne @NotNull
+    private Cartao cartao;
 
     @Deprecated
     public Biometria() {
     }
 
-    public Biometria(@NotBlank String fingerprint) {
+    public Biometria(@NotNull byte[] fingerprint, @Valid @NotNull Cartao cartao) {
+        this.fingerprint = fingerprint;
+        this.cartao = cartao;
+    }
+
+    public Biometria(@NotNull byte[] fingerprint) {
         this.fingerprint = fingerprint;
     }
 
-    public String getFingerprint() {
+    public byte[] getFingerprint() {
         return fingerprint;
     }
 
