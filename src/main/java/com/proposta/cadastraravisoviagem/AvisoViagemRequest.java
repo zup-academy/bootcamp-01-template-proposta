@@ -12,13 +12,25 @@ public class AvisoViagemRequest {
 
     @NotNull
     @Future
-    private LocalDate dataTerminoViagem;
+    private LocalDate validoAte;
 
-    public AvisoViagemRequest(@NotBlank String destino, @NotNull LocalDate dataTerminoViagem) {
-        this.destino = destino;
-        this.dataTerminoViagem = dataTerminoViagem;
-    }
     public AvisoViagem toModel(String user, String ip) {
-        return new AvisoViagem(user, ip, destino, dataTerminoViagem);
+        return new AvisoViagem(user, ip, destino, validoAte);
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
+
+    public LocalDate getValidoAte() {
+        return validoAte;
+    }
+
+    public void setValidoAte(LocalDate validoAte) {
+        this.validoAte = validoAte;
     }
 }

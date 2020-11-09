@@ -30,7 +30,7 @@ public class AvisoViagem {
 
     @Future
     @NotNull
-    private LocalDate dataTerminoViagem;
+    private LocalDate validoAte;
 
     @Deprecated
     public AvisoViagem() {
@@ -38,11 +38,11 @@ public class AvisoViagem {
     }
 
     public AvisoViagem(@NotBlank String userAgent, @NotBlank String ip,
-                       @NotBlank String destino, @Future @NotNull LocalDate dataTerminoViagem) {
+                       @NotBlank String destino, @Future @NotNull LocalDate validoAte) {
         this.userAgent = userAgent;
         this.ip = ip;
         this.destino = destino;
-        this.dataTerminoViagem = dataTerminoViagem;
+        this.validoAte = validoAte;
     }
 
     public Long getId() {
