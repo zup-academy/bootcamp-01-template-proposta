@@ -22,7 +22,7 @@ import java.net.URI;
  */
 
 @RestController
-@RequestMapping("/biometria")
+@RequestMapping("/cartoes/biometria")
 public class BiometriaController {
 
     @PersistenceContext
