@@ -14,21 +14,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class BloqueioService {
+public class BloqueioCartaoService {
 
-    Logger logger = LoggerFactory.getLogger(BloqueioService.class);
-
-    //1
+    Logger logger = LoggerFactory.getLogger(BloqueioCartaoService.class);
+//1
     private final CartaoClient cartaoClient;
 
     @Value("${spring.application.name}")
     private String sistemaResponsavel;
 
-    public BloqueioService(CartaoClient cartaoClient) {
+    public BloqueioCartaoService(CartaoClient cartaoClient) {
         this.cartaoClient = cartaoClient;
     }
 
-    public boolean notificaBloqueioDoCartaoNoLegado(Cartao cartao) {
+    public boolean notificaBloqueioDoCartaoNoLegado(Cartao cartao) { //1
 
         Map<String, String> sistemaResponsavel = new HashMap<>();
         sistemaResponsavel.put("sistemaResponsavel", this.sistemaResponsavel);

@@ -4,16 +4,17 @@ import br.com.itau.cartaobrancoproposta.component.TransacaoDados;
 import br.com.itau.cartaobrancoproposta.model.Bloqueio;
 import br.com.itau.cartaobrancoproposta.model.Cartao;
 import br.com.itau.cartaobrancoproposta.model.EstadoBloqueio;
-import br.com.itau.cartaobrancoproposta.service.BloqueioService;
+import br.com.itau.cartaobrancoproposta.service.BloqueioCartaoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 
 @RestController
 public class CartaoController {
@@ -22,15 +23,15 @@ public class CartaoController {
 //1
     private final TransacaoDados transacaoDados;
 //1
-    private final BloqueioService bloqueioService;
+    private final BloqueioCartaoService bloqueioCartaoService;
 
-    public CartaoController(TransacaoDados transacaoDados, BloqueioService bloqueioService) {
+    public CartaoController(TransacaoDados transacaoDados, BloqueioCartaoService bloqueioCartaoService) {
         this.transacaoDados = transacaoDados;
-        this.bloqueioService = bloqueioService;
+        this.bloqueioCartaoService = bloqueioCartaoService;
     }
 
     @PostMapping("/v1/cartoes/{id}/bloqueio")
-    public ResponseEntity<?> bloqueiaCartao(@PathVariable("id") String numeroCartao, HttpServletRequest request) {
+    public ResponseEntity<?> bloqueiaCartao(@PathVariable("id") String numeroCartao, HttpServletRequest request, UriComponentsBuilder uriComponentsBuilder) {
         Cartao cartao = transacaoDados.buscaPorNumeroDoCartao(numeroCartao); //1
 
         if (cartao == null) { //1
@@ -45,13 +46,15 @@ public class CartaoController {
 
         cartao.carregaBloqueio(bloqueio);
 
-        if (bloqueioService.notificaBloqueioDoCartaoNoLegado(cartao)) { //1
+        if (bloqueioCartaoService.notificaBloqueioDoCartaoNoLegado(cartao)) { //1
             bloqueio.statusBloqueado();
             transacaoDados.atualiza(cartao);
             logger.info("Bloqueio id={} estado={} foi atrelado ao cartão com final {} com sucesso!", bloqueio.getId(),
                     bloqueio.getEstadoBloqueio(), cartao.getNumeroCartao().substring(24));
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        URI uri = uriComponentsBuilder.path("/v1/cartoes/{id}").buildAndExpand(cartao.getId()).toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 }

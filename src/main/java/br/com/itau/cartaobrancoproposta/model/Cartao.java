@@ -24,7 +24,7 @@ public class Cartao {
     private String titular;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Bloqueio> bloqueios;
-    @OneToMany(mappedBy = "cartao")
+    @OneToMany
     private List<AvisoViagem> avisos;
     @OneToMany(mappedBy = "cartao")
     private List<CarteiraDigital> carteiras;
@@ -42,6 +42,8 @@ public class Cartao {
     private Proposta proposta;
     @OneToMany
     private List<Biometria> biometrias;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Recuperacao recuperacao;
 
     @Deprecated
     public Cartao() {
@@ -158,11 +160,27 @@ public class Cartao {
         this.biometrias = biometrias;
     }
 
+    public Recuperacao getRecuperacao() {
+        return recuperacao;
+    }
+
+    public void setRecuperacao(Recuperacao recuperacao) {
+        this.recuperacao = recuperacao;
+    }
+
     public void carregaBiometria(Biometria biometria) {
         this.biometrias.add(biometria);
     }
 
     public void carregaBloqueio(Bloqueio bloqueio) {
         this.bloqueios.add(bloqueio);
+    }
+
+    public void carregaRecuperacaoSenha(Recuperacao recuperacao) {
+        this.recuperacao = recuperacao;
+    }
+
+    public void carregaAvisoViagem(AvisoViagem avisoViagem) {
+        this.avisos.add(avisoViagem);
     }
 }

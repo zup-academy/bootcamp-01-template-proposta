@@ -6,41 +6,33 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Future;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-public class AvisoViagem {
+public class Recuperacao {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    @NotNull
-    @Future
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    private LocalDate validoAte;
-    private String destino;
     @NotBlank
     private String ipCliente;
     @NotBlank
     private String userAgent;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime instanteAviso = LocalDateTime.now();
-    @ManyToOne
+    @NotNull
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    private final LocalDateTime localDateTime = LocalDateTime.now();
+    @OneToOne
     private Cartao cartao;
 
     @Deprecated
-    public AvisoViagem() {
+    public Recuperacao() {
     }
 
-    public AvisoViagem(LocalDate validoAte, String destino, @NotBlank String ipCliente, @NotBlank String userAgent) {
-        this.validoAte = validoAte;
-        this.destino = destino;
+    public Recuperacao(@NotBlank String ipCliente, @NotBlank String userAgent) {
         this.ipCliente = ipCliente;
         this.userAgent = userAgent;
     }
@@ -51,22 +43,6 @@ public class AvisoViagem {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public LocalDate getValidoAte() {
-        return validoAte;
-    }
-
-    public void setValidoAte(LocalDate validoAte) {
-        this.validoAte = validoAte;
-    }
-
-    public String getDestino() {
-        return destino;
-    }
-
-    public void setDestino(String destino) {
-        this.destino = destino;
     }
 
     public String getIpCliente() {
@@ -85,11 +61,7 @@ public class AvisoViagem {
         this.userAgent = userAgent;
     }
 
-    public LocalDateTime getInstanteAviso() {
-        return instanteAviso;
-    }
-
-    public void setInstanteAviso(LocalDateTime instanteAviso) {
-        this.instanteAviso = instanteAviso;
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
     }
 }

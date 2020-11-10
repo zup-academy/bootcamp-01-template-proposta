@@ -13,7 +13,8 @@ public class CartaoResponse {
     private final String titular;
     @JsonProperty(value = "bloqueios")
     private final List<BloqueioResponse> bloqueiosResponse;
-    private final List<AvisoViagem> avisos;
+    @JsonProperty(value = "avisos")
+    private final List<AvisoViagemResponse> avisosResponse;
     private final List<CarteiraDigital> carteiras;
     private final List<Parcela> parcelas;
     private final BigDecimal limite;
@@ -21,21 +22,23 @@ public class CartaoResponse {
     private final Vencimento vencimento;
     @JsonProperty(value = "biometrias")
     private final List<BiometriaResponse> biometriaResponse;
+    private final Recuperacao recuperacao;
 
     public CartaoResponse(String numeroCartao, String emitidoEm, String titular, List<BloqueioResponse> bloqueiosResponse,
-                          List<AvisoViagem> avisos, List<CarteiraDigital> carteiras, List<Parcela> parcelas,
-                          BigDecimal limite, Renegociacao renegociacao, Vencimento vencimento, List<BiometriaResponse> biometriaResponse) {
+                          List<AvisoViagemResponse> avisosResponse, List<CarteiraDigital> carteiras, List<Parcela> parcelas,
+                          BigDecimal limite, Renegociacao renegociacao, Vencimento vencimento, List<BiometriaResponse> biometriaResponse, Recuperacao recuperacao) {
         this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.bloqueiosResponse = bloqueiosResponse;
-        this.avisos = avisos;
+        this.avisosResponse = avisosResponse;
         this.carteiras = carteiras;
         this.parcelas = parcelas;
         this.limite = limite;
         this.renegociacao = renegociacao;
         this.vencimento = vencimento;
         this.biometriaResponse = biometriaResponse;
+        this.recuperacao = recuperacao;
     }
 
     public String getNumeroCartao() {
@@ -54,8 +57,8 @@ public class CartaoResponse {
         return bloqueiosResponse;
     }
 
-    public List<AvisoViagem> getAvisos() {
-        return avisos;
+    public List<AvisoViagemResponse> getAvisosResponse() {
+        return avisosResponse;
     }
 
     public List<CarteiraDigital> getCarteiras() {
@@ -82,17 +85,22 @@ public class CartaoResponse {
         return biometriaResponse;
     }
 
+    public Recuperacao getRecuperacao() {
+        return recuperacao;
+    }
+
     public CartaoResponse(Cartao cartao) {
         this.numeroCartao = cartao.getNumeroCartao();
         this.emitidoEm = cartao.getEmitidoEm();
         this.titular = cartao.getTitular();
         this.bloqueiosResponse = cartao.getBloqueios().stream().map(bloqueio -> new BloqueioResponse(bloqueio.getLocalDateTime(), bloqueio.getEstadoBloqueio())).collect(Collectors.toList());
-        this.avisos = cartao.getAvisos();
+        this.avisosResponse = cartao.getAvisos().stream().map(avisoViagem -> new AvisoViagemResponse(avisoViagem.getValidoAte(), avisoViagem.getDestino())).collect(Collectors.toList());
         this.carteiras = cartao.getCarteiras();
         this.parcelas = cartao.getParcelas();
         this.limite = cartao.getLimite();
         this.renegociacao = cartao.getRenegociacao();
         this.vencimento = cartao.getVencimento();
         this.biometriaResponse = cartao.getBiometrias().stream().map(BiometriaResponse::new).collect(Collectors.toList());
+        this.recuperacao = cartao.getRecuperacao();
     }
 }

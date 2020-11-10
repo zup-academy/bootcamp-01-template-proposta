@@ -1,5 +1,6 @@
 package br.com.itau.cartaobrancoproposta.controller;
 
+import br.com.itau.cartaobrancoproposta.config.MetricasConfig;
 import br.com.itau.cartaobrancoproposta.model.Biometria;
 import br.com.itau.cartaobrancoproposta.model.BiometriaRequest;
 import br.com.itau.cartaobrancoproposta.model.Cartao;
@@ -25,9 +26,12 @@ public class BiometriaController {
     Logger logger = LoggerFactory.getLogger(BiometriaController.class);
 
     private final EntityManager entityManager;
+//1
+    private final MetricasConfig metricasConfig;
 
-    public BiometriaController(EntityManager entityManager) {
+    public BiometriaController(EntityManager entityManager, MetricasConfig metricasConfig) {
         this.entityManager = entityManager;
+        this.metricasConfig = metricasConfig;
     }
 
     @PostMapping("/v1/cartoes/{id}/biometrias")
@@ -55,6 +59,8 @@ public class BiometriaController {
         logger.info("Biometria id={} foi atrelado ao cartão com final {} com sucesso!", biometria.getId(), cartao.getNumeroCartao().substring(24));
 
         URI endereco = builder.path("/v1/biometrias/{id}").buildAndExpand(biometria.getId()).toUri();
+
+        metricasConfig.incrementaContador("biometria_cadastrada");
 
         return ResponseEntity.created(endereco).build();
     }
