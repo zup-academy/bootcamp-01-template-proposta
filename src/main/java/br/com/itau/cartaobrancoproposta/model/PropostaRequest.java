@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.Base64;
 
 public class PropostaRequest {
 
@@ -57,7 +58,9 @@ public class PropostaRequest {
     }
 
     public Proposta toModel() {
-        return new Proposta(this.documento, this.email, this.nome, this.endereco, this.salario, Restricao.PENDENTE);
+        String documentoCriptografado = Base64.getEncoder().encodeToString(this.documento.getBytes());
+
+        return new Proposta(documentoCriptografado, this.email, this.nome, this.endereco, this.salario, Restricao.PENDENTE);
     }
 
     public void verificaDocumentoValido(VerificaPropostaMesmoSolicitante verificadorProposta) { //1

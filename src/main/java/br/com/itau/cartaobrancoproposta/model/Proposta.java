@@ -1,7 +1,6 @@
 package br.com.itau.cartaobrancoproposta.model;
 
 import br.com.itau.cartaobrancoproposta.client.CartaoClient;
-import br.com.itau.cartaobrancoproposta.validator.CpfOuCnpj;
 import feign.FeignException;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -21,7 +20,6 @@ public class Proposta {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     @NotBlank
-    @CpfOuCnpj
     private String documento;
     @NotBlank
     @Email

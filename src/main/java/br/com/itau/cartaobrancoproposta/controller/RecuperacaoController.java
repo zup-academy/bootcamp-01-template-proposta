@@ -3,6 +3,8 @@ package br.com.itau.cartaobrancoproposta.controller;
 import br.com.itau.cartaobrancoproposta.component.TransacaoDados;
 import br.com.itau.cartaobrancoproposta.model.Cartao;
 import br.com.itau.cartaobrancoproposta.model.Recuperacao;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -17,22 +19,28 @@ import java.net.URI;
 @RestController
 public class RecuperacaoController {
 
+    private Tracer tracer;
+
     private final Logger logger = LoggerFactory.getLogger(RecuperacaoController.class);
 //1
     private final TransacaoDados transacaoDados;
 
-    public RecuperacaoController(TransacaoDados transacaoDados) {
+    public RecuperacaoController(Tracer tracer, TransacaoDados transacaoDados) {
+        this.tracer = tracer;
         this.transacaoDados = transacaoDados;
     }
 
     @PostMapping("/v1/cartoes/{id}/recuperacao")
-    public ResponseEntity<?> recuperaSenha(@PathVariable("id") String numeroCartao, HttpServletRequest httpServletRequest, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<?> criaRecuperacaoSenha(@PathVariable("id") String numeroCartao, HttpServletRequest httpServletRequest, UriComponentsBuilder uriComponentsBuilder) {
         Cartao cartao = transacaoDados.buscaPorNumeroDoCartao(numeroCartao);
 
         if (cartao == null) { //1
             logger.error("Cartão não foi encontrado.");
             return ResponseEntity.notFound().build();
         }
+
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("correlationID", cartao.getId());
 
         Recuperacao recuperacao = new Recuperacao(httpServletRequest.getRemoteAddr(), httpServletRequest.getHeader("User-Agent")); //1
 

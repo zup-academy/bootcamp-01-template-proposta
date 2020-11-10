@@ -3,6 +3,7 @@ package br.com.itau.cartaobrancoproposta.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
+import java.util.Base64;
 
 public class PropostaResponse {
 
@@ -62,12 +63,17 @@ public class PropostaResponse {
 
     public PropostaResponse(Proposta proposta) {
         this.id = proposta.getId();
-        this.documento = proposta.getDocumento();
+        this.documento = this.descodificaDocumento(proposta.getDocumento());
         this.email = proposta.getEmail();
         this.nome = proposta.getNome();
         this.endereco = proposta.getEndereco();
         this.salario = proposta.getSalario();
         this.restricao = proposta.getRestricao();
         this.cartaoResponse = new CartaoResponse(proposta.getCartao());
+    }
+
+    private String descodificaDocumento(String documento) {
+        byte[] decode = Base64.getDecoder().decode(documento.getBytes());
+        return new String(decode);
     }
 }

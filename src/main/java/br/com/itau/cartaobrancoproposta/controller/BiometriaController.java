@@ -4,6 +4,8 @@ import br.com.itau.cartaobrancoproposta.config.MetricasConfig;
 import br.com.itau.cartaobrancoproposta.model.Biometria;
 import br.com.itau.cartaobrancoproposta.model.BiometriaRequest;
 import br.com.itau.cartaobrancoproposta.model.Cartao;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +25,16 @@ import java.net.URI;
 @RestController
 public class BiometriaController {
 
+    private final Tracer tracer;
+
     Logger logger = LoggerFactory.getLogger(BiometriaController.class);
 
     private final EntityManager entityManager;
 //1
     private final MetricasConfig metricasConfig;
 
-    public BiometriaController(EntityManager entityManager, MetricasConfig metricasConfig) {
+    public BiometriaController(Tracer tracer, EntityManager entityManager, MetricasConfig metricasConfig) {
+        this.tracer = tracer;
         this.entityManager = entityManager;
         this.metricasConfig = metricasConfig;
     }
@@ -48,6 +53,9 @@ public class BiometriaController {
 
         Cartao cartao = (Cartao) query.getResultList().get(0); //1
         logger.info("Cartão com o id={} foi encontrado.", cartao.getId());
+
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("correlationID", cartao.getId());
 
         Biometria biometria = biometriaRequest.toModel(); //1
 

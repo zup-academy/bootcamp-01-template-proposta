@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.Base64;
 
 public class PropostaRequestTest {
 
@@ -14,7 +15,7 @@ public class PropostaRequestTest {
 
         Proposta proposta = propostaRequest.toModel();
 
-        Assertions.assertEquals("330.547.310-06", proposta.getDocumento());
+        Assertions.assertEquals(Base64.getEncoder().encodeToString("330.547.310-06".getBytes()), proposta.getDocumento());
         Assertions.assertEquals("raphael@gmail.com", proposta.getEmail());
         Assertions.assertEquals("Raphael", proposta.getNome());
         Assertions.assertEquals("Rua 1", proposta.getEndereco());

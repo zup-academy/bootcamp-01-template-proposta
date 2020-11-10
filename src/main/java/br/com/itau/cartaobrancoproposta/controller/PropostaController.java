@@ -6,6 +6,8 @@ import br.com.itau.cartaobrancoproposta.model.PropostaRequest;
 import br.com.itau.cartaobrancoproposta.model.PropostaResponse;
 import br.com.itau.cartaobrancoproposta.service.PropostaService;
 import br.com.itau.cartaobrancoproposta.validator.VerificaPropostaMesmoSolicitante;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ import java.net.URI;
 public class PropostaController {
 
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
+
+    private final Tracer tracer;
 //1
     private final TransacaoDados transacaoDados;
 //1
@@ -28,7 +32,8 @@ public class PropostaController {
 //1
     private Proposta proposta;
 
-    public PropostaController(TransacaoDados transacaoDados, VerificaPropostaMesmoSolicitante verificaPropostaMesmoSolicitante, PropostaService propostaService) {
+    public PropostaController(Tracer tracer, TransacaoDados transacaoDados, VerificaPropostaMesmoSolicitante verificaPropostaMesmoSolicitante, PropostaService propostaService) {
+        this.tracer = tracer;
         this.transacaoDados = transacaoDados;
         this.propostaService = propostaService;
         this.verificadorProposta = verificaPropostaMesmoSolicitante;
@@ -48,11 +53,17 @@ public class PropostaController {
 
         URI enderecoConsulta = builder.path("/v1/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("correlationID", proposta.getId());
+
         return ResponseEntity.created(enderecoConsulta).build();
     }
 
     @GetMapping("/v1/propostas/{id}")
     public ResponseEntity<PropostaResponse> exibeProposta(@PathVariable("id") String idProposta) { //1
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("correlationID", idProposta);
+
         proposta = transacaoDados.busca(Proposta.class, idProposta);
         if (proposta != null) { //1
             logger.info("Proposta id={} documento={} foi encontrada com sucesso!", proposta.getId(), proposta.getDocumento());

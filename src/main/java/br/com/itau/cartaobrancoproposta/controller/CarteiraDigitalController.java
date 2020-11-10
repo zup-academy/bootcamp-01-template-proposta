@@ -5,6 +5,8 @@ import br.com.itau.cartaobrancoproposta.model.Cartao;
 import br.com.itau.cartaobrancoproposta.model.CarteiraDigital;
 import br.com.itau.cartaobrancoproposta.model.CarteiraDigitalRequest;
 import br.com.itau.cartaobrancoproposta.service.CarteiraDigitalService;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -20,26 +22,32 @@ import java.net.URI;
 @RestController
 public class CarteiraDigitalController {
 
+    private final Tracer tracer;
+
     Logger logger = LoggerFactory.getLogger(CarteiraDigitalController.class);
 //1
     private final TransacaoDados transacaoDados;
 //1
     private final CarteiraDigitalService carteiraDigitalService;
 
-    public CarteiraDigitalController(TransacaoDados transacaoDados, CarteiraDigitalService carteiraDigitalService) {
+    public CarteiraDigitalController(Tracer tracer, TransacaoDados transacaoDados, CarteiraDigitalService carteiraDigitalService) {
+        this.tracer = tracer;
         this.transacaoDados = transacaoDados;
         this.carteiraDigitalService = carteiraDigitalService;
     }
 
     @PostMapping("/v1/cartoes/{id}/carteiras")
-    public ResponseEntity<?> associaAoCartao(@PathVariable("id") String numeroCartao, @Valid @RequestBody CarteiraDigitalRequest carteiraDigitalRequest,
-                                             UriComponentsBuilder uriComponentsBuilder) { //1
+    public ResponseEntity<?> criaCarteiraDigital(@PathVariable("id") String numeroCartao, @Valid @RequestBody CarteiraDigitalRequest carteiraDigitalRequest,
+                                                 UriComponentsBuilder uriComponentsBuilder) { //1
         Cartao cartao = transacaoDados.buscaPorNumeroDoCartao(numeroCartao); //1
 
         if (cartao == null) { //1
             logger.error("Cartão não foi encontrado.");
             return ResponseEntity.notFound().build();
         }
+
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("correlationID", cartao.getId());
 
         CarteiraDigital carteiraDigital = carteiraDigitalRequest.toModel(); //1
 
