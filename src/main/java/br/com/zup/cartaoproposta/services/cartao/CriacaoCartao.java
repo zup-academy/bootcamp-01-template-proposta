@@ -38,27 +38,27 @@ public class CriacaoCartao {
     private final Logger logger = LoggerFactory.getLogger(CriacaoCartao.class);
 
     @Scheduled(fixedDelayString = "${periodicidade.criar-cartao}")
-    @Transactional
     public void criacaoDoCartao(){
 
         //2
         List<Proposta> propostasValidas = propostaRepository.findByStatusProposta(StatusProposta.AGUARDANDO_CARTAO);
         //1
-        propostasValidas.forEach( p -> {
-            //2
-            try {
-                logger.info("Busca dos dados do cartão da proposta. ipProposta: {}; documentoProposta: {}",p.getId(), p.getDocumento());
-                //1
-                DadosCartaoRetornoLegado dadosCartao = cartoesClient.buscaDadosCartoesResource(p.getId());
-                //1
-                Cartao cartao = dadosCartao.toModel(propostaRepository);
-                cartaoRepository.save(cartao);
-                p.atualizaStatusProposta();
-            } catch (FeignException e) {
-                logger.warn("Não localizado os dados do cartão da proposta. ipProposta: {}; documentoProposta: {}; statusRetorno: {}",p.getId(), p.getDocumento(), e.status());
-            }
+        propostasValidas.forEach(this::criacaoUmCartao);
+    }
 
-        });
-
+    @Transactional
+    private void criacaoUmCartao(Proposta p) {
+        //2
+        try {
+            logger.info("Busca dos dados do cartão da proposta. ipProposta: {}; documentoProposta: {}",p.getId(), p.getDocumento());
+            //1
+            DadosCartaoRetornoLegado dadosCartao = cartoesClient.buscaDadosCartoesResource(p.getId());
+            //1
+            Cartao cartao = dadosCartao.toModel(propostaRepository);
+            cartaoRepository.save(cartao);
+            p.atualizaStatusProposta();
+        } catch (FeignException e) {
+            logger.warn("Não localizado os dados do cartão da proposta. ipProposta: {}; documentoProposta: {}; statusRetorno: {}",p.getId(), p.getDocumento(), e.status());
+        }
     }
 }
