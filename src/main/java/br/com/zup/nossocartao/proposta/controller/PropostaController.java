@@ -1,5 +1,6 @@
 package br.com.zup.nossocartao.proposta.controller;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,9 +25,10 @@ public class PropostaController {
 		this.propostaService = propostaService;
 	}
 
+	@RolesAllowed("administrador")
 	@PostMapping(value = "/propostas")
-	public ResponseEntity<?> novaProposta(@RequestBody @Valid NovaPropostaRequest dadosProposta,
-			UriComponentsBuilder builder) {
+	public ResponseEntity<?> novaProposta(@RequestHeader String Authorization,
+			@RequestBody @Valid NovaPropostaRequest dadosProposta, UriComponentsBuilder builder) {
 
 		boolean verificaCpfCnpj = propostaService.verificaDocumento(dadosProposta.getCpfCnpj());
 
