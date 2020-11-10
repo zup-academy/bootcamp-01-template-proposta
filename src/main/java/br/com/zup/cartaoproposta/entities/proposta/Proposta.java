@@ -39,7 +39,7 @@ public class Proposta {
     //1
     private StatusProposta statusProposta;
 
-    @OneToOne(mappedBy = "proposta")
+    @OneToOne(mappedBy = "proposta", cascade = CascadeType.MERGE)
     //1
     private Cartao cartao;
 
@@ -96,5 +96,9 @@ public class Proposta {
         if (this.statusProposta == StatusProposta.AGUARDANDO_CARTAO) {
             this.statusProposta = StatusProposta.ELEGIVEL;
         }
+    }
+
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 }

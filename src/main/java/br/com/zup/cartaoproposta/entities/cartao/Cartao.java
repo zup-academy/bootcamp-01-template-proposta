@@ -28,13 +28,14 @@ public class Cartao {
     private String id;
 
     @NotNull
+    @Column(unique=true)
     private String idLegado;
 
     @NotNull
     private LocalDateTime emitidoEm;
     @NotNull
     private String titular;
-    @ElementCollection
+    @OneToMany(mappedBy = "cartao")
     //1
     private List<BloqueioCartao> bloqueios = new ArrayList<>();
     @ElementCollection
