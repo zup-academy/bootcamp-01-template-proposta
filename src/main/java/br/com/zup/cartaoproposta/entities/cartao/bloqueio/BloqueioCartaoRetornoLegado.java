@@ -38,4 +38,21 @@ public class BloqueioCartaoRetornoLegado {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public LocalDateTime getBloqueadoEm() {
+        return bloqueadoEm;
+    }
+
+    public String getSistemaResponsavel() {
+        return sistemaResponsavel;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
 }
