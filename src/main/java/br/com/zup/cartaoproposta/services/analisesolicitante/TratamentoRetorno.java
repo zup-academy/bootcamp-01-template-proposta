@@ -1,4 +1,4 @@
-package br.com.zup.cartaoproposta.services.analisesolicitnte;
+package br.com.zup.cartaoproposta.services.analisesolicitante;
 
 import br.com.zup.cartaoproposta.entities.analisesolicitante.AnaliseSolicitanteRetorno;
 

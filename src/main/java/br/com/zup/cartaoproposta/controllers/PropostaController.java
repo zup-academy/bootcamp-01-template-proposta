@@ -5,7 +5,7 @@ import br.com.zup.cartaoproposta.entities.proposta.Proposta;
 import br.com.zup.cartaoproposta.entities.proposta.PropostaNovoRequest;
 import br.com.zup.cartaoproposta.entities.proposta.PropostaRetorno;
 import br.com.zup.cartaoproposta.repositories.PropostaRepository;
-import br.com.zup.cartaoproposta.services.analisesolicitnte.TratamentoRetorno;
+import br.com.zup.cartaoproposta.services.analisesolicitante.TratamentoRetorno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
