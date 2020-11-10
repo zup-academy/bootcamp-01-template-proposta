@@ -1,6 +1,7 @@
 package br.com.proposta.controller;
 
 import java.net.URI;
+import java.security.Principal;
 
 import javax.validation.Valid;
 
@@ -22,6 +23,14 @@ import br.com.proposta.model.Biometria;
 import br.com.proposta.model.Cartao;
 import br.com.proposta.repository.CartaoRepository;
 
+//Contagem de Pontos - TOTAL:5
+//1 - ExecutorTransacao
+//1 - BiometriaDTO
+//1 - Biometria
+//1 - Cartao
+//1 - CartaoRepository
+//1 - If
+
 @RestController
 public class BiometriaController {
 	
@@ -34,12 +43,18 @@ public class BiometriaController {
 	private Logger logger = LoggerFactory.getLogger(BiometriaController.class);
 
 	@PostMapping(value = "/v1/biometria/{id}")
-	public ResponseEntity<?> criaProposta(@PathVariable("id") Long id,@RequestBody @Valid BiometriaDTO biometriadto, UriComponentsBuilder builder) {
+	public ResponseEntity<?> criaBiometria(@PathVariable("id") Long id,@RequestBody @Valid BiometriaDTO biometriadto, UriComponentsBuilder builder, Principal principal) {
 
 		Biometria biometriaCriada = biometriadto.toModel();
 		logger.info("Biometria criada {}", biometriaCriada);
 		
 		Cartao cartao = cartaoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		logger.info("Id do Keyclock recebido {}", principal.getName());
+		
+		if (cartao.getProposta().verificaUsuario(principal.getName()) == false) {
+			return new ResponseEntity<>("Proposta não pertence ao seu usuário",HttpStatus.FORBIDDEN);
+		}
+		
 		cartao.adicionaBiometria(biometriaCriada);
 		biometriaCriada.setCartao(cartao);
 		executorTransacao.atualizaEComita(cartao);

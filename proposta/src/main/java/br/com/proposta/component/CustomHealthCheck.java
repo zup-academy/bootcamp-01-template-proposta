@@ -8,6 +8,9 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.stereotype.Component;
 
+
+//Contagem de Pontos - TOTAL:0
+
 @Component
 public class CustomHealthCheck implements HealthIndicator{
 

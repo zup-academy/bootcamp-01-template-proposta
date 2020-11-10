@@ -1,5 +1,7 @@
 package br.com.proposta.dto;
 
+//Contagem de Pontos - TOTAL:0
+
 public class FieldErrorOutputDto {
 
     private String field;

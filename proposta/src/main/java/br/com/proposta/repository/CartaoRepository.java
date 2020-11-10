@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import br.com.proposta.model.Cartao;
 
+//Contagem de Pontos - TOTAL:1
+//1 - Cartao
+
 @Repository
 public interface CartaoRepository extends CrudRepository<Cartao, Long>{
 

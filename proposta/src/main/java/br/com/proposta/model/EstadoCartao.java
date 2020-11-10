@@ -13,6 +13,10 @@ import javax.validation.constraints.NotNull;
 
 import br.com.proposta.dto.enums.StatusCartao;
 
+
+//Contagem de Pontos - TOTAL:1
+//1 - Cartao
+
 @Entity
 public class EstadoCartao {	
 

@@ -14,10 +14,19 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.proposta.dto.enums.StatusCartao;
+
+//Contagem de Pontos - TOTAL:6
+//1 - Propost
+//1 - Biometria
+//1 - EstadoCartao
+//1 - AvisoViagem
+//1 - CarteiraPaypal
+//1 - CarteiraSamsung
 
 @Entity
 public class Cartao {
@@ -35,6 +44,14 @@ public class Cartao {
 	@OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
 	@LazyCollection(LazyCollectionOption.FALSE)    
 	private Set<EstadoCartao> estadoCartao = new HashSet<>();
+	@OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+	@LazyCollection(LazyCollectionOption.FALSE)    
+	private Set<AvisoViagem> avisosviagem = new HashSet<>();
+	@OneToOne(mappedBy = "cartao",cascade = CascadeType.PERSIST)
+	private CarteiraPaypal carteiraPaypal;
+	@OneToOne(mappedBy = "cartao",cascade = CascadeType.PERSIST)
+	private CarteiraSamsung carteiraSamsung;
+	
 	
 	@Deprecated
 	public Cartao() {
@@ -64,6 +81,18 @@ public class Cartao {
 		return biometrias;
 	}
 
+	public Set<AvisoViagem> getAvisosviagem() {
+		return avisosviagem;
+	}
+
+	public CarteiraPaypal getCarteiraPaypal() {
+		return carteiraPaypal;
+	}
+
+	public CarteiraSamsung getCarteiraSamsung() {
+		return carteiraSamsung;
+	}
+
 	public void setProposta(Proposta proposta) {
 		this.proposta = proposta;
 	}
@@ -75,13 +104,26 @@ public class Cartao {
 	public void bloqueia(String userAgent,String ipRemoto) {
 		this.estadoCartao.add(new EstadoCartao(StatusCartao.BLOQUEADO,userAgent, ipRemoto,this));
 	}
+	
+	public void adicionaAvisoViagem(AvisoViagem aviso) {
+		this.avisosviagem.add(aviso);
+	}
+
+	public void associarPaypal(CarteiraPaypal carteiraPaypal) {
+		Assert.isNull(this.carteiraPaypal,"Este cartão já tem uma carteira Paypal Associada ");
+		this.carteiraPaypal = carteiraPaypal;
+	}
+	
+	public void associarSamsung(CarteiraSamsung carteiraSamsung) {
+		Assert.isNull(this.carteiraSamsung,"Este cartão já tem uma carteira Samsung Associada ");
+		this.carteiraSamsung = carteiraSamsung;
+	}
 
 	@Override
 	public String toString() {
 		return "Cartao [id=" + id + ", numero=" + numero + ", biometrias=" + biometrias + ", estadoCartao="
-				+ estadoCartao + "]";
+				+ estadoCartao + ", avisosviagem=" + avisosviagem + ", carteiraPaypal=" + carteiraPaypal
+				+ ", carteiraSamsung=" + carteiraSamsung + "]";
 	}
-
-
 	
 }

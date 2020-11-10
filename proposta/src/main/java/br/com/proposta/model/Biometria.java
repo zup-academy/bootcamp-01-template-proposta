@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+//Contagem de Pontos - TOTAL:1
+//1 - Cartao
+
 @Entity
 public class Biometria {
 

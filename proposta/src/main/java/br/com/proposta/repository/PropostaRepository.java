@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 import br.com.proposta.dto.enums.StatusAvaliacaoProposta;
 import br.com.proposta.model.Proposta;
 
+//Contagem de Pontos - TOTAL:2
+//1 - Proposta
+//1 - StatusAvaliacaoProposta
 
 @Repository
 public interface PropostaRepository extends CrudRepository<Proposta, Long>{

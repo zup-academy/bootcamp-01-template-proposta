@@ -10,6 +10,9 @@ import javax.validation.constraints.Positive;
 import br.com.proposta.model.Proposta;
 import br.com.proposta.validator.DocumentoValido;
 
+//Contagem de Pontos - TOTAL:1
+//1 - Proposta
+
 public class PropostaDTO {
 
 	@Email @NotBlank
@@ -36,7 +39,6 @@ public class PropostaDTO {
 	public Proposta toModel () {
 		return new Proposta(this.email,this.nome,this.endereco,this.salario,this.documento);
 	}
-
 
 	public String getEmail() {
 		return email;

@@ -4,6 +4,10 @@ import javax.validation.constraints.NotBlank;
 
 import br.com.proposta.model.Cartao;
 
+//Contagem de Pontos - TOTAL:1
+//1 - Cartao
+
+
 public class CartaoRetornoDTO {
 
 	@NotBlank

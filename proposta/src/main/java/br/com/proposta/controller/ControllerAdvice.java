@@ -27,10 +27,11 @@ public class ControllerAdvice {
 	@Autowired
     private MessageSource messageSource;
 	
-	private static final Logger log = LoggerFactory.getLogger(ControllerAdvice.class);
+	private static final Logger logger = LoggerFactory.getLogger(ControllerAdvice.class);
 	
 	@ExceptionHandler(FeignException.class)
 	public ResponseEntity<?> handleFeignException(FeignException exception) {
+		logger.info("Feign Exception - Status {}, Cause {}", exception.status(), exception.getCause());
 		return handleCustomStatusException(new ResponseStatusException(HttpStatus.valueOf(exception.status())));
 	}
 	

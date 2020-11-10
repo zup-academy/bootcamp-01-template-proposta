@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "enderecos-externos.base-url",
+    "type": "java.lang.String",
+    "description": "A description for 'enderecos-externos.base-url'"
+  },
+  {
+    "name": "periodicidade.executa-associacao-cartao",
+    "type": "java.lang.String",
+    "description": "A description for 'periodicidade.executa-associacao-cartao'"
+  }
+]}

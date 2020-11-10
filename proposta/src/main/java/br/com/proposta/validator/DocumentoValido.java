@@ -9,6 +9,9 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+
+//Contagem de Pontos - TOTAL:0
+
 @Documented
 @Constraint(validatedBy = {ValidadorDocumento.class})
 @Retention(RetentionPolicy.RUNTIME)

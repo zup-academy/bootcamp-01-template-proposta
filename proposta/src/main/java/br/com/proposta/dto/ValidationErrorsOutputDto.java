@@ -3,6 +3,9 @@ package br.com.proposta.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//Contagem de Pontos - TOTAL:0
+
 public class ValidationErrorsOutputDto {
 
     private List<String> globalErrorMessages = new ArrayList<>();

@@ -6,6 +6,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
+
+//Contagem de Pontos - TOTAL:0
+
 @Component
 public class ExecutorTransacao {
 	

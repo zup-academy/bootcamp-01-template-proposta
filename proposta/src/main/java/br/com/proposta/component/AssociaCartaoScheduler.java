@@ -20,6 +20,15 @@ import br.com.proposta.model.Proposta;
 import br.com.proposta.repository.CartaoRepository;
 import br.com.proposta.repository.PropostaRepository;
 
+//Contagem de Pontos - TOTAL:7
+//1 - ExecutorTransacao
+//1 - PropostaRepository
+//1 - CartaoRepository
+//1 - CartaoRetornoDTO
+//1 - Cartao
+//1 - Proposta
+//1 - For
+
 @Component
 public class AssociaCartaoScheduler {
 	

@@ -3,6 +3,8 @@ package br.com.proposta.dto;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
+//Contagem de Pontos - TOTAL:0
+
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class DocumentoRetornoDTO {
 	

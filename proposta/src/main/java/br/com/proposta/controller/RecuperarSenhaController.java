@@ -2,7 +2,6 @@ package br.com.proposta.controller;
 
 import java.net.URI;
 import java.security.Principal;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,35 +19,32 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.proposta.component.ExecutorTransacao;
-import br.com.proposta.externos.Cartoes;
 import br.com.proposta.model.Cartao;
+import br.com.proposta.model.SolicitacaoRecuperarSenha;
 import br.com.proposta.repository.CartaoRepository;
 
 //Contagem de Pontos - TOTAL:4
 //1 - ExecutorTransacao
-//1 - Cartoes
 //1 - Cartao
+//1 - SolicitacaoRecuperarSenha
 //1 - CartaoRepository
+//1 - If
 
 @RestController
-public class BloqueiaCartaoController {
+public class RecuperarSenhaController {
 
-	
-	@Autowired
-	private CartaoRepository cartaoRepository;
-	
 	@Autowired
 	private ExecutorTransacao executorTransacao;
 	
 	@Autowired
-	private Cartoes cartoes;
+	private CartaoRepository cartaoRepository;
 	
-	private Logger logger = LoggerFactory.getLogger(BloqueiaCartaoController.class);
+	private Logger logger = LoggerFactory.getLogger(RecuperarSenhaController.class);
+	
+	@PostMapping(value = "/v1/recuperar-senha/{id}")
+	public ResponseEntity<?> recuperarSenha(@PathVariable("id") Long id, UriComponentsBuilder builder,HttpServletRequest httpRequest, @RequestHeader HttpHeaders headers, Principal principal) {
 
-	@PostMapping(value = "/v1/bloqueio-cartao/{id}")
-	public ResponseEntity<?> criaBloqueioCartao(@PathVariable("id") Long id, UriComponentsBuilder builder,HttpServletRequest httpRequest, @RequestHeader HttpHeaders headers, Principal principal) {
-
-		logger.info("Bloqueio do cartao [{}] pelo user-agent {}", id,headers.get(HttpHeaders.USER_AGENT));
+		logger.info("Tentativa de Troca de senha do cartao [{}] vindo do user-agent {}", id,headers.get(HttpHeaders.USER_AGENT));
 		String ip = httpRequest.getRemoteAddr();
 		String userAgent = headers.get(HttpHeaders.USER_AGENT).get(0);
 		
@@ -60,13 +56,9 @@ public class BloqueiaCartaoController {
 			return new ResponseEntity<>("Proposta não pertence ao seu usuário",HttpStatus.FORBIDDEN);
 		}
 		
-		ResponseEntity<String> resposta = cartoes.bloqueiaCartao(cartao.getNumero(),(Map.of("sistemaResponsavel", "BootCamp - Proposta")));
-		logger.info("Resposta do Sistema de Cartões após o bloqueio {}", resposta.getBody());
-		
-		cartao.bloqueia(userAgent, ip);
-		logger.info("Cartão depois do bloqueio {}", cartao);
-		
-		executorTransacao.atualizaEComita(cartao);
+		SolicitacaoRecuperarSenha novaSolicitacaoRecuperarSenha = new SolicitacaoRecuperarSenha(userAgent, ip, cartao);
+		executorTransacao.salvaEComita(novaSolicitacaoRecuperarSenha);
+		logger.info("Solicitação de Troca de Senha Criada {}", novaSolicitacaoRecuperarSenha);
 		
 		URI enderecoConsulta = builder.path("/v1/propostas/{id}").build(cartao.getProposta().getId());
 		return ResponseEntity.created(enderecoConsulta).build();

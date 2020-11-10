@@ -4,6 +4,10 @@ import javax.validation.constraints.NotBlank;
 
 import br.com.proposta.model.Biometria;
 
+
+//Contagem de Pontos - TOTAL:1
+//1 - Biometria
+
 public class BiometriaDTO {
 
 	@NotBlank

@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import br.com.proposta.model.Proposta;
 import br.com.proposta.validator.DocumentoValido;
 
+//Contagem de Pontos - TOTAL:1
+//1 - Proposta
+
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class CartaoConsultaDTO {
 
