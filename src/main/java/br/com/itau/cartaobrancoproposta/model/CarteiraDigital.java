@@ -1,11 +1,16 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 public class CarteiraDigital {
@@ -14,17 +19,24 @@ public class CarteiraDigital {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
+    @NotBlank
     private String idCarteiraDigital;
+    @NotBlank
+    @Email
     private String email;
-    private String associadaEm;
+    @NotNull
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    private LocalDateTime associadaEm = LocalDateTime.now();
     private String emissor;
     @ManyToOne
     private Cartao cartao;
 
-    public CarteiraDigital(String idCarteiraDigital, String email, String associadaEm, String emissor) {
-        this.idCarteiraDigital = idCarteiraDigital;
+    @Deprecated
+    public CarteiraDigital() {
+    }
+
+    public CarteiraDigital(@NotBlank @Email String email, String emissor) {
         this.email = email;
-        this.associadaEm = associadaEm;
         this.emissor = emissor;
     }
 
@@ -52,11 +64,11 @@ public class CarteiraDigital {
         this.email = email;
     }
 
-    public String getAssociadaEm() {
+    public LocalDateTime getAssociadaEm() {
         return associadaEm;
     }
 
-    public void setAssociadaEm(String associadaEm) {
+    public void setAssociadaEm(LocalDateTime associadaEm) {
         this.associadaEm = associadaEm;
     }
 
@@ -66,5 +78,9 @@ public class CarteiraDigital {
 
     public void setEmissor(String emissor) {
         this.emissor = emissor;
+    }
+
+    public void associaSolicitacao(SolicitacaoCarteira solicitacaoCarteira) {
+        this.idCarteiraDigital = solicitacaoCarteira.getId();
     }
 }

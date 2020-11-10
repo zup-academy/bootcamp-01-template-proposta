@@ -15,7 +15,8 @@ public class CartaoResponse {
     private final List<BloqueioResponse> bloqueiosResponse;
     @JsonProperty(value = "avisos")
     private final List<AvisoViagemResponse> avisosResponse;
-    private final List<CarteiraDigital> carteiras;
+    @JsonProperty(value = "carteiras")
+    private final List<CarteiraDigitalResponse> carteirasResponse;
     private final List<Parcela> parcelas;
     private final BigDecimal limite;
     private final Renegociacao renegociacao;
@@ -25,14 +26,14 @@ public class CartaoResponse {
     private final Recuperacao recuperacao;
 
     public CartaoResponse(String numeroCartao, String emitidoEm, String titular, List<BloqueioResponse> bloqueiosResponse,
-                          List<AvisoViagemResponse> avisosResponse, List<CarteiraDigital> carteiras, List<Parcela> parcelas,
+                          List<AvisoViagemResponse> avisosResponse, List<CarteiraDigitalResponse> carteirasResponse, List<Parcela> parcelas,
                           BigDecimal limite, Renegociacao renegociacao, Vencimento vencimento, List<BiometriaResponse> biometriaResponse, Recuperacao recuperacao) {
         this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.bloqueiosResponse = bloqueiosResponse;
         this.avisosResponse = avisosResponse;
-        this.carteiras = carteiras;
+        this.carteirasResponse = carteirasResponse;
         this.parcelas = parcelas;
         this.limite = limite;
         this.renegociacao = renegociacao;
@@ -61,8 +62,8 @@ public class CartaoResponse {
         return avisosResponse;
     }
 
-    public List<CarteiraDigital> getCarteiras() {
-        return carteiras;
+    public List<CarteiraDigitalResponse> getCarteirasResponse() {
+        return carteirasResponse;
     }
 
     public List<Parcela> getParcelas() {
@@ -95,7 +96,7 @@ public class CartaoResponse {
         this.titular = cartao.getTitular();
         this.bloqueiosResponse = cartao.getBloqueios().stream().map(bloqueio -> new BloqueioResponse(bloqueio.getLocalDateTime(), bloqueio.getEstadoBloqueio())).collect(Collectors.toList());
         this.avisosResponse = cartao.getAvisos().stream().map(avisoViagem -> new AvisoViagemResponse(avisoViagem.getValidoAte(), avisoViagem.getDestino())).collect(Collectors.toList());
-        this.carteiras = cartao.getCarteiras();
+        this.carteirasResponse = cartao.getCarteiras().stream().map(carteiraDigital -> new CarteiraDigitalResponse(carteiraDigital.getEmissor(), carteiraDigital.getAssociadaEm())).collect(Collectors.toList());
         this.parcelas = cartao.getParcelas();
         this.limite = cartao.getLimite();
         this.renegociacao = cartao.getRenegociacao();

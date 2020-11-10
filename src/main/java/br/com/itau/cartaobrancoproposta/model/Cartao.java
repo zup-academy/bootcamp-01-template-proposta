@@ -1,6 +1,8 @@
 package br.com.itau.cartaobrancoproposta.model;
 
+import br.com.itau.cartaobrancoproposta.error.ApiErrorException;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -26,7 +28,7 @@ public class Cartao {
     private List<Bloqueio> bloqueios;
     @OneToMany
     private List<AvisoViagem> avisos;
-    @OneToMany(mappedBy = "cartao")
+    @OneToMany
     private List<CarteiraDigital> carteiras;
     @OneToMany(mappedBy = "cartao")
     private List<Parcela> parcelas;
@@ -182,5 +184,19 @@ public class Cartao {
 
     public void carregaAvisoViagem(AvisoViagem avisoViagem) {
         this.avisos.add(avisoViagem);
+    }
+
+    public void carregaCarteira(CarteiraDigital carteiraDigital) {
+        this.carteiras.add(carteiraDigital);
+    }
+
+    public void verificaCarteiraJaCadastrada(CarteiraDigital carteiraDigital) {
+        if (!this.getCarteiras().isEmpty()) { //1
+            this.getCarteiras().forEach(carteira -> { //1
+                if (carteira.getEmissor().equals(carteiraDigital.getEmissor())){ //1
+                    throw new ApiErrorException(HttpStatus.UNPROCESSABLE_ENTITY, "Carteira digital já cadastrada no sistema"); //1
+                }
+            });
+        }
     }
 }
