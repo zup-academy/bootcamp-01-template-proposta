@@ -3,6 +3,7 @@ package com.proposta.feign.response;
 import com.proposta.bloqueiodecartao.Bloqueios;
 import com.proposta.cadastraravisoviagem.AvisoViagem;
 import com.proposta.criacaocartao.*;
+import com.proposta.inclusaonacarteira.Carteiras;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

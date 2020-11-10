@@ -4,6 +4,8 @@ import com.proposta.bloqueiodecartao.Bloqueios;
 import com.proposta.bloqueiodecartao.StatusCartao;
 import com.proposta.cadastraravisoviagem.AvisoViagem;
 import com.proposta.criacaobiometria.Biometria;
+import com.proposta.inclusaonacarteira.Carteiras;
+import com.proposta.inclusaonacarteira.TipoCarteira;
 import com.proposta.solicitacaoderecuperacaodesenha.RecuperarSenha;
 
 import javax.persistence.*;
@@ -32,7 +34,7 @@ public class Cartao {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<AvisoViagem> avisos;
 
-    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Carteiras> carteiras;
 
     @ElementCollection
@@ -90,6 +92,14 @@ public class Cartao {
 
     public void adicionarBiometria(Biometria novaBiometria) {
         biometrias.add(novaBiometria);
+    }
+
+    public void adicionaCarteira(Carteiras novaCarteira) {
+        carteiras.add(novaCarteira);
+    }
+
+    public boolean analiseCarteira(TipoCarteira tipoCarteira) {
+        return carteiras.stream().anyMatch(c -> c.verificarCarteira(tipoCarteira));
     }
 
     public String getId() {

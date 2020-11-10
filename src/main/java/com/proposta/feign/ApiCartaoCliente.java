@@ -6,6 +6,7 @@ import com.proposta.cadastraravisoviagem.AvisoResponse;
 import com.proposta.cadastraravisoviagem.AvisoViagemRequest;
 import com.proposta.feign.request.SolicitacaoCriarCartao;
 import com.proposta.feign.response.CartaoResponse;
+import com.proposta.inclusaonacarteira.CarteiraRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
@@ -27,5 +28,8 @@ public interface ApiCartaoCliente {
 
     @PostMapping("/api/cartoes/{idCartao}/avisos")
     AvisoResponse avisoViagem(@PathVariable String idCartao, @RequestBody AvisoViagemRequest avisoViagemRequest);
+
+    @PostMapping("/api/cartoes/{idCartao}/carteiras")
+    ResponseEntity associarCarteira(@PathVariable String idCartao, @RequestBody CarteiraRequest carteiraRequest);
 
 }
