@@ -27,7 +27,7 @@ public class RecuperacaoSenhaController {
         //1
         Cartao cartao = manager.find(Cartao.class, idCartao);
         if (cartao == null) {
-            return ResponseEntity.badRequest().body("Cartão inválido.");
+            return ResponseEntity.notFound().build();
         }
 
         String ip = ((WebAuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails()).getRemoteAddress();
@@ -41,4 +41,5 @@ public class RecuperacaoSenhaController {
         URI uriCreated = builder.path("/recuperarsenha/{id}").build(recuperarSenha.getId());
         return ResponseEntity.created(uriCreated).build();
     }
+
 }

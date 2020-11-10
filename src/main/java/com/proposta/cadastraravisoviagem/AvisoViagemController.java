@@ -32,7 +32,7 @@ public class AvisoViagemController {
         //1
         Cartao cartao = manager.find(Cartao.class, idCartao);
         if (cartao == null) {
-            return ResponseEntity.badRequest().body("Cartão inválido.");
+            return ResponseEntity.notFound().build();
         }
 
         String ip = ((WebAuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails()).getRemoteAddress();
