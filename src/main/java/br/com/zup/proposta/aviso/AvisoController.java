@@ -1,6 +1,8 @@
 package br.com.zup.proposta.aviso;
 
 import br.com.zup.proposta.cartao.Cartao;
+import br.com.zup.proposta.cartao.IntegracaoCartao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ public class AvisoController {
 
     @PersistenceContext
     private EntityManager manager;
+    @Autowired
+    private IntegracaoCartao integracaoCartao;
 
     @PostMapping("/aviso/{idCartao}")
     @Transactional
@@ -31,6 +35,12 @@ public class AvisoController {
         }
 
         Cartao cartao = possivelCartao.get();
+
+        ResponseEntity avisoViagemResponse = integracaoCartao.enviarAvisoViagem(cartao.getNumeroCartao(), request);
+
+        if (!avisoViagemResponse.getStatusCode().is2xxSuccessful()) {
+            return ResponseEntity.status(avisoViagemResponse.getStatusCode()).build();
+        }
 
         Aviso aviso = request.toModel(httpRequest);
         manager.persist(aviso);
