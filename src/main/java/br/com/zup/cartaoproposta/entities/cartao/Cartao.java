@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contagem de carga intrínseca da classe: 7
+ * Contagem de carga intrínseca da classe: 8
  */
 
 @Entity
@@ -72,6 +72,10 @@ public class Cartao {
     //1
     private Proposta proposta;
 
+    @Enumerated(EnumType.STRING)
+    //1
+    private StatusCartao status;
+
     @Deprecated
     public Cartao(){}
 
@@ -82,6 +86,7 @@ public class Cartao {
         this.limite = limite;
         this.vencimento = vencimento;
         this.proposta = proposta;
+        this.status = StatusCartao.ATIVO;
     }
 
     public String getId() {
@@ -114,5 +119,9 @@ public class Cartao {
                 "id='" + id + '\'' +
                 ", titular='" + titular + '\'' +
                 '}';
+    }
+
+    public void bloquearCartao() {
+        status = StatusCartao.BLOQUEADO;
     }
 }

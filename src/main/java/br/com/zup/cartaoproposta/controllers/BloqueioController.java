@@ -58,6 +58,8 @@ public class BloqueioController {
         //1
         BloqueioCartao bloqueioCartao = new BloqueioCartao(true, ipAddress, idUser, cartao);
 
+        cartao.bloquearCartao();
+
         manager.persist(bloqueioCartao);
 
         URI link = uriComponentsBuilder.path("/cartoes/bloqueio/{id}").buildAndExpand(bloqueioCartao.getId()).toUri();
