@@ -108,7 +108,4 @@ public class Proposta {
         return cartao;
     }
 
-    public void setIdentificacao(String identificacao) {
-        this.identificacao = identificacao;
-    }
 }

@@ -45,7 +45,6 @@ public class Bloqueio {
     }
 
     public void associaCartao(Cartao cartao){
-
         this.cartao = cartao;
     }
 

@@ -11,6 +11,7 @@ import br.com.proposta.repositories.BloqueioRepository;
 import br.com.proposta.repositories.CartaoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -52,14 +53,11 @@ public class BloquearCartao {
         var cartao = cartaoRepository.findByNumero(cartaoId);
 
         /* @complexidade - classe criada no projeto */
-        var novoBloqueio = new Bloqueio(userAgentEInternetProtocol, cartao);
-
-        novoBloqueio.associaCartao(cartao);
-
+        var novoBloqueio = new Bloqueio(userAgentEInternetProtocol, cartao.get());
+        novoBloqueio.associaCartao(cartao.get());
         bloqueioRepository.save(novoBloqueio);
 
-        logger.info("Bloqueio gerado na API de propostas." +
-                " Identificação do bloqueio={}", novoBloqueio.getId());
+        logger.info("Bloqueio gerado na API de propostas. Identificação do bloqueio={}", novoBloqueio.getId());
 
         return novoBloqueio;
 
@@ -75,7 +73,6 @@ public class BloquearCartao {
 
         /* @complexidade - função como parâmetro */
         cartao.setStatus(StatusBloqueio.valueOf(bloqueioResponse.getResultado()));
-
         entityManager.merge(cartao);
 
         logger.info("Tentativa de bloqueio de cartão. Resposta do sistema legado = {} " +

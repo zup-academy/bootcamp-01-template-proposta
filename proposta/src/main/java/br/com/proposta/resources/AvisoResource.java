@@ -12,13 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 
 @RestController
 @RequestMapping("/api/viagens")
 public class AvisoResource {
 
-    /* total de pontos = 8 */
+    /* total de pontos = 10 */
 
     /* @complexidade - acoplamento contextual */
     private final AvisoRepository avisoRepository;
@@ -47,36 +48,30 @@ public class AvisoResource {
 
     @PostMapping("/{numeroCartao}")
     public ResponseEntity<?> avisa(@PathVariable String numeroCartao, @RequestBody AvisarViagemRequest avisarViagemRequest,
-                            HttpServletRequest httpRequest){
-
-        /* @complexidade - utilizando duas classes criadas no projeto */
-        var resposta = integracaoApiCartoes
-                .avisarViagem(numeroCartao, avisarViagemRequest);
+                                   HttpServletRequest httpRequest){
 
         /* @complexidade - utilizando classe criada no projeto */
         var userAgentEip = buscarIPeUserAgentNaRequisicao
                 .recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
 
-        /* @complexidade - if */
+        /* @complexidade (2) - utilizando duas classes criadas no projeto + if */
+        var resposta = integracaoApiCartoes.avisarViagem(numeroCartao, avisarViagemRequest);
         if(resposta.getStatusCode() == HttpStatus.OK){
 
-            /* @complexidade - instanciando classe criada no projeto */
-            var novoAviso = new Aviso(userAgentEip, resposta.getBody());
-
-            novoAviso.associaCartao(cartaoRepository.findByNumero(numeroCartao));
-
+            /* @complexidade (3) - classe criada no projeto */
+            var novoAviso = new Aviso(userAgentEip, Objects.requireNonNull(resposta.getBody()));
+            novoAviso.associaCartao(cartaoRepository.findByNumero(numeroCartao).get());
             avisoRepository.save(novoAviso);
 
-            logger.info("Aviso devidamente registrado e pode ser identificado pelo número {}",
-                    novoAviso.getId());
+            logger.info("Aviso devidamente registrado e pode ser identificado pelo número {}", novoAviso.getId());
 
             return ResponseEntity.ok().build();
-
         }
 
-        logger.info("Cartão de número {} não foi encontrado", numeroCartao);
+        logger.info("O aviso de viagem não foi realizado com sucesso. A tentativa teve origem em - IP: {}",
+                userAgentEip.get(0));
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.badRequest().build();
 
     }
 }

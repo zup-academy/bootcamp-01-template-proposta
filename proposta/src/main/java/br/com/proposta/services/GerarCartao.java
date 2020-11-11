@@ -47,13 +47,11 @@ public class GerarCartao {
                 var dadosCartao = cartaoGeradoPeloLegado.getBody();
 
                 /* @complexidade - classe criada no projeto */
-                Cartao cartao = new Cartao(dadosCartao.getId(), proposta.getNome(), proposta);
-
+                var cartao = new Cartao(dadosCartao.getId(), proposta.getNome(), proposta);
                 cartaoRepository.save(cartao);
 
                 /* @complexidade - classe criada no projeto */
                 proposta.associaCartao(cartao);
-
                 entityManager.merge(proposta);
 
                 logger.info("Cartão criado com sucesso e associado com a proposta do cliente={}", proposta.getNome());

@@ -18,16 +18,16 @@ import javax.servlet.http.HttpServletRequest;
 public class BloqueioResource {
 
 
-    /* total de pontos = 9 */
+    /* total de pontos = 8 */
 
 
-    /* @complexidade - acoplamento contextual */
+    /* @complexidade (1) - acoplamento contextual */
     private final BloquearCartao bloquearCartao;
 
-    /* @complexidade - acoplamento contextual */
+    /* @complexidade (1) - acoplamento contextual */
     private final BuscarIPeUserAgentNaRequisicao buscarIPeUserAgentNaRequisicao;
 
-    /* @complexidade - acoplamento contextual */
+    /* @complexidade (1) - acoplamento contextual */
     private final CartaoRepository cartaoRepository;
 
     private final Logger logger = LoggerFactory.getLogger(Bloqueio.class);
@@ -46,26 +46,22 @@ public class BloqueioResource {
     public ResponseEntity<?> bloqueia(@PathVariable String numeroCartao, UriComponentsBuilder uriComponentsBuilder,
                                     HttpServletRequest httpRequest){
 
-        /* @complexidade - classe criada no projeto */
-        Cartao cartao = cartaoRepository.findByNumero(numeroCartao);
-
-        /* @complexidade - if */
-        if(cartao == null){
+        /* @complexidade (2) - classe criada no projeto + if */
+        var cartao = cartaoRepository.findByNumero(numeroCartao);
+        if(cartao.isEmpty()){
             return ResponseEntity.notFound().build();
         }
 
-        /* @complexidade - classe criada no projeto */
+        /* @complexidade (1) - classe criada no projeto */
         var userAgentEInternetProtocol = buscarIPeUserAgentNaRequisicao
                 .recuperarUserAgentEInternetProtocolNaRequisicao(httpRequest);
 
-        /* @complexidade - classe criada no projeto */
+        /* @complexidade (2) - classe criada no projeto */
         bloquearCartao.bloquear(numeroCartao, userAgentEInternetProtocol);
+        bloquearCartao.avisarLegadoDoBloqueio(cartao.get());
 
-        /* @complexidade - classe criada no projeto */
-        bloquearCartao.avisarLegadoDoBloqueio(cartao);
 
-        logger.info("Bloqueio realizado do cartao de {} realizado com sucesso", cartao.getTitular());
-
+        logger.info("Bloqueio realizado do cartao de {} realizado com sucesso", cartao.get().getTitular());
 
         return ResponseEntity
                 .created(uriComponentsBuilder.path("/api/bloqueios/{numeroCartao}").buildAndExpand(numeroCartao).toUri()).build();

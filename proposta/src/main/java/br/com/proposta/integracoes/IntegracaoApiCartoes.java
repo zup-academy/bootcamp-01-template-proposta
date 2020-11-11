@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
+
 
 @FeignClient(url = "${cartao.host}/", name = "integracaoCartao")
 public interface IntegracaoApiCartoes {
@@ -26,12 +28,15 @@ public interface IntegracaoApiCartoes {
     ResponseEntity<NumeroCartaoResponse> buscarCartao(@PathVariable String idProposta);
 
     @PostMapping("{id}/bloqueios")
-    ResponseEntity<BloqueioResponse> avisarLegadoBloqueioDoCartao(@PathVariable String id, @RequestBody BloqueioRequest bloqueioRequest);
+    ResponseEntity<BloqueioResponse> avisarLegadoBloqueioDoCartao
+            (@PathVariable String id, @RequestBody @Valid BloqueioRequest bloqueioRequest);
 
     @PostMapping("{id}/avisos")
-    ResponseEntity<AvisoViagemResponse> avisarViagem(@PathVariable String id, @RequestBody AvisarViagemRequest viagemRequest);
+    ResponseEntity<AvisoViagemResponse> avisarViagem
+            (@PathVariable String id, @RequestBody @Valid AvisarViagemRequest viagemRequest);
 
     @PostMapping("{id}/carteiras")
-    ResponseEntity<AssociaCarteiraResponse> associarCarteira(@PathVariable String id, @RequestBody AssociarCarteiraRequest associarCarteiraRequest);
+    ResponseEntity<AssociaCarteiraResponse> associarCarteira
+            (@PathVariable String id, @RequestBody @Valid AssociarCarteiraRequest associarCarteiraRequest);
 
 }

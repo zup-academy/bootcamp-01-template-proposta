@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/api/carteiras")
 public class CarteiraResource {
@@ -46,23 +48,22 @@ public class CarteiraResource {
                                      @RequestBody AssociarCarteiraRequest associarCarteiraRequest, UriComponentsBuilder uriComponentsBuilder){
 
 
-        /* @complexidade - utilizando classe criada no projeto */
-        Cartao cartao = cartaoRepository.findByNumero(numeroCartao);
+        /* @complexidade (2) - utilizando classe criada no projeto + branch */
+        var cartao = cartaoRepository.findByNumero(numeroCartao);
+        if(cartao.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
 
-        /* @complexidade - utilizando classe criada no projeto */
-        ResponseEntity<AssociaCarteiraResponse> response =
-                integracaoApiCartoes.associarCarteira(numeroCartao, associarCarteiraRequest);
-
-
-        /* @complexidade - if */
+        /* @complexidade (2) - utilizando classe criada no projeto + branch */
+        var response = integracaoApiCartoes.associarCarteira(numeroCartao, associarCarteiraRequest);
         if(response.getStatusCode() == HttpStatus.OK){
 
             /* @complexidade - utilizando classe criada no projeto */
-            StatusCarteira status = StatusCarteira.valueOf(response.getBody().getResultado());
+            var status = StatusCarteira
+                    .valueOf(Objects.requireNonNull(response.getBody()).getResultado());
 
             /* @complexidade - utilizando classe criada no projeto */
-            Carteira carteira = new Carteira(associarCarteiraRequest.getCarteira(), status, cartao);
-
+            var carteira = new Carteira(associarCarteiraRequest.getCarteira(), status, cartao.get());
             carteiraRepository.save(carteira);
 
             logger.info("Cartão associado à carteira com identificador = {}", carteira.getId());
@@ -74,10 +75,9 @@ public class CarteiraResource {
         }
 
 
-        logger.info("Cartão de número {} não foi encontrado", numeroCartao);
+        logger.info("Operação de associação não pôde ser realizada.");
 
-        return ResponseEntity.notFound().build();
-
+        return ResponseEntity.badRequest().build();
 
     }
 }

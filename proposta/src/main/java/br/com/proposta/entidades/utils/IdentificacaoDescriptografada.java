@@ -16,9 +16,8 @@ public class IdentificacaoDescriptografada {
     }
 
     public String criptografa(){
-
         Assert.hasLength(identificacaoDescriptografada, "identificacao nao pode ser em branco");
         return new BCryptPasswordEncoder().encode(this.identificacaoDescriptografada);
-
     }
+
 }

@@ -7,11 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
+
 
 @FeignClient(url = "${avaliacao.host}", name = "integracoes")
 public interface IntegracaoApiAnalise {
 
     @PostMapping
-    ResponseEntity<AnaliseDaPropostaResponse> avaliaproposta(@RequestBody AnaliseDaPropostaRequest requisicaoSolicitarAnaliseDaProposta);
+    ResponseEntity<AnaliseDaPropostaResponse> avaliaproposta
+            (@RequestBody @Valid AnaliseDaPropostaRequest requisicaoSolicitarAnaliseDaProposta);
 
 }

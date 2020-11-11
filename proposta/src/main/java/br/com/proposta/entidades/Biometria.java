@@ -34,7 +34,6 @@ public class Biometria {
     public Biometria(){}
 
     public Biometria(String biometria) {
-
         this.biometria = Base64.getDecoder().decode(biometria);
     }
 

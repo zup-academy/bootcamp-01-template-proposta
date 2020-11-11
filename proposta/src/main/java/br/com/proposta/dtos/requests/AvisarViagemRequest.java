@@ -2,6 +2,7 @@ package br.com.proposta.dtos.requests;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class AvisarViagemRequest {

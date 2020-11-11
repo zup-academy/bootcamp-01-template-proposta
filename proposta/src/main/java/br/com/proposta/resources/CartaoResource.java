@@ -48,7 +48,7 @@ public class CartaoResource {
             gerarCartao.geraCartaoSegundoPlano(proposta);
 
             logger.info("Cartão gerado na API de cartões. Nome do titular={}", proposta.getNome());
-        });
 
+        });
     }
 }

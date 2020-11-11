@@ -23,7 +23,7 @@ public class findCartaoByNumeroTeste {
 
         String numeroCartao = "d8eca9f8-51e1-4aca-af94-9a7eb8056954";
 
-        Cartao cartao = repository.findByNumero(numeroCartao);
+        var cartao = repository.findByNumero(numeroCartao).get();
 
         Assert.assertNotNull(cartao);
         Assert.assertEquals(numeroCartao, cartao.getNumero());

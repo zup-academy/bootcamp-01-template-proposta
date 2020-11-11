@@ -20,9 +20,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/biometrias/{numeroCartao}")
 public class BiometriaResource {
 
-    /* total de pontos = 7 */
-
-    private final Logger logger = LoggerFactory.getLogger(Biometria.class);
+    /* total de pontos = 8 */
 
     /* @complexidade - acoplamento contextual */
     private final CartaoRepository cartaoRepository;
@@ -30,7 +28,10 @@ public class BiometriaResource {
     /* @complexidade - acoplamento contextual */
     private final BiometriaRepository biometriaRepository;
 
+
     private final EntityManager entityManager;
+
+    private final Logger logger = LoggerFactory.getLogger(Biometria.class);
 
 
     public BiometriaResource(CartaoRepository cartaoRepository, BiometriaRepository biometriaRepository, EntityManager entityManager) {
@@ -46,21 +47,20 @@ public class BiometriaResource {
                                            UriComponentsBuilder uriComponentsBuilder){
 
 
-        /* @complexidade - classe criada no projeto */
-        Cartao cartao = cartaoRepository.findByNumero(numeroCartao);
+        /* @complexidade (2) - classe criada no projeto + if */
+        var cartao = cartaoRepository.findByNumero(numeroCartao);
+        if(cartao.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
 
-        /* @complexidade - classe criada no projeto */
+        /* @complexidade (3) - classe criada no projeto */
         var biometria = biometriaRequest.toModel();
-
-        /* @complexidade - classe criada no projeto */
-        biometria.associaCartao(cartao);
-
+        biometria.associaCartao(cartao.get());
         biometriaRepository.save(biometria);
 
-        /* @complexidade - classe criada no projeto */
-        cartao.adicionarBiometria(biometria);
-
-        entityManager.merge(cartao);
+        /* @complexidade (1) - classe criada no projeto */
+        cartao.get().adicionarBiometria(biometria);
+        entityManager.merge(cartao.get());
 
         logger.info("Biometria registrada com sucesso." +
                 " Pode ser identificada pelo número {}", biometria.getId());

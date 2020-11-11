@@ -21,11 +21,10 @@ public class BuscarIPeUserAgentNaRequisicao {
 
             var userAgent = httpRequest.getHeader("user-agent");
 
+
             /* @complexidade - lista criada apenas nesse contexto */
             var userAgentEInternetProtocol = new ArrayList<String>();
-
             userAgentEInternetProtocol.add(internetProtocol);
-
             userAgentEInternetProtocol.add(userAgent);
 
 

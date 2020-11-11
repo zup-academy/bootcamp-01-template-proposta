@@ -25,6 +25,7 @@ public class Cartao {
     private String titular;
 
     @NotBlank
+    @Column(unique = true)
     private String numero;
 
     @OneToMany(mappedBy = "cartao")

@@ -23,10 +23,10 @@ public class PropostaResource {
 
     /* total de pontos = 8 */
 
-    /* @complexidade - acoplamento contextual */
+    /* @complexidade (1) - acoplamento contextual */
     private final AvaliaProposta avaliaProposta;
 
-    /* @complexidade - acoplamento contextual */
+    /* @complexidade (1) - acoplamento contextual */
     private final PropostaRepository propostaRepository;
 
 
@@ -49,17 +49,11 @@ public class PropostaResource {
     public ResponseEntity<?> novaProposta(@RequestBody @Valid PropostaRequest propostaRequest, UriComponentsBuilder uriComponentsBuilder) throws JsonProcessingException {
 
 
-            /* @complexidade - classe criada no projeto */
+            /* @complexidade (4) - classe criada no projeto + branch + função como parâmetro */
             var novaProposta = propostaRequest.toModel();
-
-
-            /* @complexidade - if */
             if(novaProposta.ehUnica(propostaRepository)){
 
-
                 propostaRepository.save(novaProposta);
-
-                /* @complexidade - função como parâmetro  */
                 novaProposta.atualizaStatusElegibilidade(avaliaProposta.retornarAvaliacao(novaProposta));
 
                 entityManager.merge(novaProposta);
@@ -67,35 +61,29 @@ public class PropostaResource {
                 logger.info("Proposta documento={} salário={} criada com sucesso!", novaProposta.getIdentificacao(), novaProposta.getSalario());
 
                 return ResponseEntity
-                        .created(uriComponentsBuilder.path("/propostas/{id}").buildAndExpand(novaProposta.getId()).toUri()).build();
+                        .created(uriComponentsBuilder.path("/propostas/{id}")
+                        .buildAndExpand(novaProposta.getId()).toUri()).build();
 
             }
 
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
-
     }
 
 
     @GetMapping("/{propostaId}")
     public ResponseEntity<?> acompanharProposta(@PathVariable String propostaId){
 
-        /* @complexidade - classe criada no projeto */
-        var propostaAcompanhamento =
-                propostaRepository.findById(propostaId);
-
-        /* @complexidade - if */
+        /* @complexidade (2) - classe criada no projeto + branch */
+        var propostaAcompanhamento = propostaRepository.findById(propostaId);
         if(propostaAcompanhamento.isPresent()){
 
-            logger.info("Acompanhamento da proposta do cliente={}",
-                    propostaAcompanhamento.get().getNome());
+            logger.info("Acompanhamento da proposta do cliente={}", propostaAcompanhamento.get().getNome());
 
-            /* @complexidade - classe criada no projeto  */
             return ResponseEntity.ok(propostaAcompanhamento);
 
         }
 
-        logger.info("proposta não encontrada");
-
+        logger.info("Proposta não encontrada");
         return ResponseEntity.notFound().build();
 
     }
