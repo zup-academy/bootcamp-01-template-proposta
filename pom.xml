@@ -77,6 +77,11 @@
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
+			<dependency>
+				<groupId>io.opentracing.contrib</groupId>
+				<artifactId>opentracing-spring-jaeger-web-starter</artifactId>
+				<version>3.1.2</version>
+			</dependency>
 	</dependencies>
 
 	<build>
