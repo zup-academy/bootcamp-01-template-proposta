@@ -16,14 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/cartoes/bloqueio")
+@RequestMapping("/cartoes")
 public class BloqueioController {
     @Autowired
     private EntityManager manager;
     @Autowired
     private BloqueioCartaoService bloqueioCartaoService;
 
-    @PostMapping("/{idCartao}")
+    @PostMapping("/bloqueio/{idCartao}")
     @Transactional
     public ResponseEntity bloquear(@PathVariable String idCartao, HttpServletRequest httpRequest,
                                    UriComponentsBuilder uri) {

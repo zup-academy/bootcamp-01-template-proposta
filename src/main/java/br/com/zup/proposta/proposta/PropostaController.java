@@ -3,6 +3,7 @@ package br.com.zup.proposta.proposta;
 import br.com.zup.proposta.analiseproposta.AvaliaProposta;
 import br.com.zup.proposta.integracao.ExecutorTransacao;
 import br.com.zup.proposta.analiseproposta.StatusAvaliacaoProposta;
+import br.com.zup.proposta.integracao.MinhasMetricas;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class PropostaController {
     private final PropostaRepository repository;
     private final ExecutorTransacao executorTransacao;
     private final AvaliaProposta avaliaProposta;
+    private MinhasMetricas metricas;
 
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
 
