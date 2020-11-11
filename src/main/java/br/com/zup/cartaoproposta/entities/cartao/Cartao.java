@@ -107,4 +107,12 @@ public class Cartao {
     public Proposta getProposta() {
         return proposta;
     }
+
+    @Override
+    public String toString() {
+        return "Cartao{" +
+                "id='" + id + '\'' +
+                ", titular='" + titular + '\'' +
+                '}';
+    }
 }

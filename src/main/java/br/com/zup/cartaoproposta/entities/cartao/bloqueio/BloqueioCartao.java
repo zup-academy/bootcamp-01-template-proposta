@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * Contagem de carga intrínseca da classe: 1
@@ -61,5 +60,17 @@ public class BloqueioCartao {
 
     public String getUserAgent() {
         return userAgent;
+    }
+
+    @Override
+    public String toString() {
+        return "BloqueioCartao{" +
+                "id='" + id + '\'' +
+                ", bloqueadoEm=" + bloqueadoEm +
+                ", ativo=" + ativo +
+                ", ip='" + ip + '\'' +
+                ", userAgent='" + userAgent + '\'' +
+                ", cartao=" + cartao +
+                '}';
     }
 }
