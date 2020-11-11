@@ -1,5 +1,6 @@
 package br.com.zup.proposta.cartao;
 
+import br.com.zup.proposta.aviso.Aviso;
 import br.com.zup.proposta.biometria.Biometria;
 import br.com.zup.proposta.bloqueio.Bloqueio;
 import org.hibernate.annotations.GenericGenerator;
@@ -22,6 +23,7 @@ public class Cartao {
     private @NotBlank String titular;
     private @OneToMany Set<Biometria> biometrias = new HashSet<>();
     private @OneToMany Set<Bloqueio> bloqueios = new HashSet<>();
+    private @OneToMany Set<Aviso> avisos = new HashSet<>();
     private @Enumerated(EnumType.STRING) StatusCartao status;
 
     @Deprecated
@@ -41,6 +43,10 @@ public class Cartao {
 
     public void addBloqueio(Bloqueio bloqueio) {
         bloqueios.add(bloqueio);
+    }
+
+    public void addAviso(Aviso aviso) {
+        avisos.add(aviso);
     }
 
     public String getId() {
