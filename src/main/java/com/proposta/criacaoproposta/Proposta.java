@@ -39,13 +39,14 @@ public class Proposta {
     @OneToOne(cascade = CascadeType.ALL)
     private Cartao cartao;
 
+    @Deprecated
     public Proposta() {
 
     }
 
-    public Proposta(@NotBlank String documento, @Email @NotBlank String email, @NotBlank String nome,
+    public Proposta(@NotBlank DocumentoLimpo documentoLimpo, @Email @NotBlank String email, @NotBlank String nome,
                     @NotBlank String endereco, @NotNull @Positive BigDecimal salario) {
-        this.documento = documento;
+        this.documento = documentoLimpo.hash();
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;

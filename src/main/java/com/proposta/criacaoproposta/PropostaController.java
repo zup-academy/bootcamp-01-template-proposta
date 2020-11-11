@@ -1,8 +1,6 @@
 package com.proposta.criacaoproposta;
 
-import com.proposta.feign.AnalisePropostaCliente;
 import com.proposta.metrics.MinhasMetricas;
-import com.proposta.validator.ValidarDocumentoIgual;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +23,6 @@ public class PropostaController {
     private EntityManager manager;
 
     @Autowired
-    private ValidarDocumentoIgual validarDocumentoIgual;
-
-    @Autowired
     private PropostaService propostaService;
 
     @Autowired
@@ -38,17 +33,9 @@ public class PropostaController {
     //1 PropostaRequest
     public ResponseEntity<?> cria(@RequestBody @Valid PropostaRequest request, UriComponentsBuilder builder) {
         //2 Proposta
-        Proposta proposta = request.toModel();
-        //3
-        if ((proposta.getDocumento().length()) != 11 && (proposta.getDocumento().length()) != 14) {
-            return ResponseEntity.badRequest().body("Documento inválido.");
-        }
-        //4 //5 ValidarDocumento
-        else if (!validarDocumentoIgual.validarDocumento(request)) {
-            return ResponseEntity.unprocessableEntity().body("Proposta inadequada.");
-        }
+        Proposta proposta = request.toModel(manager);
 
-        //6 PropostaResponse // 7 Proposta service
+        //3 PropostaResponse // 4 Proposta service
         PropostaResponse propostaResponse = propostaService.cria(proposta);
 
         minhasMetricas.meuContador();

@@ -1,5 +1,10 @@
 package com.proposta.criacaoproposta;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.persistence.EntityManager;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -35,8 +40,23 @@ public class PropostaRequest {
         this.salario = salario;
     }
 
-    public Proposta toModel() {
-        return new Proposta(documento, email, nome, endereco, salario);
+    public Proposta toModel(EntityManager manager) {
+        if ((documento.length()) != 11 && (documento.length()) != 14) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Documento inválido.");
+        }
+        else if (!validarDocumento(manager, documento)) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Proposta inadequada.");
+        }
+
+        return new Proposta(new DocumentoLimpo(documento), email, nome, endereco, salario);
+    }
+
+    public boolean validarDocumento(EntityManager manager, String documento) {
+
+        return manager.createQuery(
+                "select p.documento from Proposta p where p.documento = :documento")
+                .setParameter("documento", documento)
+                .getResultList().isEmpty();
     }
 
     public String getDocumento() {
