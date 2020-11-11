@@ -7,6 +7,7 @@ import br.com.zup.cartaoproposta.entities.proposta.PropostaRetorno;
 import br.com.zup.cartaoproposta.repositories.PropostaRepository;
 import br.com.zup.cartaoproposta.services.analisesolicitante.TratamentoRetorno;
 import br.com.zup.cartaoproposta.util.MetricasProposta;
+import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,6 +75,7 @@ public class PropostaController {
     }
 
     @GetMapping("/{id}")
+    @Timed(value = "consultar_proposta", extraTags = {"emissora","Mastercard","banco","Itaú"})
     //1
     public ResponseEntity<PropostaRetorno> dadosProposta(@PathVariable("id") String idProposta) {
 
