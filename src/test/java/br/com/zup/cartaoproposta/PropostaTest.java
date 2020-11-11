@@ -13,6 +13,7 @@ import br.com.zup.cartaoproposta.services.analisesolicitante.FeignTratamentoReto
 import br.com.zup.cartaoproposta.services.analisesolicitante.RestTemplateTratamentoRetorno;
 import br.com.zup.cartaoproposta.services.analisesolicitante.TratamentoRetorno;
 import br.com.zup.cartaoproposta.validations.cpfcnpj.CpfCnpjValidador;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -96,8 +97,9 @@ public class PropostaTest {
     void documentoJaCadastrado() {
 
         PropostaRepository propostaRepository = Mockito.mock(PropostaRepository.class);
+        MeterRegistry meterRegistry = Mockito.mock(MeterRegistry.class);
 
-        PropostaController classeDeFluxo = new PropostaController(propostaRepository);
+        PropostaController classeDeFluxo = new PropostaController(propostaRepository, meterRegistry);
 
         PropostaNovoRequest novaProposta = new PropostaNovoRequest(documentoValido,emailValido,nomeValido,enderecoValido,salarioValido);
 

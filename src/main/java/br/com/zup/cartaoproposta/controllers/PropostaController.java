@@ -6,6 +6,8 @@ import br.com.zup.cartaoproposta.entities.proposta.PropostaNovoRequest;
 import br.com.zup.cartaoproposta.entities.proposta.PropostaRetorno;
 import br.com.zup.cartaoproposta.repositories.PropostaRepository;
 import br.com.zup.cartaoproposta.services.analisesolicitante.TratamentoRetorno;
+import br.com.zup.cartaoproposta.util.MetricasProposta;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ import java.net.URI;
 import java.util.Optional;
 
 /**
- * Contagem de carga intrínseca da classe: 8
+ * Contagem de carga intrínseca da classe: 9
  */
 
 @RestController
@@ -33,8 +35,13 @@ public class PropostaController {
     //1
     private TratamentoRetorno tratamentoRetorno;
 
-    public PropostaController(PropostaRepository propostaRepository) {
+    //1
+    private MetricasProposta metricas;
+
+    public PropostaController(PropostaRepository propostaRepository, MeterRegistry meterRegistry) {
         this.propostaRepository = propostaRepository;
+        metricas = new MetricasProposta(meterRegistry);
+        metricas.criarCadastroPropostaContador();
     }
 
     @PostMapping
@@ -58,6 +65,8 @@ public class PropostaController {
 
         proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
         propostaRepository.save(proposta);
+
+        metricas.incrementarCadastroPropostaContador();
 
         URI link = uriComponentsBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
