@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: proposta-config
+data:
+    SERVER_PORT: "1111"
+    APPLICATION_NAME: proposta
+    DATABASE_URL: jdbc:postgresql://host.docker.internal:5432/proposta
+    DATABASE_DRIVER: org.postgresql.Driver
+    DATABASE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+    DDL_STRATEGY: update
+    HYSTRIX_TIMEOUT: "5000"
+    TIME_SCHEDULER: "5000"
+    FEIGN_READ_TIMEOUT: "1000"
+    FEIGN_CONNECTION_TIMEOUT: "1000"
+    HOST_ANALISE_FINANCEIRA: http://host.docker.internal:9999
+    HOST_CARTOES: http://host.docker.internal:8888
+    KAFKA_GROUPID: proposta
+    KAFKA_TOPICS: transacoes
+    MAX_RESULTS: "10"
+    JWT_ISSUER: http://host.docker.internal:18080/auth/realms/nosso-cartao
+    JWT_JWKSET: http://host.docker.internal:18080/auth/realms/nosso-cartao/protocol/openid-connect/certs
+    JAEGER_URL: http://host.docker.internal:14268/api/traces
+    VAULT_HOST: host.docker.internal

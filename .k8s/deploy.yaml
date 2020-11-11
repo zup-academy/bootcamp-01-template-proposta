@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    version: v1
+    app: proposta
+    team: cartao-branco
+  name: proposta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proposta
+  template:
+    metadata:
+      labels:
+        app: proposta
+        version: v1
+    spec:
+      containers:
+        - image: marcoscoutozup/proposta:latest
+          imagePullPolicy: Always
+          name: proposta
+          envFrom:
+            - configMapRef:
+                name: proposta-config
+
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "700m"
+            limits:
+              memory: "512Mi"
+              cpu: "900m"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 1111
+              scheme: HTTP
+            initialDelaySeconds: 60
+
+          ports:
+            - containerPort: 1111
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 1111
+              scheme: HTTP
+            initialDelaySeconds: 60
