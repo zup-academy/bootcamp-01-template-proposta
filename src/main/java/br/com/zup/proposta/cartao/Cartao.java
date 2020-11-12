@@ -3,6 +3,8 @@ package br.com.zup.proposta.cartao;
 import br.com.zup.proposta.aviso.Aviso;
 import br.com.zup.proposta.biometria.Biometria;
 import br.com.zup.proposta.bloqueio.Bloqueio;
+import br.com.zup.proposta.carteira.Carteira;
+import br.com.zup.proposta.carteira.TipoCarteira;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -24,6 +26,7 @@ public class Cartao {
     private @OneToMany Set<Biometria> biometrias = new HashSet<>();
     private @OneToMany Set<Bloqueio> bloqueios = new HashSet<>();
     private @OneToMany Set<Aviso> avisos = new HashSet<>();
+    private @OneToMany Set<Carteira> carteiras = new HashSet<>();
     private @Enumerated(EnumType.STRING) StatusCartao status;
 
     @Deprecated
@@ -47,6 +50,14 @@ public class Cartao {
 
     public void addAviso(Aviso aviso) {
         avisos.add(aviso);
+    }
+
+    public void addCarteira(Carteira carteira) {
+        carteiras.add(carteira);
+    }
+
+    public boolean verificarSeCartaoJaPossuiCarteiraAssociada(TipoCarteira tipoCarteira) {
+        return carteiras.stream().anyMatch(carteira -> carteira.verificarSeExisteTipoCarteira(tipoCarteira));
     }
 
     public String getId() {
