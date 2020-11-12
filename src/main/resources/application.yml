@@ -15,16 +15,22 @@ cron:
   habilitada: ${CRON_HABILITADA:true}
   cartao:
     ## segundo | minuto | hora | dia-do-mes | mes | dias-da-semana | ano
-    cron: ${CARTAO_CRON:1 1 * * * ?}
+    cron: ${CARTAO_CRON:1 */10 * * * ?}
 
 ## Spring Actuator
 management:
+  metrics:
+    tags:
+      aplicacao: ${NOME_APLICACAO:Serviço de Propostas}
+      ambiente: ${AMBIENTE:desenvolvimento}
   endpoints:
     web:
       exposure:
-        include: health,metrics,prometheus
+        include: health,metrics,prometheus,info
 
 spring:
+  application:
+    name: propostas
   datasource:
     url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:dev_proposta}
     username: ${DATABASE_USER:keycloak}
@@ -36,3 +42,9 @@ spring:
       hibernate:
         show_sql: ${JPA_SHOW_SQL:true}
         format_sql: ${JPA_FORMAT_SQL:true}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:18080/auth/realms/desafio3}
+          jtw-set-uri: ${KEYCLOAK_JWKS_URI:http://localhost:18080/auth/realms/desafio3/protocol/openid-connect/certs}
