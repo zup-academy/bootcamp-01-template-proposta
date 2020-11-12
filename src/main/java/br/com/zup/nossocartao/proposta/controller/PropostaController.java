@@ -1,6 +1,6 @@
 package br.com.zup.nossocartao.proposta.controller;
 
-import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -25,10 +25,11 @@ public class PropostaController {
 		this.propostaService = propostaService;
 	}
 
-	@RolesAllowed("administrador")
+	// @RolesAllowed("administrador")
 	@PostMapping(value = "/propostas")
 	public ResponseEntity<?> novaProposta(@RequestHeader String Authorization,
-			@RequestBody @Valid NovaPropostaRequest dadosProposta, UriComponentsBuilder builder) {
+			@RequestBody @Valid NovaPropostaRequest dadosProposta, UriComponentsBuilder builder,
+			HttpServletRequest request) {
 
 		boolean verificaCpfCnpj = propostaService.verificaDocumento(dadosProposta.getCpfCnpj());
 
@@ -56,4 +57,5 @@ public class PropostaController {
 		return ResponseEntity.ok(buscarPropostaPorId);
 
 	}
+
 }

@@ -62,7 +62,7 @@ public class PropostaService {
 	}
 
 	private Proposta anexarDadosCartao(Proposta dadosProposta) {
-		CartaoResponse dadosCartao = solicitacaoCartao.buscarDadosCartao(dadosProposta.getId().toString());
+		CartaoResponse dadosCartao = solicitacaoCartao.buscarDadosCartaoPorIdProposta(dadosProposta.getId().toString());
 		dadosProposta.setNumeroCartao(dadosCartao.getId());
 		return propostaRepository.save(dadosProposta);
 	}
