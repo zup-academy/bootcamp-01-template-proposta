@@ -20,7 +20,7 @@ import java.net.URI;
  */
 
 @RestController
-@RequestMapping("cartoes/solicitacao-recuperar-senha")
+@RequestMapping("cartoes/solicitacoes-recuperar-senha")
 public class RecuperacaoSenhaController {
 
     @PersistenceContext

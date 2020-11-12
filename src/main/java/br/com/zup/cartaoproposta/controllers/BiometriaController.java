@@ -19,7 +19,7 @@ import java.net.URI;
  */
 
 @RestController
-@RequestMapping("/cartoes/biometria")
+@RequestMapping("/cartoes/biometrias")
 public class BiometriaController {
 
     @PersistenceContext

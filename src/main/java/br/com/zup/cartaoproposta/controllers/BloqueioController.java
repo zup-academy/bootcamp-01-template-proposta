@@ -22,7 +22,7 @@ import java.net.URI;
  */
 
 @RestController
-@RequestMapping("/cartoes/bloqueio")
+@RequestMapping("/cartoes/bloqueios")
 public class BloqueioController {
 
     @Autowired
