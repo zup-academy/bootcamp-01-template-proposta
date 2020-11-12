@@ -43,6 +43,8 @@ public class PropostaController {
         this.propostaRepository = propostaRepository;
         metricas = new MetricasProposta(meterRegistry);
         metricas.criarCadastroPropostaContador();
+        metricas.setPropostas(propostaRepository.findAll());
+        metricas.criarPropostasGauge();
     }
 
     @PostMapping
@@ -68,6 +70,7 @@ public class PropostaController {
         propostaRepository.save(proposta);
 
         metricas.incrementarCadastroPropostaContador();
+        metricas.addProposta(proposta);
 
         URI link = uriComponentsBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
