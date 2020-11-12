@@ -2,7 +2,7 @@ package br.com.zup.bootcamp.proposta.domain.service;
 
 import br.com.zup.bootcamp.proposta.api.externalsystem.LegadoSistemaCartao;
 import br.com.zup.bootcamp.proposta.domain.entity.Cartao;
-import br.com.zup.bootcamp.proposta.domain.entity.EstadoCartao;
+import br.com.zup.bootcamp.proposta.domain.service.enums.EstadoCartao;
 import br.com.zup.bootcamp.proposta.domain.repository.BloqueioRepository;
 import br.com.zup.bootcamp.proposta.domain.repository.CartaoRepository;
 import org.slf4j.Logger;
