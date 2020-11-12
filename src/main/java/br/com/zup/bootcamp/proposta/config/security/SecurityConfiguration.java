@@ -16,7 +16,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(GET, "/actuator/**").permitAll()
                 .antMatchers(GET, "/propostas/**").hasAuthority("SCOPE_proposta")
                 .antMatchers(POST, "/propostas").hasAuthority("SCOPE_proposta")
-                .antMatchers(POST, "/cartoes/**").hasAuthority("SCOPE_cartoe")
+                .antMatchers(POST, "/cartoes/**").hasAuthority("SCOPE_proposta")
                 .and()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
