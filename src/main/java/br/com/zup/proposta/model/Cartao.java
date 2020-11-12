@@ -19,8 +19,9 @@ public class Cartao {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     private @NotBlank String numero;
-    @Valid
-    private @OneToOne @NotNull Proposta proposta; //1
+
+    private @NotNull @OneToOne Proposta proposta; //1
+
     @Enumerated(EnumType.STRING)
     private StatusCartao statusCartao;
     @ElementCollection

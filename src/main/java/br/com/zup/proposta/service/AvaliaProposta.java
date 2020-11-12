@@ -16,8 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class AvaliaProposta {
 
-    //services devem ter até 7 pontos de carga insentrica?
-
     private IntegracoesAnaliseFinanceira integracoesAnaliseFinanceira; //1
 
     public AvaliaProposta(IntegracoesAnaliseFinanceira integracoesAnaliseFinanceira) {
@@ -28,12 +26,11 @@ public class AvaliaProposta {
 
     public StatusAvaliacaoProposta executar(Proposta novaProposta) { //2
 
-        AvaliacaoPropostaRequest resultadoAvalicao =
-                new AvaliacaoPropostaRequest(novaProposta); //3
+        AvaliacaoPropostaRequest request = novaProposta
+                .toAvaliacaoPropostaRequest();
 
         try{ //4
-             resultadoAvalicao = integracoesAnaliseFinanceira
-                     .avalia(new AvaliacaoPropostaRequest(novaProposta));
+             AvaliacaoPropostaRequest resultadoAvalicao = integracoesAnaliseFinanceira.avalia(request);
 
             return resultadoAvalicao.getResultadoSolicitacao().normaliza();
 
@@ -43,11 +40,12 @@ public class AvaliaProposta {
 
             if (e.status() == httpStatusRequisicao){ //6
 
-                logger.error("Resultado consulta sistema legado:{}", e.contentUTF8());
+                AvaliacaoPropostaRequest resultadoAvalicao = request;
 
                 try { //7
-                    resultadoAvalicao = new ObjectMapper().readValue(e.contentUTF8(),
-                                    AvaliacaoPropostaRequest.class);
+                    resultadoAvalicao = new ObjectMapper()
+                            .readValue(e.contentUTF8(), AvaliacaoPropostaRequest.class);
+                    logger.error("Resultado consulta sistema legado:{}", resultadoAvalicao.getResultadoSolicitacao());
                 } catch (JsonProcessingException jsonProcessingException) { //8
                     jsonProcessingException.printStackTrace();
                 }

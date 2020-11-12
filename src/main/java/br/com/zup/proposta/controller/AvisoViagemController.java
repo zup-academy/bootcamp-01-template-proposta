@@ -32,8 +32,8 @@ public class AvisoViagemController {
     private Logger logger = LoggerFactory.getLogger(AvisoViagemController.class);
 
     public AvisoViagemController(EntityManager entityManager, AvisarViagem avisarViagem) {
-        this.avisarViagem = avisarViagem;
         this.entityManager = entityManager;
+        this.avisarViagem = avisarViagem;
     }
 
     @PostMapping("/{id}/aviso-viagem")
@@ -73,7 +73,6 @@ public class AvisoViagemController {
         dadosViagem.put("destino", request.getDestinoViagem());
         dadosViagem.put("validoAte", request.getDataTerminoViagem().toString());
 
-        //consultar api
         avisarViagem.notificarAvisoViagem(possivelCartao.get().getNumero(), dadosViagem); //6
 
         novoAvisoViagem.atualizarStatusViagem();

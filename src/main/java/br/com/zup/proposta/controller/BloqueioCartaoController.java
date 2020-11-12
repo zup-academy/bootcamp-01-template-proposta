@@ -26,13 +26,13 @@ import java.util.UUID;
 public class BloqueioCartaoController {
 
     private Logger logger = LoggerFactory.getLogger(BloqueioCartaoController.class);
-
     private EntityManager entityManager;
 
     @Autowired
     private SolicitarBloqueio solicitarBloqueio; //1
 
-    public BloqueioCartaoController(SolicitarBloqueio solicitarBloqueio, EntityManager entityManager) {
+    public BloqueioCartaoController(SolicitarBloqueio solicitarBloqueio,
+                                    EntityManager entityManager) {
         this.solicitarBloqueio = solicitarBloqueio;
         this.entityManager = entityManager;
     }

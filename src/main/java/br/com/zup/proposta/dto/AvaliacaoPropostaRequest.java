@@ -2,7 +2,9 @@ package br.com.zup.proposta.dto;
 
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.model.enums.RespostaStatusAvaliacao;
+import br.com.zup.proposta.util.CodificarInformacoes;
 import br.com.zup.proposta.validations.CpfCnpj;
+import org.springframework.security.crypto.encrypt.Encryptors;
 
 import java.util.UUID;
 
@@ -18,10 +20,10 @@ public class AvaliacaoPropostaRequest {
     public AvaliacaoPropostaRequest() {
     }
 
-    public AvaliacaoPropostaRequest(Proposta proposta) { //2
-        this.documento = proposta.getDocumento();
-        this.nome = proposta.getNome();
-        this.idProposta = proposta.getId();
+    public AvaliacaoPropostaRequest(String documento, String nome, UUID idProposta) { //2
+        this.documento = documento;
+        this.nome = nome;
+        this.idProposta = idProposta;
     }
 
     public String getDocumento() {

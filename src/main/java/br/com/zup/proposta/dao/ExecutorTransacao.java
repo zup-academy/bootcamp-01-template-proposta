@@ -1,25 +1,26 @@
 package br.com.zup.proposta.dao;
 
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 @Component
 public class ExecutorTransacao {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager manager;
 
     @Transactional
-    public <T> void salvaEComita (T objeto){
-        entityManager.persist(objeto);
+    public <T> T salvaEComita(T objeto) {
+        manager.persist(objeto);
+        return objeto;
     }
 
     @Transactional
-    public <T> void atualizaEComita(T objeto){
-        entityManager.merge(objeto);
+    public <T> T atualizaEComita(T objeto) {
+        return manager.merge(objeto);
     }
 
 }

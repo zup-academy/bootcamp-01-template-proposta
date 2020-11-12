@@ -18,11 +18,20 @@ public class AvisarViagem {
     }
 
     public void notificarAvisoViagem(String numeroCartao, Map<String, String> dadosViagem) {
+
         try{
             integracoesCartao.notificarAvisoViagem(numeroCartao, dadosViagem);
         }catch (FeignException ex){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+
+            /*
+            verificar a existencia da agência pelo sistema legado pelo banco
+             */
+
+            if (ex.status() == 422)
+                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
                     "O cartão já está notificado para viagem");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Houve um erro ao se comunicar com o servidor");
         }
 
     }

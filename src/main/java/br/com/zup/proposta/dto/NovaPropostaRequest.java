@@ -2,6 +2,7 @@ package br.com.zup.proposta.dto;
 
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.validations.CpfCnpj;
+import org.springframework.security.crypto.encrypt.Encryptors;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,7 +15,6 @@ public class NovaPropostaRequest {
     @NotBlank
     @CpfCnpj(message = "Documento inválido")
     private String documento;
-    //@NotBlank @Email
     private String email;
     @NotBlank
     private String nome;
@@ -25,7 +25,8 @@ public class NovaPropostaRequest {
 
     public NovaPropostaRequest(@NotBlank String documento,
                                @NotBlank String nome,
-                               @NotBlank String endereco, @NotNull @Positive BigDecimal salarioBruto) {
+                               @NotBlank String endereco,
+                               @NotNull @Positive BigDecimal salarioBruto) {
         this.documento = documento;
         this.nome = nome;
         this.endereco = endereco;
@@ -37,7 +38,9 @@ public class NovaPropostaRequest {
     }
 
     public Proposta toProposta(@NotBlank @Email String emailAutenticado) {
+
         this.email = emailAutenticado;
+
         return new Proposta(this.documento, this.email, this.nome,
                 this.endereco, this.salarioBruto);
     }

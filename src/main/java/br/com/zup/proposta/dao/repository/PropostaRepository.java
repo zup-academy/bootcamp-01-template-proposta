@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public interface PropostaRepository extends CrudRepository<Proposta, UUID> {
 
-    @Query("select p from Proposta p left join p.cartao c " +
+    @Query("select p from Proposta p left join fetch p.cartao c " +
             "where p.statusAvaliacaoProposta =:status and c.id is null")
     public List<Proposta> buscarPropostasElegiveis(@Param("status") StatusAvaliacaoProposta status);
 

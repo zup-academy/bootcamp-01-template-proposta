@@ -9,10 +9,10 @@ import org.mockito.Mockito;
 
 public class NovaPropostaControllerTest {
 
-    private DocumentoIgualValidator documentoIgualValidator =
+    /*private DocumentoIgualValidator documentoIgualValidator =
             Mockito.mock(DocumentoIgualValidator.class);
     private AvaliaProposta avaliaProposta = Mockito.mock(AvaliaProposta.class);
-    private ExecutorTransacao executorTransacao = Mockito.mock(ExecutorTransacao.class);
+    private ExecutorTransacao executorTransacao = Mockito.mock(ExecutorTransacao.class);*/
     //private NovaPropostaController controller =
     //        new NovaPropostaController(documentoIgualValidator, avaliaProposta,executorTransacao);
 
