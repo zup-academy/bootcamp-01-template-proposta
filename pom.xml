@@ -62,21 +62,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>io.opentracing.contrib</groupId>-->
-<!--			<artifactId>opentracing-spring-jaeger-web-starter</artifactId>-->
-<!--			<version>3.1.2</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>io.opentracing.contrib</groupId>-->
-<!--			<artifactId>opentracing-spring-cloud-starter</artifactId>-->
-<!--			<version>0.5.6</version>-->
-<!--		</dependency>-->
-
 		<dependency>
-			<groupId>io.prometheus</groupId>
-			<artifactId>simpleclient</artifactId>
-			<version>0.9.0</version>
+			<groupId>io.opentracing.contrib</groupId>
+			<artifactId>opentracing-spring-jaeger-web-starter</artifactId>
+			<version>3.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
