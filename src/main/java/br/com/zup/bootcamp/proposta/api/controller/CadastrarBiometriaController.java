@@ -20,7 +20,7 @@ public class CadastrarBiometriaController {
     @Autowired      //1
     private CartaoRepository cartaoRepository;
 
-    @PostMapping("/{idCartao}/biometria")                                                   //1
+    @PostMapping("/{idCartao}/biometrias")                                                   //1
     public ResponseEntity<?> cadastrarBiometria(@PathVariable String idCartao, @RequestBody @Valid RequestBiometriaDto request, UriComponentsBuilder uri){
         logger.info("inicinado processo de cadastro do cartão com id {}", idCartao);
 
