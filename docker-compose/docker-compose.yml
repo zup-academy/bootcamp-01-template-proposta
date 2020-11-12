@@ -34,6 +34,17 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_HOST: postgres
 
+  propostas-db:
+    image: 'postgres:alpine'
+    volumes:
+      - propostas-db-volume:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: propostas
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dev_proposta
+
   keycloak:
     image: jboss/keycloak
     ports:
@@ -90,6 +101,22 @@ services:
       LOG_LEVEL: INFO
       KAFKA_HOST: "kafka:29092"
 
+  propostas:
+    image: arielalvesdutra/propostas
+    ports:
+      - 8080:8080
+    environment:
+      CARTAO_URL: http://localhost:8888
+      ANALISE_URL: http://localhost:9999
+      DATABASE_PORT: 5432
+      DATABASE_HOST: propostas-db
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/desafio3
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/desafio3/protocol/openid-connect/certs
+      JAEGER_ENDPOINT: http://jaeger:14628/api/traces
+    depends_on:
+      - keycloak
+      - propostas-db
+
   jaeger:
     image: jaegertracing/all-in-one
     ports:
@@ -108,7 +135,9 @@ services:
     image: prom/prometheus
     volumes:
       - prometheus-volume:/etc/prometheus/
-    network_mode: host
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
     expose:
       - 9090
 
@@ -116,9 +145,10 @@ services:
     image: grafana/grafana
     volumes:
       - grafana-volume:/var/lib/grafana
-    network_mode: host
     expose:
       - 3000
+    ports:
+    - 3000:3000
     depends_on:
       - prometheus
 
@@ -135,3 +165,4 @@ volumes:
   grafana-volume:
   prometheus-volume:
   postgres-volume:
+  propostas-db-volume:

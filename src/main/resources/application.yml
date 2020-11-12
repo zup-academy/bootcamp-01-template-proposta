@@ -1,6 +1,6 @@
 ## Porta do Servidor
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${SERVER_PORT:8080}
 
 ## Serviço de Análise
 analise:
@@ -32,8 +32,8 @@ spring:
   application:
     name: propostas
   datasource:
-    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:dev_proposta}
-    username: ${DATABASE_USER:keycloak}
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5433}/${DATABASE_NAME:dev_proposta}
+    username: ${DATABASE_USER:propostas}
     password: ${DATABASE_PASSWORD:password}
   jpa:
     hibernate:
@@ -48,3 +48,12 @@ spring:
         jwt:
           issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:18080/auth/realms/desafio3}
           jtw-set-uri: ${KEYCLOAK_JWKS_URI:http://localhost:18080/auth/realms/desafio3/protocol/openid-connect/certs}
+
+## OpenTracing
+opentracing:
+  jaeger:
+    enabled: ${JAEGER_ENABLED:true}
+    service-name: ${spring.application.name}
+    http-sender-url: ${JAEGER_ENDPOINT:http://localhost:14628/api/traces}
+    probabilistic-sampler:
+      sampling-rate: ${JAEGER_SAMPLER:1}
