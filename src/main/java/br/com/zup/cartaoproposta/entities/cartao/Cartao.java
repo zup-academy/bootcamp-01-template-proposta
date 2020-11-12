@@ -38,7 +38,7 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao")
     //1
     private List<BloqueioCartao> bloqueios = new ArrayList<>();
-    @ElementCollection
+    @OneToMany(mappedBy = "cartao")
     //1
     private List<AvisoCartao> avisos = new ArrayList<>();
     @ElementCollection
