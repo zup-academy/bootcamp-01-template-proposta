@@ -1,23 +1,20 @@
 package br.com.zup.bootcamp.proposta.domain.entity;
 
+import br.com.zup.bootcamp.proposta.domain.service.enums.EstadoCartao;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
-@EnableScheduling
 public class Cartao {
 
     @Id
@@ -30,16 +27,22 @@ public class Cartao {
 
     @CreationTimestamp
     private LocalDateTime emitidoEm;
+
     @NotBlank
     private String titular;
+
     @OneToMany(mappedBy = "cartao",cascade = CascadeType.MERGE)
     private final List<Bloqueio> bloqueios = new ArrayList<>();
-    @OneToMany
-    private Set<Aviso> avisos;
-    @OneToMany
-    private Set<Carteira> carteiras;
+
+    @OneToMany(mappedBy = "cartao",cascade = CascadeType.MERGE)
+    private final List<Aviso> avisos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cartao",cascade = CascadeType.MERGE)
+    private Set<Carteira> carteiras = new HashSet<>();
+
     @Positive
     private BigDecimal limite;
+
     @OneToMany(mappedBy = "cartao",cascade = CascadeType.MERGE)
     private final List<Biometria> biometrias = new ArrayList<>();
 
@@ -62,16 +65,8 @@ public class Cartao {
         return titular;
     }
 
-    public void setTitular(String titular) {
-        this.titular = titular;
-    }
-
     public BigDecimal getLimite() {
         return limite;
-    }
-
-    public void setLimite(BigDecimal limite) {
-        this.limite = limite;
     }
 
     public UUID getIdCartaoEmitido() {
@@ -90,6 +85,10 @@ public class Cartao {
         this.estadoCartao = estadoCartao;
     }
 
+    public Set<Carteira> getCarteiras() {
+        return carteiras;
+    }
+
     public void adicionarBiometriaNoCartao(@NotNull byte[] fingerprint) {
         this.biometrias.add(new Biometria(fingerprint, this));
     }
@@ -99,13 +98,14 @@ public class Cartao {
         this.bloqueios.add(new Bloqueio(ip, sistemaResponsavel, this));
     }
 
-    public void adicionarAvisoDeViagem(Aviso aviso) {
+    public void adicionarAvisoDeViagem(Aviso aviso, HttpServletRequest httpRequest) {
         Assert.notNull(aviso, "O aviso não pode ser nulo para associação com o cartão");
-        avisos.add(aviso);
+        this.avisos.add(new Aviso(aviso.getValidoAte(), aviso.getDestino(), httpRequest.getRemoteAddr(),
+                httpRequest.getHeader("User-Agent"), this));
     }
 
     public void adicionarCarteira(Carteira carteira) {
         Assert.notNull(carteira, "A carteira não pode ser nula para associação com o cartão");
-        carteiras.add(carteira);
+        this.carteiras.add(new Carteira(carteira.getEmail(), carteira.getCarteira(), this));
     }
 }
