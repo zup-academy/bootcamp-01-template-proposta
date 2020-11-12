@@ -3,6 +3,7 @@ package br.com.zup.bootcamp.proposta.domain.entity;
 import br.com.zup.bootcamp.proposta.api.externalsystem.RequestAvaliacaoFinanceiraDto;
 import br.com.zup.bootcamp.proposta.domain.service.enums.StatusProposta;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -38,7 +39,7 @@ public class Proposta {
     public Proposta (){}
 
     public Proposta(@NotBlank String documento, @Email String email, @NotBlank String nome, @NotBlank String endereco, @Positive BigDecimal salario) {
-        this.documento = documento;
+        this.documento = new BCryptPasswordEncoder().encode(documento);
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;

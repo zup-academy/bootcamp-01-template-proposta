@@ -36,7 +36,7 @@ public class CadastrarPropostaService {
             if (e.status() == 422) {
                 proposta.setStatus(StatusProposta.NAO_ELEGIVEL);
             }
-            logger.error("Falha na avaliação financeira do documento {} com final {} ", proposta.getId(),
+            logger.error("Falha na avaliação financeira, COM_RESTRICAO, do documento {} com final {} ", proposta.getId(),
                     proposta.getDocumento().substring(proposta.getDocumento().length()-5));
         }
         return repository.save(proposta);

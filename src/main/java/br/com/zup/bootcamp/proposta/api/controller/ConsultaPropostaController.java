@@ -17,7 +17,7 @@ public class ConsultaPropostaController {
     private PropostaRepository repository;
     private final Logger logger = LoggerFactory.getLogger(ConsultaPropostaController.class);
 
-    @GetMapping(value="/propostas/{id}")
+    @GetMapping("/propostas/{id}")
     public ResponseEntity<?> consultarProposta(@PathVariable String id){
         logger.info("Realizar consulta da proposta com id {} ", id);
         var proposta = repository.findById(id);
