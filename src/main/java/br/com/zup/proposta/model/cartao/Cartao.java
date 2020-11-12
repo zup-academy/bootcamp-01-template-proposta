@@ -152,6 +152,9 @@ public class Cartao {
 	public void addAvisos(CartaoAvisos aviso) {
         this.avisos.add(aviso);
     }
+	public void addCarteiras(CarteiraDigital carteira) {
+        this.carteiras.add(carteira);
+    }
 
     public Proposta getProposta() {
         return this.proposta;
