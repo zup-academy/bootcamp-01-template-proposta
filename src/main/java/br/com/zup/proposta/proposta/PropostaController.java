@@ -1,10 +1,10 @@
 package br.com.zup.proposta.proposta;
 
 import br.com.zup.proposta.analiseproposta.AvaliaProposta;
-import br.com.zup.proposta.integracao.ExecutorTransacao;
 import br.com.zup.proposta.analiseproposta.StatusAvaliacaoProposta;
-import br.com.zup.proposta.integracao.MinhasMetricas;
 import feign.FeignException;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -21,41 +23,55 @@ import java.net.URI;
 public class PropostaController {
 
     private final PropostaRepository repository;
-    private final ExecutorTransacao executorTransacao;
+    private final EntityManager entityManager;
     private final AvaliaProposta avaliaProposta;
-    private MinhasMetricas metricas;
+    private final Tracer tracer;
 
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
 
-    public PropostaController(PropostaRepository repository,
-                              ExecutorTransacao executorTransacao, AvaliaProposta avaliaProposta) {
+    public PropostaController(PropostaRepository repository, EntityManager entityManager,
+                              AvaliaProposta avaliaProposta, Tracer tracer) {
         this.repository = repository;
-        this.executorTransacao = executorTransacao;
+        this.entityManager = entityManager;
         this.avaliaProposta = avaliaProposta;
+        this.tracer = tracer;
     }
 
     @PostMapping
     @Transactional
     public ResponseEntity<?> criaProposta(@Valid @RequestBody NovaPropostaRequest request,
                                            UriComponentsBuilder uriComponentsBuilder) {
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("user.email", request.getEmail());
+        activeSpan.setBaggageItem("usuario.email", request.getEmail());
+        activeSpan.log("Realizando cadastro de proposta do usuário");
+
         if (repository.findByDocumento(request.getDocumento()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
+
         Proposta novaProposta = request.toModel();
+
         try {
-            executorTransacao.salvaEComita(novaProposta);
+            entityManager.persist(novaProposta);
             StatusAvaliacaoProposta avaliacao = avaliaProposta.executa(novaProposta);
             novaProposta.atualizaStatus(avaliacao);
-            executorTransacao.atualizaEComita(novaProposta);
+            entityManager.merge(novaProposta);
+
             URI enderecoConsulta = uriComponentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
+
             logger.info("Proposta de Documento = {} e Status = {} criada com sucesso!",
                     novaProposta.getDocumento(), novaProposta.getStatusAvaliacao());
+
             return ResponseEntity.created(enderecoConsulta).build();
         } catch (FeignException.UnprocessableEntity e) {
-            executorTransacao.salvaEComita(novaProposta);
+            entityManager.persist(novaProposta);
+
             URI enderecoConsulta = uriComponentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
+
             logger.info("Proposta de Documento = {} e Status = {} criada com sucesso!",
                     novaProposta.getDocumento(), novaProposta.getStatusAvaliacao());
+
             return ResponseEntity.created(enderecoConsulta).build();
         }
     }
