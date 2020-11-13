@@ -1,6 +1,6 @@
 package br.com.zup.proposta.validations;
 
-import br.com.zup.proposta.dto.NovaPropostaRequest;
+import br.com.zup.proposta.model.Proposta;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -13,11 +13,14 @@ public class DocumentoIgualValidator {
     @PersistenceContext
     EntityManager entityManager;
 
-    public boolean existe(NovaPropostaRequest request){
+    public boolean existe(Proposta proposta){
+
+        String documentoLimpo = proposta.obterCodificador()
+                .decrypt(proposta.getDocumento());
 
         Query query = entityManager.createQuery("select 1 from " +
                 "Proposta where documento =:documento");
-        query.setParameter("documento", request.getDocumento());
+        query.setParameter("documento", documentoLimpo);
 
         return !query.getResultList().isEmpty();
 

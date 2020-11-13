@@ -1,22 +1,19 @@
 package br.com.zup.proposta.controller;
 
 import br.com.zup.proposta.dao.ExecutorTransacao;
-import br.com.zup.proposta.dao.repository.PropostaRepository;
-import br.com.zup.proposta.metrics.MinhasMetricas;
-import br.com.zup.proposta.service.AvaliaProposta;
 import br.com.zup.proposta.dto.NovaPropostaRequest;
+import br.com.zup.proposta.metrics.MinhasMetricas;
 import br.com.zup.proposta.model.Proposta;
 import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;
+import br.com.zup.proposta.service.AvaliaProposta;
 import br.com.zup.proposta.validations.DocumentoIgualValidator;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Optional;
@@ -73,11 +68,11 @@ public class NovaPropostaController {
 
         logger.info("Usuário autenticado (email): {}", emailAutenticado.get());
 
-        if(documentoIgualValidator.existe(request)) //5
+        Proposta novaProposta = request.toProposta(emailAutenticado.get()); //6
+
+        if(documentoIgualValidator.existe(novaProposta)) //5
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body("Documento inválido!");
-
-        Proposta novaProposta = request.toProposta(emailAutenticado.get()); //6
 
         logger.info("Proposta pendente: Nome={} , Documento={}, Status Avaliação={}",
                 novaProposta.getNome() , novaProposta.getDocumento(),
@@ -96,7 +91,7 @@ public class NovaPropostaController {
 
         executorTransacao.atualizaEComita(novaProposta);
 
-        minhasMetricas.meuContador();
+        //minhasMetricas.meuContador();
 
         return ResponseEntity.created(builder.path("/api/propostas/{id}")
                 .buildAndExpand(novaProposta.getId()).toUri()).build();

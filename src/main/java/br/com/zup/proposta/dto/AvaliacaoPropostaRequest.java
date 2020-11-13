@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class AvaliacaoPropostaRequest {
 
-    @CpfCnpj
+    @CpfCnpj(message = "O documento é inválido")
     private String documento;
     private String nome;
     private UUID idProposta;

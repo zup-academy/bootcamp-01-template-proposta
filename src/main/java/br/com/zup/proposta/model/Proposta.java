@@ -3,8 +3,6 @@ package br.com.zup.proposta.model;
 
 import br.com.zup.proposta.dto.AvaliacaoPropostaRequest;
 import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;
-import br.com.zup.proposta.util.CodificarInformacoes;
-import br.com.zup.proposta.validations.CpfCnpj;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.crypto.encrypt.Encryptors;
@@ -12,7 +10,6 @@ import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -41,7 +38,6 @@ public class Proposta {
     private BigDecimal salarioBruto;
     @Enumerated(EnumType.STRING)
     private StatusAvaliacaoProposta statusAvaliacaoProposta;
-
     @OneToOne(mappedBy = "proposta", cascade = CascadeType.MERGE)
     private Cartao cartao;
 
@@ -54,7 +50,7 @@ public class Proposta {
     public Proposta(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome,
                     @NotBlank String endereco, @NotNull @Positive BigDecimal salarioBruto) {
 
-        obterCodificador();
+        gerarCodificador();
 
         this.documento = codificador.encrypt(documento);
         this.email = email;
@@ -101,9 +97,14 @@ public class Proposta {
         this.statusAvaliacaoProposta = statusAvaliacaoProposta;
     }
 
-    public void obterCodificador(){
+    public TextEncryptor gerarCodificador(){
         String salt = KeyGenerators.string().generateKey();
-        this.codificador = Encryptors.text("password", salt);
+        String password = UUID.randomUUID().toString();
+        return this.codificador = Encryptors.text(password,salt);
+    }
+
+    public TextEncryptor obterCodificador(){
+        return this.codificador;
     }
 
     public AvaliacaoPropostaRequest toAvaliacaoPropostaRequest(){

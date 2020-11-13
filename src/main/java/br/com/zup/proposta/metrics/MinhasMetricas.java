@@ -70,7 +70,8 @@ public class MinhasMetricas {
         strings.add(UUID.randomUUID().toString());
     }
 
-    @Scheduled(fixedDelay = 10000)
+
+    //@Scheduled(fixedDelay = 10000)
     public void simulandoGauge(){
         double randomNumber = random.nextInt();
         if (randomNumber % 2 == 0)
