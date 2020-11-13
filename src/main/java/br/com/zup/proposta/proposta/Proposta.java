@@ -2,7 +2,9 @@ package br.com.zup.proposta.proposta;
 
 import br.com.zup.proposta.analiseproposta.StatusAvaliacaoProposta;
 import br.com.zup.proposta.cartao.Cartao;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.Authentication;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -41,6 +43,18 @@ public class Proposta {
         this.statusAvaliacao = StatusAvaliacaoProposta.PENDENTE;
     }
 
+    public StatusAvaliacaoProposta getStatusAvaliacao() {
+        return statusAvaliacao;
+    }
+
+    public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
+        this.statusAvaliacao = statusAvaliacao;
+    }
+
+    public void incluirCartao(Cartao cartao) {
+        this.cartao = cartao;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,15 +80,7 @@ public class Proposta {
         return nome;
     }
 
-    public StatusAvaliacaoProposta getStatusAvaliacao() {
-        return statusAvaliacao;
-    }
-
-    public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
-        this.statusAvaliacao = statusAvaliacao;
-    }
-
-    public void incluirCartao(Cartao cartao) {
-        this.cartao = cartao;
+    public String getEmail() {
+        return email;
     }
 }

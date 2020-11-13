@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,7 +41,8 @@ public class PropostaController {
     @PostMapping
     @Transactional
     public ResponseEntity<?> criaProposta(@Valid @RequestBody NovaPropostaRequest request,
-                                           UriComponentsBuilder uriComponentsBuilder) {
+                                          UriComponentsBuilder uriComponentsBuilder,
+                                          Authentication authentication) {
         Span activeSpan = tracer.activeSpan();
         activeSpan.setTag("user.email", request.getEmail());
         activeSpan.setBaggageItem("usuario.email", request.getEmail());
@@ -52,27 +54,22 @@ public class PropostaController {
 
         Proposta novaProposta = request.toModel();
 
+        entityManager.persist(novaProposta);
+
         try {
-            entityManager.persist(novaProposta);
             StatusAvaliacaoProposta avaliacao = avaliaProposta.executa(novaProposta);
             novaProposta.atualizaStatus(avaliacao);
-            entityManager.merge(novaProposta);
-
-            URI enderecoConsulta = uriComponentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
-
-            logger.info("Proposta de Documento = {} e Status = {} criada com sucesso!",
-                    novaProposta.getDocumento(), novaProposta.getStatusAvaliacao());
-
-            return ResponseEntity.created(enderecoConsulta).build();
         } catch (FeignException.UnprocessableEntity e) {
-            entityManager.persist(novaProposta);
+            novaProposta.atualizaStatus(StatusAvaliacaoProposta.NAO_ELEGIVEL);
+        }
 
-            URI enderecoConsulta = uriComponentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
+        entityManager.merge(novaProposta);
 
-            logger.info("Proposta de Documento = {} e Status = {} criada com sucesso!",
+        URI enderecoConsulta = uriComponentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
+
+        logger.info("Proposta de Documento = {} e Status = {} criada com sucesso!",
                     novaProposta.getDocumento(), novaProposta.getStatusAvaliacao());
 
-            return ResponseEntity.created(enderecoConsulta).build();
-        }
+        return ResponseEntity.created(enderecoConsulta).build();
     }
 }
