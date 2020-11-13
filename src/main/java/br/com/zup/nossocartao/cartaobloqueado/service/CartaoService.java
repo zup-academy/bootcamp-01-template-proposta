@@ -1,12 +1,12 @@
-package br.com.zup.nossocartao.cartao.service;
+package br.com.zup.nossocartao.cartaobloqueado.service;
 
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.zup.nossocartao.cartao.CartaoBloqueado;
-import br.com.zup.nossocartao.cartao.repository.CartaoBloqueadoRepository;
+import br.com.zup.nossocartao.cartaobloqueado.CartaoBloqueado;
+import br.com.zup.nossocartao.cartaobloqueado.repository.CartaoBloqueadoRepository;
 import br.com.zup.nossocartao.integracao.cartao.CartaoBloqueadoRequest;
 import br.com.zup.nossocartao.integracao.cartao.CartaoBloqueadoResponse;
 import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartaoFeignClient;
@@ -32,6 +32,8 @@ public class CartaoService {
 		if (bloquearCartao.getStatusCode().isError()) {
 			return Optional.empty();
 		}
+
+		dadosBloqueio.setStatus(bloquearCartao.getBody().getResultado());
 
 		CartaoBloqueado salvarDadosBloqueio = cartaoBloqueadoRepository.save(dadosBloqueio);
 		return Optional.of(salvarDadosBloqueio.getIdCartaoBloqueado());

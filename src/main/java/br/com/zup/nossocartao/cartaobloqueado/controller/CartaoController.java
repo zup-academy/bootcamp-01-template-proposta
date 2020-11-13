@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.cartao.controller;
+package br.com.zup.nossocartao.cartaobloqueado.controller;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.zup.nossocartao.cartao.CartaoBloqueado;
-import br.com.zup.nossocartao.cartao.service.CartaoService;
+import br.com.zup.nossocartao.cartaobloqueado.CartaoBloqueado;
+import br.com.zup.nossocartao.cartaobloqueado.service.CartaoService;
 import br.com.zup.nossocartao.integracao.cartao.CartaoResponse;
 import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartaoFeignClient;
 

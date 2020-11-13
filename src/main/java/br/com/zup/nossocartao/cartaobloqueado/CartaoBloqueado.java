@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.cartao;
+package br.com.zup.nossocartao.cartaobloqueado;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +22,8 @@ public class CartaoBloqueado {
 
 	private String userAgent;
 
+	private StatusCartao status;
+
 	@Deprecated
 	public CartaoBloqueado() {
 	}
@@ -31,6 +33,7 @@ public class CartaoBloqueado {
 		this.instanteBloqueio = LocalDateTime.now();
 		this.ipCliente = ipCliente;
 		this.userAgent = userAgent;
+		this.status = StatusCartao.LIBERADO;
 	}
 
 	public Long getIdCartaoBloqueado() {
@@ -71,6 +74,14 @@ public class CartaoBloqueado {
 
 	public void setUserAgent(String userAgent) {
 		this.userAgent = userAgent;
+	}
+
+	public StatusCartao getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusCartao status) {
+		this.status = status;
 	}
 
 }
