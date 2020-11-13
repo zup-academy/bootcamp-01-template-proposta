@@ -69,6 +69,8 @@ public class AvisoController {
         Span activeSpan = tracer.activeSpan();
         activeSpan.setTag("user.id", idUser);
         activeSpan.setTag("user.email", principal.getClaimAsString("email"));
+        activeSpan.log("Aviso de viagem cadastrado no legado.");
+        activeSpan.log("Aviso de viagem cadastrado no cartao-branco-proposta.");
 
         //1
         AvisoCartao avisoCartao = new AvisoCartao(novoAviso.getValidoAte(),novoAviso.getDestino(), ipAddress, idUser, cartao);
