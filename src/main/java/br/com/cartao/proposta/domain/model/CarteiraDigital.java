@@ -26,6 +26,7 @@ public class CarteiraDigital {
     private String email;
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(unique = true)
     // +1
     private CarteiraDigitalTipo carteira;
     @Enumerated(EnumType.STRING)
@@ -48,6 +49,10 @@ public class CarteiraDigital {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public EstadoAvisoLegado getEstadoAvisoLegado() {

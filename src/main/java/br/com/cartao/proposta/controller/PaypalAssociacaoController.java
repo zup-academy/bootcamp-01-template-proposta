@@ -24,7 +24,7 @@ import java.util.Optional;
 
 /**
  * Carga intrínseca máxima permitida - 7
- * Carga intrínseca da classe - 9
+ * Carga intrínseca da classe - 11
  */
 
 @RestController
@@ -32,9 +32,9 @@ import java.util.Optional;
 public class PaypalAssociacaoController {
 
     private static Logger logger = LoggerFactory.getLogger(PaypalAssociacaoController.class);
-
+    // +1
     private static EstadoAvisoLegado estadoAvisoLegado= EstadoAvisoLegado.AVISADO;
-
+    // +1
     private static CarteiraDigitalTipo carteiraDigitalTipo = CarteiraDigitalTipo.PAYPAL;
 
     @PersistenceContext
@@ -78,7 +78,7 @@ public class PaypalAssociacaoController {
         CarteiraDigitalResponseDto carteiraDigitalResponseDto = new CarteiraDigitalResponseDto(carteiraDigitalAssociada);
         logger.info("Carteira Digital do Paypal associada com sucesso. Id do cartão: {}", idCartao);
         return ResponseEntity
-                .created(uriComponentsBuilder.path("/v1/cartoes/{idCartao}/carteiras/paypal/{id}").buildAndExpand(idCartao,carteiraDigitalAssociada.getId()).toUri())
+                .created(uriComponentsBuilder.path("/v1/cartoes/{idCartao}/carteiras/paypal/{id}").buildAndExpand(idCartao,carteiraDigitalResponseDto.getId()).toUri())
                 .build();
     }
 

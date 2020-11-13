@@ -4,7 +4,11 @@ import br.com.cartao.proposta.domain.model.CarteiraDigital;
 
 public class CarteiraDigitalResponseDto {
 
-    private final String id;
+    private String id;
+
+    @Deprecated
+    public CarteiraDigitalResponseDto() {
+    }
 
     public CarteiraDigitalResponseDto(CarteiraDigital carteiraDigitalAssociada) {
         this.id = carteiraDigitalAssociada.getId();
@@ -14,4 +18,7 @@ public class CarteiraDigitalResponseDto {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 }

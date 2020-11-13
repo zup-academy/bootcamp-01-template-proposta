@@ -1,6 +1,5 @@
 package br.com.cartao.proposta.controller;
 
-import br.com.cartao.proposta.domain.model.Proposta;
 import br.com.cartao.proposta.domain.request.NovaPropostaRequest;
 import br.com.cartao.proposta.domain.response.NovaPropostaResponseDto;
 import br.com.cartao.proposta.handler.ErroNegocioException;
@@ -12,17 +11,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.Optional;
 
 /**
  * Carga intrínseca máxima permitida - 7
- * Carga intrínseca da classe - 8
+ * Carga intrínseca da classe - 7
  */
 
 @RestController
@@ -43,7 +46,12 @@ public class NovaPropostaController {
     @PostMapping
     @Transactional
     // +1
-    public ResponseEntity<?> criaNovaProposta(@RequestBody @Valid NovaPropostaRequest novaPropostaRequest, UriComponentsBuilder uriComponentsBuilder) throws JsonProcessingException {
+    public ResponseEntity<?> criaNovaProposta(@RequestBody @Valid NovaPropostaRequest novaPropostaRequest,
+                                              UriComponentsBuilder uriComponentsBuilder) throws JsonProcessingException {
+
+        String emailUsuario = getEmailUsuarioSolicitante();
+        logger.info("Usuario com email: {} , solicitou uma nova proposta.", emailUsuario);
+
         // +1
         propostaRepository.findAll().forEach(proposta -> {
             // +1
@@ -63,18 +71,10 @@ public class NovaPropostaController {
                 .build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> verificaStatusProposta(@PathVariable String id){
-        logger.info("Requisição recebida para verificar o status da proposta. idProposta: {}", id);
-        Optional<Proposta> propostaBuscada  = propostaRepository.findById(id);
-        // +1
-        if (propostaBuscada.isEmpty()){
-            logger.warn("Id proposta não encontrado. idProposta: {}", id);
-            return ResponseEntity.notFound().build();
-        }
-
-        NovaPropostaResponseDto novaPropostaResponseDto = new NovaPropostaResponseDto(propostaBuscada.get());
-
-        return ResponseEntity.ok(novaPropostaResponseDto);
+    private String getEmailUsuarioSolicitante() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Jwt principal = (Jwt) authentication.getPrincipal();
+        String emailUsuario = (String) principal.getClaims().get("email");
+        return emailUsuario;
     }
 }

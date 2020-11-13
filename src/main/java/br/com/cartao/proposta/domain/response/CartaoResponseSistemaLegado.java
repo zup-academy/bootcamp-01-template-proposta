@@ -14,9 +14,6 @@ import java.util.List;
 
 public class CartaoResponseSistemaLegado {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String idCartao;
 
     @NotBlank

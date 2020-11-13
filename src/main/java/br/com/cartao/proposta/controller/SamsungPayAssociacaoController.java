@@ -33,9 +33,9 @@ import java.util.Optional;
 public class SamsungPayAssociacaoController {
 
     private static Logger logger = LoggerFactory.getLogger(SamsungPayAssociacaoController.class);
-
+    // +1
     private static EstadoAvisoLegado estadoAvisoLegado= EstadoAvisoLegado.AVISADO;
-
+    // +1
     private static CarteiraDigitalTipo carteiraDigitalTipo = CarteiraDigitalTipo.SAMSUNG_PAY;
 
     @PersistenceContext

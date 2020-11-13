@@ -31,7 +31,7 @@ public class Proposta {
     private String id;
     @NotBlank @Column(unique = true)
     private String documento;
-    @NotBlank @Email
+    @NotBlank @Email @Column(unique = true)
     private String email;
     @NotBlank
     private String endereco;
