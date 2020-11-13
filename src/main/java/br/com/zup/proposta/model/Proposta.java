@@ -1,5 +1,7 @@
 package br.com.zup.proposta.model;
 
+import java.nio.charset.Charset;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,14 +12,16 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 
 import br.com.zup.proposta.controllers.dto.DetailedPropostaDto;
 import br.com.zup.proposta.controllers.dto.PropostaDto;
 import br.com.zup.proposta.controllers.form.AnaliseRequestForm;
 import br.com.zup.proposta.model.cartao.Cartao;
 import br.com.zup.proposta.model.enums.EstadoProposta;
-import br.com.zup.proposta.service.validadores.anotações.CpfCnpj;
 
 @Entity
 public class Proposta {
@@ -27,7 +31,6 @@ public class Proposta {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     @NotNull
-    @CpfCnpj
     private String documento;
     @NotNull
     @Email
@@ -66,8 +69,10 @@ public class Proposta {
         return this.id;
     }
 
-    public String getDocumento() {
-        return this.documento;
+    public String getDocumento(String pass, String salt) {
+        TextEncryptor encryptor = Encryptors.delux(pass,
+                new String(Hex.encode(salt.getBytes(Charset.forName("utf-8")))));
+        return encryptor.decrypt(this.documento);
     }
 
     public String getEmail() {
@@ -121,15 +126,16 @@ public class Proposta {
         return new DetailedPropostaDto(this.id, this.nome, this.estadoProposta, this.cartaoCriado);
     }
 
-    public AnaliseRequestForm toAnaliseForm() {
-        return new AnaliseRequestForm(this.documento, this.nome, this.id);
+    public AnaliseRequestForm toAnaliseForm(String pass, String salt) {
+        TextEncryptor encryptor = Encryptors.delux(pass,
+                new String(Hex.encode(salt.getBytes(Charset.forName("utf-8")))));
+        return new AnaliseRequestForm(encryptor.decrypt(this.documento), this.nome, this.id);
     }
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            ", documento='" + getDocumento() + "'" +
             ", email='" + getEmail() + "'" +
             ", nome='" + getNome() + "'" +
             ", endereco='" + getEndereco() + "'" +

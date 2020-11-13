@@ -4,15 +4,16 @@ import java.time.LocalDateTime;
 
 import br.com.zup.proposta.model.cartao.Cartao;
 import br.com.zup.proposta.model.cartao.CarteiraDigital;
+import br.com.zup.proposta.model.enums.Carteiras;
 
 public class CarteiraDigitalResponse {
     
     private String id;
     private String email;
     private LocalDateTime associadaEm;
-    private String emissor;
+    private Carteiras emissor;
 
-    public CarteiraDigitalResponse(String id, String email, LocalDateTime associadaEm, String emissor) {
+    public CarteiraDigitalResponse(String id, String email, LocalDateTime associadaEm, Carteiras emissor) {
         this.id = id;
         this.email = email;
         this.associadaEm = associadaEm;
@@ -31,7 +32,7 @@ public class CarteiraDigitalResponse {
         return this.associadaEm;
     }
 
-    public String getEmissor() {
+    public Carteiras getEmissor() {
         return this.emissor;
     }
 

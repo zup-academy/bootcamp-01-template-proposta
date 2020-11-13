@@ -29,6 +29,10 @@ public class PropostaService {
 
     private static final Logger logger = LoggerFactory.getLogger(PropostaService.class);
 
+    @Value("${proposta.encryptors-salt}")
+    String salt;
+    @Value("${proposta.encryptors-password}")
+    String pass;
     @Value("${feign.admin.client-id}")
     String client_id;
     @Value("${feign.admin.client-secret}")
@@ -51,7 +55,7 @@ public class PropostaService {
         logger.info("Proposta criada", propostaCriada.toString());
 
         try {
-            AnaliseResponse analiseResponse = analiseClient.analiseProposta(propostaCriada.toAnaliseForm());
+            AnaliseResponse analiseResponse = analiseClient.analiseProposta(propostaCriada.toAnaliseForm(pass, salt));
             logger.info("Analise recebida do endpoint", analiseResponse.toString());
 
             if (analiseResponse.isElegivel()) {
@@ -86,8 +90,8 @@ public class PropostaService {
         try {
             TokenResponse adminToken = adminTokenClient.accessToken(new AdminTokenRequest(client_id, client_secret, grant_type));
 
-            keycloakClient.criaUsuario(adminToken.getBearer_token(), new NovoUsuarioForm(proposta.getDocumento()));
-            List<KeycloakUser> user = keycloakClient.getUser(adminToken.getBearer_token(), proposta.getDocumento());
+            keycloakClient.criaUsuario(adminToken.getBearer_token(), new NovoUsuarioForm(proposta.getDocumento(pass, salt)));
+            List<KeycloakUser> user = keycloakClient.getUser(adminToken.getBearer_token(), proposta.getDocumento(pass, salt));
             keycloakClient.setPassword(adminToken.getBearer_token(), user.get(0).getId(), new NovaSenhaUsuarioForm("password"));
         } catch (Exception e) {
             logger.info("Não foi possivel registrar novo usuário.");

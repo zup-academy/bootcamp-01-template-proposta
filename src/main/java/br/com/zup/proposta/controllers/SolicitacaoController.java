@@ -5,6 +5,7 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,11 @@ import br.com.zup.proposta.service.validadores.PropostaDuplicadaValidador;
 @RestController
 public class SolicitacaoController {
     
+    @Value("${proposta.encryptors-password}")
+    String password;
+    @Value("${proposta.encryptors-salt}")
+    String salt;
+
     @Autowired
     private PropostaService service;
     @Autowired
@@ -36,7 +42,7 @@ public class SolicitacaoController {
 
     @PostMapping("/api/propostas")
     public ResponseEntity<PropostaDto> criarSolicitacao(@RequestBody @Valid SolicitacaoForm form, UriComponentsBuilder builder) {
-        final PropostaDto propostaCriada = service.criar(form.toProposta());
+        final PropostaDto propostaCriada = service.criar(form.toProposta(password, salt));
 
         final URI uri = builder.path("/propostas/{id}").buildAndExpand(propostaCriada.getId()).toUri();
         return ResponseEntity.created(uri).body(propostaCriada);
