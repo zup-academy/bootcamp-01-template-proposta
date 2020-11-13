@@ -15,10 +15,18 @@ public class AvisoNovoRequest {
 
     @NotNull
     @Future
-    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate validoAte;
     @NotBlank
     private String destino;
+
+    @Deprecated
+    public AvisoNovoRequest(){}
+
+    public AvisoNovoRequest(@NotNull @Future LocalDate validoAte, @NotBlank String destino) {
+        this.validoAte = validoAte;
+        this.destino = destino;
+    }
 
     public LocalDate getValidoAte() {
         return validoAte;

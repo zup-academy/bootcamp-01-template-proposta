@@ -4,6 +4,8 @@ import br.com.zup.cartaoproposta.entities.cartao.Cartao;
 import br.com.zup.cartaoproposta.entities.cartao.aviso.AvisoCartao;
 import br.com.zup.cartaoproposta.entities.cartao.aviso.AvisoNovoRequest;
 import br.com.zup.cartaoproposta.services.cartao.AuxCartao;
+import br.com.zup.cartaoproposta.services.cartao.AvisarCartao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -18,7 +20,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 /**
- * Contagem de carga intrínseca da classe: 5
+ * Contagem de carga intrínseca da classe: 6
  */
 
 @RestController
@@ -27,6 +29,10 @@ public class AvisoController {
 
     @PersistenceContext
     EntityManager manager;
+
+    @Autowired
+    //1
+    AvisarCartao avisarCartao;
 
     @PostMapping("/{idCartao}")
     @Transactional
@@ -39,6 +45,14 @@ public class AvisoController {
         if(cartao == null) {
             return ResponseEntity.notFound().build();
         }
+
+        String nCartao = cartao.getIdLegado();
+
+        /*
+            Realiza o aviso da viagem do cartão
+            Em caso de erro no aviso ocorre um throw new ResponseStatusException
+         */
+        avisarCartao.avisarCartaoLegado(nCartao, novoAviso);
 
         String idUser = principal.getClaimAsString("sub");
         String ipAddress = AuxCartao.getIpAdress(request);
