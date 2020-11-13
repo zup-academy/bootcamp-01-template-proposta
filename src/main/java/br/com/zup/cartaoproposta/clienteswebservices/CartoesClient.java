@@ -5,12 +5,13 @@ import br.com.zup.cartaoproposta.entities.cartao.aviso.AvisoNovoRequest;
 import br.com.zup.cartaoproposta.entities.cartao.aviso.AvisoRetornoLegado;
 import br.com.zup.cartaoproposta.entities.cartao.bloqueio.BloqueioRequest;
 import br.com.zup.cartaoproposta.entities.cartao.bloqueio.BloqueioRetornoLegado;
-import feign.Headers;
+import br.com.zup.cartaoproposta.entities.cartao.carteira.CarteiraNovoRequest;
+import br.com.zup.cartaoproposta.entities.cartao.carteira.CarteiraRetornoLegado;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Contagem de carga intrínseca da classe: 3
+ * Contagem de carga intrínseca da classe: 4
  */
 
 @FeignClient(value = "busca-cartoes", url = "${url.cartoes}")
@@ -28,7 +29,10 @@ public interface CartoesClient {
     DadosCartaoRetornoLegado dadosCartaoPeloId(@PathVariable("id") String idCartao);
 
     @RequestMapping(method = RequestMethod.POST, value = "/cartoes/{id}/avisos")
-    @Headers("Content-Type: application/json")
     //1
     AvisoRetornoLegado avisaCartoesResource(@PathVariable("id") String idCartao, AvisoNovoRequest avisoRequest);
+
+    @RequestMapping(method = RequestMethod.POST, value = "//cartoes/{id}/carteiras")
+    //1
+    CarteiraRetornoLegado carteiraCartoesResource(@PathVariable("id") String idCartao, CarteiraNovoRequest carteiraRequest);
 }

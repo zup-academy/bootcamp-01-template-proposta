@@ -13,7 +13,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Contagem de carga intrínseca da classe: 8
@@ -41,9 +43,9 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao")
     //1
     private List<AvisoCartao> avisos = new ArrayList<>();
-    @ElementCollection
+    @OneToMany(mappedBy = "cartao")
     //1
-    private List<CarteiraCartao> carteiras = new ArrayList<>();
+    private Set<CarteiraCartao> carteiras = new HashSet<>();
     @ElementCollection
     //1
     private List<ParcelaCartao> parcelas = new ArrayList<>();
@@ -123,5 +125,9 @@ public class Cartao {
 
     public void bloquearCartao() {
         status = StatusCartao.BLOQUEADO;
+    }
+
+    public boolean possuiCarteira(CarteiraCartao carteira) {
+        return this.carteiras.contains(carteira);
     }
 }
