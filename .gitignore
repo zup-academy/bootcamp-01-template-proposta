@@ -33,7 +33,7 @@ build/
 .vscode/
 
 ### Docker ###
-docker-compose.yaml
+#docker-compose.yaml
 
 ### Config files ###
 /src/main/resources/config.properties
