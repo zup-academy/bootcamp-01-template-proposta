@@ -67,7 +67,8 @@ public class CarteiraController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> buscaCarteeira(@PathVariable("id") String id) {
+    public ResponseEntity<String> buscaCarteira(@PathVariable("id") String id) {
+
         CarteiraCartao carteiraCartao = manager.find(CarteiraCartao.class, id);
 
         //1

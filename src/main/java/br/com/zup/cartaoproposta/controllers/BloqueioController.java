@@ -4,6 +4,8 @@ import br.com.zup.cartaoproposta.entities.cartao.Cartao;
 import br.com.zup.cartaoproposta.entities.cartao.bloqueio.BloqueioCartao;
 import br.com.zup.cartaoproposta.services.cartao.AuxCartao;
 import br.com.zup.cartaoproposta.services.cartao.BloquearCartao;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +20,7 @@ import javax.transaction.Transactional;
 import java.net.URI;
 
 /**
- * Contagem de carga intrínseca da classe: 5
+ * Contagem de carga intrínseca da classe: 6
  */
 
 @RestController
@@ -31,6 +33,12 @@ public class BloqueioController {
 
     @PersistenceContext
     EntityManager manager;
+
+    private final Tracer tracer;
+
+    public BloqueioController(Tracer tracer) {
+        this.tracer = tracer;
+    }
 
     @PostMapping("/{idCartao}")
     @Transactional
@@ -53,7 +61,12 @@ public class BloqueioController {
         bloquearCartao.bloquearCartaoLegado(nCartao);
 
         String idUser = principal.getClaimAsString("sub");
+        //1
         String ipAddress = AuxCartao.getIpAdress(request);
+
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("user.id", idUser);
+        activeSpan.setTag("user.email", principal.getClaimAsString("email"));
 
         //1
         BloqueioCartao bloqueioCartao = new BloqueioCartao(true, ipAddress, idUser, cartao);

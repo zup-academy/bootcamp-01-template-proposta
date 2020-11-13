@@ -5,6 +5,8 @@ import br.com.zup.cartaoproposta.entities.cartao.aviso.AvisoCartao;
 import br.com.zup.cartaoproposta.entities.cartao.aviso.AvisoNovoRequest;
 import br.com.zup.cartaoproposta.services.cartao.AuxCartao;
 import br.com.zup.cartaoproposta.services.cartao.AvisarCartao;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +22,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 /**
- * Contagem de carga intrínseca da classe: 6
+ * Contagem de carga intrínseca da classe: 7
  */
 
 @RestController
@@ -33,6 +35,12 @@ public class AvisoController {
     @Autowired
     //1
     AvisarCartao avisarCartao;
+
+    private final Tracer tracer;
+
+    public AvisoController(Tracer tracer) {
+        this.tracer = tracer;
+    }
 
     @PostMapping("/{idCartao}")
     @Transactional
@@ -55,7 +63,12 @@ public class AvisoController {
         avisarCartao.avisarCartaoLegado(nCartao, novoAviso);
 
         String idUser = principal.getClaimAsString("sub");
+        //1
         String ipAddress = AuxCartao.getIpAdress(request);
+
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("user.id", idUser);
+        activeSpan.setTag("user.email", principal.getClaimAsString("email"));
 
         //1
         AvisoCartao avisoCartao = new AvisoCartao(novoAviso.getValidoAte(),novoAviso.getDestino(), ipAddress, idUser, cartao);

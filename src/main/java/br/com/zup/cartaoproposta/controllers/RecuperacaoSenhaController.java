@@ -3,6 +3,8 @@ package br.com.zup.cartaoproposta.controllers;
 import br.com.zup.cartaoproposta.entities.cartao.Cartao;
 import br.com.zup.cartaoproposta.entities.cartao.solicitacaosenha.SolicitacaoSenha;
 import br.com.zup.cartaoproposta.services.cartao.AuxCartao;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -26,6 +28,12 @@ public class RecuperacaoSenhaController {
     @PersistenceContext
     private EntityManager manager;
 
+    private final Tracer tracer;
+
+    public RecuperacaoSenhaController(Tracer tracer) {
+        this.tracer = tracer;
+    }
+
     @PostMapping("/{idCartao}")
     @Transactional
     public ResponseEntity<String> cadastroRecuperacaoSenha(@PathVariable("idCartao") String idCaratao, UriComponentsBuilder uriComponentsBuilder, @AuthenticationPrincipal Jwt principal, HttpServletRequest request) {
@@ -40,6 +48,10 @@ public class RecuperacaoSenhaController {
         String idUser = principal.getClaimAsString("sub");
         //1
         String ipAddress = AuxCartao.getIpAdress(request);
+
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("user.id", idUser);
+        activeSpan.setTag("user.email", principal.getClaimAsString("email"));
 
         //1
         SolicitacaoSenha solicitacaoSenha = new SolicitacaoSenha(ipAddress, idUser, cartao);
