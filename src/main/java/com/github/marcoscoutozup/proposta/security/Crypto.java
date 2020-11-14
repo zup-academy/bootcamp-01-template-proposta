@@ -11,9 +11,9 @@ public class Crypto {
     private static String tokenPrimario;
     private static String tokenSecundario;
 
-    public Crypto(@Value("${token.primario}") String secretPrimario, @Value("${token.secundario}") String secretSecundario) {
-        this.tokenPrimario = secretPrimario;
-        this.tokenSecundario = secretSecundario;
+    public Crypto(@Value("${token.primario}") String tokenPrimario, @Value("${token.secundario}") String tokenSecundario) {
+        this.tokenPrimario = tokenPrimario;
+        this.tokenSecundario = tokenSecundario;
     }
 
     public static String encrypt(String toEncrypt) {
@@ -21,7 +21,7 @@ public class Crypto {
         StringBuilder builder = new StringBuilder();
         String firstHash = DigestUtils.sha384Hex(builder.append(toEncrypt).append(tokenPrimario).toString());
         String secondHash = DigestUtils.sha512Hex(builder.append(firstHash).append(tokenSecundario).toString());
-        String finalHash = DigestUtils.sha256Hex(builder.append(secondHash).append(toEncrypt.charAt(0)).append(firstHash).toString());;
+        String finalHash = DigestUtils.sha256Hex(builder.append(secondHash).append(toEncrypt.charAt(0)).append(firstHash).toString());
         return finalHash;
     }
 }
