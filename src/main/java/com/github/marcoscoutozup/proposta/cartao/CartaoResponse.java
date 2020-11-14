@@ -2,12 +2,11 @@ package com.github.marcoscoutozup.proposta.cartao;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class CartaoResponse {
 
     @NotNull
-    private UUID id;
+    private String id;
 
     @NotNull
     private LocalDateTime emitidoEm;
@@ -17,11 +16,11 @@ public class CartaoResponse {
         return new Cartao(id, emitidoEm);
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -3,6 +3,7 @@ package com.github.marcoscoutozup.proposta.proposta;
 import com.github.marcoscoutozup.proposta.analisefinanceira.AnaliseFinanceiraRequest;
 import com.github.marcoscoutozup.proposta.cartao.Cartao;
 import com.github.marcoscoutozup.proposta.proposta.enums.StatusDaProposta;
+import com.github.marcoscoutozup.proposta.security.Crypto;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -10,7 +11,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Base64;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -46,6 +46,9 @@ public class Proposta {
 
     @OneToOne //2
     private Cartao cartao;
+
+    @Transient
+    private String documentoTemporario;
 
     @Deprecated
     public Proposta() {
@@ -89,11 +92,8 @@ public class Proposta {
     }
 
     public static String criptografarDocumento(String documento){
-        return new String(Base64.getEncoder().encode(documento.getBytes()));
-    }
-
-    public String descriptografarDocumento(){
-        return new String(Base64.getDecoder().decode(documento.getBytes()));
+        Assert.notNull(documento, "O documento não pode ser nulo para criptografia");
+        return Crypto.encrypt(documento);
     }
 
     public void modificarStatusDaProposta(StatusDaProposta statusDaProposta) {
@@ -110,7 +110,12 @@ public class Proposta {
     }
 
     public AnaliseFinanceiraRequest toAnaliseFinanceiraRequest(){
-        return new AnaliseFinanceiraRequest(this.descriptografarDocumento(), this.nome, this.id);
+        return new AnaliseFinanceiraRequest(this.documentoTemporario, this.nome, this.id);
+    }
+
+    public void associarDocumentoTemporarioParaAnaliseFinanceira(String documento){
+        Assert.notNull(documento, "O documento temporário não pode ser nulo");
+        this.documentoTemporario = documento;
     }
 
     public boolean verificarSeOEmailDoTokenEOMesmoDaProposta(String token){

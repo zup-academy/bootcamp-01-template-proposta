@@ -1,15 +1,10 @@
 package com.github.marcoscoutozup.proposta.analisefinanceira;
 
 import com.github.marcoscoutozup.proposta.proposta.Proposta;
-import com.google.gson.Gson;
-import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class AnaliseFinanceiraService {
@@ -26,7 +21,6 @@ public class AnaliseFinanceiraService {
     public void processarAnaliseFinanceiraDaProposta(Proposta proposta) {
         Assert.notNull(proposta, "A proposta avaliada não pode ser nula");
         log.info("[ANALISE FINANCEIRA] Processando a análise financeira de proposta: {}", proposta.getId());
-
 
         //3
         AnaliseFinanceiraResponse analiseFinanceiraResponse =                       //4

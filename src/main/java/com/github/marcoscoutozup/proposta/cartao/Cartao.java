@@ -25,7 +25,7 @@ public class Cartao {
     private UUID id;
 
     @NotNull
-    private UUID numeroCartao;
+    private String numeroCartao;
 
     @NotNull
     private LocalDateTime emitidoEm;
@@ -52,7 +52,7 @@ public class Cartao {
     public Cartao() {
     }
 
-    public Cartao(UUID numeroCartao, LocalDateTime emitidoEm) {
+    public Cartao(String numeroCartao, LocalDateTime emitidoEm) {
         this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.estadoCartao = EstadoCartao.DESBLOQUEADO;
@@ -103,7 +103,7 @@ public class Cartao {
         return this.proposta.getEmail().equals(emailDoToken);
     }
 
-    public UUID getNumeroCartao() {
+    public String getNumeroCartao() {
         return numeroCartao;
     }
 

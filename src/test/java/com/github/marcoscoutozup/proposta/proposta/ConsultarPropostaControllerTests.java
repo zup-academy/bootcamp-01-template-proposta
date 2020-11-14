@@ -46,7 +46,6 @@ public class ConsultarPropostaControllerTests {
     @DisplayName("Não deve retornar a consulta se a proposta não pertencer ao solicitante")
     public void naoDeveRetornarAConsultaSeAPropostaNaoPertencerAoSolicitante(){
         when(repository.findById(any(UUID.class))).thenReturn(Optional.of(proposta));
-        when(proposta.descriptografarDocumento()).thenReturn(new String());
         when(proposta.verificarSeOEmailDoTokenEOMesmoDaProposta(anyString())).thenReturn(false);
         ResponseEntity responseEntity = controller.consultarPropostaPorId(UUID.randomUUID(), new String());
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
@@ -57,7 +56,6 @@ public class ConsultarPropostaControllerTests {
     @DisplayName("Deve retornar a consulta da proposta")
     public void deveRetornarAConsultaDaProposta(){
         when(repository.findById(any(UUID.class))).thenReturn(Optional.of(proposta));
-        when(proposta.descriptografarDocumento()).thenReturn(new String());
         when(proposta.verificarSeOEmailDoTokenEOMesmoDaProposta(anyString())).thenReturn(true);
         ResponseEntity responseEntity = controller.consultarPropostaPorId(UUID.randomUUID(), new String());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());

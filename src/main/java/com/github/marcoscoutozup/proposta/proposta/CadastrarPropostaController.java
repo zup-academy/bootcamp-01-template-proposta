@@ -50,6 +50,8 @@ public class CadastrarPropostaController {
         propostaRepository.save(proposta);
         logger.info("[CRIAÇÃO DA PROPOSTA] Proposta criada com sucesso: {}", proposta.getId());
 
+        proposta.associarDocumentoTemporarioParaAnaliseFinanceira(propostaRequest.getDocumento());
+
         analiseFinanceiraService.processarAnaliseFinanceiraDaProposta(proposta);
         propostaRepository.save(proposta);
         logger.info("[ANÁLISE FINANCEIRA] Análise financeira da proposta realizada: {}", proposta.getId());

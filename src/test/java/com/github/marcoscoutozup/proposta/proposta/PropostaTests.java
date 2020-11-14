@@ -20,4 +20,16 @@ public class PropostaTests {
     public void naoDeveModificarStatusDaPropostaSeElaForNula() {
         assertThrows(IllegalArgumentException.class, () -> proposta.modificarStatusDaProposta(null));
     }
+
+    @Test
+    @DisplayName("Não deve associar documento temporário para análise financeira se for nulo")
+    public void naoDeveAssociarDocumentoTemporarioParaAnaliseFinanceiraSeForNulo() {
+        assertThrows(IllegalArgumentException.class, () -> proposta.associarDocumentoTemporarioParaAnaliseFinanceira(null));
+    }
+
+    @Test
+    @DisplayName("Não deve criptografar documento nulo")
+    public void naoDeveCriptografarDocumentoNulo() {
+        assertThrows(IllegalArgumentException.class, () -> Proposta.criptografarDocumento(null));
+    }
 }

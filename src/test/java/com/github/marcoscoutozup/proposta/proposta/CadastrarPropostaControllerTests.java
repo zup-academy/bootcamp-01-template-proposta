@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,7 +55,7 @@ public class CadastrarPropostaControllerTests {
         when(tracer.activeSpan()).thenReturn(span);
         when(propostaRepository.findByDocumento(any())).thenReturn(Optional.of(proposta));
         when(request.toProposta()).thenReturn(proposta);
-        when(request.getDocumento()).thenReturn(new String());
+        when(request.getDocumento()).thenReturn(String.valueOf(new Random().nextInt(100)));
         ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(request, UriComponentsBuilder.newInstance());
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
         assertTrue(responseEntity.getBody() instanceof StandardError);
@@ -66,7 +67,7 @@ public class CadastrarPropostaControllerTests {
         when(tracer.activeSpan()).thenReturn(span);
         when(propostaRepository.findByDocumento(any())).thenReturn(Optional.empty());
         when(request.toProposta()).thenReturn(proposta);
-        when(request.getDocumento()).thenReturn(new String());
+        when(request.getDocumento()).thenReturn(String.valueOf(new Random().nextInt(100)));
         ResponseEntity responseEntity = cadastrarPropostaController.cadastrarProposta(request, UriComponentsBuilder.newInstance());
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertTrue(responseEntity.getHeaders().containsKey("Location"));
