@@ -1,0 +1,402 @@
+{
+	"info": {
+		"_postman_id": "98eacd14-9511-4c20-b724-30cb91b7d379",
+		"name": "Proposta",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Proposta",
+			"item": [
+				{
+					"name": "Cadastrar Proposta",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0VExaNFJpSXZHVkhoZTZ4SE1YRm0yYXI5bFE1N1FTVkU5RWY4bm5IOXNFIn0.eyJleHAiOjE2MDQ2NzU2MjYsImlhdCI6MTYwMzM3OTYyNiwianRpIjoiODNhODdhZWYtNDMxMy00ZWM0LWEyZGQtZTIzMWMwMmI1NGNhIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxODA4MC9hdXRoL3JlYWxtcy9ub3Nzby1jYXJ0YW8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNjYyYzE5YTktYWU5NC00Y2M4LWFlNjItOGNjZTU0MDhlNzFjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibm9zc28tY2FydGFvLWNsaWVudCIsInNlc3Npb25fc3RhdGUiOiI4N2RmZWE4YS1kMzkxLTQ3ZTEtODExNS0wNzczMDQxZGQwMGIiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwgcHJvcG9zdGFzIG1ldS1wcmltZWlyby1zY29wbyIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiUGVzc29hIFBlc3NvYSIsInByZWZlcnJlZF91c2VybmFtZSI6InBlc3NvYSIsImdpdmVuX25hbWUiOiJQZXNzb2EiLCJmYW1pbHlfbmFtZSI6IlBlc3NvYSIsImVtYWlsIjoicGVzc29hQHBlc3NvYS5jb20uYnIifQ.KMOSi5MNCsHq2w8rj_1O3GqQzQeC6imkaRdrVZq_UJvc1Iip-_a8NnkLliQIciLWlA1Jcpfh5FJEE-5ZKZ8F3J3EfbyocuLwxJJ1m5hbbZFM5DUAtEZUssrtjh11Q3Czi5GHTiGZqeO1LatgwJ7DsuWYsT3cHwiF_T2uh6VBe342iiBOous-aWL0Gkvt1Pqj6YdWfB9FhiRGD4tfMrPn9E45XtSpChwyVea5EF0JQsShd6hTYdMAkz-CeGl_dMENJ_VwU38ncPoMYyD2qT_jQHBpDZ4LG_0hCGgoUNDuiBDhTbAJYnYWxf7Qs1fQjv6GHlMgU-3uRm24g5VbJ4p4pA",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"pessoa2@email.com\",\r\n    \"nome\": \"Pessoa 2\",\r\n    \"salario\": 2000,\r\n    \"endereco\": \"Rua 1, 123\",\r\n    \"documento\": \"503.082.720-05\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/propostas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"propostas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Proposta",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0VExaNFJpSXZHVkhoZTZ4SE1YRm0yYXI5bFE1N1FTVkU5RWY4bm5IOXNFIn0.eyJleHAiOjE2MDM0MDIyMjQsImlhdCI6MTYwMzMxNTgyNCwianRpIjoiYjVmY2QyYzctOThhNC00ZGIyLTllNmYtNzVlZmVlMjc2MGY4IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxODA4MC9hdXRoL3JlYWxtcy9ub3Nzby1jYXJ0YW8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNjYyYzE5YTktYWU5NC00Y2M4LWFlNjItOGNjZTU0MDhlNzFjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibm9zc28tY2FydGFvLWNsaWVudCIsInNlc3Npb25fc3RhdGUiOiIwYjg5YjhkZC03ZGEyLTRiYTItODZkZS04N2NlYzkzOTY2NTQiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwgcHJvcG9zdGFzIG1ldS1wcmltZWlyby1zY29wbyIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiUGVzc29hIFBlc3NvYSIsInByZWZlcnJlZF91c2VybmFtZSI6InBlc3NvYSIsImdpdmVuX25hbWUiOiJQZXNzb2EiLCJmYW1pbHlfbmFtZSI6IlBlc3NvYSIsImVtYWlsIjoicGVzc29hQHBlc3NvYS5jb20uYnIifQ.jDhhU4DmEHYbn2UEqVxelezbD2FDJRJCXILecFY3Qb7Qdmrjm8CjJKKmOF1WbhCnXwmS86fvIjy11OEe6Xr5FdLzCphUhqcfMbFqNekPZWOda1zQe6kkDfWJu6nyeEYsSQFEFqTRTfRGQaaFBjcKW4jOi88ANpnf2f2_8vMECm7Rey1CXyN2COYmp1KcTC1lzm_2O_40_t7qY3IU2Qmwvot-j0EAvizvrXTVNsF56ltks0uFpMCym59t8oOa37PFk2a05jICH8uaCdJ9ern60nF4oTkLJCgeOWCM4KQhYT4lfJkYdEWM2mfebW8D6pivc91wnwSzrr-IHMOI7Hp28A",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/propostas/c01def2f-c953-4dc7-a29b-d1cfa345b3d5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"propostas",
+								"c01def2f-c953-4dc7-a29b-d1cfa345b3d5"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Actuator",
+			"item": [
+				{
+					"name": "Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{actuator}}/actuator/health",
+							"host": [
+								"{{actuator}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cartão",
+			"item": [
+				{
+					"name": "Bloquear Cartão",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0VExaNFJpSXZHVkhoZTZ4SE1YRm0yYXI5bFE1N1FTVkU5RWY4bm5IOXNFIn0.eyJleHAiOjE2MDQ2ODYxMTYsImlhdCI6MTYwMzM5MDExNiwianRpIjoiYTM5MmY1MTQtNGRmMS00NTRhLWIzYWMtZjc3MTdkOTMxN2Q4IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxODA4MC9hdXRoL3JlYWxtcy9ub3Nzby1jYXJ0YW8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNjYyYzE5YTktYWU5NC00Y2M4LWFlNjItOGNjZTU0MDhlNzFjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibm9zc28tY2FydGFvLWNsaWVudCIsInNlc3Npb25fc3RhdGUiOiI2NDMyN2M4MS05OTcxLTRlZTMtOWEyOC1jNDZlNDc2OWNlZGMiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgY2FydG9lcyBlbWFpbCBtZXUtcHJpbWVpcm8tc2NvcG8iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlBlc3NvYSBQZXNzb2EiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwZXNzb2EiLCJnaXZlbl9uYW1lIjoiUGVzc29hIiwiZmFtaWx5X25hbWUiOiJQZXNzb2EiLCJlbWFpbCI6InBlc3NvYUBwZXNzb2EuY29tLmJyIn0.ixIgm3ZdRCqn8rb0cpOpMPSdXIGNv7qa9TUaLJ86-Osp2wMWr5OxM7u3Xz8Y6msFIbWMh7A8-eMhnCo-1N1m1C9nDEbuCkwcn-TBV4xzuqNVMlT0QPLlPH5v__CdX5avuxat1NKZt9L-hiIYqK0ugYk26GSdnbDd5T08Ym5t8csbrgnYdl2Z6UICpmiVZQOOA3ad3Kw3PlMTXqmxudgNcHVGxoo0e7WxRvjKcnTuMuUmQWsteOI9mbg-S8v2ioYsC6qxIqG1228QSN69amITF_KcxQuyMlJsT-FTmTBhnuJcC6AGWP7skych2oyyuh3hfqYVsfCcb5vMY1-66NO2cQ",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cartoes/db1026d1-011b-4b89-84c9-b6e72a8931fa/bloquear",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cartoes",
+								"db1026d1-011b-4b89-84c9-b6e72a8931fa",
+								"bloquear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Biometria",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0VExaNFJpSXZHVkhoZTZ4SE1YRm0yYXI5bFE1N1FTVkU5RWY4bm5IOXNFIn0.eyJleHAiOjE2MDM1MTA5NjcsImlhdCI6MTYwMzMzODE2NywianRpIjoiOThmNDY0ZTAtNDQ4Mi00ZWE2LWEwMjYtNDRmMjYyZWRkMWQ0IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxODA4MC9hdXRoL3JlYWxtcy9ub3Nzby1jYXJ0YW8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNjYyYzE5YTktYWU5NC00Y2M4LWFlNjItOGNjZTU0MDhlNzFjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibm9zc28tY2FydGFvLWNsaWVudCIsInNlc3Npb25fc3RhdGUiOiI2ZWRlYTBlYS0zMjI1LTRkN2MtOTllMi1kMDM1OGVlZjExMTgiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgY2FydG9lcyBlbWFpbCBtZXUtcHJpbWVpcm8tc2NvcG8iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlBlc3NvYSBQZXNzb2EiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwZXNzb2EiLCJnaXZlbl9uYW1lIjoiUGVzc29hIiwiZmFtaWx5X25hbWUiOiJQZXNzb2EiLCJlbWFpbCI6InBlc3NvYUBwZXNzb2EuY29tLmJyIn0.bJoEqG0KxLcUgx_yQcROeb8wbAS73X5iNw4R88FVdtpwgrLrVkyouY-r3oVztBkG2hYW9nNV2D14NuHqLOcuMPfXn3YHOJyLzCVzMDn_4rOiOWjqJ79ZYW9M72I2LwU4CGfS4pm8RMawNEhnAY7HgM5TVt3MjmT6bbJF2WV_zMYWJT6flUZbWDrCJb1FoWWQMf_2GHXZdr04-S8DU6vThS5G8ONM_CTAzBonBMHpf3DBF7poMyHSUw8zVcNCzza7Euz7ucREqnHxZWlaiW2wWYTtJta9UbCaqSX9pAMoMzra1tn5gW0UVmFK41nIYEmC9NzDdIYcweWSfO2CCa5LbQ",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fingerprint\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cartoes/e05c4af3-fa0b-459d-9682-969e9444b105/biometria",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cartoes",
+								"e05c4af3-fa0b-459d-9682-969e9444b105",
+								"biometria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Aviso Viagem",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0VExaNFJpSXZHVkhoZTZ4SE1YRm0yYXI5bFE1N1FTVkU5RWY4bm5IOXNFIn0.eyJleHAiOjE2MDQ2NzkxNzQsImlhdCI6MTYwMzM4MzE3NCwianRpIjoiNzJmN2Y1NjEtMDA5ZS00Mjg2LWEwNmQtMDQ4ZTNlZWJkOTE5IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxODA4MC9hdXRoL3JlYWxtcy9ub3Nzby1jYXJ0YW8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNjYyYzE5YTktYWU5NC00Y2M4LWFlNjItOGNjZTU0MDhlNzFjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibm9zc28tY2FydGFvLWNsaWVudCIsInNlc3Npb25fc3RhdGUiOiJhZjI5MTgxMC1hZmRlLTRjYTktYmQ3Mi04ZjhhNDlmMzlhYTgiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgY2FydG9lcyBlbWFpbCBtZXUtcHJpbWVpcm8tc2NvcG8iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlBlc3NvYSBQZXNzb2EiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwZXNzb2EiLCJnaXZlbl9uYW1lIjoiUGVzc29hIiwiZmFtaWx5X25hbWUiOiJQZXNzb2EiLCJlbWFpbCI6InBlc3NvYUBwZXNzb2EuY29tLmJyIn0.q2ppHFPqfisB2m5lZ1qGGkj7Wj2Cm-zpoGicDrnR4IgPdglrE5mofJWoYBSaCd9UeeUEZWW9Gf76C9SFCOn_qHHZqJ8L1rd7wsyTz-VWGBfqVbUVLNfu7HX_BpZhOX51qvAMA1x2mTE9XUDQsjJPyHAJFLsIk6mck8dqyB4VuuJ3tAU8We_R1MT97CHdyityDFdca9GD1WsdOy41nOpUZY01KYTOCZqJZewqalwx4YLeS_6g4ObnyDTJPqwq1CZCrzrgo7HRP4tB7PXpkC58fQZfim7jn4mCvVBKLvo_g4auNL62mhZeumvE3la4cqn2r5Rl2IdLPOCqh53fyIZy5w",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"destino\": \"Pais\",\r\n    \"validoAte\": \"2020-12-31\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cartoes/db1026d1-011b-4b89-84c9-b6e72a8931fa/aviso",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cartoes",
+								"db1026d1-011b-4b89-84c9-b6e72a8931fa",
+								"aviso"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Associar com Carteira Samsung Pay",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0VExaNFJpSXZHVkhoZTZ4SE1YRm0yYXI5bFE1N1FTVkU5RWY4bm5IOXNFIn0.eyJleHAiOjE2MDQ2NzU3MDIsImlhdCI6MTYwMzM3OTcwMiwianRpIjoiNjQxMmZhYTEtZjQwMi00M2M5LWI5NDQtZjM5MDhjOWRkZjU3IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxODA4MC9hdXRoL3JlYWxtcy9ub3Nzby1jYXJ0YW8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNjYyYzE5YTktYWU5NC00Y2M4LWFlNjItOGNjZTU0MDhlNzFjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibm9zc28tY2FydGFvLWNsaWVudCIsInNlc3Npb25fc3RhdGUiOiJjNmE2YjZiMi04OWI2LTQ2NDUtYTczNy03N2M4YjMwNDZhNWQiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgY2FydG9lcyBlbWFpbCBtZXUtcHJpbWVpcm8tc2NvcG8iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlBlc3NvYSBQZXNzb2EiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwZXNzb2EiLCJnaXZlbl9uYW1lIjoiUGVzc29hIiwiZmFtaWx5X25hbWUiOiJQZXNzb2EiLCJlbWFpbCI6InBlc3NvYUBwZXNzb2EuY29tLmJyIn0.OfIivgKHe7VI_O37MZjMaPxzwaU5gUFPg7aWa2oiLZNlVnBLNwzuNnIacOY0JZQL47UTt37et4zgfcMdPJhzIQrLNCWaRYIIHgwKWYGa2JBcYsNr4vWRZZnqh0Lhqb2W9oiG9B3EC9Pa9MYbQlBJclmGFdwo8Qf_uDvKflCubSibSHUvgqvdp6SUgAH7LF-rrQTxGmNbD_s5VpPvvdXrlZGFiSUu-Ds0J157C1gz72CY2c2YCGOWsLLtfdwMxiMq-hiK7EKL2n-4o7cRAD8jgjIUZNOUDAozMBgtaRvEmLuCwLxUhUdEL51EPEfK7aikCi5oTdN4BpZ3xt7SfyVkfQ",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"pessoa@pessoa.com.br\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cartoes/31139849-71ec-455a-98da-ead58c403823/carteiras/samsungpay",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cartoes",
+								"31139849-71ec-455a-98da-ead58c403823",
+								"carteiras",
+								"samsungpay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Associar com Carteira PayPal",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0VExaNFJpSXZHVkhoZTZ4SE1YRm0yYXI5bFE1N1FTVkU5RWY4bm5IOXNFIn0.eyJleHAiOjE2MDQ2Nzg2NTYsImlhdCI6MTYwMzM4MjY1NiwianRpIjoiY2U1YmY3MmYtMjk5My00NzFjLTkwYmUtM2I2OWM5ZGY0Y2Y2IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxODA4MC9hdXRoL3JlYWxtcy9ub3Nzby1jYXJ0YW8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNjYyYzE5YTktYWU5NC00Y2M4LWFlNjItOGNjZTU0MDhlNzFjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibm9zc28tY2FydGFvLWNsaWVudCIsInNlc3Npb25fc3RhdGUiOiIwNmNmMzQ5ZS1iNmY1LTQ5OTEtYmUxNi0wYTQ0NDVmNDM1OTMiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgY2FydG9lcyBlbWFpbCBtZXUtcHJpbWVpcm8tc2NvcG8iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlBlc3NvYSBQZXNzb2EiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwZXNzb2EiLCJnaXZlbl9uYW1lIjoiUGVzc29hIiwiZmFtaWx5X25hbWUiOiJQZXNzb2EiLCJlbWFpbCI6InBlc3NvYUBwZXNzb2EuY29tLmJyIn0.PVfMXpcsecLd5Y70zoVQH5b0oV2Y7PpK5OWsZs4ktplqzeWWS0VBi0K9pYevN3CfmlQUxYAOsRtH1ny6uYg3gRnIe9IwI_BbG08k53mHDrRxT_9sv-9Eh5H2fr4QSmlWqqKquu_QT1EwDzC0ARVfB9n9Si6QKp2MSX_N6HwEtk2mT_4c5pd85CObYYLxDCEMNxdNgqMzwEv8EtQkQFt2PcYeygk4GfhRZT7fHbe2f5LKcztUxhUWytlxSduD9odIyqNNDgfnGjX4qtuRo3cVMqa1HtJIDLjLUKW8TTO3vyMoUgVXckkmipD3rjyacUoAk5qSlkOOGyoEexIXla3pzw",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"pessoa@pessoa.com.br\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cartoes/31139849-71ec-455a-98da-ead58c403823/carteiras/paypal",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cartoes",
+								"31139849-71ec-455a-98da-ead58c403823",
+								"carteiras",
+								"paypal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recuperar Senha",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0VExaNFJpSXZHVkhoZTZ4SE1YRm0yYXI5bFE1N1FTVkU5RWY4bm5IOXNFIn0.eyJleHAiOjE2MDQ2Nzk5NjEsImlhdCI6MTYwMzM4Mzk2MSwianRpIjoiMjY2MzY0ZWQtZWI5My00MDZiLWE5NDktNGIzZGI1ZGM2YzRiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxODA4MC9hdXRoL3JlYWxtcy9ub3Nzby1jYXJ0YW8iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNjYyYzE5YTktYWU5NC00Y2M4LWFlNjItOGNjZTU0MDhlNzFjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoibm9zc28tY2FydGFvLWNsaWVudCIsInNlc3Npb25fc3RhdGUiOiI1ZjJkMTcxZi00OWM5LTRjOTktYWFlYy05ZTIwZmVjNGQwMmUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgY2FydG9lcyBlbWFpbCBtZXUtcHJpbWVpcm8tc2NvcG8iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlBlc3NvYSBQZXNzb2EiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwZXNzb2EiLCJnaXZlbl9uYW1lIjoiUGVzc29hIiwiZmFtaWx5X25hbWUiOiJQZXNzb2EiLCJlbWFpbCI6InBlc3NvYUBwZXNzb2EuY29tLmJyIn0.IJbyj87Bzf_VUQj6r4rkCna7YJ3-q9Hn7IIUH_y1visrY4FpQ22652f32RBcUBk13dExGkwPw6UyFvMAm1GXq-ijpUt2924x3d0Qqi7Ks3n2Hq8j5ss7r2M3bKGEwxmXhNDLJ3uQYGnNhas432H7AEoa_1CW2kbsw0L4ujv4chdSIUBvqQh0lzsOmkUk-QF4I6ysDNkFZzlk61qsq4e7KY1P4na0Ir67qesgTCEYs4wg0x7O9lsu6wPz6ux7KTHgTmxECQHF3g3uKCwqcIFgpHnC8clMGci5gCoRvGHyO_zf0IgQtstiNeip20oPSDw5zlJPEFXkKsTUxjOBH85Yrg",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cartoes/9a8d5de2-134b-4c76-8bb0-3df02f5bd3c8/recuperarsenha",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cartoes",
+								"9a8d5de2-134b-4c76-8bb0-3df02f5bd3c8",
+								"recuperarsenha"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

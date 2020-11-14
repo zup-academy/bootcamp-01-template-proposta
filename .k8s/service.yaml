@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: proposta
+  name: proposta
+spec:
+  ports:
+    - name: http
+      port: 1111
+      protocol: TCP
+      targetPort: 1111
+  type: LoadBalancer
+  selector:
+    app: proposta
