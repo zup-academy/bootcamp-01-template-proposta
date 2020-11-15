@@ -49,8 +49,8 @@ public class NovaPropostaController {
     public ResponseEntity<?> criaNovaProposta(@RequestBody @Valid NovaPropostaRequest novaPropostaRequest,
                                               UriComponentsBuilder uriComponentsBuilder) throws JsonProcessingException {
 
-        String emailUsuario = getEmailUsuarioSolicitante();
-        logger.info("Usuario com email: {} , solicitou uma nova proposta.", emailUsuario);
+//        String emailUsuario = getEmailUsuarioSolicitante();
+//        logger.info("Usuario com email: {} , solicitou uma nova proposta.", emailUsuario);
 
         // +1
         propostaRepository.findAll().forEach(proposta -> {
@@ -71,10 +71,10 @@ public class NovaPropostaController {
                 .build();
     }
 
-    private String getEmailUsuarioSolicitante() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Jwt principal = (Jwt) authentication.getPrincipal();
-        String emailUsuario = (String) principal.getClaims().get("email");
-        return emailUsuario;
-    }
+//    private String getEmailUsuarioSolicitante() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Jwt principal = (Jwt) authentication.getPrincipal();
+//        String emailUsuario = (String) principal.getClaims().get("email");
+//        return emailUsuario;
+//    }
 }

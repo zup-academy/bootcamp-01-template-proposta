@@ -36,8 +36,8 @@ public class VerificaStatusPropostaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> verificaStatusProposta(@PathVariable String id){
         String emailUsuarioSolicitante = getEmailUsuarioSolicitante();
-
         logger.info("Usuario solicitante: {}", emailUsuarioSolicitante);
+
         logger.info("Requisição recebida para verificar o status da proposta. idProposta: {}", id);
         // +1
         Optional<Proposta> propostaBuscada  = propostaRepository.findById(id);

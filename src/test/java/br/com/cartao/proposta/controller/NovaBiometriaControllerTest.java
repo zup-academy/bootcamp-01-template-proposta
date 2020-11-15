@@ -1,13 +1,13 @@
 package br.com.cartao.proposta.controller;
 
-import org.hibernate.validator.internal.engine.ValidatorFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.validation.Validator;
 
-import javax.validation.ValidatorContext;
 import javax.validation.ValidatorFactory;
 
+@ActiveProfiles("test")
 class NovaBiometriaControllerTest {
 
     private static Validator validator;
