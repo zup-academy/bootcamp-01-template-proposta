@@ -15,12 +15,12 @@ public class DocumentoIgualValidator {
 
     public boolean existe(Proposta proposta){
 
-        String documentoLimpo = proposta.obterCodificador()
-                .decrypt(proposta.getDocumento());
+        //String documentoLimpo = proposta.obterCodificador()
+        //        .decrypt(proposta.getDocumento());
 
         Query query = entityManager.createQuery("select 1 from " +
                 "Proposta where documento =:documento");
-        query.setParameter("documento", documentoLimpo);
+        query.setParameter("documento", proposta.getDocumento());
 
         return !query.getResultList().isEmpty();
 

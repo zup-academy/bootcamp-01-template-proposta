@@ -4,6 +4,7 @@ package br.com.zup.proposta.model;
 import br.com.zup.proposta.dto.AvaliacaoPropostaRequest;
 import br.com.zup.proposta.model.enums.StatusAvaliacaoProposta;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.bouncycastle.util.encoders.HexEncoder;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
@@ -52,7 +53,7 @@ public class Proposta {
 
         gerarCodificador();
 
-        this.documento = codificador.encrypt(documento);
+        this.documento = documento;
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
@@ -98,8 +99,10 @@ public class Proposta {
     }
 
     public TextEncryptor gerarCodificador(){
+
         String salt = KeyGenerators.string().generateKey();
         String password = UUID.randomUUID().toString();
+
         return this.codificador = Encryptors.text(password,salt);
     }
 
@@ -108,8 +111,8 @@ public class Proposta {
     }
 
     public AvaliacaoPropostaRequest toAvaliacaoPropostaRequest(){
-        String documentoLimpo = codificador.decrypt(this.documento);
-        return new AvaliacaoPropostaRequest(documentoLimpo, this.nome, this.id);
+        //String documentoLimpo = codificador.decrypt(this.documento);
+        return new AvaliacaoPropostaRequest(this.documento, this.nome, this.id);
     }
 
     public void associarCartao(String numeroCartao) {
