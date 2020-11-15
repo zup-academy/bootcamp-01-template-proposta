@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.zup.nossocartao.cartaobloqueado.CartaoBloqueado;
 import br.com.zup.nossocartao.cartaobloqueado.service.CartaoService;
 import br.com.zup.nossocartao.integracao.cartao.CartaoResponse;
 import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartaoFeignClient;
@@ -46,7 +45,7 @@ public class CartaoController {
 		if (!buscarDadosCartaoPorIdCartao.getBody().getBloqueios().isEmpty()) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 		}
-
+//
 		String enderecoIp = request.getHeader("X-FORWARDED-FOR");
 
 		if (isEmpty(enderecoIp)) {
@@ -55,9 +54,7 @@ public class CartaoController {
 
 		String userAgent = request.getHeader("User-Agent");
 
-		CartaoBloqueado dadosCartaoBloqueado = new CartaoBloqueado(idCartao, enderecoIp, userAgent);
-
-		Optional<Long> bloquearCartao = cartaoService.bloquearCartao(dadosCartaoBloqueado);
+		Optional<Long> bloquearCartao = cartaoService.bloquearCartao(idCartao, enderecoIp, userAgent);
 
 		return ResponseEntity.ok(bloquearCartao.get());
 

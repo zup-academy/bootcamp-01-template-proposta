@@ -24,18 +24,20 @@ public class CartaoService {
 		this.feingCartao = feingCartao;
 	}
 
-	public Optional<Long> bloquearCartao(CartaoBloqueado dadosBloqueio) {
+	public Optional<Long> bloquearCartao(String idCartao, String enderecoIp, String userAgent) {
 
-		ResponseEntity<CartaoBloqueadoResponse> bloquearCartao = feingCartao.bloquearCartao(dadosBloqueio.getIdCartao(),
-				new CartaoBloqueadoRequest());
+		CartaoBloqueado dadosCartaoBloqueado = new CartaoBloqueado(idCartao, enderecoIp, userAgent);
+
+		ResponseEntity<CartaoBloqueadoResponse> bloquearCartao = feingCartao
+				.bloquearCartao(dadosCartaoBloqueado.getIdCartao(), new CartaoBloqueadoRequest());
 
 		if (bloquearCartao.getStatusCode().isError()) {
 			return Optional.empty();
 		}
 
-		dadosBloqueio.setStatus(bloquearCartao.getBody().getResultado());
+		dadosCartaoBloqueado.setStatus(bloquearCartao.getBody().getResultado());
 
-		CartaoBloqueado salvarDadosBloqueio = cartaoBloqueadoRepository.save(dadosBloqueio);
+		CartaoBloqueado salvarDadosBloqueio = cartaoBloqueadoRepository.save(dadosCartaoBloqueado);
 		return Optional.of(salvarDadosBloqueio.getIdCartaoBloqueado());
 	}
 }
