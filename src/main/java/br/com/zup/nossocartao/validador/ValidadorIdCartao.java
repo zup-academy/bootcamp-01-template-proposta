@@ -5,13 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import br.com.zup.nossocartao.integracao.cartao.CartaoResponse;
-import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartaoFeignClient;
+import br.com.zup.nossocartao.integracao.cartao.CartaoFeignClient;
 
 @Component
 public class ValidadorIdCartao {
 
 	@Autowired
-	private SolicitacaoCartaoFeignClient cartaoFeingClient;
+	private CartaoFeignClient cartaoFeingClient;
 
 	public boolean idCartaoNaoExiste(String idCartao) {
 

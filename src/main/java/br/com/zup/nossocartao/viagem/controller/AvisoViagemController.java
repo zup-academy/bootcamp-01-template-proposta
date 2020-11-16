@@ -1,5 +1,7 @@
 package br.com.zup.nossocartao.viagem.controller;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -42,9 +44,9 @@ public class AvisoViagemController {
 
 		request.setDadosClient(hpptRequest.getRemoteAddr(), userAgent, idCartao);
 
-		Long IdAvisarViagem = avisoViagemService.avisarViagem(request);
+		Optional<Long> IdAvisarViagem = avisoViagemService.avisarViagem(request);
 
-		UriComponents uriComponents = builder.path("/avisoviagem/{idCartao}").buildAndExpand(IdAvisarViagem);
+		UriComponents uriComponents = builder.path("/avisoviagem/{idCartao}").buildAndExpand(IdAvisarViagem.get());
 
 		return ResponseEntity.created(uriComponents.toUri()).build();
 	}

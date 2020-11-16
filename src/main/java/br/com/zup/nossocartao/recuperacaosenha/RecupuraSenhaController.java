@@ -13,17 +13,17 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zup.nossocartao.integracao.cartao.CartaoResponse;
-import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartaoFeignClient;
+import br.com.zup.nossocartao.integracao.cartao.CartaoFeignClient;
 
 @RestController
 public class RecupuraSenhaController {
 
 	private final RecuperarSenhaService recuperarSenhaService;
 
-	private final SolicitacaoCartaoFeignClient cartaoFeignClient;
+	private final CartaoFeignClient cartaoFeignClient;
 
 	public RecupuraSenhaController(RecuperarSenhaService recuperarSenhaService,
-			SolicitacaoCartaoFeignClient cartaoFeignClient) {
+			CartaoFeignClient cartaoFeignClient) {
 		this.recuperarSenhaService = recuperarSenhaService;
 		this.cartaoFeignClient = cartaoFeignClient;
 	}

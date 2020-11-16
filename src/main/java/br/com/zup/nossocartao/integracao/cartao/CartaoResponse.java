@@ -16,7 +16,7 @@ public class CartaoResponse {
 
 	private List<Bloqueio> bloqueios;
 
-	private List<Aviso> avisos;
+	private List<AvisoRequest> avisos;
 
 	private List<Carteira> carteiras;
 
@@ -66,11 +66,11 @@ public class CartaoResponse {
 		this.bloqueios = bloqueios;
 	}
 
-	public List<Aviso> getAvisos() {
+	public List<AvisoRequest> getAvisos() {
 		return avisos;
 	}
 
-	public void setAvisos(List<Aviso> avisos) {
+	public void setAvisos(List<AvisoRequest> avisos) {
 		this.avisos = avisos;
 	}
 

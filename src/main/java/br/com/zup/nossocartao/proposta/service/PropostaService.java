@@ -9,7 +9,7 @@ import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnaliseRequest;
 import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnaliseResponse;
 import br.com.zup.nossocartao.integracao.cartao.CartaoRequest;
 import br.com.zup.nossocartao.integracao.cartao.CartaoResponse;
-import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartaoFeignClient;
+import br.com.zup.nossocartao.integracao.cartao.CartaoFeignClient;
 import br.com.zup.nossocartao.proposta.Proposta;
 import br.com.zup.nossocartao.proposta.controller.NovaPropostaRequest;
 import br.com.zup.nossocartao.proposta.controller.NovaPropostaResponse;
@@ -22,10 +22,10 @@ public class PropostaService {
 
 	private SolicitacaoAnalise solicitacaoAnalise;
 
-	private SolicitacaoCartaoFeignClient solicitacaoCartao;
+	private CartaoFeignClient solicitacaoCartao;
 
 	public PropostaService(PropostaRepository propostaRepository, SolicitacaoAnalise solicitacaoAnalise,
-			SolicitacaoCartaoFeignClient solicitacaoCartao) {
+			CartaoFeignClient solicitacaoCartao) {
 		this.propostaRepository = propostaRepository;
 		this.solicitacaoAnalise = solicitacaoAnalise;
 		this.solicitacaoCartao = solicitacaoCartao;

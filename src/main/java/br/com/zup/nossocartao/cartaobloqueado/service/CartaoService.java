@@ -9,17 +9,17 @@ import br.com.zup.nossocartao.cartaobloqueado.CartaoBloqueado;
 import br.com.zup.nossocartao.cartaobloqueado.repository.CartaoBloqueadoRepository;
 import br.com.zup.nossocartao.integracao.cartao.CartaoBloqueadoRequest;
 import br.com.zup.nossocartao.integracao.cartao.CartaoBloqueadoResponse;
-import br.com.zup.nossocartao.integracao.cartao.SolicitacaoCartaoFeignClient;
+import br.com.zup.nossocartao.integracao.cartao.CartaoFeignClient;
 
 @Service
 public class CartaoService {
 
 	private final CartaoBloqueadoRepository cartaoBloqueadoRepository;
 
-	private final SolicitacaoCartaoFeignClient feingCartao;
+	private final CartaoFeignClient feingCartao;
 
 	public CartaoService(CartaoBloqueadoRepository cartaoBloqueadoRepository,
-			SolicitacaoCartaoFeignClient feingCartao) {
+			CartaoFeignClient feingCartao) {
 		this.cartaoBloqueadoRepository = cartaoBloqueadoRepository;
 		this.feingCartao = feingCartao;
 	}

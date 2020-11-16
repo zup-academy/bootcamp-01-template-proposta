@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(value = "solicitacaoCartao", url = "${api.cartoes}")
-public interface SolicitacaoCartaoFeignClient {
+public interface CartaoFeignClient {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/cartoes")
 	void emitirCartao(CartaoRequest request);
@@ -24,4 +24,6 @@ public interface SolicitacaoCartaoFeignClient {
 	@RequestMapping(method = RequestMethod.GET, value = "/cartoes/{id}")
 	ResponseEntity<CartaoResponse> buscarDadosCartaoPorIdCartao(@PathVariable(value = "id") String idCartao);
 
+	@RequestMapping(method = RequestMethod.POST, value = "/cartoes/{id}/avisos")
+	ResponseEntity<?> avisoViagem(@PathVariable(value = "id") String id, @RequestBody AvisoRequest request);
 }

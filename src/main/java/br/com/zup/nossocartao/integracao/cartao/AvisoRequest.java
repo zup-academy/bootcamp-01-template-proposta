@@ -1,10 +1,21 @@
 package br.com.zup.nossocartao.integracao.cartao;
 
-public class Aviso {
+import br.com.zup.nossocartao.viagem.AvisoViagem;
+
+public class AvisoRequest {
 
 	private String validoAte;
 
 	private String destino;
+
+	@Deprecated
+	public AvisoRequest() {
+	}
+
+	public AvisoRequest(AvisoViagem avisoViagem) {
+		this.validoAte = avisoViagem.getDataTerminoViagem().toString();
+		this.destino = avisoViagem.getDestinoViagem();
+	}
 
 	public String getValidoAte() {
 		return validoAte;
