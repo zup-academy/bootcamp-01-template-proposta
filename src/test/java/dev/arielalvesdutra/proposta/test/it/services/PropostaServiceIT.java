@@ -2,6 +2,7 @@ package dev.arielalvesdutra.proposta.test.it.services;
 
 import dev.arielalvesdutra.proposta.entities.Proposta;
 import dev.arielalvesdutra.proposta.http_clients.AnaliseHttpClient;
+import dev.arielalvesdutra.proposta.http_clients.CartaoHttpClient;
 import dev.arielalvesdutra.proposta.http_clients.dtos.SolicitacaoAnaliseDTO;
 import dev.arielalvesdutra.proposta.services.PropostaService;
 import org.junit.jupiter.api.AfterEach;
@@ -24,6 +25,9 @@ import static org.mockito.Mockito.when;
 @AutoConfigureTestDatabase
 @ActiveProfiles("test")
 public class PropostaServiceIT {
+
+    @MockBean
+    private CartaoHttpClient cartaoHttpClient;
 
     @MockBean
     private AnaliseHttpClient analiseHttpClientMock;
