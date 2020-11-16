@@ -1,0 +1,59 @@
+## Porta do Servidor
+server:
+  port: ${SERVER_PORT:8080}
+
+## Serviço de Análise
+analise:
+  url: ${ANALISE_URL:localhost:9999}
+
+## Serviço de Cartão
+cartao:
+  url: ${CARTAO_URL:localhost:8888}
+
+## Cron
+cron:
+  habilitada: ${CRON_HABILITADA:true}
+  cartao:
+    ## segundo | minuto | hora | dia-do-mes | mes | dias-da-semana | ano
+    cron: ${CARTAO_CRON:1 */10 * * * ?}
+
+## Spring Actuator
+management:
+  metrics:
+    tags:
+      aplicacao: ${NOME_APLICACAO:Serviço de Propostas}
+      ambiente: ${AMBIENTE:desenvolvimento}
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus,info
+
+spring:
+  application:
+    name: propostas
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5433}/${DATABASE_NAME:dev_proposta}
+    username: ${DATABASE_USER:propostas}
+    password: ${DATABASE_PASSWORD:password}
+  jpa:
+    hibernate:
+      ddl-auto: ${DATABASE_DDL_AUTO:update}
+    properties:
+      hibernate:
+        show_sql: ${JPA_SHOW_SQL:true}
+        format_sql: ${JPA_FORMAT_SQL:true}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:18080/auth/realms/desafio3}
+          jtw-set-uri: ${KEYCLOAK_JWKS_URI:http://localhost:18080/auth/realms/desafio3/protocol/openid-connect/certs}
+
+## OpenTracing
+opentracing:
+  jaeger:
+    enabled: ${JAEGER_ENABLED:true}
+    service-name: ${spring.application.name}
+    http-sender-url: ${JAEGER_ENDPOINT:http://localhost:14628/api/traces}
+    probabilistic-sampler:
+      sampling-rate: ${JAEGER_SAMPLER:1}
