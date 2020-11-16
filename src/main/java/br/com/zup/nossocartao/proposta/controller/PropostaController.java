@@ -46,6 +46,7 @@ public class PropostaController {
 
 	@GetMapping(value = "/propostas/{idProposta}")
 	public ResponseEntity<?> acompanharProposta(@PathVariable("idProposta") Long idProposta) {
+
 		boolean verificaId = propostaService.verificaId(idProposta);
 
 		if (!verificaId) {
