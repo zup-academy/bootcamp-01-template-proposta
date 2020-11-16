@@ -6,6 +6,7 @@ import br.com.zup.cartaoproposta.entities.proposta.PropostaNovoRequest;
 import br.com.zup.cartaoproposta.entities.proposta.PropostaRetorno;
 import br.com.zup.cartaoproposta.repositories.PropostaRepository;
 import br.com.zup.cartaoproposta.services.analisesolicitante.TratamentoRetorno;
+import br.com.zup.cartaoproposta.util.ChaveSalt;
 import br.com.zup.cartaoproposta.util.MetricasProposta;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -22,7 +23,7 @@ import java.net.URI;
 import java.util.Optional;
 
 /**
- * Contagem de carga intrínseca da classe: 9
+ * Contagem de carga intrínseca da classe: 10
  */
 
 @RestController
@@ -35,6 +36,10 @@ public class PropostaController {
     @Autowired
     //1
     private TratamentoRetorno tratamentoRetorno;
+
+    @Autowired
+    //1
+    ChaveSalt chave;
 
     //1
     private MetricasProposta metricas;
@@ -60,11 +65,11 @@ public class PropostaController {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Campo documento já cadastrado");
         }
 
-        Proposta proposta = novaProposta.toModel();
+        Proposta proposta = novaProposta.toModel(chave.getChave());
         propostaRepository.save(proposta);
 
         //1
-        AnaliseSolicitanteRetorno retorno = tratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), proposta.getId());
+        AnaliseSolicitanteRetorno retorno = tratamentoRetorno.analiseSolicitante(proposta.getDocumento(chave.getChave()), proposta.getNome(), proposta.getId());
 
         proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
         propostaRepository.save(proposta);
@@ -89,7 +94,7 @@ public class PropostaController {
             return ResponseEntity.notFound().build();
         }
 
-        PropostaRetorno propostaRetorno = new PropostaRetorno(testeProposta.get());
+        PropostaRetorno propostaRetorno = new PropostaRetorno(testeProposta.get(), chave.getChave());
 
         return ResponseEntity.ok(propostaRetorno);
     }

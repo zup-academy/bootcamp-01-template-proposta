@@ -9,7 +9,7 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
- * Contagem de carga intrínseca da classe: 2
+ * Contagem de carga intrínseca da classe: 3
  */
 
 public class PropostaNovoRequest {
@@ -62,8 +62,9 @@ public class PropostaNovoRequest {
     }
 
     //1
-    public Proposta toModel(){
-        String documentoProposta = this.getDocumentoApenasDigitos();
+    public Proposta toModel(String chave){
+        //1
+        DocumentoCriptografado documentoProposta = new DocumentoCriptografado(this.getDocumentoApenasDigitos(), chave);
         return new Proposta(documentoProposta, email, nome, endereco, salario);
     }
 

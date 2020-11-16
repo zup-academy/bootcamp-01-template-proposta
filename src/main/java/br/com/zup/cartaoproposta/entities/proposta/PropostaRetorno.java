@@ -34,8 +34,8 @@ public class PropostaRetorno {
     private CartaoRetorno cartao;
 
     //1
-    public PropostaRetorno(Proposta proposta) {
-        this.documento = proposta.getDocumento();
+    public PropostaRetorno(Proposta proposta, String chave) {
+        this.documento = proposta.getDocumento(chave);
         this.email = proposta.getEmail();
         this.nome = proposta.getNome();
         this.endereco = proposta.getEndereco();

@@ -2,6 +2,7 @@ package br.com.zup.cartaoproposta.entities.proposta;
 
 import br.com.zup.cartaoproposta.entities.analisesolicitante.ResultadoSolicitacao;
 import br.com.zup.cartaoproposta.entities.cartao.Cartao;
+import br.com.zup.cartaoproposta.util.AESEncryptionDecryption;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
- * Contagem de carga intrínseca da classe: 3
+ * Contagem de carga intrínseca da classe: 6
  */
 
 @Entity
@@ -46,8 +47,9 @@ public class Proposta {
     @Deprecated
     public Proposta() {}
 
-    public Proposta(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome, @NotBlank String endereco, @NotNull @Positive BigDecimal salario) {
-        this.documento = documento;
+    //1
+    public Proposta(@NotNull DocumentoCriptografado documento, @NotBlank @Email String email, @NotBlank String nome, @NotBlank String endereco, @NotNull @Positive BigDecimal salario) {
+        this.documento = documento.getDocumentoCriptografado();
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
@@ -58,8 +60,10 @@ public class Proposta {
         return id;
     }
 
-    public String getDocumento() {
-        return documento;
+    public String getDocumento(String chave) {
+        //1
+        AESEncryptionDecryption encryptionDecryption = new AESEncryptionDecryption();
+        return encryptionDecryption.decrypt(documento, chave);
     }
 
     public String getEmail() {

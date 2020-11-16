@@ -12,12 +12,14 @@ import br.com.zup.cartaoproposta.repositories.PropostaRepository;
 import br.com.zup.cartaoproposta.services.analisesolicitante.FeignTratamentoRetorno;
 import br.com.zup.cartaoproposta.services.analisesolicitante.RestTemplateTratamentoRetorno;
 import br.com.zup.cartaoproposta.services.analisesolicitante.TratamentoRetorno;
+import br.com.zup.cartaoproposta.util.ChaveSalt;
 import br.com.zup.cartaoproposta.validations.cpfcnpj.CpfCnpjValidador;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.server.ResponseStatusException;
@@ -39,14 +41,17 @@ public class PropostaTest {
     private final String enderecoValido = "Endereço";
     private final BigDecimal salarioValido = new BigDecimal("1500.00");
 
+    @Autowired
+    private ChaveSalt chave;
+
     @Test
     @DisplayName("deve criar uma entidade proposta")
     void propostaNovoRequestToModel() {
 
         PropostaNovoRequest novaProposta = new PropostaNovoRequest(documentoValido,emailValido,nomeValido,enderecoValido,salarioValido);
-        Proposta proposta = novaProposta.toModel();
+        Proposta proposta = novaProposta.toModel(chave.getChave());
 
-        assertEquals(documentoApenasNumeros,proposta.getDocumento());
+        assertEquals(documentoApenasNumeros,proposta.getDocumento(chave.getChave()));
         assertEquals(emailValido,proposta.getEmail());
         assertEquals(nomeValido,proposta.getNome());
         assertEquals(enderecoValido,proposta.getEndereco());
@@ -105,7 +110,7 @@ public class PropostaTest {
 
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
 
-        Proposta propostaResultado = novaProposta.toModel();
+        Proposta propostaResultado = novaProposta.toModel(chave.getChave());
 
         //imitacao
         Mockito.when(propostaRepository.findByDocumento(documentoApenasNumeros)).thenReturn(Optional.of(propostaResultado));
@@ -118,20 +123,20 @@ public class PropostaTest {
     void statusElegivelFeign(){
 
         PropostaNovoRequest novaProposta = new PropostaNovoRequest(documentoValido,emailValido,nomeValido,enderecoValido,salarioValido);
-        Proposta proposta = novaProposta.toModel();
+        Proposta proposta = novaProposta.toModel(chave.getChave());
 
         String idPropostaFake = "id-da-proposta-fake";
-        AnaliseSolicitante analiseSolicitante = new AnaliseSolicitante(proposta.getDocumento(), proposta.getNome(), idPropostaFake);
+        AnaliseSolicitante analiseSolicitante = new AnaliseSolicitante(proposta.getDocumento(chave.getChave()), proposta.getNome(), idPropostaFake);
         AnaliseCartoesClient analiseCartoesClient = Mockito.mock(AnaliseCartoesClient.class);
         //imitacao
         Mockito.when(analiseCartoesClient
                 .solicitacaoAnaliseResource(analiseSolicitante))
-                .thenReturn(new AnaliseSolicitanteRetorno(proposta.getDocumento(), proposta.getNome(), ResultadoSolicitacao.SEM_RESTRICAO, idPropostaFake));
+                .thenReturn(new AnaliseSolicitanteRetorno(proposta.getDocumento(chave.getChave()), proposta.getNome(), ResultadoSolicitacao.SEM_RESTRICAO, idPropostaFake));
 
         TratamentoRetorno feignTratamentoRetorno = new FeignTratamentoRetorno();
         ReflectionTestUtils.setField(feignTratamentoRetorno,"analiseCartoesClient",analiseCartoesClient);
 
-        AnaliseSolicitanteRetorno retorno = feignTratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), idPropostaFake);
+        AnaliseSolicitanteRetorno retorno = feignTratamentoRetorno.analiseSolicitante(proposta.getDocumento(chave.getChave()), proposta.getNome(), idPropostaFake);
 
         proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
 
@@ -143,12 +148,12 @@ public class PropostaTest {
     void statusElegivelRestTemplate(){
 
         PropostaNovoRequest novaProposta = new PropostaNovoRequest(documentoValido,emailValido,nomeValido,enderecoValido,salarioValido);
-        Proposta proposta = novaProposta.toModel();
+        Proposta proposta = novaProposta.toModel(chave.getChave());
 
         TratamentoRetorno restTemplateTratamentoRetorno = new RestTemplateTratamentoRetorno();
         ReflectionTestUtils.setField(restTemplateTratamentoRetorno,"url","http://localhost:9999/api");
 
-        AnaliseSolicitanteRetorno retorno = restTemplateTratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), "id-da-proposta-fake");
+        AnaliseSolicitanteRetorno retorno = restTemplateTratamentoRetorno.analiseSolicitante(proposta.getDocumento(chave.getChave()), proposta.getNome(), "id-da-proposta-fake");
 
         proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
 
@@ -161,12 +166,12 @@ public class PropostaTest {
     void statusNaoElegivelRestTemplate(){
         String documentoComRestricao = "38.816.231/0001-40";
         PropostaNovoRequest novaProposta = new PropostaNovoRequest(documentoComRestricao,emailValido,nomeValido,enderecoValido,salarioValido);
-        Proposta proposta = novaProposta.toModel();
+        Proposta proposta = novaProposta.toModel(chave.getChave());
 
         TratamentoRetorno restTemplateTratamentoRetorno = new RestTemplateTratamentoRetorno();
         ReflectionTestUtils.setField(restTemplateTratamentoRetorno,"url","http://localhost:9999/api");
 
-        AnaliseSolicitanteRetorno retorno = restTemplateTratamentoRetorno.analiseSolicitante(proposta.getDocumento(), proposta.getNome(), "id-da-proposta-fake");
+        AnaliseSolicitanteRetorno retorno = restTemplateTratamentoRetorno.analiseSolicitante(proposta.getDocumento(chave.getChave()), proposta.getNome(), "id-da-proposta-fake");
 
         proposta.defineStatusProposta(retorno.getResultadoSolicitacao());
 
