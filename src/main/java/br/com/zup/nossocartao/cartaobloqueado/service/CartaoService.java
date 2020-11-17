@@ -18,8 +18,7 @@ public class CartaoService {
 
 	private final CartaoFeignClient feingCartao;
 
-	public CartaoService(CartaoBloqueadoRepository cartaoBloqueadoRepository,
-			CartaoFeignClient feingCartao) {
+	public CartaoService(CartaoBloqueadoRepository cartaoBloqueadoRepository, CartaoFeignClient feingCartao) {
 		this.cartaoBloqueadoRepository = cartaoBloqueadoRepository;
 		this.feingCartao = feingCartao;
 	}
