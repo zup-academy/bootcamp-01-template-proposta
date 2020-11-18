@@ -2,14 +2,15 @@ package br.com.zup.nossocartao.proposta.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnalise;
 import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnaliseRequest;
 import br.com.zup.nossocartao.integracao.analise.SolicitacaoAnaliseResponse;
+import br.com.zup.nossocartao.integracao.cartao.CartaoFeignClient;
 import br.com.zup.nossocartao.integracao.cartao.CartaoRequest;
 import br.com.zup.nossocartao.integracao.cartao.CartaoResponse;
-import br.com.zup.nossocartao.integracao.cartao.CartaoFeignClient;
 import br.com.zup.nossocartao.proposta.Proposta;
 import br.com.zup.nossocartao.proposta.controller.NovaPropostaRequest;
 import br.com.zup.nossocartao.proposta.controller.NovaPropostaResponse;
@@ -24,6 +25,9 @@ public class PropostaService {
 
 	private CartaoFeignClient solicitacaoCartao;
 
+	@Value("${seguranca.criptografia.chave}")
+	private String chaveCriptografia;
+
 	public PropostaService(PropostaRepository propostaRepository, SolicitacaoAnalise solicitacaoAnalise,
 			CartaoFeignClient solicitacaoCartao) {
 		this.propostaRepository = propostaRepository;
@@ -33,6 +37,8 @@ public class PropostaService {
 
 	public NovaPropostaResponse salvarProposta(NovaPropostaRequest dadosRequisitados) {
 		Proposta novaProposta = dadosRequisitados.gerarProposta();
+
+		novaProposta.criptografar(chaveCriptografia);
 
 		Proposta propostaSalva = propostaRepository.save(novaProposta);
 

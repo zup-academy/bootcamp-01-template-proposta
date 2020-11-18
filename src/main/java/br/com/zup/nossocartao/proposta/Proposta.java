@@ -11,7 +11,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import br.com.zup.nossocartao.proposta.validador.CpfCnpj;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 
 @Entity
 public class Proposta {
@@ -21,7 +22,6 @@ public class Proposta {
 	private Long id;
 
 	@NotBlank
-	@CpfCnpj
 	private String cpfCnpj;
 
 	@Email
@@ -57,6 +57,16 @@ public class Proposta {
 		this.endereco = endereco;
 		this.salario = salario;
 		this.restricaoStatus = StatusSolicitacao.NAO_ELEGIVEL;
+	}
+
+	public void criptografar(String chaveCriptogfia) {
+		TextEncryptor textEncryptor = Encryptors.text(this.getClass().getName(), chaveCriptogfia);
+		this.cpfCnpj = textEncryptor.encrypt(this.cpfCnpj);
+	}
+
+	public void decriptografar(String chaveCriptogfia) {
+		TextEncryptor textEncryptor = Encryptors.text(this.getClass().getName(), chaveCriptogfia);
+		this.cpfCnpj = textEncryptor.decrypt(this.cpfCnpj);
 	}
 
 	public Long getId() {

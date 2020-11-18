@@ -20,10 +20,11 @@ public class ValidadorCpfCnpj implements ConstraintValidator<CpfCnpj, CharSequen
 		CNPJValidator cnpjValidator = new CNPJValidator();
 		CPFValidator cpfValidator = new CPFValidator();
 
-		cnpjValidator.initialize(null);
 		cpfValidator.initialize(null);
 
-		return cnpjValidator.isValid(value, context) || cpfValidator.isValid(value, context);
+		cnpjValidator.initialize(null);
+
+		return cnpjValidator.isValid(value, null) || cpfValidator.isValid(value, null);
 	}
 
 }

@@ -30,7 +30,7 @@ public class NovaPropostaRequest {
 	@Positive
 	private BigDecimal salario;
 
-	public NovaPropostaRequest(@NotBlank String cpfCnpj, @Email @NotBlank String email, @NotBlank String nome,
+	public NovaPropostaRequest(@NotBlank @CpfCnpj String cpfCnpj, @Email @NotBlank String email, @NotBlank String nome,
 			@NotBlank String endereco, @NotNull @Positive BigDecimal salario) {
 		this.cpfCnpj = cpfCnpj;
 		this.email = email;
