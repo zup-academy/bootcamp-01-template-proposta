@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface AvisoViagemRepository extends CrudRepository<AvisoViagem, String> {
 
-    Optional<AvisoViagem> findByCartaoCartaoIdAndDestinoViagem(String cartaoId, String destinoViagem);
+    Optional<AvisoViagem> findByCartaoNumeroCartaoAndDestinoViagem(String cartaoId, String destinoViagem);
 }

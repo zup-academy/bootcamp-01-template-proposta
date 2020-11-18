@@ -47,7 +47,7 @@ public class CarteiraDigitalDto {
     }
 
     public String numeroCartao(){
-        return this.cartao.getCartaoId();
+        return this.cartao.getNumeroCartao();
     }
     // +1
     public CarteiraDigital toModel(){

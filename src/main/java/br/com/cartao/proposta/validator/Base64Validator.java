@@ -1,12 +1,13 @@
 package br.com.cartao.proposta.validator;
 
 import br.com.cartao.proposta.domain.request.NovaBiometriaRequest;
-import org.springframework.util.StringUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import java.util.Base64;
 
+@Component
 public class Base64Validator implements Validator {
 
     @Override

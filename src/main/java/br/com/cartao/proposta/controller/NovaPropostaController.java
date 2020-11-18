@@ -4,16 +4,13 @@ import br.com.cartao.proposta.domain.request.NovaPropostaRequest;
 import br.com.cartao.proposta.domain.response.NovaPropostaResponseDto;
 import br.com.cartao.proposta.handler.ErroNegocioException;
 import br.com.cartao.proposta.repository.PropostaRepository;
-import br.com.cartao.proposta.service.EncodeValor;
 import br.com.cartao.proposta.service.NovaPropostaService;
+import br.com.cartao.proposta.utils.Encoder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +52,7 @@ public class NovaPropostaController {
         // +1
         propostaRepository.findAll().forEach(proposta -> {
             // +1
-            if(novaPropostaRequest.equals(EncodeValor.decode(proposta.getDocumento()))){
+            if(novaPropostaRequest.equals(Encoder.decode(proposta.getDocumento()))){
                 // +1
                 throw new ErroNegocioException(HttpStatus.UNPROCESSABLE_ENTITY, "CPF ou CNPJ já em uso");
             }

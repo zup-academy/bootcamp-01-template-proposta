@@ -1,6 +1,7 @@
 package br.com.cartao.proposta.validator;
 
 import br.com.cartao.proposta.annotation.CampoUnico;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,7 +35,7 @@ public class CampoUnicoValidator implements ConstraintValidator<CampoUnico, Stri
                 .getResultList();
 
 
-        return (campoBusca.size()>0);
+        return !(campoBusca.size()>0);
     }
 
 }

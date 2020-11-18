@@ -1,5 +1,6 @@
 package br.com.cartao.proposta.domain.request;
 
+import br.com.cartao.proposta.annotation.CampoUnico;
 import br.com.cartao.proposta.annotation.CpfOuCnpj;
 import br.com.cartao.proposta.domain.model.Proposta;
 
@@ -20,6 +21,7 @@ public class NovaPropostaRequest implements Serializable {
     @NotBlank @CpfOuCnpj
     private String documento;
     @NotBlank @Email
+    @CampoUnico(className = Proposta.class, fieldName = "email")
     private String email;
     @NotBlank
     private String nome;

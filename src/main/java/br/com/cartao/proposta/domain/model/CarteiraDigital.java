@@ -72,7 +72,7 @@ public class CarteiraDigital {
     }
 
     public String numeroCartao(){
-        return this.cartao.getCartaoId();
+        return this.cartao.getNumeroCartao();
     }
 
     public void associacaoSucessoCarteira(){

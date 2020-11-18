@@ -1,12 +1,14 @@
 package br.com.cartao.proposta.service;
 
 import br.com.cartao.proposta.domain.enums.EstadoProposta;
+import br.com.cartao.proposta.domain.event.DadosCartaoProposta;
 import br.com.cartao.proposta.domain.model.Cartao;
 import br.com.cartao.proposta.domain.response.CartaoResponseSistemaLegado;
 import br.com.cartao.proposta.domain.model.Proposta;
 import br.com.cartao.proposta.repository.PropostaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ import java.util.Optional;
 
 /**
  * Carga intrínseca máxima permitida - 7
- * Carga intrínseca da classe - 9
+ * Carga intrínseca da classe - 11
  */
 
 @Service
@@ -26,11 +28,14 @@ public class AtualizaPropostaComCartaoCriado {
     // +1
     private final EstadoProposta estadoProposta = EstadoProposta.ELEGIVEL;
     // +1
+    private final PropostaKafkaProducer propostaKafkaProducer;
+    // +1
     private final VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService;
     // +1
     private final PropostaRepository propostaRepository;
 
-    public AtualizaPropostaComCartaoCriado(VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService, PropostaRepository propostaRepository) {
+    public AtualizaPropostaComCartaoCriado(PropostaKafkaProducer propostaKafkaProducer, VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService, PropostaRepository propostaRepository) {
+        this.propostaKafkaProducer = propostaKafkaProducer;
         this.verificaCartaoCriadoService = verificaCartaoCriadoService;
         this.propostaRepository = propostaRepository;
     }
@@ -71,7 +76,11 @@ public class AtualizaPropostaComCartaoCriado {
         proposta.alteraStatusCartaoCriado(Boolean.TRUE);
         // +1
         Cartao cartao = new Cartao(cartaoResponseSistemaLegado.getCartaoId(), proposta);
+
         proposta.adicionaNumeroCartao(cartao);
-        propostaRepository.save(proposta);
+        Proposta propostaAtualizadaComCartao = propostaRepository.save(proposta);
+        // +1
+        DadosCartaoProposta dadosCartaoProposta = new DadosCartaoProposta(propostaAtualizadaComCartao);
+        propostaKafkaProducer.notifica(dadosCartaoProposta);
     }
 }

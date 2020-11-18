@@ -1,7 +1,7 @@
 package br.com.cartao.proposta.domain.model;
 
 import br.com.cartao.proposta.domain.enums.EstadoCartao;
-import br.com.cartao.proposta.service.EncodeValor;
+import br.com.cartao.proposta.utils.Encoder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -21,7 +21,7 @@ public class Cartao {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     @NotBlank
-    private String cartaoId;
+    private String numeroCartao;
 
     @Enumerated(EnumType.STRING)
     // +1
@@ -35,8 +35,8 @@ public class Cartao {
     public Cartao() {
     }
 
-    public Cartao(String cartaoId, Proposta proposta) {
-        this.cartaoId = EncodeValor.encode(cartaoId);
+    public Cartao(String numeroCartao, Proposta proposta) {
+        this.numeroCartao = Encoder.encode(numeroCartao);
         this.proposta = proposta;
         this.estadoCartao = EstadoCartao.ATIVO;
     }
@@ -45,8 +45,8 @@ public class Cartao {
         return id;
     }
 
-    public String getCartaoId() {
-        return cartaoId;
+    public String getNumeroCartao() {
+        return numeroCartao;
     }
 
     public Proposta getProposta() {

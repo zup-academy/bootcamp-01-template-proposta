@@ -22,6 +22,7 @@ class AtualizaPropostaComCartaoCriadoTest {
     private static Proposta proposta3;
     private static Proposta proposta4;
     private static EstadoProposta estadoProposta;
+    private static PropostaKafkaProducer propostaKafkaProducer;
 
     @BeforeEach
     void setUp(){
@@ -31,7 +32,7 @@ class AtualizaPropostaComCartaoCriadoTest {
         proposta4 = new Proposta("446.675.000-93", "teste4@exemplo.com","Endereco4","Carlos Maria", BigDecimal.valueOf(1000));
 
         estadoProposta = EstadoProposta.ELEGIVEL;
-
+        propostaKafkaProducer = mock(PropostaKafkaProducer.class);
     }
 
     @Test
@@ -41,7 +42,7 @@ class AtualizaPropostaComCartaoCriadoTest {
         VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService = mock(VerificaCartaoCriadoIntegracaoService.class);
         PropostaRepository propostaRepository = mock(PropostaRepository.class);
         List<Proposta> propostas = List.of(proposta1, proposta2, proposta3, proposta4);
-        AtualizaPropostaComCartaoCriado atualizaPropostaComCartaoCriado = new AtualizaPropostaComCartaoCriado(verificaCartaoCriadoService, propostaRepository);
+        AtualizaPropostaComCartaoCriado atualizaPropostaComCartaoCriado = new AtualizaPropostaComCartaoCriado(propostaKafkaProducer, verificaCartaoCriadoService, propostaRepository);
         CartaoResponseSistemaLegado cartao = new CartaoResponseSistemaLegado("123","2020-10-20T14:10:55","Teste",null,null,null,null,BigDecimal.valueOf(100),null,new VencimentoIntegracaoResponseDto("1",10,"2020-10-20T15:30:45"),"abc123");
 
         when(propostaRepository.findAllByCartaoCriadoFalseAndEstadoProposta(estadoProposta)).thenReturn(propostas);
@@ -60,7 +61,7 @@ class AtualizaPropostaComCartaoCriadoTest {
         VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService = mock(VerificaCartaoCriadoIntegracaoService.class);
         PropostaRepository propostaRepository = mock(PropostaRepository.class);
         List<Proposta> propostas = List.of(proposta1, proposta2, proposta3, proposta4);
-        AtualizaPropostaComCartaoCriado atualizaPropostaComCartaoCriado = new AtualizaPropostaComCartaoCriado(verificaCartaoCriadoService, propostaRepository);
+        AtualizaPropostaComCartaoCriado atualizaPropostaComCartaoCriado = new AtualizaPropostaComCartaoCriado(propostaKafkaProducer, verificaCartaoCriadoService, propostaRepository);
 
         when(propostaRepository.findAllByCartaoCriadoFalseAndEstadoProposta(estadoProposta)).thenReturn(propostas);
         when(atualizaPropostaComCartaoCriado.todasPropostasElegiveisSemCartao()).thenReturn(propostas);
@@ -78,7 +79,7 @@ class AtualizaPropostaComCartaoCriadoTest {
         VerificaCartaoCriadoIntegracaoService verificaCartaoCriadoService = mock(VerificaCartaoCriadoIntegracaoService.class);
         PropostaRepository propostaRepository = mock(PropostaRepository.class);
         List<Proposta> propostas = List.of();
-        AtualizaPropostaComCartaoCriado atualizaPropostaComCartaoCriado = new AtualizaPropostaComCartaoCriado(verificaCartaoCriadoService, propostaRepository);
+        AtualizaPropostaComCartaoCriado atualizaPropostaComCartaoCriado = new AtualizaPropostaComCartaoCriado(propostaKafkaProducer, verificaCartaoCriadoService, propostaRepository);
 
         when(propostaRepository.findAllByCartaoCriadoFalseAndEstadoProposta(estadoProposta)).thenReturn(propostas);
         when(atualizaPropostaComCartaoCriado.todasPropostasElegiveisSemCartao()).thenReturn(propostas);

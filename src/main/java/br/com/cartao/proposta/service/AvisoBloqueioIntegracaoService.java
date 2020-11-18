@@ -4,6 +4,7 @@ import br.com.cartao.proposta.consumer.AvisaBloqueioCartao;
 import br.com.cartao.proposta.domain.enums.SolicitacaoBloqueioIntegracaoResponse;
 import br.com.cartao.proposta.domain.model.Cartao;
 import br.com.cartao.proposta.domain.request.SolicitacaoBloqueioRequest;
+import br.com.cartao.proposta.utils.Encoder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
@@ -36,7 +37,7 @@ public class AvisoBloqueioIntegracaoService {
         // +1
         try{
             // +1
-            SolicitacaoBloqueioIntegracaoResponse solicitacaoBloqueioIntegracaoResponse = avisaBloqueioCartao.avisaBloqueioCartao(EncodeValor.decode(cartao.getCartaoId()), solicitacaoBloqueioRequest);
+            SolicitacaoBloqueioIntegracaoResponse solicitacaoBloqueioIntegracaoResponse = avisaBloqueioCartao.avisaBloqueioCartao(Encoder.decode(cartao.getNumeroCartao()), solicitacaoBloqueioRequest);
             return Optional.of(solicitacaoBloqueioIntegracaoResponse);
         }
         // +1

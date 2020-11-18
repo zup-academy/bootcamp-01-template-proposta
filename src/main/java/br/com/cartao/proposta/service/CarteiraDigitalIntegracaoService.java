@@ -5,6 +5,7 @@ import br.com.cartao.proposta.domain.dto.CarteiraDigitalDto;
 import br.com.cartao.proposta.domain.model.Cartao;
 import br.com.cartao.proposta.domain.request.SolicitacaoInclusaoCarteiraRequest;
 import br.com.cartao.proposta.domain.response.ResultadoAssociacaoCarteiraResponse;
+import br.com.cartao.proposta.utils.Encoder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
@@ -40,7 +41,7 @@ public class CarteiraDigitalIntegracaoService {
             SolicitacaoInclusaoCarteiraRequest solicitacaoInclusaoCarteiraRequest = new
                     SolicitacaoInclusaoCarteiraRequest(carteiraDigitalDto.getEmail(), carteiraDigitalDto.getCarteira());
 
-            ResultadoAssociacaoCarteiraResponse resultadoAssociacaoCarteiraResponse = associarCarteiraDigitalConsumer.associaCarteiraDigital(EncodeValor.decode(carteiraDigitalDto.numeroCartao()), solicitacaoInclusaoCarteiraRequest);
+            ResultadoAssociacaoCarteiraResponse resultadoAssociacaoCarteiraResponse = associarCarteiraDigitalConsumer.associaCarteiraDigital(Encoder.decode(carteiraDigitalDto.numeroCartao()), solicitacaoInclusaoCarteiraRequest);
             logger.info("Associação feita com sucesso. Resposta: {}", resultadoAssociacaoCarteiraResponse.getResultado());
             return Optional.ofNullable(resultadoAssociacaoCarteiraResponse);
         }

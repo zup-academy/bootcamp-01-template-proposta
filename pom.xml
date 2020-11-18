@@ -103,6 +103,12 @@
 			<version>3.2.2</version>
 		</dependency>
 
+		<!-- Event Streaming -->
+
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
 
 		<!-- Testes -->
 

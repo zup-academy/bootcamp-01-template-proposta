@@ -32,7 +32,7 @@ public class AvisoViagemService {
     @Transactional
     public void avisoViagem(Cartao cartao, AvisoViagem avisoViagem) throws JsonProcessingException {
         // +1
-        AvisoViagem avisoViagemBuscada = avisoViagemRepository.findByCartaoCartaoIdAndDestinoViagem( cartao.getCartaoId(), avisoViagem.getDestinoViagem())
+        AvisoViagem avisoViagemBuscada = avisoViagemRepository.findByCartaoNumeroCartaoAndDestinoViagem( cartao.getNumeroCartao(), avisoViagem.getDestinoViagem())
                 .orElse(avisoViagem);
 
         // +1

@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = CampoUnicoValidator.class)
 public @interface CampoUnico {
-    String message() default "{}";
+    String message() default "{javax.validation.constraints.ValorUnico.message}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
     Class<?> className();

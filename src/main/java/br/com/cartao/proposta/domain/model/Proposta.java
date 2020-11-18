@@ -1,13 +1,10 @@
 package br.com.cartao.proposta.domain.model;
 
-import br.com.cartao.proposta.annotation.CpfOuCnpj;
 import br.com.cartao.proposta.domain.enums.EstadoProposta;
 import br.com.cartao.proposta.domain.request.AnalisePropostaRequest;
 import br.com.cartao.proposta.domain.response.AnalisePropostaResponse;
-import br.com.cartao.proposta.service.EncodeValor;
+import br.com.cartao.proposta.utils.Encoder;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -54,7 +51,7 @@ public class Proposta {
     }
 
     public Proposta(@NotBlank String documento, @NotBlank String email, @NotBlank String endereco, @NotBlank String nome, @Positive @NotBlank BigDecimal salario) {
-        this.documento = EncodeValor.encode(documento);
+        this.documento = Encoder.encode(documento);
         this.email = email;
         this.endereco = endereco;
         this.nome = nome;

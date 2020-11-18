@@ -5,6 +5,7 @@ import br.com.cartao.proposta.domain.model.AvisoViagem;
 import br.com.cartao.proposta.domain.model.Cartao;
 import br.com.cartao.proposta.domain.request.AvisoViagemIntegracaoRequest;
 import br.com.cartao.proposta.domain.response.ResultadoAvisoViagemIntegracao;
+import br.com.cartao.proposta.utils.Encoder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
@@ -40,7 +41,7 @@ public class AvisoViagemIntegracaoService {
             // +1
             AvisoViagemIntegracaoRequest avisoViagemIntegracaoRequest = new AvisoViagemIntegracaoRequest(avisoViagem.getDestinoViagem(), avisoViagem.getTerminaEm());
 
-            ResultadoAvisoViagemIntegracao resultadoAvisoViagemIntegracao = avisoViagemConsumer.avisa(EncodeValor.decode(cartao.getCartaoId()), avisoViagemIntegracaoRequest);
+            ResultadoAvisoViagemIntegracao resultadoAvisoViagemIntegracao = avisoViagemConsumer.avisa(Encoder.decode(cartao.getNumeroCartao()), avisoViagemIntegracaoRequest);
             logger.info("Aviso feito com sucesso. Resposta: {}", resultadoAvisoViagemIntegracao.getResultado());
             return Optional.ofNullable(resultadoAvisoViagemIntegracao);
         }

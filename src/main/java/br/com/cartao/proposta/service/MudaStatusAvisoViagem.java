@@ -33,7 +33,7 @@ public class MudaStatusAvisoViagem {
         // +1
         Cartao cartao = alteraStatusAvisoViagem.getCartao();
 
-        AvisoViagem avisoViagemBuscada = avisoViagemRepository.findByCartaoCartaoIdAndDestinoViagem( cartao.getCartaoId(), avisoViagem.getDestinoViagem())
+        AvisoViagem avisoViagemBuscada = avisoViagemRepository.findByCartaoNumeroCartaoAndDestinoViagem( cartao.getNumeroCartao(), avisoViagem.getDestinoViagem())
                 .orElse(avisoViagem);
         // +1
         if ((avisoViagemBuscada.getAvisoSistemaLegado() == Boolean.FALSE) && (resultadoAvisoViagemIntegracao.isEmpty() || EstadoAvisoViagemIntegracao.FALHA.equals(resultadoAvisoViagemIntegracao.get().getResultado()))){

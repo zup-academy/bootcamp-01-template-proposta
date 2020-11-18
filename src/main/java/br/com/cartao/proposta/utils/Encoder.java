@@ -1,10 +1,9 @@
-package br.com.cartao.proposta.service;
+package br.com.cartao.proposta.utils;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 
-public class EncodeValor {
+public class Encoder {
 
     private static TextEncryptor salt = Encryptors.text( "secretKey", "5c0744940b5c369b");
 
@@ -16,7 +15,4 @@ public class EncodeValor {
         return salt.decrypt(chave);
     }
 
-    public static String encondeBcrypt(String valor){
-        return BCrypt.hashpw(valor, BCrypt.gensalt());
-    }
 }
