@@ -27,19 +27,20 @@ public class PaypalController {
 		this.validaIdCartao = validaIdCartao;
 	}
 
-	@PostMapping(value = "/cartoes/{id}/carteiras")
-	public ResponseEntity<?> CarteiraPaypal(@PathVariable("id") String id, @RequestHeader("email") @Email String email,
+	@PostMapping(value = "/cartoes/{id}/paypal")
+	public ResponseEntity<?> carteiraPaypal(@PathVariable("id") String id, @RequestHeader("email") @Email String email,
 			UriComponentsBuilder builder) {
 
 		if (validaIdCartao.idCartaoNaoExiste(id)) {
-			ResponseEntity.notFound();
+			return ResponseEntity.notFound().build();
 		}
 
 		Optional<Long> salvarPaypal = paypalService.associarPaypal(id, email);
 
-		UriComponents uriComponests = builder.path("/cartoes/{id}/carteiras").buildAndExpand(salvarPaypal.get());
+		UriComponents uriComponests = builder.path("/cartoes/{id}/paypal").buildAndExpand(salvarPaypal.get());
 
 		return ResponseEntity.created(uriComponests.toUri()).build();
 
 	}
+
 }

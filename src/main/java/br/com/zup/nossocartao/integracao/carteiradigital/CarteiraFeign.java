@@ -14,4 +14,7 @@ public interface CarteiraFeign {
 	ResponseEntity<PaypalResponseFeign> associarCarteiraPaypal(@PathVariable(value = "id") String id,
 			@RequestBody PaypalRequestFeign request);
 
+	@RequestMapping(method = RequestMethod.POST, value = "/cartoes/{id}/carteiras")
+	ResponseEntity<SamsungPayResponseFeign> associarCarteiraSamsungPay(@PathVariable(value = "id") String id,
+			@RequestBody SamsungPayRequestFeign request);
 }

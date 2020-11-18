@@ -8,29 +8,30 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-public class Paypal {
+public class SamsungPay {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@NotBlank
-	private String idCartao;
-
 	@Email
-	@NotBlank
 	private String email;
 
+	@NotBlank
 	private String carteira;
 
+	@NotBlank
+	private String idCartao;
+
 	@Deprecated
-	public Paypal() {
+	public SamsungPay() {
 	}
 
-	public Paypal(@NotBlank String idCartao, @Email @NotBlank String email) {
-		this.idCartao = idCartao;
+	public SamsungPay(@NotBlank @Email String email, String idCartao) {
 		this.email = email;
-		this.carteira = "PAYPAL";
+		this.carteira = "SAMSUNG PAY";
+		this.idCartao = idCartao;
 	}
 
 	public Long getId() {
@@ -41,20 +42,28 @@ public class Paypal {
 		this.id = id;
 	}
 
-	public String getIdCartao() {
-		return idCartao;
-	}
-
-	public void setIdCartao(String idCartao) {
-		this.idCartao = idCartao;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getCarteira() {
+		return carteira;
+	}
+
+	public void setCarteira(String carteira) {
+		this.carteira = carteira;
+	}
+
+	public String getIdCartao() {
+		return idCartao;
+	}
+
+	public void setIdCartao(String idCartao) {
+		this.idCartao = idCartao;
 	}
 
 }
