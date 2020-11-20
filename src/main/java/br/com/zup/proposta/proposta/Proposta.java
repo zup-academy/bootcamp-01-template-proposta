@@ -5,6 +5,8 @@ import br.com.zup.proposta.cartao.Cartao;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+import java.security.CryptoPrimitive;
 import java.util.Objects;
 
 @Entity
@@ -35,7 +38,7 @@ public class Proposta {
     public Proposta(@NotBlank String documento, @NotBlank @Email String email,
                     @NotBlank String nome, @NotBlank String endereco,
                     @NotNull @PositiveOrZero BigDecimal salario) {
-        this.documento = documento;
+        this.documento = criptografarDocumento(documento);
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
@@ -45,6 +48,11 @@ public class Proposta {
 
     public StatusAvaliacaoProposta getStatusAvaliacao() {
         return statusAvaliacao;
+    }
+
+    public static String criptografarDocumento(String documento) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder.encode(documento);
     }
 
     public void atualizaStatus(StatusAvaliacaoProposta statusAvaliacao) {
