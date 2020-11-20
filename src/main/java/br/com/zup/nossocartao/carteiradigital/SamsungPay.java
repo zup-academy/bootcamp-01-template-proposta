@@ -28,7 +28,7 @@ public class SamsungPay {
 	public SamsungPay() {
 	}
 
-	public SamsungPay(@NotBlank @Email String email, String idCartao) {
+	public SamsungPay(@NotBlank @Email String email, @NotBlank String idCartao) {
 		this.email = email;
 		this.carteira = "SAMSUNG PAY";
 		this.idCartao = idCartao;

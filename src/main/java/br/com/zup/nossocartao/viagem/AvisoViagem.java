@@ -30,8 +30,10 @@ public class AvisoViagem {
 
 	private LocalDateTime instanteAviso;
 
+	@NotBlank
 	private String ipCliente;
 
+	@NotBlank
 	private String userAgent;
 
 	@Deprecated

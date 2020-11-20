@@ -20,8 +20,10 @@ public class RecuperarSenha {
 
 	private LocalDateTime instante;
 
+	@NotBlank
 	private String ipCliente;
 
+	@NotBlank
 	private String userAgent;
 
 	@Deprecated

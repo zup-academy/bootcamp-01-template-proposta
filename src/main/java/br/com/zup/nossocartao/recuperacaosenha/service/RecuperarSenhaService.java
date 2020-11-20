@@ -1,10 +1,14 @@
-package br.com.zup.nossocartao.recuperacaosenha;
+package br.com.zup.nossocartao.recuperacaosenha.service;
 
 import org.springframework.stereotype.Service;
+
+import br.com.zup.nossocartao.recuperacaosenha.RecuperarSenha;
+import br.com.zup.nossocartao.recuperacaosenha.repository.RecuperaSenhaRepository;
 
 @Service
 public class RecuperarSenhaService {
 
+	// 1
 	private final RecuperaSenhaRepository recuperarSenhaRepository;
 
 	public RecuperarSenhaService(RecuperaSenhaRepository recuperarSenha) {

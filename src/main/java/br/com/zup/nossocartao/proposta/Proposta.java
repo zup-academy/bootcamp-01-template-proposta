@@ -14,6 +14,7 @@ import javax.validation.constraints.Positive;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 
+//2
 @Entity
 public class Proposta {
 
@@ -59,11 +60,13 @@ public class Proposta {
 		this.restricaoStatus = StatusSolicitacao.NAO_ELEGIVEL;
 	}
 
+	// 1
 	public void criptografar(String chaveCriptogfia) {
 		TextEncryptor textEncryptor = Encryptors.text(this.getClass().getName(), chaveCriptogfia);
 		this.cpfCnpj = textEncryptor.encrypt(this.cpfCnpj);
 	}
 
+	// 1
 	public void decriptografar(String chaveCriptogfia) {
 		TextEncryptor textEncryptor = Encryptors.text(this.getClass().getName(), chaveCriptogfia);
 		this.cpfCnpj = textEncryptor.decrypt(this.cpfCnpj);

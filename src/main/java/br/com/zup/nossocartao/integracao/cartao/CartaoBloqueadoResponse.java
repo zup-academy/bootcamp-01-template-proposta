@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 import br.com.zup.nossocartao.cartaobloqueado.StatusCartao;
 
+//1
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class CartaoBloqueadoResponse {
 

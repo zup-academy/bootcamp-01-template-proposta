@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Biometria {
@@ -14,15 +16,17 @@ public class Biometria {
 	private Long idBiometria;
 
 	@Lob
+	@NotNull
 	private byte[] fingerprint;
 
+	@NotBlank
 	private String idCartao;
 
 	@Deprecated
 	public Biometria() {
 	}
 
-	public Biometria(byte[] fingerprint, String idCartao) {
+	public Biometria(@NotNull byte[] fingerprint, @NotBlank String idCartao) {
 		this.fingerprint = fingerprint;
 		this.idCartao = idCartao;
 	}

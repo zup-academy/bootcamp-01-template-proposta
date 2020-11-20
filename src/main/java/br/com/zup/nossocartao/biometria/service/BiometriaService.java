@@ -15,16 +15,19 @@ import br.com.zup.nossocartao.biometria.Biometria;
 import br.com.zup.nossocartao.biometria.repository.BiometriaRepository;
 import br.com.zup.nossocartao.proposta.repository.PropostaRepository;
 
+//6
 @Service
 public class BiometriaService {
 
+	// 1
 	private final BiometriaRepository biometriaRepository;
 
+	// 1
 	private final PropostaRepository propostaRepository;
 
 	final static Logger logger = LoggerFactory.getLogger(BiometriaService.class);
 
-	@Value("${api.cartoes}")
+	@Value("${msg.log.biometria.cartao}")
 	private String mensagemLogCartao;
 
 	public BiometriaService(BiometriaRepository biometriaRepository, PropostaRepository propostaRepository) {
@@ -32,8 +35,10 @@ public class BiometriaService {
 		this.propostaRepository = propostaRepository;
 	}
 
+	// 2
 	public Optional<Long> salvarBiometria(String biometria, String idCartao) {
 		if (!existeIdCartao(idCartao)) {
+
 			logger.info(mensagemLogCartao, false);
 
 			return empty();
@@ -41,6 +46,7 @@ public class BiometriaService {
 
 		logger.info(mensagemLogCartao, true);
 
+		// 2
 		byte[] fingerprint = getDecoder().decode(biometria.getBytes());
 		Biometria salvarBiometria = new Biometria(fingerprint, idCartao);
 		Biometria biometriaSalva = biometriaRepository.save(salvarBiometria);

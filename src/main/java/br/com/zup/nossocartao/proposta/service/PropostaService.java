@@ -2,6 +2,8 @@ package br.com.zup.nossocartao.proposta.service;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +18,19 @@ import br.com.zup.nossocartao.proposta.controller.NovaPropostaRequest;
 import br.com.zup.nossocartao.proposta.controller.NovaPropostaResponse;
 import br.com.zup.nossocartao.proposta.repository.PropostaRepository;
 
+//5
 @Service
 public class PropostaService {
 
+	// 1
 	private PropostaRepository propostaRepository;
 
+	// 1
 	private SolicitacaoAnalise solicitacaoAnalise;
 
+	// 1
 	private CartaoFeignClient solicitacaoCartao;
+
 
 	@Value("${seguranca.criptografia.chave}")
 	private String chaveCriptografia;
@@ -59,6 +66,7 @@ public class PropostaService {
 		solicitacaoCartao.emitirCartao(dadosEmissao);
 	}
 
+	// 1
 	private void avaliacaoFinanceira(Proposta propostaSalva) {
 		SolicitacaoAnaliseRequest statusAnalise = new SolicitacaoAnaliseRequest(propostaSalva);
 		SolicitacaoAnaliseResponse resultadoStatus = solicitacaoAnalise.resultadoAnalise(statusAnalise);
@@ -67,9 +75,11 @@ public class PropostaService {
 
 	}
 
+	// 1
 	private Proposta anexarDadosCartao(Proposta dadosProposta) {
 		CartaoResponse dadosCartao = solicitacaoCartao.buscarDadosCartaoPorIdProposta(dadosProposta.getId().toString());
-		dadosProposta.setNumeroCartao(dadosCartao.getId());
+		String id = dadosCartao.getId();
+		dadosProposta.setNumeroCartao(id);
 		return propostaRepository.save(dadosProposta);
 	}
 
@@ -85,7 +95,8 @@ public class PropostaService {
 
 	public NovaPropostaResponse buscarPropostaPorId(Long idProposta) {
 		Optional<Proposta> proposta = propostaRepository.findById(idProposta);
-		NovaPropostaResponse converterDados = new NovaPropostaResponse(proposta.get());
+		Proposta dadosBanco = proposta.get();
+		NovaPropostaResponse converterDados = new NovaPropostaResponse(dadosBanco);
 		return converterDados;
 
 	}

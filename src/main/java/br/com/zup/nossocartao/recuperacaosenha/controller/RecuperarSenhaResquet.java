@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.recuperacaosenha;
+package br.com.zup.nossocartao.recuperacaosenha.controller;
 
 import java.time.LocalDateTime;
 

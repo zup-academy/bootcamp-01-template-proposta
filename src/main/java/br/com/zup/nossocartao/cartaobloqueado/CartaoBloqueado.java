@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class CartaoBloqueado {
@@ -14,21 +16,25 @@ public class CartaoBloqueado {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCartaoBloqueado;
 
+	@NotBlank
 	private String idCartao;
 
 	private LocalDateTime instanteBloqueio;
 
+	@NotBlank
 	private String ipCliente;
 
+	@NotBlank
 	private String userAgent;
 
+	@NotNull
 	private StatusCartao status;
 
 	@Deprecated
 	public CartaoBloqueado() {
 	}
 
-	public CartaoBloqueado(String idCartao, String ipCliente, String userAgent) {
+	public CartaoBloqueado(@NotBlank String idCartao, @NotBlank String ipCliente, @NotBlank String userAgent) {
 		this.idCartao = idCartao;
 		this.instanteBloqueio = LocalDateTime.now();
 		this.ipCliente = ipCliente;
