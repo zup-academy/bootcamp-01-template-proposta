@@ -1,4 +1,4 @@
-package br.com.zup.nossocartao.proposta;
+package br.com.zup.nossocartao.proposta.controller;
 
 import java.math.BigDecimal;
 
@@ -7,10 +7,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import br.com.zup.nossocartao.proposta.Proposta;
+import br.com.zup.nossocartao.proposta.validador.CpfCnpj;
+
 public class NovaPropostaRequest {
 
 	@NotBlank
-	// @CpfCnjp
+	@CpfCnpj
 	private String cpfCnpj;
 
 	@Email
@@ -27,13 +30,17 @@ public class NovaPropostaRequest {
 	@Positive
 	private BigDecimal salario;
 
-	public NovaPropostaRequest(@NotBlank String cpfCnpj, @Email @NotBlank String email, @NotBlank String nome,
+	public NovaPropostaRequest(@NotBlank @CpfCnpj String cpfCnpj, @Email @NotBlank String email, @NotBlank String nome,
 			@NotBlank String endereco, @NotNull @Positive BigDecimal salario) {
 		this.cpfCnpj = cpfCnpj;
 		this.email = email;
 		this.nome = nome;
 		this.endereco = endereco;
 		this.salario = salario;
+	}
+
+	public String getCpfCnpj() {
+		return cpfCnpj;
 	}
 
 	public void setCpfCnpj(String cpfCnpj) {

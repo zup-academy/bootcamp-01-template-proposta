@@ -11,6 +11,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
+
+//2
 @Entity
 public class Proposta {
 
@@ -19,7 +23,6 @@ public class Proposta {
 	private Long id;
 
 	@NotBlank
-	@CpfCnpj
 	private String cpfCnpj;
 
 	@Email
@@ -36,6 +39,11 @@ public class Proposta {
 	@Positive
 	private BigDecimal salario;
 
+	@NotNull
+	private StatusSolicitacao restricaoStatus;
+
+	private String numeroCartao;
+
 	@Deprecated
 	public Proposta() {
 
@@ -49,6 +57,19 @@ public class Proposta {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.salario = salario;
+		this.restricaoStatus = StatusSolicitacao.NAO_ELEGIVEL;
+	}
+
+	// 1
+	public void criptografar(String chaveCriptogfia) {
+		TextEncryptor textEncryptor = Encryptors.text(this.getClass().getName(), chaveCriptogfia);
+		this.cpfCnpj = textEncryptor.encrypt(this.cpfCnpj);
+	}
+
+	// 1
+	public void decriptografar(String chaveCriptogfia) {
+		TextEncryptor textEncryptor = Encryptors.text(this.getClass().getName(), chaveCriptogfia);
+		this.cpfCnpj = textEncryptor.decrypt(this.cpfCnpj);
 	}
 
 	public Long getId() {
@@ -73,6 +94,50 @@ public class Proposta {
 
 	public BigDecimal getSalario() {
 		return salario;
+	}
+
+	public void alterarStatusProposta(StatusSolicitacao alteracao) {
+		this.restricaoStatus = alteracao;
+	}
+
+	public StatusSolicitacao getRestricaoStatus() {
+		return restricaoStatus;
+	}
+
+	public void setRestricaoStatus(StatusSolicitacao restricaoStatus) {
+		this.restricaoStatus = restricaoStatus;
+	}
+
+	public String getNumeroCartao() {
+		return numeroCartao;
+	}
+
+	public void setNumeroCartao(String numeroCartao) {
+		this.numeroCartao = numeroCartao;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setCpfCnpj(String cpfCnpj) {
+		this.cpfCnpj = cpfCnpj;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public void setSalario(BigDecimal salario) {
+		this.salario = salario;
 	}
 
 }
